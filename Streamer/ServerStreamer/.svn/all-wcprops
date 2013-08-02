@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/2014/audiowire/!svn/ver/175/Perso/Streamer/ServerStreamer
+END
+RTSPMediaServer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/2014/audiowire/!svn/ver/175/Perso/Streamer/ServerStreamer/RTSPMediaServer.cpp
+END
+DynamicRTSPServer.hh
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/2014/audiowire/!svn/ver/139/Perso/Streamer/ServerStreamer/DynamicRTSPServer.hh
+END
+version.hh
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/2014/audiowire/!svn/ver/139/Perso/Streamer/ServerStreamer/version.hh
+END
+DynamicRTSPServer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/2014/audiowire/!svn/ver/154/Perso/Streamer/ServerStreamer/DynamicRTSPServer.cpp
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/2014/audiowire/!svn/ver/157/Perso/Streamer/ServerStreamer/Makefile
+END
+test.mp3
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/ServerStreamer/test.mp3
+END

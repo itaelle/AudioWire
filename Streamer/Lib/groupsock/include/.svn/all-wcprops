@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include
+END
+groupsock_version.hh
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/groupsock_version.hh
+END
+NetCommon.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/NetCommon.h
+END
+NetInterface.hh
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/NetInterface.hh
+END
+IOHandlers.hh
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/IOHandlers.hh
+END
+Groupsock.hh
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/Groupsock.hh
+END
+GroupsockHelper.hh
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/GroupsockHelper.hh
+END
+NetAddress.hh
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/NetAddress.hh
+END
+GroupEId.hh
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/GroupEId.hh
+END
+TunnelEncaps.hh
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/groupsock/include/TunnelEncaps.hh
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include
+END
+DelayQueue.hh
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include/DelayQueue.hh
+END
+HandlerSet.hh
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include/HandlerSet.hh
+END
+BasicUsageEnvironment.hh
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include/BasicUsageEnvironment.hh
+END
+BasicUsageEnvironment0.hh
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include/BasicUsageEnvironment0.hh
+END
+BasicHashTable.hh
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include/BasicHashTable.hh
+END
+BasicUsageEnvironment_version.hh
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/Lib/BasicUsageEnvironment/include/BasicUsageEnvironment_version.hh
+END

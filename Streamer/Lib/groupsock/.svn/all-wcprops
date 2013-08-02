@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/2014/audiowire/!svn/ver/168/Perso/Streamer/Lib/groupsock
+END
+libgroupsock_linux.a
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/2014/audiowire/!svn/ver/147/Perso/Streamer/Lib/groupsock/libgroupsock_linux.a
+END
+libgroupsock.a
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/2014/audiowire/!svn/ver/168/Perso/Streamer/Lib/groupsock/libgroupsock.a
+END
+libgroupsock_cygwin.a
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/2014/audiowire/!svn/ver/155/Perso/Streamer/Lib/groupsock/libgroupsock_cygwin.a
+END

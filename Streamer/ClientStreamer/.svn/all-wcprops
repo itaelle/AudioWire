@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/2014/audiowire/!svn/ver/171/Perso/Streamer/ClientStreamer
+END
+playCommon.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/2014/audiowire/!svn/ver/171/Perso/Streamer/ClientStreamer/playCommon.cpp
+END
+QosMeasurementRecord.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/ClientStreamer/QosMeasurementRecord.cpp
+END
+openRTSP.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/ClientStreamer/openRTSP.cpp
+END
+playCommon.hh
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/2014/audiowire/!svn/ver/171/Perso/Streamer/ClientStreamer/playCommon.hh
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/2014/audiowire/!svn/ver/157/Perso/Streamer/ClientStreamer/Makefile
+END
+QosMeasurementRecord.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/2014/audiowire/!svn/ver/128/Perso/Streamer/ClientStreamer/QosMeasurementRecord.h
+END

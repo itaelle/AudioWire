@@ -1,4 +1,4 @@
-Audiowire 
+AudioWire 
 =====================
 
 AudioWire est un lecteur musical opensource qui proposera des fonctionnalités évoluées.

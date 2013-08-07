@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  numberTrack: 1
+  title: 
+  genre: 
+  artist: 
+  album: 
+  time: 2013-06-24 14:25:15
+
+two:
+  numberTrack: 1
+  title: 
+  genre: 
+  artist: 
+  album: 
+  time: 2013-06-24 14:25:15

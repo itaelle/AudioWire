@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/data/Image">
+        <file>play pressed.png</file>
+        <file>play.png</file>
+        <file>pause pressed.png</file>
+        <file>pause.png</file>
+        <file>next pressed.png</file>
+        <file>next.png</file>
+        <file>prev pressed.png</file>
+        <file>prev.png</file>
+        <file>volume -.png</file>
+        <file>volume +.png</file>
+        <file>volume.png</file>
+        <file>volume-pressed.png</file>
+        <file>Song-info-empty.png</file>
+        <file>Song-info-empty2.png</file>
+        <file>barre.png</file>
+        <file>volume-slider pressed.png</file>
+        <file>volume-slider.png</file>
+        <file>repeat pressed.png</file>
+        <file>repeat.png</file>
+        <file>shuffle pressed.png</file>
+        <file>shuffle.png</file>
+        <file>arrow left pressed.png</file>
+        <file>arrow left.png</file>
+        <file>arrow right pressed.png</file>
+        <file>arrow right.png</file>
+        <file>scroller vert.png</file>
+        <file>scroll hori.png</file>
+        <file>volume muet.png</file>
+        <file>AudioWireLogo_noBG.png</file>
+        <file>arrow bot pressed.png</file>
+        <file>arrow bot.png</file>
+        <file>arrow top pressed.png</file>
+        <file>arrow top.png</file>
+    </qresource>
+</RCC>

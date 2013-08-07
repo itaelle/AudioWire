@@ -32,7 +32,7 @@ class TokensController < ApplicationController
     end
   end
  
-  def destroy
+  def delete
     @user=User.find_by_authentication_token(params[:id])
     if @user.nil?
       logger.info("Token not found.")

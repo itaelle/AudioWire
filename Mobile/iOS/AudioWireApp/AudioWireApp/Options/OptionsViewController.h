@@ -1,0 +1,19 @@
+//
+//  OptionsViewController.h
+//  AudioWireApp
+//
+//  Created by Derivery Guillaume on 8/5/13.
+//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
+//
+
+#import "MasterViewController.h"
+
+@interface OptionsViewController : MasterViewController
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UILabel *firstOption;
+@property (weak, nonatomic) IBOutlet UILabel *secondOption;
+@property (weak, nonatomic) IBOutlet UILabel *thirdOption;
+
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
+@end

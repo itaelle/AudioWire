@@ -10,8 +10,9 @@ AudioWire::Application.routes.draw do
   end
 
   match '/users/login' => 'tokens#create', :via => :post
-  match '/users/logout' => 'tokens#delete',:via => :delete
-  match '/users/update' => 'users#update', :via => :put
+  match '/users/logout' => 'tokens#delete', :via => :delete
+  match '/users' => 'users#update', :via => :put
+  match '/users' => 'users#index', :via => :get
   match '/tracks/download' => 'tracks#download', :via => :get
   match '/tracks/upload' => 'tracks#upload', :via => :post
   match '/tracks' => 'tracks#list', :via => :get

@@ -3,27 +3,27 @@ class   RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
   respond_to :json
 
-  def     new
-    super
-  end
+  # def new
+  #   super
+  # end
 
-   def     create
-     build_resource
-    if resource.save
-      if resource.active_for_authentication?
-        set_flash_message :notice, :signed_up if is_navigational_format?
-        sign_up(resource_name, resource)
- #       respond_with resource, :token => resource.authentication_token#:location => after_sign_up_path_for(resource)
-        render :status=>201, :json=>{:token=>@user.authentication_token}
+  def create
+      build_resource
+      if resource.save
+          if resource.active_for_authentication?
+              sign_up(resource_name, resource)
+              # respond_with resource, :token => resource.authentication_token#:location => after_sign_up_path_for(resource)
+              render :status=>201, :json=>{:success=>true, :token=>@user.authentication_token}
+          else
+              expire_session_data_after_sign_in!
+              render :status=>403, :json=>{:success=>false, :errors=>resource.errors}
+              #respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+          end
       else
-        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
-        expire_session_data_after_sign_in!
-        respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+          clean_up_passwords resource
+          render :status=>403, :json=>{:success=>false, :errors=>resource.errors}
+          #respond_with resource
       end
-    else
-      clean_up_passwords resource
-      respond_with resource
-    end
    end
 
    def     edit

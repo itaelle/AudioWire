@@ -3,24 +3,30 @@ class UsersController < ApplicationController
   respond_to :json
 
   def after_token_authentication
-    if params[:auth_token].present?
-      @user = User.find_by_authentication_token(params[:auth_token])
+    if params[:token].present?
+      @user = User.find_by_authentication_token(params[:token])
       if (@user == nil)
-        render json: 'Wrong token'
+        render :status=>403, json: {:success=>false, :error=>'Token is invalid'}
       end
     else
-      render json: 'You need a token'
+      render :status=>403, json: {:success=>false, :error=>'token field is missing'}
     end
   end
 
-  def   update
-    debugger
-    @user = User.find_by_authentication_token(params[:auth_token])
-    if @user.nil?
-      render :status=>404, :json=>{:message=>"Cannot find the user"}
+  def update
+    @user = User.find_by_authentication_token(params[:token])
+    if @user.nil? # ce if est-il vraiment utile ??
+      render :status=>404, :json=>{:success=>false, :error=>"Cannot find the user"}
     end
     if @user.update_attributes(params[:user])
-      render :status=>201, :json=>{:message=>"User has been updated"}
+      render :status=>201, :json=>{:success=>true, :message=>"User has been updated"}
+    else
+      render :status=>400, :json=>{:success=>false, :error=>"An error occured"}
     end
+  end
+
+  def index
+    lst = User.all
+    render :status=>200, :json=>{:success=>true, :list=>lst}
   end
 end

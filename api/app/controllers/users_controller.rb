@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by_authentication_token(params[:token])
     if @user.nil? # ce if est-il vraiment utile ??
-      render :status=>404, :json=>{:success=>false, :error=>"Cannot find the user"}
+      render :status=>404, :json=>{:success=>false, :error=>"User does not exist"}
     end
     if @user.update_attributes(params[:user])
       render :status=>201, :json=>{:success=>true, :message=>"User has been updated"}
@@ -29,4 +29,15 @@ class UsersController < ApplicationController
     lst = User.all
     render :status=>200, :json=>{:success=>true, :list=>lst}
   end
+
+  def show
+    #render :status=>200, :json=>{:success=>true, :data=>params[:user]}
+    user = User.find_by_id(params[:user])
+    if user.nil?
+      render :status=>200, :json=>{:success=>true, :user=>user}
+    else
+      render :status=>404, :json=>{:success=>false, :error=>"User does not exist"}
+    end
+  end
+
 end

@@ -53,10 +53,10 @@
     
     [alertLogin show];
     
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = cancelButton;
-    
+//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
+//    self.navigationItem.rightBarButtonItem = nil;
+//    self.navigationItem.rightBarButtonItem = cancelButton;
+    [self prepareNavBarForCancel];
     // PopUP de login
     // if () Try Login
     {
@@ -68,6 +68,48 @@
 -(void)cancelAction:(id)sender
 {
     self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void)createPlaylist:(id)sender
+{
+    UIAlertView * alertLogin = [[UIAlertView alloc] initWithTitle:@"Playlist" message:@"You will be able to create a playlist here !" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    
+    [alertLogin show];
+    
+    [self prepareNavBarForCancel];
+//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
+//    self.navigationItem.rightBarButtonItem = nil;
+//    self.navigationItem.rightBarButtonItem = cancelButton;
+}
+
+-(void) prepareNavBarForCancel
+{
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
+    
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = cancelButton;
+}
+
+- (void) prepareNavBarForLogin
+{
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"Login") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
+    
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = loginButton;
+}
+
+- (void) prepareNavBarForLogout
+{
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"Logout") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = loginButton;
+}
+
+- (void) prepareNavBarForCreatingPlaylist
+{
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Create Playlist", @"Create Playlist") style:UIBarButtonItemStylePlain target:self action:@selector(createPlaylist:)];
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = loginButton;
 }
 
 -(void) setUpLoadingView:(UIView *)viewToLoad
@@ -131,28 +173,6 @@
     }
 }
 
--(void) prepareNavBarForCancel
-{
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
-    
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = cancelButton;
-}
-
-- (void) prepareNavBarForLogin
-{
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"Login") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
-    
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = loginButton;
-}
-
-- (void) prepareNavBarForLogout
-{
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"Logout") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = loginButton;
-}
 
 - (void)didReceiveMemoryWarning
 {

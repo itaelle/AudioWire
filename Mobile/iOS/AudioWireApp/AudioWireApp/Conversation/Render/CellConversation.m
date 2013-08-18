@@ -33,13 +33,13 @@
     
     if (isLeft)
     {
-        _senderLabel.textAlignment = NSTextAlignmentRight;
+        _senderLabel.textAlignment = NSTextAlignmentLeft;
         [_senderLabel setText:NSLocalizedString(@"Jack", @"Jack")];
         [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
     }
     else
     {
-        _senderLabel.textAlignment = NSTextAlignmentLeft;
+        _senderLabel.textAlignment = NSTextAlignmentRight;
         [_senderLabel setText:NSLocalizedString(@"Me", @"Me")];
         [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
     }

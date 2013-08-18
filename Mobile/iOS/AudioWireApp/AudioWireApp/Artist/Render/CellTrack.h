@@ -12,6 +12,8 @@
 {
     bool isLeft;
 }
+@property Boolean isAlreadyInPlaylist;
+
 @property (weak, nonatomic) IBOutlet UIView *viewCell;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;

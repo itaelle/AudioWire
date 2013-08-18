@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PlayerViewController.h"
 
+
 @implementation PlayerViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -56,11 +57,84 @@
     isPlaying = false;
     isFlipped = false;
     
-    // Test
+    // Test DATA
     [_labelTopPlaying setText:@"Paul Kalkbrenner - Peet [Berlin Calling] Et ca c'est du blabla pour voir si ca passe ou ca casse !!!"];
     [_labelMinutesPlayed setText:@"6:24"];
     [_jacketImg setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
+
     [self setUpViews];
+    
+    // Music Player
+    //musicPlayer
+    applicatioNDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+}
+
+- (IBAction)clickPlayerButton:(id)sender
+{
+    isPlaying = !isPlaying;
+    if (isPlaying == true)
+    {
+        // Play Music
+        [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+        [applicatioNDelegate PlayIt];
+    }
+    else
+    {
+        [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+        [applicatioNDelegate Pause];
+    }
+}
+
+- (IBAction)clickPreviousButton:(id)sender
+{
+    // Prev
+}
+
+- (IBAction)clickNextButton:(id)sender
+{
+    // Next
+}
+
+- (IBAction)clickRepeatButton:(id)sender
+{
+    // Repeat
+}
+
+- (IBAction)clickShuffleButton:(id)sender
+{
+    // Shuffle
+}
+
+//-(void)updateCurrentTimeForPlayer:(AVAudioPlayer *)p
+//{
+//	_labelMinutesPlayed.text = [NSString stringWithFormat:@"%d:%02d", (int)p.currentTime / 60, (int)p.currentTime % 60, nil];
+    
+	//[_sliderPlayingMedia setValue:p.currentTime animated:true];
+///}
+
+- (IBAction)dragMusicPlayingOffset:(ANPopoverSlider *)sender
+{
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        float value = temp.value;
+        NSLog(@"Value player offset %f", value);
+        
+        // Set player offset with slider
+        //musicPlayer.currentTime = sender.value;
+       // [self updateCurrentTimeForPlayer:musicPlayer];
+    }
+}
+
+- (IBAction)dragVolume:(id)sender
+{
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        float value = temp.value;
+        NSLog(@"Value volume %f", value);
+    }
 }
 
 - (void) setUpViews
@@ -139,7 +213,7 @@
     {
         CGRect sliderPos = _viewSlider.frame;
         sliderPos.origin.x = _viewSlider.frame.origin.x + _viewSlider.frame.size.width;
-
+        
         
         [UIView animateWithDuration:(0.5) animations:^{
             [_viewSlider setFrame:sliderPos];
@@ -156,58 +230,5 @@
     }
 }
 
-- (IBAction)clickPlayerButton:(id)sender
-{
-    isPlaying = !isPlaying;
-    if (isPlaying == true)
-    {
-        // Play Music
-        [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];        
-    }
-}
-
-- (IBAction)clickPreviousButton:(id)sender
-{
-    // Prev
-}
-
-- (IBAction)clickNextButton:(id)sender
-{
-    // Next
-}
-
-- (IBAction)clickRepeatButton:(id)sender
-{
-    // Repeat
-}
-
-- (IBAction)clickShuffleButton:(id)sender
-{
-    // Shuffle
-}
-
-- (IBAction)dragMusicPlayingOffset:(id)sender
-{
-    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
-    {
-        ANPopoverSlider *temp = sender;
-        float value = temp.value;
-        NSLog(@"Value player offset %f", value);
-    }
-}
-
-- (IBAction)dragVolume:(id)sender
-{
-    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
-    {
-        ANPopoverSlider *temp = sender;
-        float value = temp.value;
-        NSLog(@"Value volume %f", value);
-    }
-}
 
 @end

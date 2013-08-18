@@ -8,17 +8,27 @@
 
 #define DELAY_BEFORE_SLIDING_TITLE 3
 
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AudioUnit/AudioUnit.h>
 #import "MasterViewController.h"
 #import "ANPopoverSlider.h"
+#import "AppDelegate.h"
 
-@interface PlayerViewController : MasterViewController
+@interface PlayerViewController : MasterViewController<AVAudioPlayerDelegate, UIPickerViewDelegate>
 {
     bool isPlaying;
     bool isFlipped;
+    
+   // MPMusicPlayerController *musicPlayer;
+    AppDelegate *applicatioNDelegate;
 }
 // Properties
 @property BOOL isSliderVolumeOpened;
 @property (strong, nonatomic) NSTimer *timer;
+//@property (strong, nonatomic) MPMusicPlayerController *musicPlayer;
 
 //Sliders
 @property (weak, nonatomic) IBOutlet ANPopoverSlider *sliderPlayingMedia;

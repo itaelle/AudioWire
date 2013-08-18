@@ -8,10 +8,11 @@
 
 #import "MasterViewController.h"
 
-@interface ArtistViewController : MasterViewController <UITableViewDelegate, UITableViewDataSource>
+@interface MusicsViewController : MasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
     NSArray *tableData;
 }
+@property Boolean isAlreadyInPlaylist;
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;
 @property (weak, nonatomic) IBOutlet UITableView *tb_list_artist;

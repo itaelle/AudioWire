@@ -7,39 +7,65 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "AudioWireApp/Conversation/ConversationViewController.m"
-         timestampString = "397596800.371564"
+         filePath = "AudioWireApp/AppDelegate.m"
+         timestampString = "397901772.273596"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "114"
-         endingLineNumber = "114"
-         landmarkName = "-textViewDidChange:"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
+         landmarkName = "-Pause"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "AudioWireApp/MasterViewController.m"
-         timestampString = "397590431.874957"
+         filePath = "AudioWireApp/AppDelegate.m"
+         timestampString = "397901772.273596"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
-         landmarkName = "-setUpLoadingView:"
+         startingLineNumber = "111"
+         endingLineNumber = "111"
+         landmarkName = "-PlayIt"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "AudioWireApp/Conversation/ConversationViewController.m"
-         timestampString = "397596800.371564"
+         filePath = "AudioWireApp/AppDelegate.m"
+         timestampString = "397901772.273596"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "207"
-         endingLineNumber = "207"
-         landmarkName = "-keyboardWillShow:"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
+         landmarkName = "-PlayIt"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "AudioWireApp/AppDelegate.m"
+         timestampString = "397901772.273596"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "77"
+         endingLineNumber = "77"
+         landmarkName = "-audioPlayerBeginInterruption:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "AudioWireApp/AppDelegate.m"
+         timestampString = "397901772.273596"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "84"
+         endingLineNumber = "84"
+         landmarkName = "-audioPlayerEndInterruption:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -38,13 +38,30 @@
         [_detailLabel setText:detailContact];
     
     [_backgroundImage setImage:[UIImage imageNamed:@"music_note.png"]];
+    if (_isAlreadyInPlaylist)
+    {
+        [_btInfo setBackgroundImage:[UIImage imageNamed:@"remove.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_btInfo setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
+    }
 }
 
 - (IBAction)clickBtInfo:(id)sender
 {
-    UIAlertView *temp = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Information about the track => Add to playlist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    [temp show];
+    if (_isAlreadyInPlaylist)
+    {
+        UIAlertView *temp = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Information about the track => Remove from playlist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [temp show];
+    }
+    else
+    {
+        UIAlertView *temp = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Information about the track => Add to playlist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [temp show];
+    }
 }
 
 @end

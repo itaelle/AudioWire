@@ -28,53 +28,135 @@
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
 }
 
+
+-(void)setupPlayerForBackgroundRunning
+{
+    NSError *setCategoryErr = nil;
+    NSError *activationErr  = nil;
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&setCategoryErr];
+    [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
+    
+    
+    NSError *setCategoryError = nil;
+	//[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:&setCategoryError];
+	
+	// Create audio player with background music
+	NSString *backgroundMusicPath = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@"m4a"];
+	NSURL *backgroundMusicURL = [NSURL fileURLWithPath:backgroundMusicPath];
+	NSError *error;
+	_backgroundMusicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
+	[_backgroundMusicPlayer setDelegate:self];  // We need this so we can restart after interruptions
+	[_backgroundMusicPlayer setNumberOfLoops:-1];
+    _isFirst = true;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     [self setupAppearance];
+    [self setupPlayerForBackgroundRunning];
     
     HomeViewController *masterViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
     
     // NavBar Style
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.navigationBar.translucent = YES;
     
-
-    
+    // Link the navigation to the rootViewController and launch
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
+
+// Player
+- (void) audioPlayerBeginInterruption: (AVAudioPlayer *) player
 {
+	_backgroundMusicInterrupted = YES;
+	_backgroundMusicPlaying = NO;
+}
+
+- (void) audioPlayerEndInterruption: (AVAudioPlayer *) player
+{
+	if (_backgroundMusicInterrupted)
+    {
+		[self tryPlayMusic];
+		_backgroundMusicInterrupted = NO;
+	}
+}
+
+- (void)tryPlayMusic
+{
+	if (/*_otherMusicIsPlaying != 1 && */!_backgroundMusicPlaying)
+    {
+		[_backgroundMusicPlayer prepareToPlay];
+		[_backgroundMusicPlayer play];
+		_backgroundMusicPlaying = YES;
+	}
+}
+
+- (void)Pause
+{
+    [_backgroundMusicPlayer pause];
+}
+
+- (void)PlayIt
+{
+    if (_isFirst)
+    {
+        _isFirst = false;
+        [self tryPlayMusic];
+    }
+    else
+    {
+        Boolean returned_play_method = [_backgroundMusicPlayer play];
+    }
+}
+
+- (void) VolumeSet:(float) volumeValue
+{
+    
+}
+
+- (void) Stop
+{
+    [_backgroundMusicPlayer stop];
+}
+
+-(void) switchToAnotherMusic:(NSURL *)urlPath
+{
+}
+
+//- (void)applicationWillResignActive:(UIApplication *)application
+//{
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
+//}
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
+//- (void)applicationDidEnterBackground:(UIApplication *)application
+//{
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
+//}
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
+//- (void)applicationWillEnterForeground:(UIApplication *)application
+//{
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
+//}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+ //   [self tryPlayMusic];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
+   // [self saveContext];
 }
 
 - (void)saveContext

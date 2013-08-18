@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIImage.h>
+#import "PlaylistViewController.h"
 #import "ContactViewController.h"
 #import "LibraryViewController.h"
 #import "PlayerViewController.h"
@@ -24,7 +25,6 @@
     if (self)
     {
         self.title = NSLocalizedString(@"Home", @"Home");
-        [super prepareNavBarForLogin];
     }
     return self;
 }
@@ -38,6 +38,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [super prepareNavBarForLogin];
     clickLogoCount = 0;
 }
 
@@ -72,7 +73,7 @@
 {
     [_libraryButton setTitle:NSLocalizedString(@"Library", @"Library") forState:UIControlStateNormal];
     [_chatButton setTitle:NSLocalizedString(@"Chat", @"Chat") forState:UIControlStateNormal];
-    [_thirdButton setTitle:NSLocalizedString(@"Player", @"Player") forState:UIControlStateNormal];
+    [_thirdButton setTitle:NSLocalizedString(@"Playlists", @"Playlists") forState:UIControlStateNormal];
     [_optionButton setTitle:NSLocalizedString(@"Options", @"Options") forState:UIControlStateNormal];
     
     UIImage * tempLibrary = [UIImage imageWithColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
@@ -99,8 +100,10 @@
 
 - (IBAction)clickBtThird:(id)sender
 {
-    PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
-    [self.navigationController pushViewController:player animated:true];
+   // PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
+   // [self.navigationController pushViewController:player animated:true];
+    PlaylistViewController *playlist =  [[PlaylistViewController alloc] initWithNibName:@"PlaylistViewController" bundle:nil];
+    [self.navigationController pushViewController:playlist animated:true];
 }
 
 - (IBAction)clickBtContact:(id)sender

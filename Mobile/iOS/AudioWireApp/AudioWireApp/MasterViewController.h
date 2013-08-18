@@ -20,10 +20,12 @@
 - (void) prepareNavBarForLogin;
 - (void) prepareNavBarForLogout;
 - (void) prepareNavBarForCancel;
+- (void) prepareNavBarForCreatingPlaylist;
 - (void) desactivateButtonBar:(bool)left right:(bool)right;
 
 - (void) loginAction:(id)sender;
 - (void) cancelAction:(id)sender;
+- (void) createPlaylist:(id)sender;
 - (void) setUpNavLogo;
 - (void) setUpLoadingView:(UIView *)viewToLoad;
 - (void) cancelLoadingView:(UIView *)viewDidLoad;

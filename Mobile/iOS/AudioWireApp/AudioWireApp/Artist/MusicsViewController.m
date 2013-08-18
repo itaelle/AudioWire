@@ -10,9 +10,9 @@
 #import "CellTrack.h"
 #import "PlayerViewController.h"
 #import "SubPlayer.h"
-#import "ArtistViewController.h"
+#import "MusicsViewController.h"
 
-@implementation ArtistViewController
+@implementation MusicsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,42 +30,26 @@
     // Loading View
     [super setUpLoadingView:_tb_list_artist];
 
-    tableData = [NSArray arrayWithObjects:@"AC/DC",
-                 @"Edith Piaf",
-                 @"Electro Dance Party Electro Dance Party",
-                 @"Gipsy KingElectro Dan",
-                 @"Infected Mushroom",
-                 @"Jacques Prévert",
-                 @"Justin Bieber",
-                 @"Kamini",
-                 @"Lorie",
-                 @"Manau",
-                 @"Song 1",
-                 @"Song 2"
-                 @"Nostradamus",
-                 @"NTM",
-                 @"Ozone",
-                 @"PitBull",
-                 @"Piwies",
-                 @"Rolling Stones",
-                 @"System of a down",
-                 @"Taylor Swift",
-                 @"U",
-                 @"V",
+    _isAlreadyInPlaylist = false;
+    tableData = [NSArray arrayWithObjects:@"War of mushrooms",
+                 @"Saxon",
+                 @"Insane - Electro Dance Party Electro Dance Party",
+                 @"Track 5",
+                 @"Electro Panic",
                  nil];
-    
+
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
 
     SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
     [_viewForMiniPlayer addSubview:miniPlayer];
     [miniPlayer myInit];
-    
+
     // Loading View
     [super cancelLoadingView:_tb_list_artist];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)didReceiveMemoryWarningxz
 {
     [super didReceiveMemoryWarning];
 }
@@ -76,7 +60,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:true];
 
     // Go To PLAYER Controller
-    
     PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
     [self.navigationController pushViewController:player animated:true];
 }
@@ -91,13 +74,10 @@
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
     CellTrack *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
     if (cell == nil)
-    {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellTrack" owner:self options:nil] objectAtIndex:0];
-        
-    }
-
+    cell.isAlreadyInPlaylist = _isAlreadyInPlaylist;
+    
     [cell myInit:[tableData objectAtIndex:indexPath.row] details:@"Listed in : Playlist Rock"];
     
     return cell;

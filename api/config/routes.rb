@@ -9,16 +9,18 @@ AudioWire::Application.routes.draw do
     post '/users' => 'registrations#create'
   end
 
-  match '/users/sign_in' => 'tokens#create', :via => :post
-  match '/users/sign_out' => 'tokens#delete',:via => :delete
-  match '/users/update' => 'users#update', :via => :put
+  match '/users/login' => 'tokens#create', :via => :post
+  match '/users/logout' => 'tokens#delete', :via => :delete
+  match '/users' => 'users#update', :via => :put
+  match '/users' => 'users#index', :via => :get
+  match '/users/:user' => 'users#show', :via => :get
   match '/tracks/download' => 'tracks#download', :via => :get
   match '/tracks/upload' => 'tracks#upload', :via => :post
   match '/tracks' => 'tracks#list', :via => :get
   match '/tracks' => 'tracks#delete', :via => :delete
-  match '/friendships' => 'friendships#create', :via => :post
-  match '/friendships/list' => 'friendships#list', :via => :get
-  match '/friendships' => 'friendships#destroy', :via => :delete
+  match '/friends' => 'friendships#create', :via => :post
+  match '/friends' => 'friendships#index', :via => :get
+  match '/friends/:friend' => 'friendships#destroy', :via => :delete
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

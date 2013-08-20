@@ -13,11 +13,13 @@ AudioWire::Application.routes.draw do
   match '/users/logout' => 'tokens#delete', :via => :delete
   match '/users' => 'users#update', :via => :put
   match '/users' => 'users#index', :via => :get
-  match '/users/:user' => 'users#show', :via => :get
+  match '/users/:id' => 'users#show', :via => :get
+  match 'users/avatar' => 'users#update_avatar', :via => :put
   match '/tracks/download' => 'tracks#download', :via => :get
   match '/tracks/upload' => 'tracks#upload', :via => :post
   match '/tracks' => 'tracks#list', :via => :get
   match '/tracks' => 'tracks#delete', :via => :delete
+  match '/tracks' => 'tracks#update', :via => :put
   match '/friends' => 'friendships#create', :via => :post
   match '/friends' => 'friendships#index', :via => :get
   match '/friends/:friend' => 'friendships#destroy', :via => :delete

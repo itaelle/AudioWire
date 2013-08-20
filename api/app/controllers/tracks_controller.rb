@@ -1,22 +1,27 @@
 class TracksController < ApplicationController
+  before_filter :after_token_authentication
   respond_to :json
+
+  def after_token_authentication
+    if params[:token].present?
+      @user = User.find_by_authentication_token(params[:token])
+      if (@user == nil)
+        render :status=>403, json: {:success=>false, :error=>'Token is invalid'}
+      end
+    else
+      render :status=>403, json: {:success=>false, :error=>'token field is missing'}
+    end
+  end
+
 
   def list
     user = User.find_by_authentication_token(params[:token])
-    if user.nil?
-      logger.info("Token not found.")
-      render :status=>403, :json=>{:success=>false, :message=>"Invalid token"}
-    end
     lst = user.tracks.all()
-    render :status=>200, :json=>{:success:true, :list=>lst}
+    render :status=>200, :json=>{:success=>true, :list=>lst}
   end
 
   def delete
     user = User.find_by_authentication_token(params[:token])
-    if user.nil?
-      logger.info("Token not found.")
-      render :status=>403, :json=>{:success=>false, :error=>"Invalid token"}
-    end
     lst = params[:tracks_id]
     counter = 0
     lst.each do |id|
@@ -42,11 +47,23 @@ class TracksController < ApplicationController
     end
   end
 
+  def   update
+    track = Track.find_by_id(params[:id])
+    if track.nil?
+      render :status=>404, :json=>{:success=>false, :error=>"The track cannot be found"}
+      return
+    end
+    if track.update_attributes(params[:track])
+      render :status=>200, :json=>{:success=>true, :message=>"Track information have been updated."}
+    end
+  end
+
   def upload
     user = User.find_by_authentication_token(params[:token])
-    if user.nil?
-      logger.info("Token not found.")
-      render :status=>403, :json=>{:success=>false, :message=>"Invalid token"}
+    debugger
+    if params[:song].nil?
+      render :status => 400, :json => {:success=>false, :message=> "You need to upload a music."}
+      return
     end
     hash = {}
     hash[:title] = params[:song].original_filename
@@ -55,6 +72,6 @@ class TracksController < ApplicationController
     if track.nil?
       track.save
     end
-    render :status => 201, :json => {:success=>true, :message => "Song has been uploaded"}
+    render :status => 200, :json => {:success=>true, :message => "Song has been uploaded"}
   end
 end

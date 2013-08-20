@@ -13,11 +13,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def   update_avatar
+    @user = User.find_by_authentication_token(params[:token])
+    if params[:avatar].nil?
+      render :status=>404, json: {:success=>false, :error=>'Picture is missing'}
+    end
+    @user.avatar = params[:avatar]
+    @user.avatar.save
+    @user.save
+    render :status=>200, json: {:success=>true, :error=>'Avatar has been uploaded'}
+  end
+
   def update
     @user = User.find_by_authentication_token(params[:token])
-    if @user.nil? # ce if est-il vraiment utile ??
-      render :status=>404, :json=>{:success=>false, :error=>"User does not exist"}
-    end
     if @user.update_attributes(params[:user])
       render :status=>201, :json=>{:success=>true, :message=>"User has been updated"}
     else
@@ -32,8 +40,8 @@ class UsersController < ApplicationController
 
   def show
     #render :status=>200, :json=>{:success=>true, :data=>params[:user]}
-    user = User.find_by_id(params[:user])
-    if user.nil?
+     user = User.find_by_id(params[:id])
+    if !user.nil?
       render :status=>200, :json=>{:success=>true, :user=>user}
     else
       render :status=>404, :json=>{:success=>false, :error=>"User does not exist"}

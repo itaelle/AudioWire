@@ -118,7 +118,6 @@
 		F072517B17AD149200445F37 /* repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517917AD149100445F37 /* repeat.png */; };
 		F072517C17AD149200445F37 /* repeat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517A17AD149100445F37 /* repeat@2x.png */; };
 		F072517E17AD15AA00445F37 /* example_album_jacket@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F072517D17AD15AA00445F37 /* example_album_jacket@2x.jpg */; };
-		F0809A6717B7719400E7611B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0809A6617B7719400E7611B /* AudioToolbox.framework */; };
 		F0AF04CF17B1B24E00E6D105 /* blackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04CD17B1B24E00E6D105 /* blackButton.png */; };
 		F0AF04D017B1B24E00E6D105 /* blackButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04CE17B1B24E00E6D105 /* blackButton@2x.png */; };
 		F0AF04D517B1F3A100E6D105 /* CellContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F0AF04D317B1F3A100E6D105 /* CellContact.m */; };
@@ -138,9 +137,6 @@
 		F0AF04F117B2157900E6D105 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04EE17B2157900E6D105 /* add@2x.png */; };
 		F0AF04F217B2157900E6D105 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04EE17B2157900E6D105 /* add@2x.png */; };
 		F0AF04F417B36D3A00E6D105 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */; };
-		F0AF04F617B6E73300E6D105 /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04F517B6E73200E6D105 /* sample.m4a */; };
-		F0AF04F717B6E73300E6D105 /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04F517B6E73200E6D105 /* sample.m4a */; };
-		F0AF04F917B6EC8500E6D105 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F817B6EC8500E6D105 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,7 +264,6 @@
 		F0AF04ED17B2157900E6D105 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add.png; path = img/add.png; sourceTree = "<group>"; };
 		F0AF04EE17B2157900E6D105 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add@2x.png"; path = "img/add@2x.png"; sourceTree = "<group>"; };
 		F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		F0AF04F517B6E73200E6D105 /* sample.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = sample.m4a; path = ../../../../../../../../Downloads/avTouch/sample.m4a; sourceTree = "<group>"; };
 		F0AF04F817B6EC8500E6D105 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -277,8 +272,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0809A6717B7719400E7611B /* AudioToolbox.framework in Frameworks */,
-				F0AF04F917B6EC8500E6D105 /* MediaPlayer.framework in Frameworks */,
 				F0AF04F417B36D3A00E6D105 /* AVFoundation.framework in Frameworks */,
 				F072512617AC462700445F37 /* QuartzCore.framework in Frameworks */,
 				F072507E17AC30C300445F37 /* UIKit.framework in Frameworks */,
@@ -431,7 +424,6 @@
 		F072508517AC30C300445F37 /* AudioWireApp */ = {
 			isa = PBXGroup;
 			children = (
-				F0AF04F517B6E73200E6D105 /* sample.m4a */,
 				F028546F17AEF51C005090CE /* Contacts */,
 				F028545217ADB042005090CE /* Library */,
 				F028547D17AF8F19005090CE /* Options */,
@@ -753,7 +745,6 @@
 				F0AF04EB17B2123400E6D105 /* CellTrack.xib in Resources */,
 				F0AF04EF17B2157900E6D105 /* add.png in Resources */,
 				F0AF04F117B2157900E6D105 /* add@2x.png in Resources */,
-				F0AF04F617B6E73300E6D105 /* sample.m4a in Resources */,
 				F055AAC917B86EB7007ABC61 /* PlaylistViewController.xib in Resources */,
 				F055AAD017B86EC0007ABC61 /* LibraryViewController.xib in Resources */,
 				F055AAD617B96050007ABC61 /* remove.png in Resources */,
@@ -788,7 +779,6 @@
 				F0AF04EC17B2123400E6D105 /* CellTrack.xib in Resources */,
 				F0AF04F017B2157900E6D105 /* add.png in Resources */,
 				F0AF04F217B2157900E6D105 /* add@2x.png in Resources */,
-				F0AF04F717B6E73300E6D105 /* sample.m4a in Resources */,
 				F055AACA17B86EB7007ABC61 /* PlaylistViewController.xib in Resources */,
 				F055AAD117B86EC0007ABC61 /* LibraryViewController.xib in Resources */,
 				F055AAD717B96050007ABC61 /* remove.png in Resources */,
@@ -915,9 +905,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.1;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -939,10 +930,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.1;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -952,11 +945,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioWireApp/AudioWireApp-Prefix.pch";
 				INFOPLIST_FILE = "AudioWireApp/AudioWireApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AudioWireApp/Tools/OhAttributedLabel\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos6.1;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -967,11 +964,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioWireApp/AudioWireApp-Prefix.pch";
 				INFOPLIST_FILE = "AudioWireApp/AudioWireApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AudioWireApp/Tools/OhAttributedLabel\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos6.1;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

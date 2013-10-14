@@ -31,23 +31,23 @@
 
 -(void)setupPlayerForBackgroundRunning
 {
-    NSError *setCategoryErr = nil;
-    NSError *activationErr  = nil;
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&setCategoryErr];
-    [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
-    
-    
-    NSError *setCategoryError = nil;
-	//[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:&setCategoryError];
-	
-	// Create audio player with background music
-	NSString *backgroundMusicPath = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@"m4a"];
-	NSURL *backgroundMusicURL = [NSURL fileURLWithPath:backgroundMusicPath];
-	NSError *error;
-	_backgroundMusicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
-	[_backgroundMusicPlayer setDelegate:self];  // We need this so we can restart after interruptions
-	[_backgroundMusicPlayer setNumberOfLoops:-1];
-    _isFirst = true;
+//    NSError *setCategoryErr = nil;
+//    NSError *activationErr  = nil;
+//    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&setCategoryErr];
+//    [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
+//    
+//    
+//    NSError *setCategoryError = nil;
+//	//[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:&setCategoryError];
+//	
+//	// Create audio player with background music
+//	NSString *backgroundMusicPath = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@"m4a"];
+//	NSURL *backgroundMusicURL = [NSURL fileURLWithPath:backgroundMusicPath];
+//	NSError *error;
+//	_backgroundMusicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
+//	[_backgroundMusicPlayer setDelegate:self];  // We need this so we can restart after interruptions
+//	[_backgroundMusicPlayer setNumberOfLoops:-1];
+//    _isFirst = true;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -55,7 +55,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     [self setupAppearance];
-    [self setupPlayerForBackgroundRunning];
+    //[self setupPlayerForBackgroundRunning];
     
     HomeViewController *masterViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
@@ -111,7 +111,7 @@
     }
     else
     {
-        Boolean returned_play_method = [_backgroundMusicPlayer play];
+//        Boolean returned_play_method = [_backgroundMusicPlayer play];
     }
 }
 

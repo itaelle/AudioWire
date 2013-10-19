@@ -45,10 +45,10 @@
 - (void) setUpViews
 {
     // Logo TOP
-    UIImage *logo = [UIImage imageNamed:@"logoAudiowire.png"];
-    UIImageView *imgLogo = [[UIImageView alloc] initWithImage:logo];
-    imgLogo.contentMode = UIViewContentModeScaleToFill;
-    [_btLogo setBackgroundImage:imgLogo.image forState:UIControlStateNormal];
+//    UIImage *logo = [UIImage imageNamed:@"logoAudiowire.png"];
+//    UIImageView *imgLogo = [[UIImageView alloc] initWithImage:logo];
+//    imgLogo.contentMode = UIViewContentModeScaleToFill;
+//    [_btLogo setBackgroundImage:imgLogo.image forState:UIControlStateNormal];
     
     [self setUpMiddleView];
     [self setUpMiniPlayer];

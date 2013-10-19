@@ -295,29 +295,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F028545217ADB042005090CE /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				F055AAC317B86E71007ABC61 /* Playlists */,
-				F028545817ADEEF8005090CE /* Artist */,
-			);
-			name = Library;
-			sourceTree = "<group>";
-		};
-		F028545817ADEEF8005090CE /* Artist */ = {
-			isa = PBXGroup;
-			children = (
-				F055AAD317B87091007ABC61 /* Musics */,
-				F055AAD217B87073007ABC61 /* Library */,
-			);
-			name = Artist;
-			sourceTree = "<group>";
-		};
 		F028546F17AEF51C005090CE /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				F028548517B013F8005090CE /* Conversation */,
-				F0AF04D117B1F36900E6D105 /* Render */,
 				F028547017AEF524005090CE /* ContactViewController.h */,
 				F028547117AEF524005090CE /* ContactViewController.m */,
 				F028547217AEF524005090CE /* ContactViewController.xib */,
@@ -338,22 +318,11 @@
 		F028548517B013F8005090CE /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
-				F028548D17B027D4005090CE /* Render */,
 				F028548617B01BBD005090CE /* ConversationViewController.h */,
 				F028548717B01BBD005090CE /* ConversationViewController.m */,
 				F028548817B01BBD005090CE /* ConversationViewController.xib */,
 			);
 			name = Conversation;
-			sourceTree = "<group>";
-		};
-		F028548D17B027D4005090CE /* Render */ = {
-			isa = PBXGroup;
-			children = (
-				F028548E17B027FF005090CE /* CellConversation.h */,
-				F028548F17B027FF005090CE /* CellConversation.m */,
-				F028549217B02892005090CE /* CellConversation.xib */,
-			);
-			name = Render;
 			sourceTree = "<group>";
 		};
 		F055AAC317B86E71007ABC61 /* Playlists */ = {
@@ -379,7 +348,6 @@
 		F055AAD317B87091007ABC61 /* Musics */ = {
 			isa = PBXGroup;
 			children = (
-				F0AF04E517B2121100E6D105 /* Render */,
 				F028545917ADEF40005090CE /* MusicsViewController.h */,
 				F028545A17ADEF40005090CE /* MusicsViewController.m */,
 				F028545B17ADEF40005090CE /* MusicsViewController.xib */,
@@ -424,14 +392,11 @@
 		F072508517AC30C300445F37 /* AudioWireApp */ = {
 			isa = PBXGroup;
 			children = (
-				F028546F17AEF51C005090CE /* Contacts */,
-				F028545217ADB042005090CE /* Library */,
-				F028547D17AF8F19005090CE /* Options */,
-				F072512817AC4A2E00445F37 /* img */,
+				F07C1BDE180C9C210056187E /* Renders */,
+				F07C1BDD180C9C050056187E /* Controllers */,
+				F07C1BDC180C9BFE0056187E /* Views */,
 				F072513917ACA2CB00445F37 /* Tools */,
-				F072511E17AC3CEB00445F37 /* Player */,
-				F07250C517AC32E100445F37 /* Home */,
-				F07250C417AC32D500445F37 /* Master */,
+				F072512817AC4A2E00445F37 /* img */,
 				F072508E17AC30C300445F37 /* AppDelegate.h */,
 				F072508F17AC30C300445F37 /* AppDelegate.m */,
 				F072509717AC30C300445F37 /* AudioWireApp.xcdatamodeld */,
@@ -496,7 +461,6 @@
 		F072511E17AC3CEB00445F37 /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				F072511F17AC3CF900445F37 /* SubView */,
 				F072515117ACB01E00445F37 /* PlayerViewController.h */,
 				F072515217ACB01F00445F37 /* PlayerViewController.m */,
 				F072515317ACB01F00445F37 /* PlayerViewController.xib */,
@@ -504,14 +468,14 @@
 			name = Player;
 			sourceTree = "<group>";
 		};
-		F072511F17AC3CF900445F37 /* SubView */ = {
+		F072511F17AC3CF900445F37 /* SubPlayer */ = {
 			isa = PBXGroup;
 			children = (
 				F072512017AC3D6E00445F37 /* SubPlayer.h */,
 				F072512117AC3D6E00445F37 /* SubPlayer.m */,
 				F072512317AC3D9600445F37 /* SubPlayer.xib */,
 			);
-			name = SubView;
+			name = SubPlayer;
 			sourceTree = "<group>";
 		};
 		F072512717AC4A1600445F37 /* Frameworks */ = {
@@ -578,9 +542,7 @@
 		F072513917ACA2CB00445F37 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				F072515617ACB8B500445F37 /* SliderPopOver */,
-				F072513A17ACA2F500445F37 /* UIImage+tools.h */,
-				F072513B17ACA2F500445F37 /* UIImage+tools.m */,
+				F07C1BE2180C9CDA0056187E /* UIImage+Tools */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -596,24 +558,78 @@
 			name = SliderPopOver;
 			sourceTree = "<group>";
 		};
-		F0AF04D117B1F36900E6D105 /* Render */ = {
+		F07C1BDC180C9BFE0056187E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F072511F17AC3CF900445F37 /* SubPlayer */,
+				F072515617ACB8B500445F37 /* SliderPopOver */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		F07C1BDD180C9C050056187E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F028548517B013F8005090CE /* Conversation */,
+				F028546F17AEF51C005090CE /* Contacts */,
+				F055AAD217B87073007ABC61 /* Library */,
+				F07250C517AC32E100445F37 /* Home */,
+				F07250C417AC32D500445F37 /* Master */,
+				F055AAD317B87091007ABC61 /* Musics */,
+				F072511E17AC3CEB00445F37 /* Player */,
+				F055AAC317B86E71007ABC61 /* Playlists */,
+				F028547D17AF8F19005090CE /* Options */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		F07C1BDE180C9C210056187E /* Renders */ = {
+			isa = PBXGroup;
+			children = (
+				F07C1BE1180C9C810056187E /* Musics */,
+				F07C1BE0180C9C3D0056187E /* Contacts */,
+				F07C1BDF180C9C2D0056187E /* Conversation */,
+			);
+			name = Renders;
+			sourceTree = "<group>";
+		};
+		F07C1BDF180C9C2D0056187E /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				F028548E17B027FF005090CE /* CellConversation.h */,
+				F028548F17B027FF005090CE /* CellConversation.m */,
+				F028549217B02892005090CE /* CellConversation.xib */,
+			);
+			name = Conversation;
+			sourceTree = "<group>";
+		};
+		F07C1BE0180C9C3D0056187E /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
 				F0AF04D217B1F3A100E6D105 /* CellContact.h */,
 				F0AF04E217B2059A00E6D105 /* CellContact.xib */,
 				F0AF04D317B1F3A100E6D105 /* CellContact.m */,
 			);
-			name = Render;
+			name = Contacts;
 			sourceTree = "<group>";
 		};
-		F0AF04E517B2121100E6D105 /* Render */ = {
+		F07C1BE1180C9C810056187E /* Musics */ = {
 			isa = PBXGroup;
 			children = (
 				F0AF04E617B2123400E6D105 /* CellTrack.h */,
 				F0AF04E717B2123400E6D105 /* CellTrack.m */,
 				F0AF04E817B2123400E6D105 /* CellTrack.xib */,
 			);
-			name = Render;
+			name = Musics;
+			sourceTree = "<group>";
+		};
+		F07C1BE2180C9CDA0056187E /* UIImage+Tools */ = {
+			isa = PBXGroup;
+			children = (
+				F072513A17ACA2F500445F37 /* UIImage+tools.h */,
+				F072513B17ACA2F500445F37 /* UIImage+tools.m */,
+			);
+			name = "UIImage+Tools";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -951,7 +967,7 @@
 					"\"$(SRCROOT)/AudioWireApp/Tools/OhAttributedLabel\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -970,7 +986,7 @@
 					"\"$(SRCROOT)/AudioWireApp/Tools/OhAttributedLabel\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

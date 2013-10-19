@@ -121,7 +121,7 @@
     NSInteger newRow = [self indexForFirstChar:title inArray:tableData];
         
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:0];
-    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
     return index;
 }

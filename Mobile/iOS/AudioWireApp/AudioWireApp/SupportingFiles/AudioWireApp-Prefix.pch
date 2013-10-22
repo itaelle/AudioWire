@@ -1,0 +1,36 @@
+//
+// Prefix header for all source files of the 'AudioWireApp' target in the 'AudioWireApp' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+// Global Value
+#define MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX 10
+#define DELAY_BEFORE_SLIDING_TITLE 3
+
+#define KEYBOARD_WIDTH 216
+#define PREFIX_MAIL_FB @"fb."
+#define URL_API @"http://54.246.145.178/"
+
+// Color
+#define WHITE [UIColor whiteColor]
+
+// Font
+#define FONTSIZE(_A) [UIFont fontWithName:@"Futura" size:_A]
+#define FONTBOLDSIZE(_A) [UIFont fontWithName:@"Futura-Bold" size:_A]
+
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+// Common imports
+#import "NSString+NSString_Tool.h"
+#import "UIDevice+UIDevice_Tool.h"
+#import "UIView+UIView_Tool.h"

@@ -83,6 +83,7 @@
     
     // Mini Player
     SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+    miniPlayer.delegate = self;
     [_viewForMiniPlayer addSubview:miniPlayer];
     [miniPlayer myInit];
     
@@ -196,17 +197,19 @@
     new.origin.y = self.view.frame.size.height - kbSize.height - new.size.height;
     
     // set frame viewEdition
-    
     savedListFrame = _viewContainerList.frame;
     CGRect tempFrame = savedListFrame;
     tempFrame.size.height = self.view.frame.size.height - kbSize.height - new.size.height - self.navigationController.navigationBar.frame.size.height;
     
     // Set frame tb_list
     [UIView animateWithDuration:0.2 animations:^{
+        
         [_viewForEdition setFrame:new];
         [_viewContainerList setFrame:tempFrame];
         if (isLoading)
             [self updatePositionLoader:tempFrame];
+
+        
     } completion:^(BOOL finished) {
         if (finished)
         {
@@ -214,7 +217,7 @@
         }
     }];
     
-    [_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
+    [_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:FALSE];
     
     [self prepareNavBarForCancel];
 }
@@ -223,7 +226,7 @@
 {
 //    if (sender && [sender isKindOfClass:[UIBarButtonItem class]])
     {
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             [_viewContainerList setFrame:savedListFrame];
             if (isLoading)
                 [self updatePositionLoader:savedListFrame];
@@ -237,7 +240,7 @@
         } completion:^(BOOL finished) {
             if (finished)
             {
-                _textArea.text = @"";
+//                _textArea.text = @"";
                 [self desactivateButtonBar:true right:true];
             }
         }];

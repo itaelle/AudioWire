@@ -12,11 +12,11 @@
 @protocol SubPlayerDelegate <NSObject>
 
 @optional
--(void) didSelectPlayer;
--(void) play;
--(void) pause;
--(void) prev;
--(void) next;
+-(void) didSelectPlayer:(id)sender;
+-(void) play:(id)sender;
+-(void) pause:(id)sender;
+-(void) prev:(id)sender;
+-(void) next:(id)sender;
 
 @end
 
@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *prevButton;
 
 @property (weak, nonatomic) IBOutlet UIView *viewSlider;
+@property (weak, nonatomic) IBOutlet UIView *vw_labels;
 @property (weak, nonatomic) IBOutlet UILabel *lbMusicPlaying;
 @property (weak, nonatomic) IBOutlet UILabel *lbMusicTime;
 @property (weak, nonatomic) IBOutlet ANPopoverSlider *sliderVolume;
@@ -44,6 +45,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonPlayer;
 
 -(void) myInit;
-- (IBAction)clickTitleGoToPlayer:(id)sender;
 
 @end

@@ -33,7 +33,6 @@
         jacketViewFrame.size.width = jacketViewFrame.size.height;
         
     }
-    
     jacketViewFrame.origin.x = self.view.frame.size.width/2 -jacketViewFrame.size.width/2;
     [_jacketView setFrame:jacketViewFrame];
 }
@@ -45,7 +44,15 @@
     [_jacketImg setAlpha:1];
     [UIView transitionWithView:_jacketImg duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
         
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (finished)
+        {
+            [_im_bg_album setAlpha:0.07];
+            [UIView transitionWithView:_im_bg_album duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                
+            } completion:nil];
+        }
+    }];
 }
 
 - (void)viewDidLoad
@@ -61,13 +68,9 @@
     [_labelTopPlaying setText:@"Paul Kalkbrenner - Peet [Berlin Calling] Et ca c'est du blabla pour voir si ca passe ou ca casse !!!"];
     [_labelMinutesPlayed setText:@"6:24"];
     [_jacketImg setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
+    [_im_bg_album setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
 
     [self setUpViews];
-    
-    // Music Player
-    //musicPlayer
-    applicatioNDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-    
 }
 
 - (IBAction)clickPlayerButton:(id)sender
@@ -77,12 +80,10 @@
     {
         // Play Music
         [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
-        [applicatioNDelegate PlayIt];
     }
     else
     {
         [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
-        [applicatioNDelegate Pause];
     }
 }
 
@@ -144,6 +145,7 @@
     _jacketView.layer.borderColor = [[UIColor blackColor] CGColor];
     _jacketView.layer.borderWidth = 1;
     [_jacketImg setAlpha:0];
+    [_im_bg_album setAlpha:0];
     
     // Slider Volume Placement
     CGRect sliderPos = _viewSlider.frame;
@@ -156,7 +158,7 @@
     
     // Labels set up
     CGRect label = _labelTopPlaying.frame;
-    label.size = [_labelTopPlaying.text sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17]];
+    label.size = [_labelTopPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
     [_labelTopPlaying setFrame:label];
     
     // Timer moving text

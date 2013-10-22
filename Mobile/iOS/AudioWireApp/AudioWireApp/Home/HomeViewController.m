@@ -12,7 +12,6 @@
 #import "ContactViewController.h"
 #import "LibraryViewController.h"
 #import "PlayerViewController.h"
-#import "UIImage+tools.h"
 #import "HomeViewController.h"
 #import "SubPlayer.h"
 #import "OptionsViewController.h"
@@ -25,6 +24,7 @@
     if (self)
     {
         self.title = NSLocalizedString(@"Home", @"Home");
+        firstTime = YES;
     }
     return self;
 }
@@ -40,16 +40,67 @@
     [super viewDidAppear:animated];
     [super prepareNavBarForLogin];
     clickLogoCount = 0;
+    
+    if (firstTime)
+        [self firstWaveAnimation];
+    firstTime = NO;
+}
+
+-(void)secondWaveAnimation
+{
+    CGRect libraryRect = _libraryButton.frame;
+    CGRect optionRect = _optionButton.frame;
+    CGRect thirdRect = _thirdButton.frame;
+    CGRect chatRect = _chatButton.frame;
+    
+    [UIView animateWithDuration:0.4 animations:^{
+        [_optionButton setFrame:libraryRect];
+        [_libraryButton setFrame:optionRect];
+        
+        [_thirdButton setFrame:chatRect];
+        [_chatButton setFrame:thirdRect];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)firstWaveAnimation
+{
+    [self.headView setAlpha:1];
+    [self.headView bouingAppear:TRUE oncomplete:^{
+        
+    }];
+    
+    [_optionButton setAlpha:1];
+    [UIView transitionWithView:_optionButton duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+        
+    } completion:^(BOOL finished)
+     {
+         [_thirdButton setAlpha:1];
+         [UIView transitionWithView:_thirdButton duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+             
+         } completion:^(BOOL finished)
+          {
+              [_chatButton setAlpha:1];
+              [UIView transitionWithView:_chatButton duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+                  
+              } completion:^(BOOL finished)
+               {
+                   [_libraryButton setAlpha:1];
+                   [UIView transitionWithView:_libraryButton duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+                       
+                   } completion:^(BOOL finished)
+                   {
+                       [self secondWaveAnimation];
+                   }];
+               }];
+          }];
+     }];
 }
 
 - (void) setUpViews
 {
-    // Logo TOP
-//    UIImage *logo = [UIImage imageNamed:@"logoAudiowire.png"];
-//    UIImageView *imgLogo = [[UIImageView alloc] initWithImage:logo];
-//    imgLogo.contentMode = UIViewContentModeScaleToFill;
-//    [_btLogo setBackgroundImage:imgLogo.image forState:UIControlStateNormal];
-    
+    [self.headView setAlpha:0];
     [self setUpMiddleView];
     [self setUpMiniPlayer];
 }
@@ -60,13 +111,6 @@
     miniPlayer.delegate = self;
     [_playingView addSubview:miniPlayer];
     [miniPlayer myInit];
-}
-
-#pragma SubPlayerDelegate
--(void) didSelectPlayer
-{
-    PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
-    [self.navigationController pushViewController:player animated:true];
 }
 
 -(void) setUpMiddleView
@@ -85,6 +129,22 @@
     [_chatButton setBackgroundImage:tempChat forState:UIControlStateNormal];
     [_thirdButton setBackgroundImage:tempThird forState:UIControlStateNormal];
     [_optionButton setBackgroundImage:tempOption forState:UIControlStateNormal];
+    
+    [_libraryButton setAlpha:0];
+    [_chatButton setAlpha:0];
+    [_thirdButton setAlpha:0];
+    [_optionButton setAlpha:0];
+    
+    CGRect libraryRect = _libraryButton.frame;
+    CGRect optionRect = _optionButton.frame;
+    CGRect thirdRect = _thirdButton.frame;
+    CGRect chatRect = _chatButton.frame;
+    
+    [_optionButton setFrame:libraryRect];
+    [_libraryButton setFrame:optionRect];
+    
+    [_thirdButton setFrame:chatRect];
+    [_chatButton setFrame:thirdRect];
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,6 +191,28 @@
                                                     otherButtonTitles:nil];
         [message show];
     }
+}
+
+
+#pragma SubPlayerDelegate
+-(void) didSelectPlayer:(id)sender
+{
+}
+
+-(void) play:(id)sender
+{
+}
+
+-(void) pause:(id)sender
+{
+}
+
+-(void) prev:(id)sender
+{
+}
+
+-(void) next:(id)sender
+{
 }
 
 @end

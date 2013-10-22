@@ -22,24 +22,6 @@
     return self;
 }
 
--(id) init
-{
-    self = [super init];
-    if (self)
-    {
-    }
-    return self;
-}
-
--(id) initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-    }
-    return self;
-}
-
 -(void) myInit
 {
     isPlaying = false;
@@ -65,7 +47,7 @@
     [_viewSlider setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     
     CGRect label = _lbMusicPlaying.frame;
-    label.size = [_lbMusicPlaying.text sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17]];
+    label.size = [_lbMusicPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
     [_lbMusicPlaying setFrame:label];
     
     if (!_timer)
@@ -107,11 +89,10 @@
         _isSliderVolumeOpened = true;
         
         [UIView animateWithDuration:(0.1) animations:^{
-            //[_lbMusicPlaying setAlpha:0];
-            //[_lbMusicTime setAlpha:0];
-            [_playButton setAlpha:0];
-            [_prevButton setAlpha:0];
-            [_nextButton setAlpha:0];
+                [_vw_labels setAlpha:0];
+//            [_playButton setAlpha:0];
+//            [_prevButton setAlpha:0];
+//            [_nextButton setAlpha:0];
         } completion:^(BOOL finished)
         {
             if (finished)
@@ -134,11 +115,10 @@
             if (finished)
             {
                 [UIView animateWithDuration:(0.2) animations:^{
-//                    [_lbMusicPlaying setAlpha:1];
-//                    [_lbMusicTime setAlpha:1];
-                    [_playButton setAlpha:1];
-                    [_prevButton setAlpha:1];
-                    [_nextButton setAlpha:1];
+                    [_vw_labels setAlpha:1];
+//                    [_playButton setAlpha:1];
+//                    [_prevButton setAlpha:1];
+//                    [_nextButton setAlpha:1];
                 }];
                 _isSliderVolumeOpened = false;
             }
@@ -146,6 +126,20 @@
         
     }
 }
+
+- (IBAction)clickTitleGoToPlayer:(id)sender
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(didSelectPlayer:)])
+    {
+        [_delegate performSelector:@selector(didSelectPlayer:) withObject:self];
+    }
+    if ([_delegate isKindOfClass:[UIViewController class]])
+    {
+        PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
+        [((UIViewController *)_delegate).navigationController pushViewController:player animated:true];
+    }
+}
+
 - (IBAction)clickPlay:(id)sender
 {
     isPlaying = !isPlaying;
@@ -153,19 +147,29 @@
     {
         // Play Music
         [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(play:)])
+            [_delegate performSelector:@selector(play:) withObject:self];
     }
     else
     {
         [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(pause:)])
+            [_delegate performSelector:@selector(pause:) withObject:self];
     }
 }
 
-- (IBAction)clickTitleGoToPlayer:(id)sender
+- (IBAction)clicKNext:(id)sender
 {
-    if (_delegate && [_delegate respondsToSelector:@selector(didSelectPlayer)])
-    {
-        [_delegate performSelector:@selector(didSelectPlayer)];
-    }
+    if (_delegate && [_delegate respondsToSelector:@selector(next:)])
+        [_delegate performSelector:@selector(next:) withObject:self];
+}
+
+- (IBAction)clickPrev:(id)sender
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(prev:)])
+        [_delegate performSelector:@selector(prev:) withObject:self];
 }
 
 - (IBAction)editSliderVolume:(id)sender

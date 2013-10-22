@@ -9,6 +9,7 @@
 #import "MusicsViewController.h"
 #import "SubPlayer.h"
 #import "PlaylistViewController.h"
+#import "CreatePlaylistViewController.h"
 
 @implementation PlaylistViewController
 
@@ -25,14 +26,16 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self prepareNavBarForCreatingPlaylist];
+    
+    [self loadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [super setUpNavLogo];
-        
+    [self prepareNavBarForCreatingPlaylist];
+    
     // Loading View
     [super setUpLoadingView:_tb_list_artist];
 
@@ -46,7 +49,11 @@
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
     
+    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
+    
     SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+    miniPlayer.delegate = self;
     [_viewForMiniPlayer addSubview:miniPlayer];
     [miniPlayer myInit];
     
@@ -56,11 +63,17 @@
 
 - (void)createPlaylist:(id)sender
 {
-    [super createPlaylist:sender];
-
-    [tableData addObject:@"New Playlist"];
-    [_tb_list_artist reloadData];
+//    [super createPlaylist:sender];
     
+    CreatePlaylistViewController *createPlaylist = [[CreatePlaylistViewController alloc] initWithNibName:@"CreatePlaylistViewController" bundle:nil];
+    
+    UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:createPlaylist];
+    
+    nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    nav.navigationBar.translucent = YES;
+
+    
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
 }
 
 -(void)cancelAction:(id)sender
@@ -102,6 +115,8 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.backgroundColor = [UIColor clearColor];
+        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     cell.textLabel.text = [tableData objectAtIndex:indexPath.row];
@@ -118,13 +133,10 @@
         NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
 
         if ([alphabetical_indexes containsObject:temp] == false)
-        {
             [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];
-        }
     }
     
     return alphabetical_indexes;
-    //[NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
@@ -145,9 +157,7 @@
     for (NSString *str in array)
     {
         if ([str hasPrefix:character])
-        {
             return count;
-        }
         count++;
     }
     return 0;

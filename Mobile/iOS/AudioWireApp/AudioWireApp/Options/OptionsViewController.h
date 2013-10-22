@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
 
-@interface OptionsViewController : MasterViewController
+@interface OptionsViewController : AWMasterViewController
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UILabel *firstOption;
 @property (weak, nonatomic) IBOutlet UILabel *secondOption;

@@ -42,6 +42,7 @@
     _tb_list_artist.dataSource = self;
 
     SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+    miniPlayer.delegate = self;
     [_viewForMiniPlayer addSubview:miniPlayer];
     [miniPlayer myInit];
 

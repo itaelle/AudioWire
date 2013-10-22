@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
 
-@interface ContactViewController : MasterViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ContactViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, SubPlayerDelegate>
 {
     NSArray *tableData;
 }

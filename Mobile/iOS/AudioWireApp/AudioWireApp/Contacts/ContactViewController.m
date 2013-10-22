@@ -54,7 +54,11 @@
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
     
+    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
+    
     SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+    miniPlayer.delegate = self;
     [_viewForMiniPlayer addSubview:miniPlayer];
     [miniPlayer myInit];
     

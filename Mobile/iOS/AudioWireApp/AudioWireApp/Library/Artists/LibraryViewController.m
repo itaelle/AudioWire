@@ -55,7 +55,11 @@
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
     
+    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
+    
     SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+    miniPlayer.delegate = self;
     [_viewForMiniPlayer addSubview:miniPlayer];
     [miniPlayer myInit];
     
@@ -94,7 +98,9 @@
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
-        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.textColor = WHITE;
+        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+        cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     cell.textLabel.text = [tableData objectAtIndex:indexPath.row];
@@ -111,13 +117,10 @@
         NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
 
         if ([alphabetical_indexes containsObject:temp] == false)
-        {
             [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];
-        }
     }
     
     return alphabetical_indexes;
-    //[NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index

@@ -7,13 +7,14 @@
 //
 
 #import "SubPlayer.h"
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
 
 #define DEFINE_TIMES_TO_CLICK_LOGO 5
 
-@interface HomeViewController : MasterViewController<SubPlayerDelegate>
+@interface HomeViewController : AWMasterViewController<SubPlayerDelegate>
 {
     int clickLogoCount;
+    BOOL firstTime;
 }
 @property (weak, nonatomic) IBOutlet UIView *headView;
 @property (weak, nonatomic) IBOutlet UIButton *btLogo;

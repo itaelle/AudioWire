@@ -56,7 +56,7 @@
     if (content)
     {
         [self.contentLabel setText:content];
-        CGSize sizeFullLabel = [content sizeWithFont:[UIFont fontWithName:@"Helvetica" size:14]];
+        CGSize sizeFullLabel = [content sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:14]}];
         int widthLabel = limit_width;
         int widthContent = sizeFullLabel.width;
         

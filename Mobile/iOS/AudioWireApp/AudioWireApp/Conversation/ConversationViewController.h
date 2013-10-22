@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
 
-@interface ConversationViewController : MasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
+@interface ConversationViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, SubPlayerDelegate>
 {
     NSArray *tableData;
     CGRect savedEditViewFrame;

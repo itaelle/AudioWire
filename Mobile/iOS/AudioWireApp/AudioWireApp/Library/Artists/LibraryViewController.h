@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
 
-@interface LibraryViewController : MasterViewController <UITableViewDelegate, UITableViewDataSource>
+@interface LibraryViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, SubPlayerDelegate>
 {
     NSArray *tableData;
 }

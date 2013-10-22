@@ -6,9 +6,10 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
+#import "SubPlayer.h"
 
-@interface MusicsViewController : MasterViewController <UITableViewDelegate, UITableViewDataSource>
+@interface MusicsViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, SubPlayerDelegate>
 {
     NSArray *tableData;
 }

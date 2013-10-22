@@ -6,24 +6,20 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#define DELAY_BEFORE_SLIDING_TITLE 3
+
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AudioUnit/AudioUnit.h>
-#import "MasterViewController.h"
+#import "AWMasterViewController.h"
 #import "ANPopoverSlider.h"
-#import "AppDelegate.h"
 
-@interface PlayerViewController : MasterViewController<AVAudioPlayerDelegate, UIPickerViewDelegate>
+@interface PlayerViewController : AWMasterViewController<AVAudioPlayerDelegate, UIPickerViewDelegate>
 {
     bool isPlaying;
     bool isFlipped;
-    
-   // MPMusicPlayerController *musicPlayer;
-    AppDelegate *applicatioNDelegate;
 }
 // Properties
 @property BOOL isSliderVolumeOpened;
@@ -48,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 // Views
+@property (weak, nonatomic) IBOutlet UIImageView *im_bg_album;
 @property (weak, nonatomic) IBOutlet UIView *dynamicTopView;
 @property (weak, nonatomic) IBOutlet UIView *viewSlider;
 @property (weak, nonatomic) IBOutlet UIView *jacketView;

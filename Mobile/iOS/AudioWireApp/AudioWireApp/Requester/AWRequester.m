@@ -30,7 +30,13 @@
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
                                                      {
                                                          NSLog(@"ERROR => %@", error);
-                                                         cb_rep_([error userInfo], false);
+                                                         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+                                                         
+                                                         if (operation.responseObject)
+                                                             cb_rep_(operation.responseObject, true);
+                                                         else
+                                                             cb_rep_([error userInfo], false);
+
                                                      }];
     [afNetworkingManager.operationQueue addOperation:afNetworkingOperation];
 }
@@ -51,8 +57,12 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
         NSLog(@"ERROR => %@", error);
-        cb_rep_([error userInfo], false);
-
+        NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+        
+        if (operation.responseObject)
+            cb_rep_(operation.responseObject, true);
+        else
+            cb_rep_([error userInfo], false);
     }];
 }
 
@@ -69,8 +79,14 @@
         cb_rep_(responseObject, true);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
+
         NSLog(@"ERROR => %@", error);
-        cb_rep_([error userInfo], false);
+        NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+
+        if (operation.responseObject)
+            cb_rep_(operation.responseObject, true);
+        else
+            cb_rep_([error userInfo], false);
     }];
 }
 
@@ -88,7 +104,12 @@
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"ERROR => %@", error);
-         cb_rep_([error userInfo], false);
+        NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+         
+         if (operation.responseObject)
+             cb_rep_(operation.responseObject, true);
+         else
+             cb_rep_([error userInfo], false);
      }];
 }
 
@@ -106,7 +127,12 @@
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"ERROR => %@", error);
-         cb_rep_([error userInfo], false);
+        NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+         
+         if (operation.responseObject)
+             cb_rep_(operation.responseObject, true);
+         else
+             cb_rep_([error userInfo], false);
      }];
 }
 

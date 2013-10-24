@@ -11,6 +11,8 @@
 //#import "NsSnSignModel.h"
 #import "UISiteViewController.h"
 //#import "NsSnUserManager.h"
+#import "AWUserPostModel.h"
+#import "AWUserManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface UIAWSubscribeViewController ()
@@ -162,15 +164,15 @@
 
 -(BOOL)validate
 {
-    NSString *login = [[self.tf_login.text trim] lowercaseString];
+//    NSString *login = [[self.tf_login.text trim] lowercaseString];
     NSString *email = [self.tf_email.text trim];
     NSString *password = [self.tf_password.text trim];
     
-    return  [login length] >= 4 &&
-            [login length] <= 255 &&
+    return  /*[login length] >= 4 &&
+            [login length] <= 255 &&*/
             [email length] >= 4 &&
             [email length] <= 255 &&
-            [password length] >= 1 &&
+            [password length] >= 4 &&
             [password length] <= 255;
 }
 
@@ -191,22 +193,37 @@
     }
     
     [self removeResponder];
-    
-//    NsSnSignModel *s = [NsSnSignModel new];
-//    s.login = [[self.tf_login.text trim] lowercaseString];
-//    s.email = [self.tf_email.text trim];
-//    s.nom = [self.tf_lastname.text trim];
-//    s.prenom = [self.tf_firstname.text trim];
-//    s.password = [self.tf_password.text trim];
-//    //    s.sex = self.sg_sex.selectedSegmentIndex == 0 ? @"0" : @"1";
-//    s.sex = self.sex_w.selected ? @"0" : @"1";
-//    s.country = @"bra";
-    
-    
+
     self.bt_subscribe.hidden = YES;
     self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.HUD setMode:(MBProgressHUDModeIndeterminate)];
     [self.HUD show:YES];
+    
+    AWUserPostModel *user = [AWUserPostModel new];
+    user.email = [self.tf_email.text trim];
+    user.password = [self.tf_password.text trim];
+    user.password_confirmation = [self.tf_password.text trim];
+    
+    [[AWUserManager getInstance] subscribe:user cb_rep:^(BOOL success, NSString *error)
+    {
+        [self.HUD hide:YES];
+        self.bt_subscribe.hidden = NO;
+        self.HUD = nil;
+
+        if (success)
+        {
+            self.subscribed = nil;
+            self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire. Now pick up news songs and add it in the player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+
+            [self.subscribed show];
+        }
+        else
+        {
+            UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+            [a show];
+
+        }
+    }];
     
 //    [[NsSnSignManager getInstance] subscribe:s cb_rep:^(BOOL inscription_ok, NSDictionary *rep, NsSnUserErrorValue error)
 //    {

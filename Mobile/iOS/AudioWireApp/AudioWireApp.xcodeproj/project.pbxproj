@@ -111,8 +111,6 @@
 		F07250AE17AC30C300445F37 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F072507D17AC30C300445F37 /* UIKit.framework */; };
 		F07250AF17AC30C300445F37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F072507F17AC30C300445F37 /* Foundation.framework */; };
 		F07250B017AC30C300445F37 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F072508317AC30C300445F37 /* CoreData.framework */; };
-		F07250B817AC30C300445F37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F07250B617AC30C300445F37 /* InfoPlist.strings */; };
-		F07250BB17AC30C300445F37 /* AudioWireAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F07250BA17AC30C300445F37 /* AudioWireAppTests.m */; };
 		F072511C17AC35E500445F37 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F072511A17AC35E500445F37 /* HomeViewController.m */; };
 		F072511D17AC35E500445F37 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F072511B17AC35E500445F37 /* HomeViewController.xib */; };
 		F072512217AC3D6E00445F37 /* SubPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F072512117AC3D6E00445F37 /* SubPlayer.m */; };
@@ -165,6 +163,10 @@
 		F0AF04F017B2157900E6D105 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04ED17B2157900E6D105 /* add.png */; };
 		F0AF04F117B2157900E6D105 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04EE17B2157900E6D105 /* add@2x.png */; };
 		F0AF04F217B2157900E6D105 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04EE17B2157900E6D105 /* add@2x.png */; };
+		F0C8D4E81819C20F00801D00 /* AWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4E71819C20F00801D00 /* AWUserManager.m */; };
+		F0C8D4EC1819C54100801D00 /* AWUserPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EB1819C54100801D00 /* AWUserPostModel.m */; };
+		F0C8D4EF1819C55500801D00 /* AWMasterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EE1819C55500801D00 /* AWMasterModel.m */; };
+		F0C8D4F21819CBE700801D00 /* NSObject+NSObject_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4F11819CBE700801D00 /* NSObject+NSObject_Tool.m */; };
 		F0D2130A18131E4600F844E2 /* prev_next_insc.png in Resources */ = {isa = PBXBuildFile; fileRef = F0D2130618131E4600F844E2 /* prev_next_insc.png */; };
 		F0D2130B18131E4600F844E2 /* prev_next_insc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0D2130718131E4600F844E2 /* prev_next_insc@2x.png */; };
 		F0D2130C18131E4600F844E2 /* separateur-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = F0D2130818131E4600F844E2 /* separateur-vertical.png */; };
@@ -310,10 +312,6 @@
 		F072508F17AC30C300445F37 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F07250AB17AC30C300445F37 /* AudioWireAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioWireAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07250AC17AC30C300445F37 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		F07250B517AC30C300445F37 /* AudioWireAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AudioWireAppTests-Info.plist"; sourceTree = "<group>"; };
-		F07250B717AC30C300445F37 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F07250B917AC30C300445F37 /* AudioWireAppTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioWireAppTests.h; sourceTree = "<group>"; };
-		F07250BA17AC30C300445F37 /* AudioWireAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioWireAppTests.m; sourceTree = "<group>"; };
 		F072511917AC35E500445F37 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = Home/HomeViewController.h; sourceTree = "<group>"; };
 		F072511A17AC35E500445F37 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = Home/HomeViewController.m; sourceTree = "<group>"; };
 		F072511B17AC35E500445F37 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeViewController.xib; path = Home/HomeViewController.xib; sourceTree = "<group>"; };
@@ -366,6 +364,14 @@
 		F0AF04EE17B2157900E6D105 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add@2x.png"; path = "img/add@2x.png"; sourceTree = "<group>"; };
 		F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F0AF04F817B6EC8500E6D105 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F0C8D4E61819C20F00801D00 /* AWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserManager.h; path = Manager/AWUserManager.h; sourceTree = "<group>"; };
+		F0C8D4E71819C20F00801D00 /* AWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWUserManager.m; path = Manager/AWUserManager.m; sourceTree = "<group>"; };
+		F0C8D4EA1819C54100801D00 /* AWUserPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserPostModel.h; path = Models/AWUserPostModel.h; sourceTree = "<group>"; };
+		F0C8D4EB1819C54100801D00 /* AWUserPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWUserPostModel.m; path = Models/AWUserPostModel.m; sourceTree = "<group>"; };
+		F0C8D4ED1819C55500801D00 /* AWMasterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWMasterModel.h; path = Models/AWMasterModel.h; sourceTree = "<group>"; };
+		F0C8D4EE1819C55500801D00 /* AWMasterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMasterModel.m; path = Models/AWMasterModel.m; sourceTree = "<group>"; };
+		F0C8D4F01819CBE700801D00 /* NSObject+NSObject_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSObject_Tool.h"; sourceTree = "<group>"; };
+		F0C8D4F11819CBE700801D00 /* NSObject+NSObject_Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NSObject_Tool.m"; sourceTree = "<group>"; };
 		F0D2130618131E4600F844E2 /* prev_next_insc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prev_next_insc.png; sourceTree = "<group>"; };
 		F0D2130718131E4600F844E2 /* prev_next_insc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prev_next_insc@2x.png"; sourceTree = "<group>"; };
 		F0D2130818131E4600F844E2 /* separateur-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "separateur-vertical.png"; sourceTree = "<group>"; };
@@ -671,7 +677,6 @@
 			isa = PBXGroup;
 			children = (
 				F072508517AC30C300445F37 /* AudioWireApp */,
-				F07250B317AC30C300445F37 /* AudioWireAppTests */,
 				F072507C17AC30C300445F37 /* Frameworks */,
 				F072507B17AC30C300445F37 /* Products */,
 			);
@@ -711,8 +716,10 @@
 		F072508517AC30C300445F37 /* AudioWireApp */ = {
 			isa = PBXGroup;
 			children = (
-				F0F7C6DD18171C350045FC6A /* Requester */,
+				F0C8D4E91819C27200801D00 /* Models */,
+				F0C8D4E51819C1F300801D00 /* Managers */,
 				F0D2131918141C7800F844E2 /* Conf */,
+				F0F7C6DD18171C350045FC6A /* Requester */,
 				F07C1BDD180C9C050056187E /* Controllers */,
 				F07C1BDC180C9BFE0056187E /* Views */,
 				F072513917ACA2CB00445F37 /* Tools */,
@@ -735,25 +742,6 @@
 				F0061F691812F6550057EBEA /* Futura-Bold.otf */,
 				F072508817AC30C300445F37 /* InfoPlist.strings */,
 				F072508B17AC30C300445F37 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		F07250B317AC30C300445F37 /* AudioWireAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				F07250B917AC30C300445F37 /* AudioWireAppTests.h */,
-				F07250BA17AC30C300445F37 /* AudioWireAppTests.m */,
-				F07250B417AC30C300445F37 /* Supporting Files */,
-			);
-			path = AudioWireAppTests;
-			sourceTree = "<group>";
-		};
-		F07250B417AC30C300445F37 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				F07250B517AC30C300445F37 /* AudioWireAppTests-Info.plist */,
-				F07250B617AC30C300445F37 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -943,6 +931,26 @@
 			name = Musics;
 			sourceTree = "<group>";
 		};
+		F0C8D4E51819C1F300801D00 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F0C8D4E61819C20F00801D00 /* AWUserManager.h */,
+				F0C8D4E71819C20F00801D00 /* AWUserManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		F0C8D4E91819C27200801D00 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F0C8D4ED1819C55500801D00 /* AWMasterModel.h */,
+				F0C8D4EE1819C55500801D00 /* AWMasterModel.m */,
+				F0C8D4EA1819C54100801D00 /* AWUserPostModel.h */,
+				F0C8D4EB1819C54100801D00 /* AWUserPostModel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		F0D2130E1813478A00F844E2 /* CreatingPlayist */ = {
 			isa = PBXGroup;
 			children = (
@@ -965,6 +973,8 @@
 		F0F7C6D2181713BF0045FC6A /* NS */ = {
 			isa = PBXGroup;
 			children = (
+				F0C8D4F01819CBE700801D00 /* NSObject+NSObject_Tool.h */,
+				F0C8D4F11819CBE700801D00 /* NSObject+NSObject_Tool.m */,
 				F0F7C6D3181713BF0045FC6A /* NSString+NSString_Tool.h */,
 				F0F7C6D4181713BF0045FC6A /* NSString+NSString_Tool.m */,
 			);
@@ -1055,6 +1065,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Derivery Guillaume";
+				TargetAttributes = {
+					F072507917AC30C300445F37 = {
+						DevelopmentTeam = 8W4SV6G7ZH;
+					};
+				};
 			};
 			buildConfigurationList = F072507517AC30C300445F37 /* Build configuration list for PBXProject "AudioWireApp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1167,7 +1182,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F07250B817AC30C300445F37 /* InfoPlist.strings in Resources */,
 				F028545F17ADEF40005090CE /* MusicsViewController.xib in Resources */,
 				F028546217ADF13A005090CE /* music_note@2x.png in Resources */,
 				F028546617AED7E5005090CE /* nav_logo.png in Resources */,
@@ -1236,6 +1250,8 @@
 				F0F7C6E018171C680045FC6A /* AWRequester.m in Sources */,
 				F0F7C6F918171CC90045FC6A /* AFNetworkReachabilityManager.m in Sources */,
 				F0061F491812DEE10057EBEA /* UIAudioWireCustomNavigationController.m in Sources */,
+				F0C8D4E81819C20F00801D00 /* AWUserManager.m in Sources */,
+				F0C8D4F21819CBE700801D00 /* NSObject+NSObject_Tool.m in Sources */,
 				F0F7C6F618171CC90045FC6A /* AFHTTPRequestOperation.m in Sources */,
 				F0061F481812DEE10057EBEA /* UIAWConnectViewController.m in Sources */,
 				F0061F4E1812DEE10057EBEA /* UIAWHomeLoginViewController.m in Sources */,
@@ -1254,6 +1270,7 @@
 				F028545C17ADEF40005090CE /* MusicsViewController.m in Sources */,
 				F028547317AEF524005090CE /* ContactViewController.m in Sources */,
 				F0F7C70118171CDF0045FC6A /* UIImageView+AFNetworking.m in Sources */,
+				F0C8D4EC1819C54100801D00 /* AWUserPostModel.m in Sources */,
 				F028548117AF8F38005090CE /* OptionsViewController.m in Sources */,
 				F028548917B01BBD005090CE /* ConversationViewController.m in Sources */,
 				F0061E961812C0CE0057EBEA /* NSTimeManager.m in Sources */,
@@ -1261,6 +1278,7 @@
 				F0F7C6F818171CC90045FC6A /* AFHTTPSessionManager.m in Sources */,
 				F0061F211812CADA0057EBEA /* OHParagraphStyle.m in Sources */,
 				F0AF04D517B1F3A100E6D105 /* CellContact.m in Sources */,
+				F0C8D4EF1819C55500801D00 /* AWMasterModel.m in Sources */,
 				F0061F701812F70C0057EBEA /* AudioWireApp.xcdatamodeld in Sources */,
 				F0061F661812F63C0057EBEA /* AWMasterViewController.m in Sources */,
 				F0AF04E917B2123400E6D105 /* CellTrack.m in Sources */,
@@ -1276,7 +1294,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F07250BB17AC30C300445F37 /* AudioWireAppTests.m in Sources */,
 				F028545D17ADEF40005090CE /* MusicsViewController.m in Sources */,
 				F028547417AEF524005090CE /* ContactViewController.m in Sources */,
 				F028548217AF8F38005090CE /* OptionsViewController.m in Sources */,
@@ -1304,14 +1321,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				F072508917AC30C300445F37 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		F07250B617AC30C300445F37 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F07250B717AC30C300445F37 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1381,7 +1390,8 @@
 		F07250BF17AC30C300445F37 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Guillaume/dev/AudioWire/git/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
@@ -1392,6 +1402,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "BD21D923-6124-40E3-A9E5-2591FBB95E67";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
@@ -1402,7 +1413,8 @@
 		F07250C017AC30C300445F37 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Guillaume/dev/AudioWire/git/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
@@ -1413,6 +1425,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "BD21D923-6124-40E3-A9E5-2591FBB95E67";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";

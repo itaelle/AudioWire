@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIAWSubscribeViewController">
@@ -16,8 +16,6 @@
                 <outlet property="bt_ok" destination="436" id="448"/>
                 <outlet property="bt_subscribe" destination="11" id="387"/>
                 <outlet property="bt_viewCGU" destination="tOZ-jd-mfh" id="giT-bd-24R"/>
-                <outlet property="imAvailableEmail" destination="561" id="565"/>
-                <outlet property="imAvailableLogin" destination="560" id="564"/>
                 <outlet property="lb_cgu" destination="isB-B1-c82" id="gcd-eZ-Xny"/>
                 <outlet property="lb_email" destination="346" id="389"/>
                 <outlet property="lb_firstname" destination="13" id="396"/>
@@ -314,10 +312,6 @@
                             <rect key="frame" x="280" y="30" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="picto-check.png" highlightedImage="picto-erreur.png" id="560">
-                            <rect key="frame" x="284" y="33" width="13" height="13"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -356,10 +350,6 @@
                             <rect key="frame" x="280" y="30" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="picto-check.png" highlightedImage="picto-erreur.png" id="561">
-                            <rect key="frame" x="284" y="33" width="13" height="13"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -461,8 +451,6 @@
         <image name="input_field_insc.png" width="294" height="40"/>
         <image name="logoAudiowire.png" width="325" height="325"/>
         <image name="non-cocher.png" width="20" height="20"/>
-        <image name="picto-check.png" width="13" height="13"/>
-        <image name="picto-erreur.png" width="13" height="13"/>
         <image name="prev_next_insc.png" width="320" height="45"/>
         <image name="separateur-vertical.png" width="1" height="30"/>
     </resources>

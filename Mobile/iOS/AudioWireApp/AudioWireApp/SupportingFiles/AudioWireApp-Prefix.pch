@@ -14,7 +14,7 @@
 
 #define KEYBOARD_WIDTH 216
 #define PREFIX_MAIL_FB @"fb."
-#define URL_API @"http://54.246.145.178/"
+#define URL_API @"http://54.246.145.178"
 
 // Color
 #define WHITE [UIColor whiteColor]
@@ -27,7 +27,6 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import <CoreData/CoreData.h>
 #endif
 
 // Common imports

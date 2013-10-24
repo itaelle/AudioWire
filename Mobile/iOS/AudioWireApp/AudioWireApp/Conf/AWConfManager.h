@@ -13,6 +13,7 @@ typedef enum
     AWLogin,
     AWLogout,
     AWSubscribe,
+    AWUpdateUser,
     
     AWGetUser,
     AWGetUsers,

@@ -44,8 +44,8 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *actLoadLogin;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *actLoadEmail;
-@property (weak, nonatomic) IBOutlet UIImageView *imAvailableLogin;
-@property (weak, nonatomic) IBOutlet UIImageView *imAvailableEmail;
+//@property (weak, nonatomic) IBOutlet UIImageView *imAvailableLogin;
+//@property (weak, nonatomic) IBOutlet UIImageView *imAvailableEmail;
 
 @property (weak, nonatomic) IBOutlet UIButton *bt_cgu;
 @property (weak, nonatomic) IBOutlet UILabel *lb_cgu;

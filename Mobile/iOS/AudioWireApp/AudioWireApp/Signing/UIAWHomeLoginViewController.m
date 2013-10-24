@@ -12,9 +12,9 @@
 #import "UIAWLostPasswordViewController.h"
 //#import "NsSnUserManager.h"
 //#import "NsSnSignManager.h"
+#import "AWUserManager.h"
 
 #define TOPLOGO_TAG 10001
-
 
 @implementation UIAWHomeLoginViewController
 
@@ -387,13 +387,6 @@
 
 - (IBAction)click_login:(id)sender
 {
-    // DEV
-    [self.navigationController dismissViewControllerAnimated:true completion:^{
-        
-    }];
-    return ;
-    
-    
     [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, [UIDevice isIphone5] ? 469 : 469 - 20 /*Status*/ - 44 /*NavBar*/)];
     [self.view resignAllResponder];
     
@@ -414,6 +407,27 @@
         [self.HUD show:YES];
         NSString *p = [self.tf_password.text trim];
         NSString *e = [self.tf_email.text trim];
+        
+        AWUserPostModel *user = [AWUserPostModel new];
+        user.email = e;
+        user.password = p;
+
+        [[AWUserManager getInstance] login:user cb_rep:^(BOOL success, NSString *error)
+        {
+            [self.HUD hide:YES];
+            self.HUD = nil;
+            self.bt_login.hidden = NO;
+            
+           if (success)
+           {
+               [self.navigationController dismissViewControllerAnimated:true completion:^{
+               }];
+           }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
+            }
+        }];
         
 //        [[NsSnUserManager getInstance] login:e passe:p cb_rep:^(BOOL ok) {
 //            [self.HUD hide:YES];
@@ -442,33 +456,5 @@
     UIAWLostPasswordViewController *vc = [[UIAWLostPasswordViewController alloc] initWithNibName:@"UIAWLostPasswordViewController" bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-
-//#pragma mark - PLGTutoViewControllerDelegate
-
-//-(void)clickedOnRegiter
-//{
-//    [self click_subscribe:nil];
-//    [self hideTuto];
-//}
-//
-//-(void)clickedOnLogin
-//{
-//    [self hideTuto];
-//}
-
-//-(void)hideTuto{
-//    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-//    [prefs setBool:YES forKey:@"show_tuto"];
-//    [prefs synchronize];
-//    
-//    self.title = [NSLocalizedString(@"Login", @"") uppercaseString];
-//    [UIView animateWithDuration:0.5 animations:^{
-//        [self.tutoMasterView.view setAlpha:0.0];
-//    }
-//    completion:^(BOOL finished) {
-//        self.tutoMasterView = nil;
-//    }];
-//}
 
 @end

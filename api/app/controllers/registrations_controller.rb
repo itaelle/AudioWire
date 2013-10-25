@@ -3,13 +3,13 @@ class   RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
   respond_to :json
 
-  # def new
-  #   super
-  # end
+  def new
+    super
+  end
 
   def create
-      build_resource
-      if resource.save
+      build_resource sign_up_params
+     if resource.save
           if resource.active_for_authentication?
               sign_up(resource_name, resource)
               # respond_with resource, :token => resource.authentication_token#:location => after_sign_up_path_for(resource)
@@ -47,5 +47,10 @@ class   RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     after_sign_in_path_for(resource)
   end
+
+#  def registration_params
+#    debugger
+#    params.require(:registration).permit(:email, :password);
+#  end
 
 end

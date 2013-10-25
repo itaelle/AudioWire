@@ -1,9 +1,11 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
+  config.secret_key = 'f320e17bcc7fac765ae7adcaa59de9a10fbee650defd0144714b1d030ea24786bfc5bec7f72a71f12e3bb28a33db6cb21c9807493f0f06466b1e2b302fca8143'
   config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
 
   # Configure the class responsible to send e-mails.
@@ -14,7 +16,6 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
-
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
   # just :email. You can configure it to use [:username, :subdomain], so for
@@ -23,7 +24,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [ :email ]
+  # config.authentication_keys = [ :email, :login ]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -64,7 +65,6 @@ Devise.setup do |config|
   # to behave the same regardless if the e-mail provided was right or wrong.
   # Does not affect registerable.
   # config.paranoid = true
-
   # By default Devise will store the user in session. You can skip storage for
   # :http_auth and :token_auth by adding those symbols to the array below.
   # Notice that if you are skipping storage for all authentication paths, you

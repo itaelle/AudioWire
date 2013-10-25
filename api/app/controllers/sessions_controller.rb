@@ -13,8 +13,4 @@ class SessionsController < Devise::SessionsController
     user.reset_authentication_token!
     render :status=>200, :json => {:success => true}
   end
-
-  # shouldn't be usefull
-  # def new
-  # end
 end

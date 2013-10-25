@@ -17,13 +17,18 @@ AudioWire::Application.routes.draw do
   match 'users/avatar' => 'users#update_avatar', :via => :put
   match '/tracks/download' => 'tracks#download', :via => :get
   match '/tracks/upload' => 'tracks#upload', :via => :post
-  match '/tracks' => 'tracks#list', :via => :get
-  match '/tracks' => 'tracks#delete', :via => :delete
-  match '/tracks' => 'tracks#update', :via => :put
+  match '/tracks/list' => 'tracks#list', :via => :get
+  match '/tracks/delete' => 'tracks#delete', :via => :delete
+  match '/tracks/update' => 'tracks#update', :via => :put
   match '/friends' => 'friendships#create', :via => :post
   match '/friends' => 'friendships#index', :via => :get
   match '/friends/:friend' => 'friendships#destroy', :via => :delete
-
+  match '/playlist/create' => 'playlists#create', :via => :post
+  match '/playlist/delete' => 'playlists#delete', :via => :delete
+  match '/playlist/add-tracks' => 'playlists#add_tracks', :via => :post
+  match '/playlist/delete-tracks' => 'playlists#delete_tracks', :via => :delete
+  match '/playlist/update' => 'playlists#update', :via => :put
+  match '/playlist/list' => 'playlists#list', :via => :get
   # The priority is based upon order of creation:
   # first created -> highest priority.
   

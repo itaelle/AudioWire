@@ -11,13 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715101452) do
+ActiveRecord::Schema.define(:version => 20131024231908) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "playlists", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
+
+  create_table "relation_playlists", :force => true do |t|
+    t.integer  "track_id"
+    t.integer  "playlist_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "songs", :force => true do |t|
@@ -66,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20130715101452) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "nickname"
+    t.string   "username"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

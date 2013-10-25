@@ -1,21 +1,21 @@
 //
-//  CreatePlaylistViewController.m
+//  AddContactViewController.m
 //  AudioWireApp
 //
 //  Created by Derivery Guillaume on 10/20/13.
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "CreatePlaylistViewController.h"
+#import "AddContactViewController.h"
 
-@implementation CreatePlaylistViewController
+@implementation AddContactViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.title = NSLocalizedString(@"Playlist Edition", @"");
+        self.title = NSLocalizedString(@"Add Contact", @"");
         isEditing = NO;
     }
     return self;
@@ -61,8 +61,8 @@
 -(void)setUpViews
 {
     [self.lb_category setFont:FONTBOLDSIZE(12)];
-    [self.lb_category setText:NSLocalizedString(@"Name of the playist :", @"")];
-    [self.bt_create setTitle:NSLocalizedString(@"Create playlist", @"") forState:UIControlStateNormal];
+    [self.lb_category setText:NSLocalizedString(@"E-mail of the contact :", @"")];
+    [self.bt_create setTitle:NSLocalizedString(@"Add contact", @"") forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,7 +76,7 @@
     [self.act_creating startAnimating];
     [self.bt_create setAlpha:0];
     
-    // TODO Create the playlist
+    // TODO Add Contact
     
     // Finish creating
     [self.act_creating setAlpha:0];

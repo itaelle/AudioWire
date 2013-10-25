@@ -9,11 +9,12 @@
 #import "AWMasterViewController.h"
 #import "SubPlayer.h"
 
-@interface MusicsViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, SubPlayerDelegate>
+@interface MusicsViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
-    NSArray *tableData;
+    NSMutableArray *tableData;
 }
 @property Boolean isAlreadyInPlaylist;
+@property (strong, nonatomic) NSString *playlistName; // Change to playlistModel once done
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;
 @property (weak, nonatomic) IBOutlet UITableView *tb_list_artist;

@@ -25,6 +25,12 @@
 {
     [super viewDidLoad];
     isLoading = false;
+
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+    
+    miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+    miniPlayer.delegate = self;
+    [miniPlayer myInit];
 }
 
 -(void)setFlasMessage:(NSString *)msg
@@ -70,26 +76,37 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
-- (void)createPlaylist:(id)sender
+-(void)editAction:(id)sender
 {
-    UIAlertView * alertLogin = [[UIAlertView alloc] initWithTitle:@"Playlist" message:@"You will be able to create a playlist here !" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void)addAction:(id)sender
+{
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
+-(void) prepareNavBarForEditing
+{
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
+    editButton.tintColor = [UIColor whiteColor];
     
-    [alertLogin show];
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = editButton;
 }
 
 -(void) prepareNavBarForClose
 {
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"Close") style:UIBarButtonItemStylePlain target:self action:@selector(closeAction:)];
-    cancelButton.tintColor = [UIColor whiteColor];
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(closeAction:)];
+    closeButton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = cancelButton;
+    self.navigationItem.rightBarButtonItem = closeButton;
 }
-
 
 -(void) prepareNavBarForCancel
 {
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
     cancelButton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = nil;
@@ -98,7 +115,7 @@
 
 - (void) prepareNavBarForLogin
 {
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"Login") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
     loginButton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = nil;
@@ -107,15 +124,15 @@
 
 - (void) prepareNavBarForLogout
 {
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"Logout") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
     logoutButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = logoutButton;
 }
 
-- (void) prepareNavBarForCreatingPlaylist
+- (void) prepareNavBarForAdd
 {
-    UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"Add") style:UIBarButtonItemStylePlain target:self action:@selector(createPlaylist:)];
+    UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addAction:)];
     createPlaylistButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = createPlaylistButton;
@@ -127,7 +144,7 @@
         return ;
     
     isLoading = true;
-    [viewToLoad setAlpha:0];
+    [viewToLoad setAlpha:0.2];
     
     CGRect insideFrame = viewToLoad.frame;
     
@@ -138,7 +155,8 @@
         //[loadingView_ setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.5]];
         
         spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(insideFrame.size.width/2 - 20, insideFrame.size.height/2 - 20, 40, 40)];
-
+        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+        
         [loadingView_ addSubview:spinner];
         [self.view addSubview:loadingView_];
     }
@@ -178,6 +196,27 @@
         self.navigationItem.rightBarButtonItem = nil;
 }
 
+
+#pragma SubPlayerDelegate
+-(void) didSelectPlayer:(id)sender
+{
+}
+
+-(void) play:(id)sender
+{
+}
+
+-(void) pause:(id)sender
+{
+}
+
+-(void) prev:(id)sender
+{
+}
+
+-(void) next:(id)sender
+{
+}
 
 - (void)didReceiveMemoryWarning
 {

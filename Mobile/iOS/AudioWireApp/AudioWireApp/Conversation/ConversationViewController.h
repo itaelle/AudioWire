@@ -8,7 +8,7 @@
 
 #import "AWMasterViewController.h"
 
-@interface ConversationViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, SubPlayerDelegate>
+@interface ConversationViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
 {
     NSArray *tableData;
     CGRect savedEditViewFrame;

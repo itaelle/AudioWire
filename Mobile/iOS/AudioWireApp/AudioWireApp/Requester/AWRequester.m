@@ -36,7 +36,6 @@
                                                              cb_rep_(operation.responseObject, true);
                                                          else
                                                              cb_rep_([error userInfo], false);
-
                                                      }];
     [afNetworkingManager.operationQueue addOperation:afNetworkingOperation];
 }

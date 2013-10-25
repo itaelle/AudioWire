@@ -14,7 +14,7 @@
 {
     return @{@"email" : self.email,
              @"password" : self.password,
-             @"password_confirmation" : self.password_confirmation};
+             @"username" : self.username};
 }
 
 -(NSDictionary *)toDictionary

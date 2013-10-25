@@ -9,7 +9,7 @@
 #import "AWMasterViewController.h"
 #import "SubPlayer.h"
 
-@interface PlaylistViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, SubPlayerDelegate>
+@interface PlaylistViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray *tableData;
 }

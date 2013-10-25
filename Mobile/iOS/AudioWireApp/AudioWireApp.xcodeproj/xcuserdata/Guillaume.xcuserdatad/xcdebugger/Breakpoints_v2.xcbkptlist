@@ -16,32 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Signing/Parent/UIAudioWireCustomNavigationController.m"
-            timestampString = "403959766.678154"
+            filePath = "AudioWireApp/Manager/AWUserManager.m"
+            timestampString = "404432780.829113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-navigationController:willShowViewController:animated:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Signing/Parent/UIAudioWireCustomNavigationController.m"
-            timestampString = "403960002.73007"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "-navigationController:didShowViewController:animated:"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "-login:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

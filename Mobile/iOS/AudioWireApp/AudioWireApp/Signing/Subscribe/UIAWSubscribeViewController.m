@@ -164,12 +164,12 @@
 
 -(BOOL)validate
 {
-//    NSString *login = [[self.tf_login.text trim] lowercaseString];
+    NSString *login = [self.tf_login.text trim];
     NSString *email = [self.tf_email.text trim];
     NSString *password = [self.tf_password.text trim];
     
-    return  /*[login length] >= 4 &&
-            [login length] <= 255 &&*/
+    return  [login length] >= 4 &&
+            [login length] <= 255 &&
             [email length] >= 4 &&
             [email length] <= 255 &&
             [password length] >= 4 &&
@@ -202,7 +202,7 @@
     AWUserPostModel *user = [AWUserPostModel new];
     user.email = [self.tf_email.text trim];
     user.password = [self.tf_password.text trim];
-    user.password_confirmation = [self.tf_password.text trim];
+    user.username = [self.tf_login.text trim];
     
     [[AWUserManager getInstance] subscribe:user cb_rep:^(BOOL success, NSString *error)
     {

@@ -10,6 +10,7 @@
 #import "SubPlayer.h"
 #import "PlaylistViewController.h"
 #import "CreatePlaylistViewController.h"
+#import "NSObject+NSObject_Tool.h"
 
 @implementation PlaylistViewController
 
@@ -28,17 +29,35 @@
     [super viewDidAppear:animated];
     
     [self loadData];
+    [_tb_list_artist reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [super setUpNavLogo];
-    [self prepareNavBarForCreatingPlaylist];
+    [self setUpNavLogo];
+    [self prepareNavBarForEditing];
     
-    // Loading View
-    [super setUpLoadingView:_tb_list_artist];
+    [_viewForMiniPlayer addSubview:miniPlayer];
+    
+    [self setUpList];
+    [self loadData];
+}
 
+-(void)setUpList
+{
+    _tb_list_artist.delegate = self;
+    _tb_list_artist.dataSource = self;
+    _tb_list_artist.sectionIndexColor = [UIColor whiteColor];
+    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
+}
+
+-(void) loadData
+{
+    // Loading View
+    [self setUpLoadingView:_tb_list_artist];
+    
     tableData = [[NSMutableArray alloc]initWithObjects:@"First playlist rock",
                  @"Playlist 2",
                  @"Minimal",
@@ -46,25 +65,12 @@
                  @"Psychedelic Trance (Infected Mushroom)",
                  nil];
     
-    _tb_list_artist.delegate = self;
-    _tb_list_artist.dataSource = self;
-    
-    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
-    _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
-    
-    SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
-    miniPlayer.delegate = self;
-    [_viewForMiniPlayer addSubview:miniPlayer];
-    [miniPlayer myInit];
-    
     // Loading View
-    [super cancelLoadingView:_tb_list_artist];
+    [self cancelLoadingView:_tb_list_artist];
 }
 
-- (void)createPlaylist:(id)sender
+- (void)addPlaylist
 {
-//    [super createPlaylist:sender];
-    
     CreatePlaylistViewController *createPlaylist = [[CreatePlaylistViewController alloc] initWithNibName:@"CreatePlaylistViewController" bundle:nil];
     
     UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:createPlaylist];
@@ -74,12 +80,33 @@
 
     
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
+    [self cancelAction:self];
+}
+
+-(void)editAction:(id)sender
+{
+    [_tb_list_artist setEditing:TRUE animated:TRUE];
+    [self prepareNavBarForCancel];
+    
+    if (tableData)
+    {
+        [tableData insertObject:@"" atIndex:0];
+        [_tb_list_artist reloadData];
+//        [_tb_list_artist reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
 
 -(void)cancelAction:(id)sender
 {
-    [super cancelAction:sender];
-    [self prepareNavBarForCreatingPlaylist];
+    [_tb_list_artist setEditing:FALSE animated:TRUE];
+    [self prepareNavBarForEditing];
+
+    if (tableData)
+    {
+        [tableData removeObjectAtIndex:0];
+        [_tb_list_artist reloadData];
+//        [_tb_list_artist reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -88,14 +115,52 @@
 }
 
 #pragma UITableViewDelegate
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableData && [tableData count] > indexPath.row)
+    {
+        NSString *stringAtIndex = [NSObject getVerifiedString:[tableData objectAtIndex:indexPath.row]];
+        if ([stringAtIndex isEqualToString:@""])
+            return UITableViewCellEditingStyleInsert;
+    }
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO Delete Playlist data
+
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        if (tableData && [tableData count] > indexPath.row)
+        {
+            [tableData removeObjectAtIndex:indexPath.row];
+            [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            [_tb_list_artist reloadSectionIndexTitles];
+        }
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        [self addPlaylist];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
 
-    // Go To Artiste Controller
+    NSString *playlistNameClicked = [NSObject getVerifiedString:[tableData objectAtIndex:indexPath.row]];
+    
+    // TODO  Music Controller with ID
     MusicsViewController *artist_controller = [[MusicsViewController alloc] initWithNibName:@"MusicsViewController" bundle:nil];
     [self.navigationController pushViewController:artist_controller animated:true];
 
+    artist_controller.playlistName = playlistNameClicked;
     artist_controller.isAlreadyInPlaylist = true;
     [artist_controller setTitle:[tableData objectAtIndex:indexPath.row]];
 }
@@ -120,7 +185,17 @@
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     cell.textLabel.text = [tableData objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = @"10 tracks";
+    
+    if ([[tableData objectAtIndex:indexPath.row] isEqualToString:@""])
+    {
+        if ([tableView isEditing])
+            cell.detailTextLabel.text = NSLocalizedString(@"New playlist", @"");
+        else
+            cell.detailTextLabel.text = @"";
+    }
+    else
+        cell.detailTextLabel.text = @"10 tracks";
+
     return cell;
 }
 
@@ -130,12 +205,14 @@
 
     for (NSString *str in tableData)
     {
-        NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
-
-        if ([alphabetical_indexes containsObject:temp] == false)
-            [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];
+        if (str && [str length] > 1)
+        {
+            NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
+            
+            if ([alphabetical_indexes containsObject:temp] == false)
+                [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];
+        }
     }
-    
     return alphabetical_indexes;
 }
 

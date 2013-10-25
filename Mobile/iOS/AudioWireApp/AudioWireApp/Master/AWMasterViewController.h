@@ -7,26 +7,29 @@
 //
 
 #import "UIAWConnectViewController.h"
+#import "SubPlayer.h"
 
-@interface AWMasterViewController : UIAWConnectViewController
+@interface AWMasterViewController : UIAWConnectViewController<SubPlayerDelegate>
 {
     UIView *loadingView_;
     UIActivityIndicatorView *spinner;
-
     bool isLoading;
+    
+    SubPlayer *miniPlayer;
 }
 
 - (void) prepareNavBarForLogin;
 - (void) prepareNavBarForLogout;
 - (void) prepareNavBarForCancel;
 - (void) prepareNavBarForClose;
-- (void) prepareNavBarForCreatingPlaylist;
+- (void) prepareNavBarForEditing;
+- (void) prepareNavBarForAdd;
 - (void) desactivateButtonBar:(bool)left right:(bool)right;
 
 - (void) setFlasMessage:(NSString *)msg;
 - (void) loginAction:(id)sender;
 - (void) cancelAction:(id)sender;
-- (void) createPlaylist:(id)sender;
+- (void) addAction:(id)sender;
 - (void) setUpNavLogo;
 - (void) setUpLoadingView:(UIView *)viewToLoad;
 - (void) cancelLoadingView:(UIView *)viewDidLoad;

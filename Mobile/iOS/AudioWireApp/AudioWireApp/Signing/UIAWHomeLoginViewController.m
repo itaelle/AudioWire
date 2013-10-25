@@ -88,10 +88,10 @@
     [self.bt_help setTitle:NSLocalizedString(@"Unable to connect to your account", @"") forState:(UIControlStateNormal)];
 
     // Facebook Connect
-//    theLoginView = [[FBLoginView alloc] initWithReadPermissions:@[@"email"]];
-//    [self.v_buttonFacebook addSubviewToBonce:theLoginView];
-//    [self.v_buttonFacebook setHidden:NO];
-//    theLoginView.delegate = self;
+/*    theLoginView = [[FBLoginView alloc] initWithReadPermissions:@[@"email"]];
+    [self.v_buttonFacebook addSubview:theLoginView];
+    [self.v_buttonFacebook setHidden:NO];
+    theLoginView.delegate = self;*/
 //    [self setWordingToFacebookButton:theLoginView];
 }
 /*
@@ -222,13 +222,13 @@
         }
     }
 }
-
+*/
 #pragma mark - FBLoginViewDelegate
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
     NSLog(@"UIConnexionCanalView : loginViewShowingLoggedInUser");
-    [self setWordingToFacebookButton:loginView];
+    //[self setWordingToFacebookButton:loginView];
     
     [self.act_facebook setHidden:NO];
     [self.act_facebook startAnimating];
@@ -238,7 +238,7 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
     NSLog(@"UIConnexionCanalView : loginViewFetchedUserInfo => %@", [user description]);
-    [self setWordingToFacebookButton:loginView];
+    //[self setWordingToFacebookButton:loginView];
     
     [self.act_facebook setHidden:NO];
     [self.act_facebook startAnimating];
@@ -256,24 +256,32 @@
     if ([user objectForKey:@"email"])
         mail_user = [NSString stringWithFormat:@"%@%@", PREFIX_MAIL_FB, [user objectForKey:@"email"]];
     
-    NsSnSignModel *s = [NsSnSignModel new];
-    s.login = [[[user username] trim ] lowercaseString];
-    s.email = [mail_user trim];
-    s.nom = [[user last_name] trim];
-    s.prenom = [[user first_name] trim];
-    s.password = [id_user trim];
-    s.sex = [[user objectForKey:@"gender"] isEqualToString:@"male"] ? @"1" : @"0";
-    s.country = @"bra";
-    s.nl = FALSE;
-    s.nlp = FALSE;
-
-    [self tryToLogin:s uploadAvatar:TRUE];
+    AWUserPostModel *userAWModel = [AWUserPostModel new];
+    userAWModel.email = mail_user;
+    userAWModel.password = id_user;
+    
+    [[AWUserManager getInstance] login:userAWModel cb_rep:^(BOOL success, NSString *error)
+     {
+         [self.HUD hide:YES];
+         self.HUD = nil;
+         self.bt_login.hidden = NO;
+         
+         if (success)
+         {
+             [self.navigationController dismissViewControllerAnimated:true completion:^{
+             }];
+         }
+         else
+         {
+             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
+         }
+     }];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
     NSLog(@"UIConnexionCanalView : loginViewShowingLoggedOutUser");
-    [self setWordingToFacebookButton:loginView];
+    //[self setWordingToFacebookButton:loginView];
     [self.act_facebook stopAnimating];
     [self.v_buttonFacebook setHidden:NO];
     
@@ -284,7 +292,7 @@
       handleError:(NSError *)error
 {
     NSLog(@"UIConnexionCanalView : handleAuthError => %@", error);
-    [self setWordingToFacebookButton:loginView];
+    //[self setWordingToFacebookButton:loginView];
     [self.act_facebook stopAnimating];
     [self.act_facebook setHidden:YES];
     [self.v_buttonFacebook setHidden:NO];
@@ -316,7 +324,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"Football App ne parvient pas à vous authentifier sur Facebook. Merci de bien vouloir effacer le compte Facebook enregistré dans les réglages de votre iPhone, puis retentez de vous connecter depuis cet onglet.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
     [alert show];
 }
-////////////////////////////////////////////////////////////////////////*/
+////////////////////////////////////////////////////////////////////////
 
 //-(void)showTuto{
 //    self.title = [NSLocalizedString(@"Welcome", @"") uppercaseString];

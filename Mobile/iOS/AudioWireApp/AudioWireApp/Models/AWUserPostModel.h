@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *password;
-@property (strong, nonatomic) NSString *password_confirmation;
+@property (strong, nonatomic) NSString *username;
 
 -(NSDictionary *)toDictionaryWithConfirmation;
 

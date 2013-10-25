@@ -19,7 +19,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
-        self.title = NSLocalizedString(@"Contacts", @"Contacts");
+        self.title = NSLocalizedString(@"Conversation", @"");
     return self;
 }
 
@@ -43,22 +43,22 @@
     // Loading View
     [super setUpLoadingView:_tb_list_artist];
     
-    tableData = [NSArray arrayWithObjects:@"Hey, What's up ?\nI found a new dj ! Man, he's awesome. He creates a sound like you never heard before. Just tell me when you are connected, I will let you try it through AudioWire. It's a great apps by the way I like it.\nOne more thing, remember to ask Jennifer for saturday. See you then, Bye dude !Adrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. De rien, de rien.",
+    tableData = [NSArray arrayWithObjects:@"<Hey, What's up ? I found a new dj ! Man, he's awesome. He creates a sound like you never heard before. Just tell me when you are connected, I will let you try it through AudioWire. It's a great apps by the way I like it. One more thing, remember to ask Jennifer for saturday. See you then, Bye dude !Adrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. De rien, de rien.>",
                  @"Eli",
                  @"Flavien",
-                 @"Adrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. de rien de rien",
+                 @"<Adrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. de rien de rien>",
                  @"Irène",
                  @"Jack",
                  @"Adrien a besoin de rien alors qu'André est un vrai ",
                  @"Karim",
-                 @"dré est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. de rien de rienAdrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est never heard before. Just tell me when you are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates a sound like you never heard before. Just tell me when you are connected, I will let you try it through AudioWire. It's a great apps by the way I like it.\nOne more thing, remember to ask Jennifer for satur",
+                 @"<dré est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. de rien de rienAdrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est never heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates a sound like you never heard before. Just tell me when you are connected, I will let you try it through AudioWire. It's a great apps by the way I like it. One more thing, remember to ask Jennifer for saturday>",
                  @"Manu",
-                 @"heard before. Just tell me when you are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates ",
-                 @"heard before. Just tell me when you are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates ",
-                 @"Rayanheard before. Just tell me when you are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates heard before. Just tell me when you are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates ",
-                 @"Sergiodzdqzdqzdqzdqzdqzdqzdqzdqzdqzdqzd",
-                 @"heard before. Just ",
-                 @"heard before. Just tell me when you are conHey, What's up ?\nI found a new dj ! Man, he's awesome. He creates ",
+                 @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
+                 @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates >",
+                 @"<Rayanheard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
+                 @"<Sergiodzdqzdqzdqzdqzdqzdqzdqzdqzdqzdqzd>",
+                 @"<heard before. Just>",
+                 @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
                  nil];
     
     _tb_list_artist.delegate = self;
@@ -79,19 +79,16 @@
     
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blackButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     [_btSend setBackgroundImage:buttonImageHighlight forState:UIControlStateNormal];
-    [_btSend setTitle:NSLocalizedString(@"Send", @"Send") forState:UIControlStateNormal];
+    [_btSend setTitle:NSLocalizedString(@"Send", @"") forState:UIControlStateNormal];
     
     // Mini Player
-    SubPlayer *miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
-    miniPlayer.delegate = self;
     [_viewForMiniPlayer addSubview:miniPlayer];
-    [miniPlayer myInit];
-    
-    CGSize sizeContent = _textArea.contentSize;
-     savedSizeContent = sizeContent;
-    
+
     // Loading View
     [super cancelLoadingView:_tb_list_artist];
+    
+    CGSize sizeContent = _textArea.contentSize;
+    savedSizeContent = sizeContent;
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,7 +136,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [tableData count];
+    if (tableData)
+        return [tableData count];
+    else
+        return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -161,7 +161,7 @@
     if (numberLines == 0)
         numberLines = 1;
     
-    heightContent = (numberLines * 19) + 45;
+    heightContent = (numberLines * 18) + 45;
     return heightContent;
 }
 
@@ -253,7 +253,7 @@
     
     if ([msgToSend length] == 0)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Chat" message:NSLocalizedString(@"Please type a text !", @"Please type a text before sending")  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Chat", @"") message:NSLocalizedString(@"Please type a text !", @"Please type a text before sending")  delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
         
         [alert show];
         return ;
@@ -261,7 +261,7 @@
     
     [self cancelAction:nil];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Chat" message:[NSString stringWithFormat:@" Message send : %@", msgToSend] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Chat", @"") message:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message send", @""), msgToSend] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
     
     [alert show];
 }

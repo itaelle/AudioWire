@@ -60,32 +60,61 @@
 {
  	self.alpha = 0;
     
-	[UIView animateWithDuration:0.7 animations:^{
+	[UIView animateWithDuration:0.6 animations:^{
 		self.alpha = 1;
 	} completion:^(BOOL finished) {
 		if (!finished) return ;
-		[UIView animateWithDuration:0.7 animations:^{
+		[UIView animateWithDuration:0.6 animations:^{
 			self.alpha = 0.2;
 		} completion:^(BOOL finished) {
 			if (!finished) return ;
-			[UIView animateWithDuration:0.7 animations:^{
+			[UIView animateWithDuration:0.6 animations:^{
 				self.alpha = 1;
 			} completion:^(BOOL finished) {
 				if (!finished) return ;
-				[UIView animateWithDuration:0.7 animations:^{
-					self.alpha = 0.5;
+				[UIView animateWithDuration:0.6 animations:^{
+					self.alpha = 0.2;
 				} completion:^(BOOL finished) {
 					if (!finished) return ;
-					[UIView animateWithDuration:0.7 animations:^{
+					[UIView animateWithDuration:0.6 animations:^{
 						self.alpha = 1;
 					} completion:^(BOOL finished) {
 						if (!finished) return ;
-						oncomplete();
+                        [UIView animateWithDuration:0.6 animations:^{
+                            self.alpha = 0.2;
+                        } completion:^(BOOL finished) {
+                            if (!finished) return ;
+                            [UIView animateWithDuration:0.6 animations:^{
+                                self.alpha = 1;
+                            } completion:^(BOOL finished) {
+                                if (!finished) return ;
+                                [UIView animateWithDuration:0.6 animations:^{
+                                    self.alpha = 0.2;
+                                } completion:^(BOOL finished) {
+                                    if (!finished) return ;
+                                    [UIView animateWithDuration:0.6 animations:^{
+                                        self.alpha = 1;
+                                    } completion:^(BOOL finished) {
+                                        if (!finished) return ;
+                                        [UIView animateWithDuration:0.6 animations:^{
+                                            self.alpha = 0.2;
+                                        } completion:^(BOOL finished) {
+                                            if (!finished) return ;
+                                            [UIView animateWithDuration:0.6 animations:^{
+                                                self.alpha = 1;
+                                                oncomplete();
+                                            }];
+                                        }];
+                                    }];
+                                    
+                                }];
+                            }];
+                        }];
 					}];
 				}];
 			}];
 		}];
-	}];
+    }];
 }
 
 -(void)visiteurView:(void(^)(UIView *elt))cbBefore cbAfter:(void(^)(UIView *elt))cbAfter
@@ -105,13 +134,13 @@
 -(void) resignAllResponder
 {
     [self visiteurView:^(UIView *elt)
-    {
-        if ([elt isFirstResponder])
-            [elt resignFirstResponder];
-    } cbAfter:^(UIView *elt)
-    {
-        
-    }];
+     {
+         if ([elt isFirstResponder])
+             [elt resignFirstResponder];
+     } cbAfter:^(UIView *elt)
+     {
+         
+     }];
 }
 
 @end

@@ -41,7 +41,13 @@
             else
             {
                 NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
-                cb_rep(FALSE, message);
+                NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+                if ([message length] > 0)
+                    cb_rep(FALSE, message);
+                else if ([error length] > 0)
+                    cb_rep(FALSE, message);
+                else
+                    cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
             }
         }
         else
@@ -95,6 +101,31 @@
         }
     }];
 }
+
+-(void)updateUser:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    NSString *url = [AWConfManager getURL:AWUpdateUser];
+    
+    NSMutableDictionary *dict_updateUser = [NSMutableDictionary new];
+    [dict_updateUser setObject:self.connectedUserTokenAccess forKey:@"token"];
+    [dict_updateUser setObject:user_.password forKey:@"password"];
+    
+    [AWRequester requestAudiowireAPIPOST:url param:[user_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
+     {
+         if (success && rep)
+         {
+             BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+             
+             cb_rep(successUpdate, message);
+         }
+         else
+         {
+             cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
+         }
+     }];
+}
+
 
 -(void)logOut:(void (^)(BOOL success, NSString *error))cb_rep
 {

@@ -10,9 +10,12 @@
 
 @interface CellTrack : UITableViewCell
 {
-    bool isLeft;
 }
-@property Boolean isAlreadyInPlaylist;
+
+@property (assign) BOOL isAlreadySelected;
+@property (assign) BOOL displayIcon;
+@property (strong, nonatomic) UIViewController *parent;
+@property (strong, nonatomic) NSIndexPath *myIndexPath;
 
 @property (weak, nonatomic) IBOutlet UIView *viewCell;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

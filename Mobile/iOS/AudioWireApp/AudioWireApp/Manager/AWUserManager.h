@@ -18,6 +18,8 @@
 
 -(void)subscribe:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 
+-(void)updateUser:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
+
 -(void)logOut:(void (^)(BOOL success, NSString *error))cb_rep;
 
 @end

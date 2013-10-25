@@ -8,9 +8,9 @@
 
 #import "AWMasterViewController.h"
 
-@interface ContactViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, SubPlayerDelegate>
+@interface ContactViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
-    NSArray *tableData;
+    NSMutableArray *tableData;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;

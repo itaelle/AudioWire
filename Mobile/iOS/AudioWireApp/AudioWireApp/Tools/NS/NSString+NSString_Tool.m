@@ -33,7 +33,7 @@
 	
 }
 
--(NSString*) sha1 /*:(NSString*)input*/
+-(NSString*) sha1
 {
     const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:cstr length:self.length];

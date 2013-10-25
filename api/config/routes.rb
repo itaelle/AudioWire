@@ -29,6 +29,7 @@ AudioWire::Application.routes.draw do
   match '/playlist/delete-tracks' => 'playlists#delete_tracks', :via => :delete
   match '/playlist/update' => 'playlists#update', :via => :put
   match '/playlist/list' => 'playlists#list', :via => :get
+  match '/playlist/list-tracks' => 'playlists#find_tracks', :via => :post
   # The priority is based upon order of creation:
   # first created -> highest priority.
   

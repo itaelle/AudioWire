@@ -56,6 +56,25 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  def   find_tracks
+    user = User.find_by_authentication_token(params[:token])
+    begin
+      playlists = user.playlists.find_with_ids(params[:playlist_ids])
+    rescue
+      render :status => 404, :json => {:success=>false, :error => "Couldn't find playlists"}
+      return
+    end
+    lst = {}
+    playlists.each do |playlist|
+      lst[playlist.id] = []
+      tmp = playlist.relation_playlists.all
+      tmp.each do |relation|
+        lst[playlist.id].append(Track.find(relation.track_id))
+      end
+    end
+    render :status => 200, :json => {:success=>true, :result=>lst}
+  end
+  
   def   add_tracks
     user = User.find_by_authentication_token(params[:token])
     playlist = user.playlists.find_by_id(params[:playlist_id])

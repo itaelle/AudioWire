@@ -10,14 +10,14 @@
 
 @implementation AWUserPostModel
 
--(NSDictionary *)toDictionaryWithConfirmation
+-(NSDictionary *)toDictionary
 {
     return @{@"email" : self.email,
              @"password" : self.password,
              @"username" : self.username};
 }
 
--(NSDictionary *)toDictionary
+-(NSDictionary *)toDictionaryLogin
 {
     return @{@"email" : self.email,
              @"password" : self.password};

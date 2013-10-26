@@ -28,7 +28,8 @@
     isSoundOpen = false;
     
     // Test
-    [_lbMusicPlaying setText:@" Paul Kalkbrenner - Peet [Berlin Calling] Et ca c'est du blabla pour voir si ca passe ou ca casse !!!"];
+    // Paul Kalkbrenner - Peet [Berlin Calling] Et ca c'est du blabla pour voir si ca passe ou ca casse !!!
+    [_lbMusicPlaying setText:@" Paul Kalkbrenner - Peet [Berlin Calling]"];
     [_lbMusicTime setText:@"2:35 / 1:08:29"];
 
     [self setUpViews];
@@ -48,6 +49,7 @@
     
     CGRect label = _lbMusicPlaying.frame;
     label.size = [_lbMusicPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
+    label.size.width += 10;
     [_lbMusicPlaying setFrame:label];
     
     if (!_timer)

@@ -27,7 +27,7 @@
 {
     NSString *url = [AWConfManager getURL:AWLogin];
     
-    [AWRequester requestAudiowireAPIPOST:url param:[user_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
+    [AWRequester requestAudiowireAPIPOST:url param:[user_ toDictionaryLogin] cb_rep:^(NSDictionary *rep, BOOL success)
     {
         if (success && rep)
         {
@@ -42,10 +42,11 @@
             {
                 NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
                 NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+
                 if ([message length] > 0)
                     cb_rep(FALSE, message);
                 else if ([error length] > 0)
-                    cb_rep(FALSE, message);
+                    cb_rep(FALSE, error);
                 else
                     cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
             }
@@ -62,7 +63,7 @@
     NSString *url = [AWConfManager getURL:AWSubscribe];
     
     NSMutableDictionary *userDict = [NSMutableDictionary new];
-    [userDict setObject:[user_ toDictionaryWithConfirmation] forKey:@"user"];
+    [userDict setObject:[user_ toDictionary] forKey:@"user"];
     
     [AWRequester requestAudiowireAPIPOST:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
     {

@@ -13,8 +13,9 @@
 @interface ANPopoverSlider : UISlider
 
 @property (strong, nonatomic) ANPopoverView *popupView;
-
 @property (nonatomic, readonly) CGRect thumbRect;
+
+@property (strong, nonatomic) NSString *valueString;
 
 @end
 

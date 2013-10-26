@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-
-
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -15,9 +13,12 @@
 #import <AudioUnit/AudioUnit.h>
 #import "AWMasterViewController.h"
 #import "ANPopoverSlider.h"
+#import "AWMusicPlayer.h"
 
-@interface PlayerViewController : AWMasterViewController<AVAudioPlayerDelegate, UIPickerViewDelegate>
+@interface PlayerViewController : AWMasterViewController<AVAudioPlayerDelegate, UIPickerViewDelegate, AWMusicPlayerDelegate>
 {
+    AWMusicPlayer *musicPlayer;
+    
     bool isPlaying;
     bool isFlipped;
 }

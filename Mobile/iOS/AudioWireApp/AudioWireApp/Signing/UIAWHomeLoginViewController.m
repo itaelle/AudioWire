@@ -401,7 +401,7 @@
     NSString *email = [self.tf_email.text trim];
     if (![NSString validateEmail:email])
     {
-        UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Email error", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please check your e-mail", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [a show];
         [self.tf_email becomeFirstResponder];
         return ;
@@ -420,6 +420,10 @@
         user.email = e;
         user.password = p;
 
+//        [self.navigationController dismissViewControllerAnimated:true completion:^{
+//        }];
+//        return ;
+        
         [[AWUserManager getInstance] login:user cb_rep:^(BOOL success, NSString *error)
         {
             [self.HUD hide:YES];

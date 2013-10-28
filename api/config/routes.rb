@@ -7,6 +7,7 @@ AudioWire::Application.routes.draw do
   devise_for :users, :skip => [:registrations, :sessions, :passwords]
   as :user do
     post '/users' => 'registrations#create'
+#    delete '/users' => 'registrations#destroy'
   end
 
   match '/users/login' => 'tokens#create', :via => :post

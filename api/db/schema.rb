@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131024231908) do
+ActiveRecord::Schema.define(:version => 20131026151248) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20131024231908) do
     t.datetime "avatar_updated_at"
     t.string   "nickname"
     t.string   "username"
+    t.datetime "delete_at"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

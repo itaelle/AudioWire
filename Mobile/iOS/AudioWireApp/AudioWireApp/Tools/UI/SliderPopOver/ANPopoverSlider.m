@@ -78,11 +78,12 @@
     [UIView commitAnimations];
 }
 
--(void)positionAndUpdatePopupView {
+-(void)positionAndUpdatePopupView
+{
     CGRect zeThumbRect = self.thumbRect;
     CGRect popupRect = CGRectOffset(zeThumbRect, 0, -floor(zeThumbRect.size.height * 1.5));
     _popupView.frame = CGRectInset(popupRect, -20, -10);
-    _popupView.value = self.value;
+    _popupView.value = self.valueString;
 }
 
 

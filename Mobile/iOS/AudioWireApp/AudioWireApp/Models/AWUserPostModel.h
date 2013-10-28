@@ -14,6 +14,6 @@
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *username;
 
--(NSDictionary *)toDictionaryWithConfirmation;
+-(NSDictionary *)toDictionaryLogin;
 
 @end

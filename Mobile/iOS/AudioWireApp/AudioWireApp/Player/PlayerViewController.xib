@@ -164,6 +164,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <connections>
                         <action selector="dragMusicPlayingOffset:" destination="-1" eventType="valueChanged" id="55"/>
+                        <action selector="endEditingSlider:" destination="-1" eventType="editingDidEnd" id="T6v-Gd-6Tl"/>
                     </connections>
                 </slider>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="23">

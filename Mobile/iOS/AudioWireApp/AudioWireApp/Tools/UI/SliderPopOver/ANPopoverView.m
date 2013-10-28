@@ -34,9 +34,10 @@
     return self;
 }
 
--(void)setValue:(float)aValue {
+-(void)setValue:(NSString *)aValue
+{
     _value = aValue;
-    self.text = [NSString stringWithFormat:@"%4.2f", _value];
+    self.text = [NSString stringWithFormat:@"%@", _value];
     textLabel.text = self.text;
     [self setNeedsDisplay];
 }

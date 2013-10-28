@@ -55,18 +55,26 @@
     }];
 }
 
+-(void)setUpPlayer
+{
+    musicPlayer = [[AWMusicPlayer alloc] init];
+    musicPlayer.delegate = self;
+    [musicPlayer setMusicToPlay:@""];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [super setUpNavLogo];
+    [self setUpNavLogo];
+    [self setUpPlayer];
+    
     _sliderVolume.popupView.hidden = true;
     _isSliderVolumeOpened = false;
     isPlaying = false;
     isFlipped = false;
     
     // Test DATA
-    [_labelTopPlaying setText:@"Paul Kalkbrenner - Peet [Berlin Calling] Et ca c'est du blabla pour voir si ca passe ou ca casse !!!"];
-    [_labelMinutesPlayed setText:@"6:24"];
+    [_labelTopPlaying setText:@"Paul Kalkbrenner - Peet [Berlin Calling]"];
     [_jacketImg setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
     [_im_bg_album setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
 
@@ -79,10 +87,12 @@
     if (isPlaying == true)
     {
         // Play Music
+        [musicPlayer play];
         [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
     }
     else
     {
+        [musicPlayer pause];
         [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
     }
 }
@@ -107,25 +117,34 @@
     // Shuffle
 }
 
-//-(void)updateCurrentTimeForPlayer:(AVAudioPlayer *)p
-//{
-//	_labelMinutesPlayed.text = [NSString stringWithFormat:@"%d:%02d", (int)p.currentTime / 60, (int)p.currentTime % 60, nil];
-    
-	//[_sliderPlayingMedia setValue:p.currentTime animated:true];
-///}
-
 - (IBAction)dragMusicPlayingOffset:(ANPopoverSlider *)sender
 {
     if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
     {
         ANPopoverSlider *temp = sender;
-        float value = temp.value;
-        NSLog(@"Value player offset %f", value);
+        NSNumber *value = [NSNumber numberWithFloat:temp.value];
+        NSLog(@"Value player offset %f", [value floatValue]);
         
-        // Set player offset with slider
-        //musicPlayer.currentTime = sender.value;
-       // [self updateCurrentTimeForPlayer:musicPlayer];
+        int diff = [value intValue];
+        int forHours = diff / 3600;
+        int remainder = diff % 3600;
+        int forMinutes = remainder / 60;
+        int forSeconds = remainder % 60;
+        
+        if (forHours == 0)
+        {
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
+        }
+        else
+        {
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
+        }
+        [musicPlayer setNewTimeToPlay:value];
     }
+}
+- (IBAction)endEditingSlider:(id)sender
+{
+    [musicPlayer endEditing];
 }
 
 - (IBAction)dragVolume:(id)sender
@@ -135,6 +154,8 @@
         ANPopoverSlider *temp = sender;
         float value = temp.value;
         NSLog(@"Value volume %f", value);
+        
+        [musicPlayer setVolume:[NSNumber numberWithFloat:(value/100)]];
     }
 }
 
@@ -159,6 +180,7 @@
     // Labels set up
     CGRect label = _labelTopPlaying.frame;
     label.size = [_labelTopPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
+    label.size.width += 10;
     [_labelTopPlaying setFrame:label];
     
     // Timer moving text
@@ -232,5 +254,55 @@
     }
 }
 
+#pragma AWMusicPlayerDelegate
+-(void)initSliderValueWithMax:(NSNumber *)max_
+{
+    self.sliderPlayingMedia.value = 0.0f;
+    self.sliderPlayingMedia.minimumValue = 0.0f;
+    self.sliderPlayingMedia.maximumValue = [max_ floatValue];
+    self.sliderPlayingMedia.valueString = @"OO:OO";
+    self.labelMinutesPlayed.text = @"OO:OO";
+}
+
+-(void)updateSliderValue:(NSNumber *)current_
+{
+    if (musicPlayer.isEditingPlayingOffset == NO)
+        self.sliderPlayingMedia.value = [current_ floatValue];
+    
+    int diff = [current_ intValue];
+    int forHours = diff / 3600;
+    int remainder = diff % 3600;
+    int forMinutes = remainder / 60;
+    int forSeconds = remainder % 60;
+    
+    if (forHours == 0)
+    {
+        if (musicPlayer.isEditingPlayingOffset == YES)
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
+        self.labelMinutesPlayed.text = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
+    }
+    else
+    {
+        if (musicPlayer.isEditingPlayingOffset == YES)
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
+        
+        self.labelMinutesPlayed.text = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
+    }
+}
+
+-(void) play:(id)sender
+{
+    
+}
+
+-(void) pause:(id)sender
+{
+    
+}
+
+-(void) stop:(id)sender
+{
+    
+}
 
 @end

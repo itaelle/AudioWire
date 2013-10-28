@@ -24,7 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.title = NSLocalizedString(@"Home", @"Home");
+        self.title = NSLocalizedString(@"Home", @"");
         firstTime = YES;
     }
     return self;
@@ -190,7 +190,7 @@
     [_special_button setBackgroundImage:[UIImage imageNamed:@"funny_monkey.jpg"] forState:UIControlStateNormal];
     
     [_libraryButton setTitle:NSLocalizedString(@"Library", @"Library") forState:UIControlStateNormal];
-    [_chatButton setTitle:NSLocalizedString(@"Chat", @"Chat") forState:UIControlStateNormal];
+    [_chatButton setTitle:NSLocalizedString(@"Friends", @"Friends") forState:UIControlStateNormal];
     [_thirdButton setTitle:NSLocalizedString(@"Playlists", @"Playlists") forState:UIControlStateNormal];
     [_optionButton setTitle:NSLocalizedString(@"Options", @"Options") forState:UIControlStateNormal];
     
@@ -235,8 +235,6 @@
 
 - (IBAction)clickBtThird:(id)sender
 {
-   // PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
-   // [self.navigationController pushViewController:player animated:true];
     PlaylistViewController *playlist =  [[PlaylistViewController alloc] initWithNibName:@"PlaylistViewController" bundle:nil];
     [self.navigationController pushViewController:playlist animated:true];
 }

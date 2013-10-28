@@ -97,10 +97,10 @@
         _isAlreadySelected = NO;
         
         CGRect rectTitle = self.nameLabel.frame;
-        rectTitle.size.width = 270;
+        rectTitle.size.width = 265;
         
         CGRect rectDetail = self.detailLabel.frame;
-        rectDetail.size.width = 270;
+        rectDetail.size.width = 265;
         
         
         [self.btInfo setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];

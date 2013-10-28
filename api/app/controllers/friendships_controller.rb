@@ -24,15 +24,15 @@ class FriendshipsController < ApplicationController
 
   def create
     user = User.find_by_authentication_token(params[:token])
-    friend = User.find_by_id(params[:friend_id])
+    friend = User.find_by_email(params[:friend_email])
     if !friend
       render :status => 404, :json=>{:success=>false, :error=>"Friend does not exists"}
       return
     end
-    @friendship = get_friendship(user.id, params[:friend_id])
-    if @friendship.empty?
+    @friendship = get_friendship(user.id, friend.id)
+    if @friendship.nil?
 
-      @friendship = user.friendships.build(:friend_id=>params[:friend_id])
+      @friendship = user.friendships.build(:friend_id=>friend.id)
       if @friendship.save
         render :status => 201, :json=>{:success=>true, :friend=>@friendship}
       else
@@ -45,9 +45,10 @@ class FriendshipsController < ApplicationController
 
   def destroy
     user = User.find_by_authentication_token(params[:token])
-    @friendship = get_friendship(user.id, params[:friend])
+    friend = User.find_by_email(params[:friend_email])
+    @friendship = get_friendship(user.id, friend.id)
     if @friendship.nil?
-      render :status => 404, :json=>{:success=>false, :error=>"User #{params[:friend]} is not your friend"}
+      render :status => 404, :json=>{:success=>false, :error=>"User #{friend_id} is not your friend"}
       return
     end
     @friendship.destroy

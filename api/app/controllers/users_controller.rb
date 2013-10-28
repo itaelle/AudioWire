@@ -48,4 +48,10 @@ class UsersController < ApplicationController
     end
   end
 
+
+  def     soft_delete
+    update_attributes(:delete_at, Time.current)
+  end
+
+
 end

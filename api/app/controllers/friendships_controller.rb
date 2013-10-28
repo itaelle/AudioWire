@@ -25,7 +25,6 @@ class FriendshipsController < ApplicationController
   def create
     user = User.find_by_authentication_token(params[:token])
     friend = User.find_by_email(params[:friend_email])
-    debugger
     if !friend
       render :status => 404, :json=>{:success=>false, :error=>"Friend does not exists"}
       return

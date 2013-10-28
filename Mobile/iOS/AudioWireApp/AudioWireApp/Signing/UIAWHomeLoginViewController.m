@@ -419,10 +419,6 @@
         AWUserPostModel *user = [AWUserPostModel new];
         user.email = e;
         user.password = p;
-
-//        [self.navigationController dismissViewControllerAnimated:true completion:^{
-//        }];
-//        return ;
         
         [[AWUserManager getInstance] login:user cb_rep:^(BOOL success, NSString *error)
         {
@@ -440,20 +436,6 @@
                 [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
             }
         }];
-        
-//        [[NsSnUserManager getInstance] login:e passe:p cb_rep:^(BOOL ok) {
-//            [self.HUD hide:YES];
-//            self.HUD = nil;
-//            self.bt_login.hidden = NO;
-//            if (ok)
-//                [self.navigationController dismissViewControllerAnimated:NO completion:^{}];
-//
-//            else
-//            {
-//                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Unable to connect. Please verify your login and password", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
-//                [self selectResponder];
-//            }
-//        }];
     }
     else
     {

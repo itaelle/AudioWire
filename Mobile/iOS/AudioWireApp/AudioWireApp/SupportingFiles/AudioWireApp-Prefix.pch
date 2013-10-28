@@ -14,6 +14,7 @@
 
 #define KEYBOARD_WIDTH 216
 #define PREFIX_MAIL_FB @"fb."
+#define FILE_AUTOLOGIN @"audiowire_autologin"
 #define URL_API @"http://54.246.145.178"
 
 // Color

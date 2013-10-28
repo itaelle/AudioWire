@@ -11,6 +11,7 @@
 #import "PlaylistViewController.h"
 #import "CreatePlaylistViewController.h"
 #import "NSObject+NSObject_Tool.h"
+#import "AWPlaylistManager.h"
 
 @implementation PlaylistViewController
 
@@ -28,20 +29,24 @@
 {
     [super viewDidAppear:animated];
     
-    [self loadData];
-    [_tb_list_artist reloadData];
+    if (!firstTime)
+        [self loadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    firstTime = YES;
+
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
     
     [_viewForMiniPlayer addSubview:miniPlayer];
     
     [self setUpList];
-    [self loadData];
+    
+// Remove loadData, called after reconnect
+//    [self loadData];
 }
 
 -(void)setUpList
@@ -55,18 +60,24 @@
 
 -(void) loadData
 {
-    // Loading View
     [self setUpLoadingView:_tb_list_artist];
     
-    tableData = [[NSMutableArray alloc]initWithObjects:@"First playlist rock",
-                 @"Playlist 2",
-                 @"Minimal",
-                 @"Electro",
-                 @"Psychedelic Trance (Infected Mushroom)",
-                 nil];
-    
-    // Loading View
-    [self cancelLoadingView:_tb_list_artist];
+    [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
+    {
+        [self cancelLoadingView:_tb_list_artist];
+        
+        if (success)
+        {
+            tableData = nil;
+            tableData = [NSMutableArray arrayWithArray:data];
+            [_tb_list_artist reloadData];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
 }
 
 - (void)addPlaylist
@@ -90,9 +101,9 @@
     
     if (tableData)
     {
-        [tableData insertObject:@"" atIndex:0];
+        AWPlaylistModel *modelForAdding = [AWPlaylistModel new];
+        [tableData insertObject:modelForAdding atIndex:0];
         [_tb_list_artist reloadData];
-//        [_tb_list_artist reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }
 
@@ -105,7 +116,18 @@
     {
         [tableData removeObjectAtIndex:0];
         [_tb_list_artist reloadData];
-//        [_tb_list_artist reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+        
+        if (playlistToDelete && [playlistToDelete count] > 0)
+        {
+            [self setUpLoadingView:_tb_list_artist];
+            
+            [AWPlaylistManager deletePlaylist:playlistToDelete cb_rep:^(BOOL success, NSString *details) {
+                [self cancelLoadingView:_tb_list_artist];
+                
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:details delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+                    [alert show];
+            }];
+        }
     }
 }
 
@@ -122,12 +144,8 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableData && [tableData count] > indexPath.row)
-    {
-        NSString *stringAtIndex = [NSObject getVerifiedString:[tableData objectAtIndex:indexPath.row]];
-        if ([stringAtIndex isEqualToString:@""])
-            return UITableViewCellEditingStyleInsert;
-    }
+    if (indexPath && indexPath.row == 0)
+        return UITableViewCellEditingStyleInsert;
     return UITableViewCellEditingStyleDelete;
 }
 
@@ -139,6 +157,10 @@
     {
         if (tableData && [tableData count] > indexPath.row)
         {
+            if (!playlistToDelete)
+                playlistToDelete = [[NSMutableArray alloc] init];
+            [playlistToDelete addObject:[tableData objectAtIndex:indexPath.row]];
+
             [tableData removeObjectAtIndex:indexPath.row];
             [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
             [_tb_list_artist reloadSectionIndexTitles];
@@ -154,15 +176,15 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
 
-    NSString *playlistNameClicked = [NSObject getVerifiedString:[tableData objectAtIndex:indexPath.row]];
-    
-    // TODO  Music Controller with ID
-    MusicsViewController *artist_controller = [[MusicsViewController alloc] initWithNibName:@"MusicsViewController" bundle:nil];
-    [self.navigationController pushViewController:artist_controller animated:true];
+    id selectedRowModel = [tableData objectAtIndex:indexPath.row];
 
-    artist_controller.playlistName = playlistNameClicked;
-    artist_controller.isAlreadyInPlaylist = true;
-    [artist_controller setTitle:[tableData objectAtIndex:indexPath.row]];
+    if (selectedRowModel && [selectedRowModel isKindOfClass:[AWPlaylistModel class]])
+    {
+        MusicsViewController *artist_controller = [[MusicsViewController alloc] initWithNibName:@"MusicsViewController" bundle:nil];
+        artist_controller.playlist = selectedRowModel;
+        artist_controller.isAlreadyInPlaylist = true;
+        [self.navigationController pushViewController:artist_controller animated:true];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -184,11 +206,14 @@
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
-    cell.textLabel.text = [tableData objectAtIndex:indexPath.row];
     
-    if ([[tableData objectAtIndex:indexPath.row] isEqualToString:@""])
+    id selectedRowModel = [tableData objectAtIndex:indexPath.row];
+    if (selectedRowModel && [selectedRowModel isKindOfClass:[AWPlaylistModel class]])
+        cell.textLabel.text = ((AWPlaylistModel *)selectedRowModel).title;
+    
+    if ([tableView isEditing])
     {
-        if ([tableView isEditing])
+        if (indexPath && indexPath.row == 0)
             cell.detailTextLabel.text = NSLocalizedString(@"New playlist", @"");
         else
             cell.detailTextLabel.text = @"";
@@ -203,11 +228,11 @@
 {
     NSMutableArray *alphabetical_indexes = [[NSMutableArray alloc] init];
 
-    for (NSString *str in tableData)
+    for (AWPlaylistModel *playlist in tableData)
     {
-        if (str && [str length] > 1)
+        if (playlist && playlist.title && [playlist.title length] > 1)
         {
-            NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
+            NSString *temp = [playlist.title substringWithRange:NSMakeRange(0, 1)];
             
             if ([alphabetical_indexes containsObject:temp] == false)
                 [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];

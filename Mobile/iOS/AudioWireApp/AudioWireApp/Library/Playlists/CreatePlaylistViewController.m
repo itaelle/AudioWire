@@ -7,6 +7,7 @@
 //
 
 #import "CreatePlaylistViewController.h"
+#import "AWPlaylistManager.h"
 
 @implementation CreatePlaylistViewController
 
@@ -51,13 +52,6 @@
     [self.tf_playlist resignFirstResponder];
 }
 
--(void)closeAction:(id)sender
-{
-    [self.navigationController dismissViewControllerAnimated:true completion:^{
-        
-    }];
-}
-
 -(void)setUpViews
 {
     [self.lb_category setFont:FONTBOLDSIZE(12)];
@@ -77,12 +71,26 @@
     [self.bt_create setAlpha:0];
     
     // TODO Create the playlist
+    AWPlaylistModel *playlistModelToAdd = [AWPlaylistModel new];
+    playlistModelToAdd.title = [self.tf_playlist.text trim];
     
-    // Finish creating
-    [self.act_creating setAlpha:0];
-    [self.act_creating stopAnimating];
-    [self.bt_create setAlpha:1];
-    [self closeAction:nil];
+    [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *error)
+    {
+        // Finish creating
+        [self.act_creating setAlpha:0];
+        [self.act_creating stopAnimating];
+        [self.bt_create setAlpha:1];
+        
+        if (success)
+        {
+            [self closeAction:nil];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
 }
 
 - (IBAction)click_textField:(UITextField *)sender

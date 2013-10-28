@@ -23,6 +23,34 @@
     return sharedMyManager;
 }
 
+-(BOOL)isLogin
+{
+    if (self.connectedUserTokenAccess && [self.connectedUserTokenAccess length] > 0)
+        return true;
+    else
+       return false;
+}
+
++(NSString *)pathOfileAutologin
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *directory = paths[0];
+    return [directory stringByAppendingString:FILE_AUTOLOGIN];
+}
+
+-(void)autologin:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    NSString *autologinFilePath = [AWUserManager pathOfileAutologin];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:autologinFilePath])
+    {
+        NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:autologinFilePath];
+        AWUserPostModel *loginModel = [AWUserPostModel fromJSON:ids];
+        [self login:loginModel cb_rep:cb_rep];
+    }
+    else
+        cb_rep(false, @"");
+}
+
 -(void)login:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *url = [AWConfManager getURL:AWLogin];
@@ -36,6 +64,9 @@
             if (successCreation)
             {
                 self.connectedUserTokenAccess = [NSObject getVerifiedString:[rep objectForKey:@"token"]];
+                
+                [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
+                
                 cb_rep(true, @"");
             }
             else
@@ -105,19 +136,22 @@
 
 -(void)updateUser:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
-    NSString *url = [AWConfManager getURL:AWUpdateUser];
+    if (!self.connectedUserTokenAccess)
+        cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to log out but you are not actually logged in", @""));
+
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWUpdateUser], self.connectedUserTokenAccess];
     
-    NSMutableDictionary *dict_updateUser = [NSMutableDictionary new];
-    [dict_updateUser setObject:self.connectedUserTokenAccess forKey:@"token"];
-    [dict_updateUser setObject:user_.password forKey:@"password"];
+//    NSMutableDictionary *dict_updateUser = [NSMutableDictionary new];
+//    [dict_updateUser setObject:self.connectedUserTokenAccess forKey:@"token"];
+//    [dict_updateUser setObject:user_.password forKey:@"password"];
     
-    [AWRequester requestAudiowireAPIPOST:url param:[user_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
+    [AWRequester requestAudiowireAPIPUT:url param:[user_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {
              BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
-             
+
              cb_rep(successUpdate, message);
          }
          else
@@ -132,6 +166,9 @@
 {
     NSString *url = [AWConfManager getURL:AWLogout];
 
+    if (!self.connectedUserTokenAccess)
+        cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to log out but you are not actually logged in", @""));
+
     NSMutableDictionary *dict_token = [NSMutableDictionary new];
     [dict_token setObject:self.connectedUserTokenAccess forKey:@"token"];
     
@@ -143,11 +180,53 @@
             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
             cb_rep(successLogout, message);
         }
-        else
-        {
-            cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
-        }
+        cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
     }];
+}
+
+-(void)getAllUsers:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
+{
+    if (!self.connectedUserTokenAccess)
+        cb_rep(nil, false, NSLocalizedString(@"Something went wrong. You are trying to get data from the API but you are not actually logged in", @""));
+    
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWGetUsers], self.connectedUserTokenAccess];
+
+    [AWRequester requestAudiowireAPIGET:url cb_rep:^(NSDictionary *rep, BOOL success)
+     {
+         if (success && rep)
+         {
+             BOOL success = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+             NSArray *list = [NSObject getVerifiedArray:[rep objectForKey:@"list"]];
+             
+             NSArray *models = [AWUserPostModel fromJSONArray:list];
+             
+             cb_rep(models, success, error);
+         }
+         else
+             cb_rep(nil, false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
+     }];
+}
+
+-(void)getUserFromId:(NSString *)userId_ cb_rep:(void (^)(AWUserPostModel *data, BOOL success, NSString *error))cb_rep
+{
+    if (!self.connectedUserTokenAccess)
+        cb_rep(nil, false, NSLocalizedString(@"Something went wrong. You are trying to get data from the API but you are not actually logged in", @""));
+    
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWGetUser], userId_, self.connectedUserTokenAccess];
+    
+    [AWRequester requestAudiowireAPIGET:url cb_rep:^(NSDictionary *rep, BOOL success)
+     {
+         if (success && rep)
+         {
+             BOOL success = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+             NSDictionary *userDict = [NSObject getVerifiedDictionary:[rep objectForKey:@"user"]];
+             cb_rep([AWUserPostModel fromJSON:userDict], success, error);
+         }
+         else
+             cb_rep(nil, false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
+     }];
 }
 
 @end

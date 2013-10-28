@@ -55,16 +55,15 @@
     self.navigationItem.titleView = nav;
 }
 
--(void)logoutAction:(id)sender
-{
-    // Log out
-    [self prepareNavBarForLogin];
-}
-
--(void)loginAction:(id)sender
-{
-    [self runAuth];
-}
+//-(void)logoutAction:(id)sender
+//{
+//    self.navigationItem.rightBarButtonItem = nil;
+//}
+//
+//-(void)loginAction:(id)sender
+//{
+//    self.navigationItem.rightBarButtonItem = nil;
+//}
 
 -(void)cancelAction:(id)sender
 {
@@ -73,7 +72,9 @@
 
 -(void)closeAction:(id)sender
 {
-    self.navigationItem.rightBarButtonItem = nil;
+    [self.navigationController dismissViewControllerAnimated:true completion:^{
+        
+    }];
 }
 
 -(void)editAction:(id)sender
@@ -82,6 +83,11 @@
 }
 
 - (void)addAction:(id)sender
+{
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void)importAction:(id)sender
 {
     self.navigationItem.rightBarButtonItem = nil;
 }
@@ -113,22 +119,22 @@
     self.navigationItem.rightBarButtonItem = cancelButton;
 }
 
-- (void) prepareNavBarForLogin
-{
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
-    loginButton.tintColor = [UIColor whiteColor];
-    
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = loginButton;
-}
-
-- (void) prepareNavBarForLogout
-{
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
-    logoutButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = logoutButton;
-}
+//- (void) prepareNavBarForLogin
+//{
+//    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
+//    loginButton.tintColor = [UIColor whiteColor];
+//    
+//    self.navigationItem.rightBarButtonItem = nil;
+//    self.navigationItem.rightBarButtonItem = loginButton;
+//}
+//
+//- (void) prepareNavBarForLogout
+//{
+//    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
+//    logoutButton.tintColor = [UIColor whiteColor];
+//    self.navigationItem.rightBarButtonItem = nil;
+//    self.navigationItem.rightBarButtonItem = logoutButton;
+//}
 
 - (void) prepareNavBarForAdd
 {
@@ -136,6 +142,14 @@
     createPlaylistButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = createPlaylistButton;
+}
+
+-(void)prepareNavBarForImport
+{
+    UIBarButtonItem *importButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Import", @"") style:UIBarButtonItemStylePlain target:self action:@selector(importAction:)];
+    importButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = importButton;
 }
 
 -(void) setUpLoadingView:(UIView *)viewToLoad

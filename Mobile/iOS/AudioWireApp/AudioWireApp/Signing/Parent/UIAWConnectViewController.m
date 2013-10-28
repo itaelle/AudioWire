@@ -1,13 +1,5 @@
-//
-//  UINsSnConnectViewController.m
-//  NsSn
-//
-//  Created by adelskott on 27/08/13.
-//  Copyright (c) 2013 Adelskott. All rights reserved.
-//
-
 #import "UIAWConnectViewController.h"
-//#import "NsSnUserManager.h"
+#import "AWUserManager.h"
 #import "UIAWHomeLoginViewController.h"
 
 @implementation UIAWConnectViewController
@@ -33,6 +25,11 @@
     self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.myCustomNavForLogin.navigationBar.translucent = YES;
 
+    [self performSelector:@selector(launchNavigation) withObject:nil afterDelay:0.3];
+}
+
+-(void)launchNavigation
+{
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:self.myCustomNavForLogin animated:TRUE completion:^{}];
 }
 
@@ -40,24 +37,29 @@
 {
     if (!self.view.window && !start)
         return;
-
-    // TODO Warning
     
-//    if (![[NsSnUserManager getInstance] isLogin])
-//    {
-//        if ([[NsSnUserManager getInstance] canReconect])
-//        {
-//            [[NsSnUserManager getInstance] autologin:^(BOOL ok)
-//            {
-//                if (!ok)
-//                    [self runAuth];
-//                else
-//                    [self loadData];
-//            }];
-//        }
-//        else
-//            [self runAuth];
-//    }
+    if (![[AWUserManager getInstance] isLogin])
+    {
+        NSLog(@"isLogin => FALSE => Autologin");
+        [[AWUserManager getInstance] autologin:^(BOOL success, NSString *error)
+        {
+            if (!success)
+            {
+                NSLog(@"Autologin => FALSE => LOGIN SCREEN");
+                [self runAuth];
+            }
+            else
+            {
+                NSLog(@"Autologin => TRUE");
+                [self loadData];
+            }
+        }];
+    }
+    else
+    {
+        NSLog(@"isLogin => TRUE => Continue /LoadData/");
+        [self loadData];
+    }
 }
 
 

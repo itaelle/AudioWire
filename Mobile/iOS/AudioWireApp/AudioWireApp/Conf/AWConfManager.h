@@ -18,19 +18,24 @@ typedef enum
     AWGetUser,
     AWGetUsers,
     
-    AWGetFriends,
-    AWAddFriend,
-    AWDelFriend,
-    
-    AWGetTracks,  // Playlist ou pas ?  Possibilité d'ajout de plusieurs dans une requête ? (métadata)
+    AWGetTracks,
     AWUpdateTrack,
     AWAddTrack,
     AWDelTrack,
     
+    AWGetPlaylists,
+    AWAddPlaylists,
+    AWDelPlaylists,
+    AWUpdatePlaylists,
+    AWAddTracksPlaylist,
+    AWDelTracksPlaylist,
+    
+    AWGetFriends,
+    AWAddFriend,
+    AWDelFriend,
+    
     /**********/
     
-    AWPlaylists,
-
     AWAddPicture,
     AWGetPicture, // Pas de requête, just un lien
     AWDelPicture,

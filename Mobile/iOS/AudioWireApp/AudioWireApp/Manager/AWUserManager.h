@@ -14,6 +14,10 @@
 
 +(AWUserManager*)getInstance;
 
+-(BOOL)isLogin;
+
+-(void)autologin:(void (^)(BOOL success, NSString *error))cb_rep;
+
 -(void)login:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 
 -(void)subscribe:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
@@ -21,5 +25,11 @@
 -(void)updateUser:(AWUserPostModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 
 -(void)logOut:(void (^)(BOOL success, NSString *error))cb_rep;
+
+-(void)getAllUsers:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
+
+-(void)getUserFromId:(NSString *)userId_ cb_rep:(void (^)(AWUserPostModel *data, BOOL success, NSString *error))cb_rep;
+
++(NSString *)pathOfileAutologin;
 
 @end

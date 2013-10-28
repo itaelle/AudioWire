@@ -15,7 +15,9 @@
 #import "HomeViewController.h"
 #import "SubPlayer.h"
 #import "OptionsViewController.h"
+#import "AWImportViewController.h"
 #import "UIView+UIView_Tool.h"
+#import "AWUserManager.h"
 
 @implementation HomeViewController
 
@@ -33,18 +35,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self prepareNavBarForImport];
     [self setUpViews];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [super prepareNavBarForLogin];
     clickLogoCount = 0;
     
-    if (firstTime)
-        [self firstWaveAnimation];
-    firstTime = NO;
+    [self firstWaveAnimation];
+}
+
+- (void)importAction:(id)sender
+{
+    AWImportViewController *importerVC = [[AWImportViewController alloc] initWithNibName:@"AWImportViewController" bundle:nil];
+    
+    UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:importerVC];
+    
+    nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    nav.navigationBar.translucent = YES;
+    
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
 }
 
 -(void)specialWaveAnimation
@@ -170,7 +182,9 @@
                        
                    } completion:^(BOOL finished)
                    {
-                       [self secondWaveAnimation];
+                       if (firstTime)
+                           [self secondWaveAnimation];
+                       firstTime = NO;
                    }];
                }];
           }];

@@ -28,6 +28,8 @@
     [super viewDidLoad];
     [self prepareNavBarForEditing];
 
+    if (self.playlist)
+        self.title = self.playlist.title;
     [_viewForMiniPlayer addSubview:miniPlayer];
 
     [self setUpList];
@@ -123,7 +125,7 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellTrack" owner:self options:nil] objectAtIndex:0];
 
     cell.displayIcon = NO;
-    [cell myInit:[tableData objectAtIndex:indexPath.row] details:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Listed in :", @""), self.playlistName]];
+    [cell myInit:[tableData objectAtIndex:indexPath.row] details:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Listed in :", @""), self.playlist.title]];
 
     return cell;
 }

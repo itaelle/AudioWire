@@ -14,6 +14,7 @@
 {
     switch (value)
     {
+            // USER
         case AWSubscribe:
         {
             return [NSString stringWithFormat:@"%@%@", URL_API, @"/users"];
@@ -31,7 +32,8 @@
             
         case AWUpdateUser:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/users"];
+            // return [NSString stringWithFormat:@"%@%@", URL_API, @"/users"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/users?token=%@"];
         } break;
 
         case AWGetUser:
@@ -41,27 +43,29 @@
             
         case AWGetUsers:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/users/?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/users?token=%@"];
         } break;
 
+            // FRIENDS
         case AWAddFriend:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/friends"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/friends?token=%@"];
         } break;
 
         case AWDelFriend:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/friends/%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/friends/%@?token=%@"];
         } break;
         
         case AWGetFriends:
         {
             return [NSString stringWithFormat:@"%@%@", URL_API, @"/friends?token=%@"];
         } break;
-            
+           
+            // TRACKS
         case AWGetTracks:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/tracks?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/tracks/list?token=%@"];
         } break;
 
         case AWAddTrack: // To modify, we don't upload a music
@@ -71,20 +75,41 @@
 
         case AWUpdateTrack:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/tracks?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/tracks/update?token=%@"];
         } break;
             
         case AWDelTrack:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/tracks?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/tracks/delete?token=%@"];
         } break;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-        case AWPlaylists:
+            // PLAYLISTS
+        case AWGetPlaylists:
         {
-            
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/playlist/list?token=%@"];
         } break;
+        case AWAddPlaylists:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/playlist/create?token=%@"];
+        } break;
+        case AWDelPlaylists:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/playlist/delete?token=%@"];
+        } break;
+        case AWUpdatePlaylists:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/playlist/update?token=%@"];
+        } break;
+        case AWAddTracksPlaylist:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/playlist/add-tracks?token=%@"];
+        } break;
+        case AWDelTracksPlaylist:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/playlist/delete-tracks?token=%@"];
+        } break;
+            
+///////////////////////////////////////////////////////////////////////////////////////////////////
             
         case AWAddPicture:
         {

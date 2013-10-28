@@ -213,7 +213,7 @@
         if (success)
         {
             self.subscribed = nil;
-            self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire. Now pick up news songs and add it in the player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+            self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire. Now enjoy the features of our brain new music player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
 
             [self.subscribed show];
         }
@@ -224,63 +224,6 @@
 
         }
     }];
-    
-//    [[NsSnSignManager getInstance] subscribe:s cb_rep:^(BOOL inscription_ok, NSDictionary *rep, NsSnUserErrorValue error)
-//    {
-//        if (inscription_ok)
-//        {
-//            NSString *email_user = [self.tf_email.text trim];
-//            NSString *password_user = [self.tf_password.text trim];
-//            
-//            [[NsSnUserManager getInstance] login:email_user passe:password_user cb_rep:^(BOOL ok)
-//            {
-//                [self.HUD hide:YES];
-//                self.bt_subscribe.hidden = NO;
-//                self.HUD = nil;
-//                
-//                if (ok)
-//                {
-//                    if (!self.subscribed)
-//                    {
-//                        self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account. Now pick a game and enjoy !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-//                    }
-//                    [self.subscribed show];
-//                }
-//            }];
-//        }
-//        else{
-//            switch (error)
-//            {
-//                case NsSnUserErrorValueLoginExist:
-//                {
-//                    UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Nickname exists", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-//                    [a show];
-//                }
-//                    break;
-//                    
-//                case NsSnUserErrorValueEmailExist:
-//                {
-//                    UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Email exists", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-//                    [a show];
-//                }
-//                    break;
-//
-//                case NsSnUserErrorValueEmailError:
-//                {
-//                    UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Email error", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-//                    [a show];
-//                }
-//                    break;
-//
-//                default:
-//                {
-//                    UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please Fill all fileds", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-//                    [a show];
-//                }
-//                break;
-//            }
-//        }
-//    }];
 }
 
 #pragma UIAlertViewDelegate to dismiss this controller
@@ -323,8 +266,7 @@
 
     [self.v_web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     self.navigationItem.rightBarButtonItem = [self getCloseCGU];
-    
-    // TODO go to CGU
+
     [UIView animateWithDuration:0.5 animations:^{
         [self.v_web setAlpha:1.0];
     }];

@@ -12,6 +12,9 @@
 @interface PlaylistViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray *tableData;
+    NSMutableArray *playlistToDelete;
+    
+    BOOL firstTime;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;

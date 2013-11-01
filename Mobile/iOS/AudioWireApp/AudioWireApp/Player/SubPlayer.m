@@ -47,8 +47,18 @@
     _viewSlider.layer.cornerRadius = 10;
     [_viewSlider setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     
+    
+    CGRect rectSlider = self.sliderVolume.frame;
+    
+    if (!IS_OS_7_OR_LATER)
+    {
+        rectSlider.origin.y += 2;
+        [self.sliderVolume setFrame:rectSlider];
+    }
+    
     CGRect label = _lbMusicPlaying.frame;
-    label.size = [_lbMusicPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
+    label.size = [_lbMusicPlaying.text sizeWithFont:FONTBOLDSIZE(14)];
+//    label.size = [_lbMusicPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
     label.size.width += 10;
     [_lbMusicPlaying setFrame:label];
     

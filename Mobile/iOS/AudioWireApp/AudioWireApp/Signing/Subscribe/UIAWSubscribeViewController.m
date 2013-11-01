@@ -1,16 +1,5 @@
-//
-//  UINsSnSubscribeViewController.m
-//  NsSn
-//
-//  Created by adelskott on 27/08/13.
-//  Copyright (c) 2013 Adelskott. All rights reserved.
-//
-
 #import "UIAWSubscribeViewController.h"
-//#import "NsSnSignManager.h"
-//#import "NsSnSignModel.h"
 #import "UISiteViewController.h"
-//#import "NsSnUserManager.h"
 #import "AWUserPostModel.h"
 #import "AWUserManager.h"
 #import <FacebookSDK/FacebookSDK.h>
@@ -28,6 +17,20 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (!IS_OS_7_OR_LATER)
+    {
+        [self.sc_content setContentInset:UIEdgeInsetsMake(-64, 0, 0, 0)];
+    }
+    else
+    {
+        self.sc_content.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+    }
 }
 
 - (void)viewDidLoad{
@@ -124,11 +127,6 @@
     }
 }
 
-- (void) viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    // [self selectResponder];
-}
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -444,8 +442,16 @@
         NSDictionary* info = [aNotification userInfo];
         kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
         CGRect bkgndRect = self.sc_content.frame;
-        bkgndRect.size.height = self.view.frame.size.height - kbSize.height - self.v_keyword_tools.frame.size.height - 44 - 20;
-        bkgndRect.origin.y = 20 + 44;
+        if (IS_OS_7_OR_LATER)
+        {
+            bkgndRect.size.height = self.view.frame.size.height - kbSize.height - self.v_keyword_tools.frame.size.height /*- 44 - 20*/;
+            bkgndRect.origin.y = 0 /*20 + 44*/;
+        }
+        else
+        {
+            bkgndRect.size.height = self.view.frame.size.height - kbSize.height - self.v_keyword_tools.frame.size.height;
+            bkgndRect.origin.y = 0;
+        }
         [self.sc_content setFrame:bkgndRect];
     }
 
@@ -464,7 +470,13 @@
     
     if (!CGRectContainsRect(aRect, activeField.superview.frame) || !CGRectContainsPoint(aRect, ptField))
     {
-        CGPoint scrollPoint = CGPointMake(0.0, activeField.superview.frame.origin.y);
+        CGPoint scrollPoint;
+        
+        if (IS_OS_7_OR_LATER)
+            scrollPoint = CGPointMake(0.0, activeField.superview.frame.origin.y - ((20 + 44)*2));
+        else
+            scrollPoint = CGPointMake(0.0, activeField.superview.frame.origin.y - 20 - 44);
+        
         NSLog(@"Offset Y => %f", scrollPoint.y);
         
         [self.sc_content setContentOffset:scrollPoint animated:YES];
@@ -474,14 +486,23 @@
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification{
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.sc_content.contentInset = contentInsets;
-    self.sc_content.scrollIndicatorInsets = contentInsets;
+//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//    self.sc_content.contentInset = contentInsets;
+//    self.sc_content.scrollIndicatorInsets = contentInsets;
     self.v_keyword_tools.hidden = YES;
     
     CGRect rectScreen = self.view.frame;
-    rectScreen.size.height = rectScreen.size.height - 20 - 44;
-    rectScreen.origin.y = 20 + 44;
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        rectScreen.size.height = rectScreen.size.height /*- 20 - 44*/;
+        rectScreen.origin.y = 0/*20 + 44*/;
+    }
+    else
+    {
+        rectScreen.size.height = rectScreen.size.height;
+        rectScreen.origin.y = 0;
+    }
     [self.sc_content setFrame:rectScreen];
 }
 

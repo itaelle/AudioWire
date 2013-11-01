@@ -22,9 +22,17 @@
     self.myCustomNavForLogin = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:s];
     s.isSignedOut = self.isSignedOut;
 
-    self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.myCustomNavForLogin.navigationBar.translucent = YES;
-
+    if (IS_OS_7_OR_LATER)
+    {
+        self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        self.myCustomNavForLogin.navigationBar.translucent = YES;
+    }
+    else
+    {
+        self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlack;
+        self.myCustomNavForLogin.navigationBar.translucent = NO;
+    }
+    
     [self performSelector:@selector(launchNavigation) withObject:nil afterDelay:0.3];
 }
 

@@ -39,11 +39,27 @@
     [self setUpViews];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (!IS_OS_7_OR_LATER && firstTime)
+    {
+        CGRect rectLogo = self.headView.frame;
+        rectLogo.origin.y -= 64;
+        [self.headView setFrame:rectLogo];
+        
+        CGRect rectMiddleView = self.middleView.frame;
+        rectMiddleView.origin.y -= 64;
+        rectMiddleView.size.height += 50;
+        [self.middleView setFrame:rectMiddleView];
+    }
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     clickLogoCount = 0;
-    
     [self firstWaveAnimation];
 }
 
@@ -53,8 +69,16 @@
     
     UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:importerVC];
     
-    nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    nav.navigationBar.translucent = YES;
+    if (IS_OS_7_OR_LATER)
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        nav.navigationBar.translucent = YES;
+    }
+    else
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlack;
+        nav.navigationBar.translucent = NO;
+    }
     
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
 }
@@ -202,6 +226,13 @@
 -(void) setUpMiddleView
 {
     [_special_button setBackgroundImage:[UIImage imageNamed:@"funny_monkey.jpg"] forState:UIControlStateNormal];
+    if (!IS_OS_7_OR_LATER)
+    {
+        CGRect rectSpecialButton = self.special_button.frame;
+        rectSpecialButton.size.width -= 100;
+        rectSpecialButton.origin.x += 50;
+        [self.special_button setFrame:rectSpecialButton];
+    }
     
     [_libraryButton setTitle:NSLocalizedString(@"Library", @"Library") forState:UIControlStateNormal];
     [_chatButton setTitle:NSLocalizedString(@"Friends", @"Friends") forState:UIControlStateNormal];

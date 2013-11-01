@@ -17,6 +17,8 @@
 #define FILE_AUTOLOGIN @"audiowire_autologin"
 #define URL_API @"http://54.246.145.178"
 
+#define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+
 // Color
 #define WHITE [UIColor whiteColor]
 

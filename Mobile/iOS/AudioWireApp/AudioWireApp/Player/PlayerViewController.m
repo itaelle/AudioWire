@@ -24,8 +24,25 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    CGRect jacketViewFrame = _jacketView.frame;
     
+    if (!IS_OS_7_OR_LATER)
+    {
+        CGRect rectTopView = self.topView.frame;
+        rectTopView.origin.y -= 64;
+        [self.topView setFrame:rectTopView];
+        
+        CGRect rectJacketView = self.jacketView.frame;
+        rectJacketView.origin.y -= 64;
+        rectJacketView.size.height += 64;
+        [self.jacketView setFrame:rectJacketView];
+        
+        CGRect rectImgAlbumBg = self.im_bg_album.frame;
+        rectImgAlbumBg.origin.y -= 64;
+        rectImgAlbumBg.size.height += 64;
+        [self.im_bg_album setFrame:rectImgAlbumBg];
+    }
+    
+    CGRect jacketViewFrame = _jacketView.frame;
     if (jacketViewFrame.size.height < jacketViewFrame.size.width)
     {
         jacketViewFrame.size.height += 16;
@@ -179,7 +196,8 @@
     
     // Labels set up
     CGRect label = _labelTopPlaying.frame;
-    label.size = [_labelTopPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
+    label.size = [_labelTopPlaying.text sizeWithFont:FONTBOLDSIZE(14)];
+//    label.size = [_labelTopPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
     label.size.width += 10;
     [_labelTopPlaying setFrame:label];
     

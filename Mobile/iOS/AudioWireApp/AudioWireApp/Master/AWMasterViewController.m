@@ -25,8 +25,9 @@
 {
     [super viewDidLoad];
     isLoading = false;
-
-    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+    
+    if (IS_OS_7_OR_LATER)
+        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
     
     miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
     miniPlayer.delegate = self;
@@ -95,7 +96,9 @@
 -(void) prepareNavBarForEditing
 {
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
-    editButton.tintColor = [UIColor whiteColor];
+    
+    if (IS_OS_7_OR_LATER)
+        editButton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = editButton;
@@ -104,7 +107,8 @@
 -(void) prepareNavBarForClose
 {
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(closeAction:)];
-    closeButton.tintColor = [UIColor whiteColor];
+    if (IS_OS_7_OR_LATER)
+        closeButton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = closeButton;
@@ -113,7 +117,8 @@
 -(void) prepareNavBarForCancel
 {
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
-    cancelButton.tintColor = [UIColor whiteColor];
+    if (IS_OS_7_OR_LATER)
+        cancelButton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = cancelButton;
@@ -123,7 +128,7 @@
 //{
 //    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
 //    loginButton.tintColor = [UIColor whiteColor];
-//    
+//
 //    self.navigationItem.rightBarButtonItem = nil;
 //    self.navigationItem.rightBarButtonItem = loginButton;
 //}
@@ -139,7 +144,8 @@
 - (void) prepareNavBarForAdd
 {
     UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addAction:)];
-    createPlaylistButton.tintColor = [UIColor whiteColor];
+    if (IS_OS_7_OR_LATER)
+        createPlaylistButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = createPlaylistButton;
 }
@@ -147,7 +153,8 @@
 -(void)prepareNavBarForImport
 {
     UIBarButtonItem *importButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Import", @"") style:UIBarButtonItemStylePlain target:self action:@selector(importAction:)];
-    importButton.tintColor = [UIColor whiteColor];
+    if (IS_OS_7_OR_LATER)
+        importButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = importButton;
 }
@@ -194,7 +201,7 @@
     {
         [spinner stopAnimating];
         [self.view sendSubviewToBack:loadingView_];
-
+        
         if (viewDidLoad)
             [viewDidLoad setAlpha:1];
         isLoading = false;
@@ -205,7 +212,7 @@
 {
     if (left)
         self.navigationItem.leftBarButtonItem = nil;
-
+    
     if (right)
         self.navigationItem.rightBarButtonItem = nil;
 }

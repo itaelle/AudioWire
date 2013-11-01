@@ -1,4 +1,4 @@
-//
+ //
 //  LibraryViewController.m
 //  AudioWireApp
 //
@@ -54,7 +54,9 @@
     pickerPlaylist.dataSource = self;
     pickerPlaylist.delegate = self;
     pickerPlaylist.showsSelectionIndicator = YES;
-    [pickerPlaylist setTintColor:[UIColor whiteColor]];
+
+    // TODO CHECK FOR IOS 7 IOS 6
+    //    [pickerPlaylist setTintColor:[UIColor whiteColor]];
     
     CGRect rectForButton = pickerContainer.frame;
     rectForButton.size.height -= 10;
@@ -79,7 +81,8 @@
 {
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
-    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    if (IS_OS_7_OR_LATER)
+        _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
     _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
 }
 
@@ -267,7 +270,10 @@
         [pickerLabel setTextAlignment:NSTextAlignmentCenter];
         [pickerLabel setBackgroundColor:[UIColor clearColor]];
         [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
-        [pickerLabel setTextColor:[UIColor whiteColor]];
+        if (IS_OS_7_OR_LATER)
+            [pickerLabel setTextColor:[UIColor whiteColor]];
+        else
+            [pickerLabel setTextColor:[UIColor darkGrayColor]];
     }
     
     if (pickerData && [pickerData count] > row)
@@ -291,7 +297,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO Delete Track data
     if (tableData && [tableData count] > indexPath.row)
     {
         [tableData removeObjectAtIndex:indexPath.row];
@@ -319,6 +324,8 @@
 
         [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [_tb_list_artist reloadSectionIndexTitles];
+        
+        // TODO Delete Track data
         
         // Gore mais c'est pour mettre à jour les indexPath dans les cellules
         [_tb_list_artist reloadData];
@@ -378,7 +385,7 @@
 
     for (NSString *str in tableData)
     {
-        if (str && [str length] > 1)
+        if (str && [str length] >= 1)
         {
             NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
             

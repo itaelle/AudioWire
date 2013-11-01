@@ -48,13 +48,24 @@
 //    if (!boolVal){
 //        [self showTuto];
 //    }
-    
+
+    [self.sc_scroll setContentSize:CGSizeMake(self.sc_scroll.frame.size.width, 568)];
+
+    if (!IS_OS_7_OR_LATER)
+    {
+        [self.sc_scroll setContentInset:UIEdgeInsetsMake(-64, 0, 0, 0)];
+        self.sc_scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    }
+    else
+    {
+        self.sc_scroll.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.sc_scroll setContentSize:CGSizeMake(self.sc_scroll.frame.size.width, 469 /*404*/)];
+    
 //    [FBAppEvents logEvent:@"Login"];
 }
 
@@ -360,16 +371,27 @@
 
 - (IBAction)startEditing:(UITextField *)sender
 {
-    int height_view = [UIDevice getScreenFrame].size.height - 20 /*Status*/ - 44 /*NavBar*/;
-    [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, height_view - KEYBOARD_WIDTH)];
+    int height_view = [UIDevice getScreenFrame].size.height;
+    if (!IS_OS_7_OR_LATER)
+        height_view = [UIDevice getScreenFrame].size.height - 44;
     
-    CGPoint pt = CGPointMake(0, sender.superview.frame.origin.y);
+    [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, height_view - KEYBOARD_WIDTH)];
+
+    CGPoint pt;
+    if (IS_OS_7_OR_LATER)
+        pt = CGPointMake(0.0, sender.superview.frame.origin.y - ((20 + 44)*2));
+    else
+        pt = CGPointMake(0.0, sender.superview.frame.origin.y - 20 - 44);
+    
     [self.sc_scroll setContentOffset:pt animated:NO];
 }
 
 - (IBAction)endEditing:(id)sender
 {
-    int height_view = [UIDevice getScreenFrame].size.height - 20 /*Status*/ - 44 /*NavBar*/;
+    int height_view = [UIDevice getScreenFrame].size.height;
+    if (!IS_OS_7_OR_LATER)
+        height_view = [UIDevice getScreenFrame].size.height - 44;
+    
     [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, height_view)];
 }
 
@@ -382,7 +404,9 @@
 
 - (IBAction)click_subscribe:(id)sender
 {
-    [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, [UIDevice isIphone5] ? 469 : 469 - 20 /*Status*/ - 44 /*NavBar*/)];
+//    [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, [UIDevice isIphone5] ? 469 : 469 - 20 /*Status*/ - 44 /*NavBar*/)];
+    [self endEditing:self.tf_email];
+    
     if ([self.tf_email isFirstResponder])
         [self.tf_email resignFirstResponder];
 

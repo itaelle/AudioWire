@@ -19,7 +19,18 @@ class PlaylistsController < ApplicationController
     if playlists.nil?
       render :status=>403, json: {:success=>false, :error=>"Couldn't find any playlist"}
     else
-      render :status=>200, json: {:success=>true, :list=>playlists}
+      lst = []
+      playlists.each do |playlist|
+        tmp = {}
+        tmp[:id] = playlist[:id]
+        tmp[:title] = playlist[:title]
+        tmp[:created_at] = playlist[:created_at]
+        tmp[:updated_at] = playlist[:updated_at]
+        tmp[:user_id] = playlist[:user_id]
+        tmp[:nbr_tracks] = playlist.relation_playlists.count
+        lst.append(tmp)
+      end
+      render :status=>200, json: {:success=>true, :list=>lst}
     end
   end
 
@@ -36,11 +47,11 @@ class PlaylistsController < ApplicationController
 
   def   delete
     user = User.find_by_authentication_token(params[:token])
-    playlist = user.playlists.find_by_id(params[:playlist_id])
-    if playlist.nil?
+    playlists = user.playlists.find_with_ids(params[:playlist_ids])
+    if playlists.nil?
       render :status => 404, :json => {:success=>false, :error => "Cannot find playlist"}
     else
-      playlist.delete
+      Playlist.delete(playlists)
       render :status => 200, :json => {:success=>true, :message => "PLaylist has been deleted"}
     end
   end

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find_by_authentication_token(params[:token])
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user]) == true
       render :status=>201, :json=>{:success=>true, :message=>"User has been updated"}
     else
       render :status=>400, :json=>{:success=>false, :error=>"An error occured"}

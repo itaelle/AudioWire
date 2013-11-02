@@ -17,7 +17,15 @@ class FriendshipsController < ApplicationController
     user = User.find_by_authentication_token(params[:token])
     list = []
     user.friendships.each do |friendship|
-      list.append(friendship)
+      res = {}
+      res[:id] = friendship[:id]
+      res[:friend_id] = friendship[:friend_id]
+      res[:user_id] = friendship[:user_id]
+      res[:created_at] = friendship[:created_at]
+      res[:updated_at] = friendship[:updated_at]
+      res[:first_name] = User.find(friendship[:friend_id])[:first_name]
+      res[:last_name] = User.find(friendship[:friend_id])[:last_name]
+      list.append(res)
     end
     render :status => 200, :json=>{:success=>true, :friends => list}
   end
@@ -26,6 +34,7 @@ class FriendshipsController < ApplicationController
     user = User.find_by_authentication_token(params[:token])
     friend = User.find_by_email(params[:friend_email])
     if !friend
+      UserMailer.ask_join(user, params[:friend_email]).deliver
       render :status => 404, :json=>{:success=>false, :error=>"Friend does not exists"}
       return
     end

@@ -21,7 +21,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
         self.title = NSLocalizedString(@"Contacts", @"Contacts");
-
+    
     return self;
 }
 
@@ -38,9 +38,9 @@
     [super viewDidLoad];
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
-
+    
     [_viewForMiniPlayer addSubview:miniPlayer];
-
+    
     [self setUpList];
     [self loadData];
 }
@@ -79,8 +79,16 @@
     
     UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:addContactVC];
     
-    nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    nav.navigationBar.translucent = YES;
+    if (IS_OS_7_OR_LATER)
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        nav.navigationBar.translucent = YES;
+    }
+    else
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlack;
+        nav.navigationBar.translucent = NO;
+    }
     
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
     [self cancelAction:self];
@@ -116,7 +124,8 @@
     _tb_list_artist.dataSource = self;
     
     _tb_list_artist.sectionIndexColor = [UIColor whiteColor];
-    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    if (IS_OS_7_OR_LATER)
+        _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
     _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
 }
 
@@ -164,7 +173,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
-
+    
     // TODO Go to Conversation with contact id
     ConversationViewController *conv = [[ConversationViewController alloc] initWithNibName:@"ConversationViewController" bundle:nil];
     
@@ -196,7 +205,7 @@
     }
     else
         [cell myInit:[tableData objectAtIndex:indexPath.row] details:@"Last message example"];
-
+    
     return cell;
 }
 
@@ -221,7 +230,7 @@
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     NSInteger newRow = [self indexForFirstChar:title inArray:tableData];
-        
+    
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:0];
     [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     

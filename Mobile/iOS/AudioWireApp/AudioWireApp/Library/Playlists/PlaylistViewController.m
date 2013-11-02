@@ -54,7 +54,8 @@
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
     _tb_list_artist.sectionIndexColor = [UIColor whiteColor];
-    _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
+    if (IS_OS_7_OR_LATER)
+        _tb_list_artist.sectionIndexBackgroundColor = [UIColor clearColor];
     _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
 }
 
@@ -86,9 +87,16 @@
     
     UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:createPlaylist];
     
-    nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    nav.navigationBar.translucent = YES;
-
+    if (IS_OS_7_OR_LATER)
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        nav.navigationBar.translucent = YES;
+    }
+    else
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlack;
+        nav.navigationBar.translucent = NO;
+    }
     
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
     [self cancelAction:self];

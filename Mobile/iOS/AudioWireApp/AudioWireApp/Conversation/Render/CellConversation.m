@@ -35,13 +35,20 @@
     {
         _senderLabel.textAlignment = NSTextAlignmentLeft;
         [_senderLabel setText:NSLocalizedString(@"Jack", @"Jack")];
-        [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
+        
+//        if (IS_OS_7_OR_LATER)
+            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"] stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
+//        else
+//            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(14, 21, 14, 21)]];
     }
     else
     {
         _senderLabel.textAlignment = NSTextAlignmentRight;
         [_senderLabel setText:NSLocalizedString(@"Me", @"Me")];
-        [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
+//        if (IS_OS_7_OR_LATER)
+            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
+//        else
+//            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(14, 21, 14, 21)]];
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
@@ -56,7 +63,8 @@
     if (content)
     {
         [self.contentLabel setText:content];
-        CGSize sizeFullLabel = [content sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:14]}];
+        CGSize sizeFullLabel = [content sizeWithFont:FONTSIZE(14)];
+//        CGSize sizeFullLabel = [content sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:14]}];
         int widthLabel = limit_width;
         int widthContent = sizeFullLabel.width;
         

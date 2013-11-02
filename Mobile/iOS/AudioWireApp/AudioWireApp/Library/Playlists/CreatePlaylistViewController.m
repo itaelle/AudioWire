@@ -26,6 +26,11 @@
 {
     [super viewWillAppear:animated];
     
+    if (!IS_OS_7_OR_LATER)
+    {
+        [self.sc_container setContentInset:UIEdgeInsetsMake(-64, 0, 0, 0)];
+    }
+    
     int height_view = [UIDevice getScreenFrame].size.height - 20 /*Status*/ - 44 /*NavBar*/;
     [self.sc_container setFrame:CGRectMake(self.sc_container.frame.origin.x, self.sc_container.frame.origin.y, self.sc_container.frame.size.width, height_view)];
     

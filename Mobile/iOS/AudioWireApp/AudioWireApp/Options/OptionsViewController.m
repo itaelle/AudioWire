@@ -21,6 +21,21 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (!IS_OS_7_OR_LATER)
+    {
+        CGRect rectTopView = self.topView.frame;
+        rectTopView.origin.y = 31;
+        rectTopView.size.height += 31;
+        
+        [self.topView setFrame:rectTopView];
+    }
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

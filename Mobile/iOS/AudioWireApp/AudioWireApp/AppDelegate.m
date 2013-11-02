@@ -33,8 +33,17 @@
     self.navigationController = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:masterViewController];
     
     // NavBar Style
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.navigationController.navigationBar.translucent = YES;
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        self.navigationController.navigationBar.translucent = YES;
+    }
+    else
+    {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        self.navigationController.navigationBar.translucent = NO;
+    }
     
     // Link the navigation to the rootViewController and launch
     self.window.rootViewController = self.navigationController;

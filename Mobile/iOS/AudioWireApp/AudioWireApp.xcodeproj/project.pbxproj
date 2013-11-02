@@ -38,7 +38,6 @@
 		F0061F541812DFB00057EBEA /* bt-go@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F521812DFB00057EBEA /* bt-go@2x.png */; };
 		F0061F571812DFED0057EBEA /* input_field_insc.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F551812DFED0057EBEA /* input_field_insc.png */; };
 		F0061F581812DFED0057EBEA /* input_field_insc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F561812DFED0057EBEA /* input_field_insc@2x.png */; };
-		F0061F5B1812E8CD0057EBEA /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0061F5A1812E8CD0057EBEA /* FacebookSDK.framework */; };
 		F0061F601812EC630057EBEA /* cocher.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F5C1812EC630057EBEA /* cocher.png */; };
 		F0061F611812EC630057EBEA /* cocher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F5D1812EC630057EBEA /* cocher@2x.png */; };
 		F0061F621812EC630057EBEA /* non-cocher.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F5E1812EC630057EBEA /* non-cocher.png */; };
@@ -194,6 +193,7 @@
 		F0E43462181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac in Resources */ = {isa = PBXBuildFile; fileRef = F0E43461181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac */; };
 		F0E43463181C1620002E7949 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */; };
 		F0E43465181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */; };
+		F0EBC88B181F28DF000FF73B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */; };
 		F0F7C6D1181711990045FC6A /* UIView+UIView_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */; };
 		F0F7C6D5181713BF0045FC6A /* NSString+NSString_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D4181713BF0045FC6A /* NSString+NSString_Tool.m */; };
 		F0F7C6D8181714B10045FC6A /* UIDevice+UIDevice_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D7181714B10045FC6A /* UIDevice+UIDevice_Tool.m */; };
@@ -272,7 +272,6 @@
 		F0061F521812DFB00057EBEA /* bt-go@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt-go@2x.png"; sourceTree = "<group>"; };
 		F0061F551812DFED0057EBEA /* input_field_insc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = input_field_insc.png; sourceTree = "<group>"; };
 		F0061F561812DFED0057EBEA /* input_field_insc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "input_field_insc@2x.png"; sourceTree = "<group>"; };
-		F0061F5A1812E8CD0057EBEA /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		F0061F5C1812EC630057EBEA /* cocher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cocher.png; sourceTree = "<group>"; };
 		F0061F5D1812EC630057EBEA /* cocher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocher@2x.png"; sourceTree = "<group>"; };
 		F0061F5E1812EC630057EBEA /* non-cocher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "non-cocher.png"; sourceTree = "<group>"; };
@@ -423,6 +422,7 @@
 		F0E4345F181BFCFF002E7949 /* AWMusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMusicPlayer.m; path = Player/AWMusicPlayer/AWMusicPlayer.m; sourceTree = "<group>"; };
 		F0E43461181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = Jimi_Hendrix_All_Along_The_Watchtower.flac; path = SupportingFiles/Jimi_Hendrix_All_Along_The_Watchtower.flac; sourceTree = "<group>"; };
 		F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = TheWho_WeWontGetFooledAgain.mp3; path = SupportingFiles/TheWho_WeWontGetFooledAgain.mp3; sourceTree = "<group>"; };
+		F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = AudioWireApp/Tools/Frameworks/FacebookSDK.framework; sourceTree = "<group>"; };
 		F0F7C6CF181711990045FC6A /* UIView+UIView_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIView_Tool.h"; sourceTree = "<group>"; };
 		F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIView_Tool.m"; sourceTree = "<group>"; };
 		F0F7C6D3181713BF0045FC6A /* NSString+NSString_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_Tool.h"; sourceTree = "<group>"; };
@@ -461,6 +461,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0EBC88B181F28DF000FF73B /* FacebookSDK.framework in Frameworks */,
 				F08C2E9A181EFE0B008D80E0 /* MediaPlayer.framework in Frameworks */,
 				F0E43463181C1620002E7949 /* AVFoundation.framework in Frameworks */,
 				F0F7C705181724BF0045FC6A /* Security.framework in Frameworks */,
@@ -470,7 +471,6 @@
 				F0061F2B1812CB9F0057EBEA /* MobileCoreServices.framework in Frameworks */,
 				F0061F291812CB840057EBEA /* ImageIO.framework in Frameworks */,
 				F0061F271812CB640057EBEA /* CoreText.framework in Frameworks */,
-				F0061F5B1812E8CD0057EBEA /* FacebookSDK.framework in Frameworks */,
 				F072512617AC462700445F37 /* QuartzCore.framework in Frameworks */,
 				F072507E17AC30C300445F37 /* UIKit.framework in Frameworks */,
 				F072508017AC30C300445F37 /* Foundation.framework in Frameworks */,
@@ -629,15 +629,6 @@
 			path = img/Signing;
 			sourceTree = "<group>";
 		};
-		F0061F591812E8CD0057EBEA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F0061F5A1812E8CD0057EBEA /* FacebookSDK.framework */,
-			);
-			name = Frameworks;
-			path = Tools/Frameworks;
-			sourceTree = "<group>";
-		};
 		F028546F17AEF51C005090CE /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
@@ -721,6 +712,8 @@
 		F072507C17AC30C300445F37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */,
+				F072512517AC462700445F37 /* QuartzCore.framework */,
 				F0F7C704181724BF0045FC6A /* Security.framework */,
 				F0F7C7021817249D0045FC6A /* SystemConfiguration.framework */,
 				F0061F2E1812CC770057EBEA /* libz.1.2.5.dylib */,
@@ -754,7 +747,6 @@
 				F072508F17AC30C300445F37 /* AppDelegate.m */,
 				F072512817AC4A2E00445F37 /* img */,
 				F072508617AC30C300445F37 /* Supporting Files */,
-				F072512717AC4A1600445F37 /* Frameworks */,
 			);
 			path = AudioWireApp;
 			sourceTree = "<group>";
@@ -817,14 +809,6 @@
 				F072512317AC3D9600445F37 /* SubPlayer.xib */,
 			);
 			name = SubPlayer;
-			sourceTree = "<group>";
-		};
-		F072512717AC4A1600445F37 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F072512517AC462700445F37 /* QuartzCore.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F072512817AC4A2E00445F37 /* img */ = {
@@ -891,7 +875,6 @@
 			children = (
 				F0F7C6E218171CC90045FC6A /* Network */,
 				F0F7C6D2181713BF0045FC6A /* NS */,
-				F0061F591812E8CD0057EBEA /* Frameworks */,
 				F0061E561812C0CE0057EBEA /* Time */,
 				F0061E5B1812C0CE0057EBEA /* UI */,
 			);
@@ -1205,6 +1188,14 @@
 				TargetAttributes = {
 					F072507917AC30C300445F37 = {
 						DevelopmentTeam = 8W4SV6G7ZH;
+						SystemCapabilities = {
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -1542,20 +1533,20 @@
 		F07250BF17AC30C300445F37 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Guillaume/dev/AudioWire/git/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
+					/Users/Guillaume/dev/AudioWire/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioWireApp/SupportingFiles/AudioWireApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/AudioWireApp/SupportingFiles/AudioWireApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "BD21D923-6124-40E3-A9E5-2591FBB95E67";
-				SDKROOT = iphoneos;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -1565,20 +1556,20 @@
 		F07250C017AC30C300445F37 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hugo Defrance (F5XF88TQCU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Guillaume/dev/AudioWire/git/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
+					/Users/Guillaume/dev/AudioWire/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioWireApp/SupportingFiles/AudioWireApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/AudioWireApp/SupportingFiles/AudioWireApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "BD21D923-6124-40E3-A9E5-2591FBB95E67";
-				SDKROOT = iphoneos;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

@@ -45,6 +45,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 // Views
+@property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIImageView *im_bg_album;
 @property (weak, nonatomic) IBOutlet UIView *dynamicTopView;
 @property (weak, nonatomic) IBOutlet UIView *viewSlider;

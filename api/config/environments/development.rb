@@ -22,13 +22,14 @@ AudioWire::Application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.smtp_settings = {
-      :address              => 'smtp.gmail.com',
-      :port                 => 587,
-#      :domain               => 'gmail.com',
-      :user_name            => 'email_address@gmail.com',
-      :password             => 'password',
+      :address              => 'smtp.audiowire.co',
+      :port                 => 465,
+      :domain               => 'audiowire.co',
+      :user_name            => 'contact@audiowire.co',
+      :password             => 'Audiowire2014Epitech',
       :authentication       => 'plain',
-      :enable_starttls_auto => true
+      :enable_starttls_auto => true,
+      :openssl_verify_mode  => 'none'
   }
 
   # Print deprecation notices to the Rails logger

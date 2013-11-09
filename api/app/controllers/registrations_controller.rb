@@ -12,20 +12,18 @@ class   RegistrationsController < Devise::RegistrationsController
      if resource.save
           if resource.active_for_authentication?
               sign_up(resource_name, resource)
-              # respond_with resource, :token => resource.authentication_token#:location => after_sign_up_path_for(resource)
-            # UserMailer.welcome_email(resource).deliver
-              render :status=>201, :json=>{:success=>true, :token=>@user.authentication_token}
+              # UserMailer.welcome_email(resource).deliver
+              render :status=>201, :json=>{:success=>true, :token=>@user.authentication_token, :id=>@user.id}
           else
             expire_session_data_after_sign_in!
             errors = create_error_msg_login(resource)
-            render :status=>403, :json=>{:success=>false, :errors=>errors}
+            render :status=>403, :json=>{:success=>false, :error=>error}
             #respond_with resource, :location => after_inactive_sign_up_path_for(resource)
           end
      else
        clean_up_passwords resource
-       errors = create_error_msg_login(resource)
-       render :status=>403, :json=>{:success=>false, :errors=>errors}
-       #respond_with resource
+       error = create_error_msg_login(resource)
+       render :status=>403, :json=>{:success=>false, :error=>error}
      end
    end
 
@@ -57,17 +55,16 @@ class   RegistrationsController < Devise::RegistrationsController
   end
 
   def   create_error_msg_login(resource)
-    lst = []
     if resource.errors[:username][0].nil? == false
-      lst.append("Username " + resource.errors[:username][0])
+      return "Username " + resource.errors[:username][0]
     end
     if resource.errors[:email][0].nil? == false
-      lst.append("Email " + resource.errors[:email][0])
+      return "Email " + resource.errors[:email][0]
     end
     if resource.errors[:password][0].nil? == false
-      lst.append("Password " + resource.errors[:password][0])
+      return "Password " + resource.errors[:password][0]
     end
-    return lst
+    return ""
   end
 
 #  def registration_params

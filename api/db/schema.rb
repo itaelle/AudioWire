@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131101224852) do
+ActiveRecord::Schema.define(:version => 20131109153904) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -52,11 +52,8 @@ ActiveRecord::Schema.define(:version => 20131101224852) do
     t.string   "album"
     t.time     "time"
     t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.string   "song_file_name"
-    t.string   "song_content_type"
-    t.integer  "song_file_size"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.datetime "song_updated_at"
   end
 

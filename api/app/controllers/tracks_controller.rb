@@ -20,9 +20,14 @@ class TracksController < ApplicationController
     render :status=>200, :json=>{:success=>true, :list=>lst}
   end
 
-  def delete
+  def bulk_delete
     user = User.find_by_authentication_token(params[:token])
     lst = params[:tracks_id]
+    puts params[:tracks_id].class
+    if params[:tracks_id].nil?
+      render :status => 400, :json=>{:success=>false, :error=>"tracks_id field is missing or invalid"}
+      return
+    end
     counter = 0
     lst.each do |id|
       track = user.tracks.find_by_id(id)
@@ -31,32 +36,42 @@ class TracksController < ApplicationController
           counter = counter + 1
       end
     end
-    message = "Elements have been deleted."
+    message = "Track has been deleted."
     if counter > 1
-      message = "Element has been deleted"
+      message = "Tracks have been deleted"
     end
     render :status=>200, :json=>{:success=>true, :message=>message}
   end
 
-  def download
-    track = Track.find_by_id(params[:id])
+  def delete
+    user = User.find_by_authentication_token(params[:token])
+    track = user.tracks.find_by_id(params[:id])
     if !track.nil?
-      render :status=>404, :json=>{:success=>false, :error=>"The track cannot be found"}
+      track.delete
+    else
+      render :status=>404, :json=>{:success=>false, :message=>"Track does not exist"}
+      return
     end
+    render :status=>200, :json=>{:success=>true, :message=>"Track has been deleted."}
   end
 
-  def   update
-    track = Track.find_by_id(params[:track_id])
+  def update
+    track = Track.find_by_id(params[:id])
+    user = User.find_by_authentication_token(params[:token])
     if track.nil?
       render :status=>404, :json=>{:success=>false, :error=>"The track cannot be found"}
       return
     end
-    if track.update_attributes(params[:track])
-      render :status=>200, :json=>{:success=>true, :message=>"Track information have been updated."}
+    if track.user_id == user.id
+      if track.update_attributes(params[:track])
+        render :status=>200, :json=>{:success=>true, :message=>"Track information have been updated."}
+      end
+    else
+      render :status=>403, :json=>{:success=>false, :error=>"You do not own this track"}
     end
   end
 
-  def upload
+  def create
     user = User.find_by_authentication_token(params[:token])
     lst = params[:tracks]
     flag_error = false
@@ -69,6 +84,20 @@ class TracksController < ApplicationController
     end
     if flag_error == false
       render :status => 200, :json => {:success=>true, :message => "Tracks have been created"}
+    end
+  end
+
+  def show
+     track = Track.find_by_id(params[:id])
+     user = User.find_by_authentication_token(params[:token])
+    if !track.nil?
+      if track.user_id == user.id
+        render :status=>200, :json=>{:success=>true, :track=>track}
+      else
+        render :status=>403, :json=>{:success=>false, :error=>"You do not own this track"}
+      end
+    else
+      render :status=>404, :json=>{:success=>false, :error=>"Track does not exist"}
     end
   end
 end

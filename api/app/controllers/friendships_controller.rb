@@ -27,15 +27,24 @@ class FriendshipsController < ApplicationController
       res[:last_name] = User.find(friendship[:friend_id])[:last_name]
       list.append(res)
     end
-    render :status => 200, :json=>{:success=>true, :friends => list}
+    render :status => 200, :json=>{:success=>true, :friends => list, :nb_friends => list.size}
   end
 
   def create
     user = User.find_by_authentication_token(params[:token])
+    if params[:friend_email].nil?
+      render :status => 400, :json=>{:success=>false, :error=>"friend_email field is missing"}
+      return
+    end
     friend = User.find_by_email(params[:friend_email])
     if !friend
-      UserMailer.ask_join(user, params[:friend_email]).deliver
+      # UserMailer.ask_join(user, params[:friend_email]).deliver
       render :status => 404, :json=>{:success=>false, :error=>"Friend does not exists"}
+      return
+    end
+    if friend == user
+      # UserMailer.ask_join(user, params[:friend_email]).deliver
+      render :status => 404, :json=>{:success=>false, :error=>"You can't be friend with yourself"}
       return
     end
     @friendship = get_friendship(user.id, friend.id)
@@ -55,13 +64,17 @@ class FriendshipsController < ApplicationController
   def destroy
     user = User.find_by_authentication_token(params[:token])
     friend = User.find_by_email(params[:friend_email])
+    if params[:friend_email].nil?
+      render :status => 400, :json=>{:success=>false, :error=>"friend_email field is missing"}
+      return
+    end
     @friendship = get_friendship(user.id, friend.id)
     if @friendship.nil?
-      render :status => 404, :json=>{:success=>false, :error=>"User #{friend_id} is not your friend"}
+      render :status => 404, :json=>{:success=>false, :error=>"#{friend.email} is not your friend"}
       return
     end
     @friendship.destroy
-    render :status => 200, :json=>{:success=>true, :message=>"Friendship no longer exists"}
+    render :status => 200, :json=>{:success=>true, :message=>"#{friend.email} is no longer your friend"}
   end
 
   protected

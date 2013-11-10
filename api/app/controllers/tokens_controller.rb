@@ -20,14 +20,14 @@ class TokensController < ApplicationController
 
     if not @user.valid_password?(password)
       logger.info("User #{email} failed signin, password \"#{password}\" is invalid")
-      render :status=>403, :json=>{:success=>false, :message=>"Invalid email or password"}
+      render :status=>403, :json=>{:success=>false, :error=>"Invalid email or password"}
     else
       render :status=>201, :json=>{:success=>true, :token=>@user.authentication_token}
     end
   end
 
   def delete
-    @user=User.find_by_authentication_token(params[:token])
+    @user=User.find_by_authentication_token(request.GET[:token])
     if @user.nil?
       logger.info("Token not found.")
       render :status=>404, :json=>{:success=>false, :error=>"Invalid token"}

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @user.avatar = params[:avatar]
     @user.avatar.save
     @user.save
-    render :status=>200, json: {:success=>true, :error=>'Avatar has been uploaded'}
+    render :status=>200, json: {:success=>true, :error =>'Avatar has been uploaded'}
   end
 
   def update
@@ -39,7 +39,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    #render :status=>200, :json=>{:success=>true, :data=>params[:user]}
      user = User.find_by_id(params[:id])
     if !user.nil?
       render :status=>200, :json=>{:success=>true, :user=>user}
@@ -48,6 +47,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def show_me
+    user = User.find_by_authentication_token(params[:token])
+    render :status=>200, :json=>{:success=>true, :user=>user}
+  end
 
   def     soft_delete
     update_attributes(:delete_at, Time.current)

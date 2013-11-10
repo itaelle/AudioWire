@@ -25,6 +25,17 @@
 {
     [super viewWillAppear:animated];
     
+    [musicPlayer updateDisplay];
+    
+//    isPlaying = [musicPlayer isPlaying];
+    isFlipped = false;
+    
+    if (!musicPlayer.playlist || [musicPlayer.playlist count] == 0)
+    {
+        [self.repeatButton setAlpha:0];
+        [self.shuffleButton setAlpha:0];
+    }
+    
     if (!IS_OS_7_OR_LATER)
     {
         CGRect rectTopView = self.topView.frame;
@@ -54,17 +65,24 @@
     [_jacketView setFrame:jacketViewFrame];
 }
 
--(void) viewDidAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-    [super viewDidAppear:animated];
+    [super viewDidLoad];
+    [self setUpNavLogo];
+    [self setUpPlayer];
+    [self setUpSlider];
+    [self setUpViews];
+}
 
+-(void)flipJacketView
+{
     [_jacketImg setAlpha:1];
     [UIView transitionWithView:_jacketImg duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
         
     } completion:^(BOOL finished) {
         if (finished)
         {
-            [_im_bg_album setAlpha:0.07];
+            [_im_bg_album setAlpha:0.15];
             [UIView transitionWithView:_im_bg_album duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
                 
             } completion:nil];
@@ -74,106 +92,19 @@
 
 -(void)setUpPlayer
 {
-    musicPlayer = [[AWMusicPlayer alloc] init];
+    musicPlayer = [AWMusicPlayer getInstance];
     musicPlayer.delegate = self;
-    [musicPlayer setMusicToPlay:@""];
+    [musicPlayer start];
 }
 
-- (void)viewDidLoad
+-(void) setUpSlider
 {
-    [super viewDidLoad];
-    [self setUpNavLogo];
-    [self setUpPlayer];
-    
     _sliderVolume.popupView.hidden = true;
     _isSliderVolumeOpened = false;
-    isPlaying = false;
-    isFlipped = false;
-    
-    // Test DATA
-    [_labelTopPlaying setText:@"Paul Kalkbrenner - Peet [Berlin Calling]"];
-    [_jacketImg setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
-    [_im_bg_album setImage:[UIImage imageNamed:@"example_album_jacket.jpg"]];
-
-    [self setUpViews];
-}
-
-- (IBAction)clickPlayerButton:(id)sender
-{
-    isPlaying = !isPlaying;
-    if (isPlaying == true)
-    {
-        // Play Music
-        [musicPlayer play];
-        [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [musicPlayer pause];
-        [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
-    }
-}
-
-- (IBAction)clickPreviousButton:(id)sender
-{
-    // Prev
-}
-
-- (IBAction)clickNextButton:(id)sender
-{
-    // Next
-}
-
-- (IBAction)clickRepeatButton:(id)sender
-{
-    // Repeat
-}
-
-- (IBAction)clickShuffleButton:(id)sender
-{
-    // Shuffle
-}
-
-- (IBAction)dragMusicPlayingOffset:(ANPopoverSlider *)sender
-{
-    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
-    {
-        ANPopoverSlider *temp = sender;
-        NSNumber *value = [NSNumber numberWithFloat:temp.value];
-        NSLog(@"Value player offset %f", [value floatValue]);
-        
-        int diff = [value intValue];
-        int forHours = diff / 3600;
-        int remainder = diff % 3600;
-        int forMinutes = remainder / 60;
-        int forSeconds = remainder % 60;
-        
-        if (forHours == 0)
-        {
-            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
-        }
-        else
-        {
-            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
-        }
-        [musicPlayer setNewTimeToPlay:value];
-    }
-}
-- (IBAction)endEditingSlider:(id)sender
-{
-    [musicPlayer endEditing];
-}
-
-- (IBAction)dragVolume:(id)sender
-{
-    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
-    {
-        ANPopoverSlider *temp = sender;
-        float value = temp.value;
-        NSLog(@"Value volume %f", value);
-        
-        [musicPlayer setVolume:[NSNumber numberWithFloat:(value/100)]];
-    }
+    _sliderPlayingMedia.minimumValue = 0.0f;
+    _sliderPlayingMedia.value = 0.0f;
+    _sliderPlayingMedia.valueString = @"00:00";
+    _labelMinutesPlayed.text = @"00:00";
 }
 
 - (void) setUpViews
@@ -194,18 +125,23 @@
     _viewSlider.layer.cornerRadius = 10;
     [_viewSlider setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     
+    CGRect sliderFrame = _sliderVolume.frame;
+    if (!IS_OS_7_OR_LATER)
+    {
+        sliderFrame.origin.y += 3;
+        [_sliderVolume setFrame:sliderFrame];
+    }
+    
     // Labels set up
     CGRect label = _labelTopPlaying.frame;
-    label.size = [_labelTopPlaying.text sizeWithFont:FONTBOLDSIZE(14)];
-//    label.size = [_labelTopPlaying.text sizeWithAttributes:@{NSFontAttributeName:FONTBOLDSIZE(14)}];
-    label.size.width += 10;
+    label.size = [_labelTopPlaying.text sizeWithFont:FONTBOLDSIZE(17)];
     [_labelTopPlaying setFrame:label];
     
     // Timer moving text
     if (!_timer)
     {
         NSDate *run = [NSDate dateWithTimeIntervalSinceNow:DELAY_BEFORE_SLIDING_TITLE];
-        _timer = [[NSTimer alloc] initWithFireDate:run interval:0.05 target:self selector:@selector(timerFinish:) userInfo:nil repeats:true];
+        _timer = [[NSTimer alloc] initWithFireDate:run interval:0.1 target:self selector:@selector(timerFinish:) userInfo:nil repeats:true];
         
         NSRunLoop * theRunLoop = [NSRunLoop currentRunLoop];
         [theRunLoop addTimer:_timer forMode:NSDefaultRunLoopMode];
@@ -220,16 +156,56 @@
 {
     CGRect labelTopFrame = _labelTopPlaying.frame;
     if (labelTopFrame.origin.x + labelTopFrame.size.width > 0)
-        labelTopFrame.origin.x -= 2;
+        labelTopFrame.origin.x -= 4;
     else
         labelTopFrame.origin.x = _VolumeButton.frame.origin.x;
     
-    [_labelTopPlaying setFrame:labelTopFrame];
+    if (labelTopFrame.origin.x == _VolumeButton.frame.origin.x)
+        [_labelTopPlaying setFrame:labelTopFrame];
+    else
+    {
+        [UIView animateWithDuration:0.1 animations:^{
+            [_labelTopPlaying setFrame:labelTopFrame];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (IBAction)clickPlayerButton:(id)sender
+{
+    NSLog(@"CLick play => %d", isPlaying);
+    if (isPlaying == NO)
+    {
+        [musicPlayer play];
+    }
+    else
+    {
+        [musicPlayer pause];
+    }
+}
+
+- (IBAction)clickPreviousButton:(id)sender
+{
+    [musicPlayer prev];
+}
+
+- (IBAction)clickNextButton:(id)sender
+{
+    [musicPlayer next];
+}
+
+- (IBAction)clickRepeatButton:(id)sender
+{
+    [musicPlayer repeat];
+}
+
+- (IBAction)clickShuffleButton:(id)sender
+{
+    [musicPlayer shuffle];
 }
 
 - (IBAction)clickSoundIcon:(id)sender
@@ -271,19 +247,76 @@
         
     }
 }
-
-#pragma AWMusicPlayerDelegate
--(void)initSliderValueWithMax:(NSNumber *)max_
+- (IBAction)beginDragMusicPlayingOffset:(id)sender
 {
-    self.sliderPlayingMedia.value = 0.0f;
-    self.sliderPlayingMedia.minimumValue = 0.0f;
-    self.sliderPlayingMedia.maximumValue = [max_ floatValue];
-    self.sliderPlayingMedia.valueString = @"OO:OO";
-    self.labelMinutesPlayed.text = @"OO:OO";
+    [musicPlayer startEditing];
 }
 
--(void)updateSliderValue:(NSNumber *)current_
+- (IBAction)endDragMusicPlayingOffset:(id)sender
 {
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        NSNumber *value = [NSNumber numberWithFloat:temp.value];
+        int diff = [value intValue];
+        int forHours = diff / 3600;
+        int remainder = diff % 3600;
+        int forMinutes = remainder / 60;
+        int forSeconds = remainder % 60;
+        
+        if (forHours == 0)
+        {
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
+        }
+        else
+        {
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
+        }
+        [musicPlayer setNewTimeToPlay:value];
+    }
+    [musicPlayer endEditing];
+    [self setFlashMessage:self.sliderPlayingMedia.valueString];
+}
+
+- (IBAction)dragMusicPlayingOffset:(ANPopoverSlider *)sender
+{
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        NSNumber *value = [NSNumber numberWithFloat:temp.value];
+        
+        int diff = [value intValue];
+        int forHours = diff / 3600;
+        int remainder = diff % 3600;
+        int forMinutes = remainder / 60;
+        int forSeconds = remainder % 60;
+        
+        if (forHours == 0)
+        {
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
+        }
+        else
+        {
+            self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
+        }
+    }
+}
+
+- (IBAction)dragVolume:(id)sender
+{
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        float value = temp.value;
+        [musicPlayer setVolume:[NSNumber numberWithFloat:(value/100)]];
+    }
+}
+
+#pragma AWMusicPlayerDelegate
+-(void)updateSliderValue:(NSNumber *)current_ forMax:(NSNumber *)max_
+{
+    self.sliderPlayingMedia.maximumValue = [max_ floatValue];
+
     if (musicPlayer.isEditingPlayingOffset == NO)
         self.sliderPlayingMedia.value = [current_ floatValue];
     
@@ -295,32 +328,80 @@
     
     if (forHours == 0)
     {
-        if (musicPlayer.isEditingPlayingOffset == YES)
+        if (musicPlayer.isEditingPlayingOffset == NO)
             self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
         self.labelMinutesPlayed.text = [NSString stringWithFormat:@"%02d:%02d", forMinutes, forSeconds];
     }
     else
     {
-        if (musicPlayer.isEditingPlayingOffset == YES)
+        if (musicPlayer.isEditingPlayingOffset == NO)
             self.sliderPlayingMedia.valueString = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
         
         self.labelMinutesPlayed.text = [NSString stringWithFormat:@"%d:%02d:%02d", forHours, forMinutes, forSeconds];
     }
 }
 
+-(void)updateVolumeValue:(NSNumber *)current_
+{
+    [_sliderVolume setValue:([current_ floatValue]*100) animated:TRUE];
+}
+
+-(void)updateMediaInfo:(MPMediaItem *)item_
+{
+    NSString *artist = [item_ valueForProperty:MPMediaItemPropertyArtist];
+    NSString *title = [item_ valueForProperty:MPMediaItemPropertyTitle];
+    NSString *albumTitle = [item_ valueForProperty:MPMediaItemPropertyAlbumTitle];
+    
+    if (artist && title && albumTitle)
+        [_labelTopPlaying setText:[NSString stringWithFormat:@"%@ - %@ [%@]",
+                               title, artist, albumTitle]];
+    else if (artist && title)
+        [_labelTopPlaying setText:[NSString stringWithFormat:@"%@ - %@",
+                                   title, artist]];
+    else if (title)
+        [_labelTopPlaying setText:[NSString stringWithFormat:@"%@",
+                                   title]];
+    else
+        [_labelTopPlaying setText:@""];
+    
+    CGRect label = _labelTopPlaying.frame;
+    label.origin.x = _VolumeButton.frame.origin.x;
+    label.size = [_labelTopPlaying.text sizeWithFont:FONTBOLDSIZE(17)];
+    label.size.width += 10;
+    [_labelTopPlaying setFrame:label];
+    
+    UIImage *artworkImageLarge = [UIImage imageNamed:@"noArtworkImageLarge.png"];
+    UIImage *artworkImageSmall = [UIImage imageNamed:@"noArtworkImageSmall.png"];
+	MPMediaItemArtwork *artwork = [item_ valueForProperty:MPMediaItemPropertyArtwork];
+    
+	if (artwork)
+    {
+		artworkImageLarge = [artwork imageWithSize: CGSizeMake (400, 400)];
+        artworkImageSmall = [artwork imageWithSize: CGSizeMake (200, 200)];
+    }
+    [_jacketImg setImage:artworkImageSmall];
+    [_im_bg_album setImage:artworkImageLarge];
+    [self flipJacketView];
+}
+
 -(void) play:(id)sender
 {
-    
+    NSLog(@"Play delegate");
+    isPlaying = YES;
+    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
 }
 
 -(void) pause:(id)sender
 {
-    
+    NSLog(@"Pause delegate");
+    isPlaying = NO;
+    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
 }
 
 -(void) stop:(id)sender
 {
-    
+    NSLog(@"Stop delegate");
+    isPlaying = NO;
 }
 
 @end

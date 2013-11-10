@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
--(void)myInit:(NSString *)contact details:(NSString *)detailContact;
+-(void)myInit:(NSString *)track details:(NSString *)detailContact;
 - (IBAction)clickBtInfo:(id)sender;
 
 @end

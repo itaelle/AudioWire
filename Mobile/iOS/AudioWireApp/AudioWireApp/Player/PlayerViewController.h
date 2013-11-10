@@ -25,10 +25,10 @@
 // Properties
 @property BOOL isSliderVolumeOpened;
 @property (strong, nonatomic) NSTimer *timer;
-//@property (strong, nonatomic) MPMusicPlayerController *musicPlayer;
 
 //Sliders
 @property (weak, nonatomic) IBOutlet ANPopoverSlider *sliderPlayingMedia;
+@property (weak, nonatomic) IBOutlet UISlider *slideTEST;
 @property (weak, nonatomic) IBOutlet ANPopoverSlider *sliderVolume;
 
 // Label
@@ -62,6 +62,8 @@
 - (IBAction)clickRepeatButton:(id)sender;
 - (IBAction)clickShuffleButton:(id)sender;
 
+- (IBAction)beginDragMusicPlayingOffset:(id)sender;
+- (IBAction)endDragMusicPlayingOffset:(id)sender;
 - (IBAction)dragMusicPlayingOffset:(id)sender;
 - (IBAction)dragVolume:(id)sender;
 

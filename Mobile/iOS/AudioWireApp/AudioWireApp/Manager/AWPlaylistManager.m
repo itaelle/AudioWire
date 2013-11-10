@@ -21,7 +21,10 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(nil, false, NSLocalizedString(@"Something went wrong. You are trying to get data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWGetPlaylists], token];
     
@@ -45,12 +48,18 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddPlaylists], token];
     
     if (!playlist_)
+    {
         cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""));
+        return ;
+    }
     
     NSMutableDictionary *playlistDict = [NSMutableDictionary new];
     [playlistDict setObject:[playlist_ toDictionary] forKey:@"playlist"];
@@ -79,10 +88,16 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     if (!playlistsToDelete_ || [playlistsToDelete_ count] == 0)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to delete some playlists but they do not exist", @""));
+        return ;
+    }
    
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelPlaylists], token];
     
@@ -113,10 +128,16 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     if (!playlistToUpdate_)
+    {
         cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWUpdatePlaylists], token];
     
@@ -144,13 +165,22 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     if (!playlist_ || !playlist_._id)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to add some tracks in a playlist but its id does not exist", @""));
+        return ;
+    }
     
     if (!tracks_ || [tracks_ count] == 0)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to add some tracks in a playlist but those tracks seem to be inexsitant", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddTracksPlaylist], token];
     NSMutableDictionary *playlistsDict = [NSMutableDictionary new];
@@ -181,13 +211,22 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     if (!playlist_ || !playlist_._id)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to add some tracks in a playlist but its id does not exist", @""));
+        return ;
+    }
     
     if (!tracks_ || [tracks_ count] == 0)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to add some tracks in a playlist but those tracks seem to be inexsitant", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelTracksPlaylist], token];
     NSMutableDictionary *playlistsDict = [NSMutableDictionary new];

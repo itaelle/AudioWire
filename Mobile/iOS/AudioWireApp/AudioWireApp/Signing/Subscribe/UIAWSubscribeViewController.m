@@ -1,6 +1,6 @@
 #import "UIAWSubscribeViewController.h"
 #import "UISiteViewController.h"
-#import "AWUserPostModel.h"
+#import "AWUserModel.h"
 #import "AWUserManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -33,7 +33,8 @@
     }
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.title = [NSLocalizedString(@"Subscribe", @"") uppercaseString];
     
@@ -197,7 +198,7 @@
     [self.HUD setMode:(MBProgressHUDModeIndeterminate)];
     [self.HUD show:YES];
     
-    AWUserPostModel *user = [AWUserPostModel new];
+    AWUserModel *user = [AWUserModel new];
     user.email = [self.tf_email.text trim];
     user.password = [self.tf_password.text trim];
     user.username = [self.tf_login.text trim];

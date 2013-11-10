@@ -267,7 +267,7 @@
     if ([user objectForKey:@"email"])
         mail_user = [NSString stringWithFormat:@"%@%@", PREFIX_MAIL_FB, [user objectForKey:@"email"]];
     
-    AWUserPostModel *userAWModel = [AWUserPostModel new];
+    AWUserModel *userAWModel = [AWUserModel new];
     userAWModel.email = mail_user;
     userAWModel.password = id_user;
     
@@ -419,7 +419,7 @@
 
 - (IBAction)click_login:(id)sender
 {
-    [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, [UIDevice isIphone5] ? 469 : 469 - 20 /*Status*/ - 44 /*NavBar*/)];
+ //   [self.sc_scroll setFrame:CGRectMake(self.sc_scroll.frame.origin.x, self.sc_scroll.frame.origin.y, self.sc_scroll.frame.size.width, [UIDevice isIphone5] ? 469 : 469 - 20 /*Status*/ - 44 /*NavBar*/)];
     [self.view resignAllResponder];
     
     NSString *email = [self.tf_email.text trim];
@@ -440,7 +440,7 @@
         NSString *p = [self.tf_password.text trim];
         NSString *e = [self.tf_email.text trim];
         
-        AWUserPostModel *user = [AWUserPostModel new];
+        AWUserModel *user = [AWUserModel new];
         user.email = e;
         user.password = p;
         
@@ -463,7 +463,7 @@
     }
     else
     {
-        UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please Fill all fileds", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please fill all fileds correctly !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [a show];
         [self selectResponder];
     }

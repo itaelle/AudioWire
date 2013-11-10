@@ -18,8 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *v_web;
 
-//@property (weak, nonatomic) IBOutlet UIImageView *im_logo;
-//@property (weak, nonatomic) IBOutlet UIImageView *im_nssn_logo;
 @property (weak, nonatomic) IBOutlet UILabel *lb_title;
 @property (weak, nonatomic) IBOutlet UIButton *bt_subscribe;
 @property (weak, nonatomic) IBOutlet UIButton *bt_login;
@@ -36,7 +34,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *tf_firstname;
 @property (weak, nonatomic) IBOutlet UITextField *tf_lastname;
 
-//@property (weak, nonatomic) IBOutlet UISegmentedControl *sg_sex;
 @property (nonatomic, weak) IBOutlet UIButton *sex_m;
 @property (nonatomic, weak) IBOutlet UIButton *sex_w;
 @property (nonatomic, weak) IBOutlet UILabel *lb_sex_m;
@@ -44,32 +41,26 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *actLoadLogin;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *actLoadEmail;
-//@property (weak, nonatomic) IBOutlet UIImageView *imAvailableLogin;
-//@property (weak, nonatomic) IBOutlet UIImageView *imAvailableEmail;
 
 @property (weak, nonatomic) IBOutlet UIButton *bt_cgu;
 @property (weak, nonatomic) IBOutlet UILabel *lb_cgu;
 @property (weak, nonatomic) IBOutlet UIButton *bt_viewCGU;
 
 @property (nonatomic, strong) UIAlertView *subscribed;
-
 @property (nonatomic, strong) MBProgressHUD *HUD;
 
+@property (weak, nonatomic) IBOutlet UIView *v_keyword_tools;
+@property (weak, nonatomic) IBOutlet UIButton *bt_back;
+@property (weak, nonatomic) IBOutlet UIButton *bt_next;
+@property (weak, nonatomic) IBOutlet UIButton *bt_ok;
+
+- (IBAction)click_ok:(id)sender;
+- (IBAction)click_next:(id)sender;
+- (IBAction)click_back:(id)sender;
 - (IBAction)click_subscribe:(id)sender;
 - (IBAction)click_login:(id)sender;
 - (IBAction)clickCGUbt:(UIButton *)sender;
 - (IBAction)click_cgu:(id)sender;
 - (void)selectResponder;
-
-@property (weak, nonatomic) IBOutlet UIView *v_keyword_tools;
-
-@property (weak, nonatomic) IBOutlet UIButton *bt_back;
-@property (weak, nonatomic) IBOutlet UIButton *bt_next;
-
-
-@property (weak, nonatomic) IBOutlet UIButton *bt_ok;
-- (IBAction)click_ok:(id)sender;
-- (IBAction)click_next:(id)sender;
-- (IBAction)click_back:(id)sender;
 
 @end

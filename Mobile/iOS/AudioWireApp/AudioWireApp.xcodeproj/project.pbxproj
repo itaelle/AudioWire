@@ -46,8 +46,6 @@
 		F0061F6B1812F6550057EBEA /* Futura-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0061F691812F6550057EBEA /* Futura-Bold.otf */; };
 		F0061F6D1812F6890057EBEA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0061F6C1812F6890057EBEA /* Default-568h@2x.png */; };
 		F0061F701812F70C0057EBEA /* AudioWireApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F0061F6E1812F70C0057EBEA /* AudioWireApp.xcdatamodeld */; };
-		F00A99BB181ABA5000973DAE /* picto-check.png in Resources */ = {isa = PBXBuildFile; fileRef = F00A99B9181ABA5000973DAE /* picto-check.png */; };
-		F00A99BC181ABA5000973DAE /* picto-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F00A99BA181ABA5000973DAE /* picto-check@2x.png */; };
 		F028545C17ADEF40005090CE /* MusicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F028545A17ADEF40005090CE /* MusicsViewController.m */; };
 		F028545D17ADEF40005090CE /* MusicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F028545A17ADEF40005090CE /* MusicsViewController.m */; };
 		F028545E17ADEF40005090CE /* MusicsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F028545B17ADEF40005090CE /* MusicsViewController.xib */; };
@@ -145,13 +143,13 @@
 		F072517817ACBFF000445F37 /* shuffle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517617ACBFEF00445F37 /* shuffle@2x.png */; };
 		F072517B17AD149200445F37 /* repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517917AD149100445F37 /* repeat.png */; };
 		F072517C17AD149200445F37 /* repeat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517A17AD149100445F37 /* repeat@2x.png */; };
-		F072517E17AD15AA00445F37 /* example_album_jacket@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F072517D17AD15AA00445F37 /* example_album_jacket@2x.jpg */; };
 		F08C2E9A181EFE0B008D80E0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F817B6EC8500E6D105 /* MediaPlayer.framework */; };
 		F093324E181DB74E00C505D4 /* AWTracksManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F093324D181DB74E00C505D4 /* AWTracksManager.m */; };
 		F0933251181DC07C00C505D4 /* AWTrackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0933250181DC07C00C505D4 /* AWTrackModel.m */; };
 		F09BF53E181B1AE800EF32D3 /* AddContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09BF53C181B1AE800EF32D3 /* AddContactViewController.m */; };
 		F09BF53F181B1AE800EF32D3 /* AddContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F09BF53D181B1AE800EF32D3 /* AddContactViewController.xib */; };
 		F09BF542181B316F00EF32D3 /* funny_monkey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F09BF541181B316F00EF32D3 /* funny_monkey.jpg */; };
+		F09E23CD182BA98900F767E4 /* AWItunesImportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F09E23CC182BA98900F767E4 /* AWItunesImportManager.m */; };
 		F0AB2B06181E996B0029BDDC /* AWPlaylistManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0AB2B05181E996B0029BDDC /* AWPlaylistManager.m */; };
 		F0AB2B0A181EA00E0029BDDC /* AWPlaylistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0AB2B09181EA00E0029BDDC /* AWPlaylistModel.m */; };
 		F0AB2B0E181EABBB0029BDDC /* AWFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0AB2B0D181EABBB0029BDDC /* AWFriendManager.m */; };
@@ -175,8 +173,12 @@
 		F0AF04F017B2157900E6D105 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04ED17B2157900E6D105 /* add.png */; };
 		F0AF04F117B2157900E6D105 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04EE17B2157900E6D105 /* add@2x.png */; };
 		F0AF04F217B2157900E6D105 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0AF04EE17B2157900E6D105 /* add@2x.png */; };
+		F0BF337C182D542F007E6A5E /* noArtworkImageLarge @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BF3378182D542F007E6A5E /* noArtworkImageLarge @2x.png */; };
+		F0BF337D182D542F007E6A5E /* noArtworkImageLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BF3379182D542F007E6A5E /* noArtworkImageLarge.png */; };
+		F0BF337E182D542F007E6A5E /* noArtworkImageSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BF337A182D542F007E6A5E /* noArtworkImageSmall.png */; };
+		F0BF337F182D542F007E6A5E /* noArtworkImageSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BF337B182D542F007E6A5E /* noArtworkImageSmall@2x.png */; };
 		F0C8D4E81819C20F00801D00 /* AWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4E71819C20F00801D00 /* AWUserManager.m */; };
-		F0C8D4EC1819C54100801D00 /* AWUserPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EB1819C54100801D00 /* AWUserPostModel.m */; };
+		F0C8D4EC1819C54100801D00 /* AWUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EB1819C54100801D00 /* AWUserModel.m */; };
 		F0C8D4EF1819C55500801D00 /* AWMasterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EE1819C55500801D00 /* AWMasterModel.m */; };
 		F0C8D4F21819CBE700801D00 /* NSObject+NSObject_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4F11819CBE700801D00 /* NSObject+NSObject_Tool.m */; };
 		F0D2130A18131E4600F844E2 /* prev_next_insc.png in Resources */ = {isa = PBXBuildFile; fileRef = F0D2130618131E4600F844E2 /* prev_next_insc.png */; };
@@ -194,6 +196,8 @@
 		F0E43463181C1620002E7949 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */; };
 		F0E43465181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */; };
 		F0EBC88B181F28DF000FF73B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */; };
+		F0F5D968182678FA002A4558 /* picto-check.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F5D966182678FA002A4558 /* picto-check.png */; };
+		F0F5D969182678FA002A4558 /* picto-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F5D967182678FA002A4558 /* picto-check@2x.png */; };
 		F0F7C6D1181711990045FC6A /* UIView+UIView_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */; };
 		F0F7C6D5181713BF0045FC6A /* NSString+NSString_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D4181713BF0045FC6A /* NSString+NSString_Tool.m */; };
 		F0F7C6D8181714B10045FC6A /* UIDevice+UIDevice_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D7181714B10045FC6A /* UIDevice+UIDevice_Tool.m */; };
@@ -283,8 +287,6 @@
 		F0061F6C1812F6890057EBEA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		F0061F6F1812F70C0057EBEA /* AudioWireApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AudioWireApp.xcdatamodel; sourceTree = "<group>"; };
 		F0061F711812F8BB0057EBEA /* AudioWireApp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AudioWireApp-Prefix.pch"; path = "SupportingFiles/AudioWireApp-Prefix.pch"; sourceTree = "<group>"; };
-		F00A99B9181ABA5000973DAE /* picto-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picto-check.png"; path = "../../../../../../../../../../Appsfans/1NEW/APPS/PepsiLiveGaming-iOS/PepsiLiveGaming/Artwork/picto-check.png"; sourceTree = "<group>"; };
-		F00A99BA181ABA5000973DAE /* picto-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picto-check@2x.png"; path = "../../../../../../../../../../Appsfans/1NEW/APPS/PepsiLiveGaming-iOS/PepsiLiveGaming/Artwork/picto-check@2x.png"; sourceTree = "<group>"; };
 		F028545917ADEF40005090CE /* MusicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicsViewController.h; path = Artist/MusicsViewController.h; sourceTree = "<group>"; };
 		F028545A17ADEF40005090CE /* MusicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicsViewController.m; path = Artist/MusicsViewController.m; sourceTree = "<group>"; };
 		F028545B17ADEF40005090CE /* MusicsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MusicsViewController.xib; path = Artist/MusicsViewController.xib; sourceTree = "<group>"; };
@@ -366,7 +368,6 @@
 		F072517617ACBFEF00445F37 /* shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shuffle@2x.png"; path = "img/Player/shuffle@2x.png"; sourceTree = "<group>"; };
 		F072517917AD149100445F37 /* repeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = repeat.png; path = img/Player/repeat.png; sourceTree = "<group>"; };
 		F072517A17AD149100445F37 /* repeat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "repeat@2x.png"; path = "img/Player/repeat@2x.png"; sourceTree = "<group>"; };
-		F072517D17AD15AA00445F37 /* example_album_jacket@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "example_album_jacket@2x.jpg"; path = "img/Player/example_album_jacket@2x.jpg"; sourceTree = "<group>"; };
 		F0809A6617B7719400E7611B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F093324C181DB74E00C505D4 /* AWTracksManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWTracksManager.h; path = Manager/AWTracksManager.h; sourceTree = "<group>"; };
 		F093324D181DB74E00C505D4 /* AWTracksManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWTracksManager.m; path = Manager/AWTracksManager.m; sourceTree = "<group>"; };
@@ -376,6 +377,8 @@
 		F09BF53C181B1AE800EF32D3 /* AddContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddContactViewController.m; path = Contacts/AddContactViewController.m; sourceTree = "<group>"; };
 		F09BF53D181B1AE800EF32D3 /* AddContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddContactViewController.xib; path = Contacts/AddContactViewController.xib; sourceTree = "<group>"; };
 		F09BF541181B316F00EF32D3 /* funny_monkey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = funny_monkey.jpg; path = img/funny_monkey.jpg; sourceTree = "<group>"; };
+		F09E23CB182BA98900F767E4 /* AWItunesImportManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWItunesImportManager.h; path = Manager/AWItunesImportManager.h; sourceTree = "<group>"; };
+		F09E23CC182BA98900F767E4 /* AWItunesImportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWItunesImportManager.m; path = Manager/AWItunesImportManager.m; sourceTree = "<group>"; };
 		F0AB2B04181E996B0029BDDC /* AWPlaylistManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWPlaylistManager.h; path = Manager/AWPlaylistManager.h; sourceTree = "<group>"; };
 		F0AB2B05181E996B0029BDDC /* AWPlaylistManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWPlaylistManager.m; path = Manager/AWPlaylistManager.m; sourceTree = "<group>"; };
 		F0AB2B08181EA00E0029BDDC /* AWPlaylistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWPlaylistModel.h; path = Models/AWPlaylistModel.h; sourceTree = "<group>"; };
@@ -399,10 +402,14 @@
 		F0AF04EE17B2157900E6D105 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add@2x.png"; path = "img/add@2x.png"; sourceTree = "<group>"; };
 		F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F0AF04F817B6EC8500E6D105 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F0BF3378182D542F007E6A5E /* noArtworkImageLarge @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noArtworkImageLarge @2x.png"; path = "img/Player/noArtworkImageLarge @2x.png"; sourceTree = "<group>"; };
+		F0BF3379182D542F007E6A5E /* noArtworkImageLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noArtworkImageLarge.png; path = img/Player/noArtworkImageLarge.png; sourceTree = "<group>"; };
+		F0BF337A182D542F007E6A5E /* noArtworkImageSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noArtworkImageSmall.png; path = img/Player/noArtworkImageSmall.png; sourceTree = "<group>"; };
+		F0BF337B182D542F007E6A5E /* noArtworkImageSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noArtworkImageSmall@2x.png"; path = "img/Player/noArtworkImageSmall@2x.png"; sourceTree = "<group>"; };
 		F0C8D4E61819C20F00801D00 /* AWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserManager.h; path = Manager/AWUserManager.h; sourceTree = "<group>"; };
 		F0C8D4E71819C20F00801D00 /* AWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWUserManager.m; path = Manager/AWUserManager.m; sourceTree = "<group>"; };
-		F0C8D4EA1819C54100801D00 /* AWUserPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserPostModel.h; path = Models/AWUserPostModel.h; sourceTree = "<group>"; };
-		F0C8D4EB1819C54100801D00 /* AWUserPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWUserPostModel.m; path = Models/AWUserPostModel.m; sourceTree = "<group>"; };
+		F0C8D4EA1819C54100801D00 /* AWUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserModel.h; path = Models/AWUserModel.h; sourceTree = "<group>"; };
+		F0C8D4EB1819C54100801D00 /* AWUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWUserModel.m; path = Models/AWUserModel.m; sourceTree = "<group>"; };
 		F0C8D4ED1819C55500801D00 /* AWMasterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWMasterModel.h; path = Models/AWMasterModel.h; sourceTree = "<group>"; };
 		F0C8D4EE1819C55500801D00 /* AWMasterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMasterModel.m; path = Models/AWMasterModel.m; sourceTree = "<group>"; };
 		F0C8D4F01819CBE700801D00 /* NSObject+NSObject_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSObject_Tool.h"; sourceTree = "<group>"; };
@@ -423,6 +430,8 @@
 		F0E43461181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = Jimi_Hendrix_All_Along_The_Watchtower.flac; path = SupportingFiles/Jimi_Hendrix_All_Along_The_Watchtower.flac; sourceTree = "<group>"; };
 		F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = TheWho_WeWontGetFooledAgain.mp3; path = SupportingFiles/TheWho_WeWontGetFooledAgain.mp3; sourceTree = "<group>"; };
 		F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = AudioWireApp/Tools/Frameworks/FacebookSDK.framework; sourceTree = "<group>"; };
+		F0F5D966182678FA002A4558 /* picto-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picto-check.png"; path = "AudioWireApp/img/picto-check.png"; sourceTree = SOURCE_ROOT; };
+		F0F5D967182678FA002A4558 /* picto-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picto-check@2x.png"; path = "AudioWireApp/img/picto-check@2x.png"; sourceTree = SOURCE_ROOT; };
 		F0F7C6CF181711990045FC6A /* UIView+UIView_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIView_Tool.h"; sourceTree = "<group>"; };
 		F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIView_Tool.m"; sourceTree = "<group>"; };
 		F0F7C6D3181713BF0045FC6A /* NSString+NSString_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_Tool.h"; sourceTree = "<group>"; };
@@ -612,6 +621,8 @@
 		F0061F501812DFB00057EBEA /* Signing */ = {
 			isa = PBXGroup;
 			children = (
+				F0F5D966182678FA002A4558 /* picto-check.png */,
+				F0F5D967182678FA002A4558 /* picto-check@2x.png */,
 				F0D2130618131E4600F844E2 /* prev_next_insc.png */,
 				F0D2130718131E4600F844E2 /* prev_next_insc@2x.png */,
 				F0D2130818131E4600F844E2 /* separateur-vertical.png */,
@@ -815,8 +826,6 @@
 			isa = PBXGroup;
 			children = (
 				F09BF541181B316F00EF32D3 /* funny_monkey.jpg */,
-				F00A99B9181ABA5000973DAE /* picto-check.png */,
-				F00A99BA181ABA5000973DAE /* picto-check@2x.png */,
 				F0D213141813F0BD00F844E2 /* nav_go_back.png */,
 				F0D213151813F0BD00F844E2 /* nav_go_back@2x.png */,
 				F0061F501812DFB00057EBEA /* Signing */,
@@ -827,6 +836,10 @@
 				F028547717AEF5FA005090CE /* avatar.png */,
 				F028547817AEF5FA005090CE /* avatar@2x.png */,
 				F072513517AC587700445F37 /* bg.png */,
+				F0BF3378182D542F007E6A5E /* noArtworkImageLarge @2x.png */,
+				F0BF3379182D542F007E6A5E /* noArtworkImageLarge.png */,
+				F0BF337A182D542F007E6A5E /* noArtworkImageSmall.png */,
+				F0BF337B182D542F007E6A5E /* noArtworkImageSmall@2x.png */,
 				F072513617AC587700445F37 /* bg@2x.png */,
 				F072513D17ACA7FB00445F37 /* bg_radio.jpeg */,
 				F072513E17ACA7FB00445F37 /* bg_radio@2x.jpeg */,
@@ -836,7 +849,6 @@
 				F028549617B0A14D005090CE /* bubbleMe@2x.png */,
 				F028549717B0A14D005090CE /* bubbleSomeone.png */,
 				F028549817B0A14D005090CE /* bubbleSomeone@2x.png */,
-				F072517D17AD15AA00445F37 /* example_album_jacket@2x.jpg */,
 				F072512917AC4A3800445F37 /* icon_sound.png */,
 				F072512A17AC4A3800445F37 /* icon_sound@2x.png */,
 				F0AF04D917B1F73600E6D105 /* info.png */,
@@ -960,8 +972,8 @@
 		F0933249181DB32200C505D4 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				F0C8D4EA1819C54100801D00 /* AWUserPostModel.h */,
-				F0C8D4EB1819C54100801D00 /* AWUserPostModel.m */,
+				F0C8D4EA1819C54100801D00 /* AWUserModel.h */,
+				F0C8D4EB1819C54100801D00 /* AWUserModel.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -992,6 +1004,15 @@
 				F09BF53D181B1AE800EF32D3 /* AddContactViewController.xib */,
 			);
 			name = AddContact;
+			sourceTree = "<group>";
+		};
+		F09E23CA182BA96C00F767E4 /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				F09E23CB182BA98900F767E4 /* AWItunesImportManager.h */,
+				F09E23CC182BA98900F767E4 /* AWItunesImportManager.m */,
+			);
+			name = Import;
 			sourceTree = "<group>";
 		};
 		F0AB2B02181E93450029BDDC /* Master */ = {
@@ -1043,6 +1064,7 @@
 		F0C8D4E51819C1F300801D00 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				F09E23CA182BA96C00F767E4 /* Import */,
 				F0AB2B0B181EABA30029BDDC /* Friend */,
 				F0AB2B03181E99510029BDDC /* Playlist */,
 				F093324B181DB73A00C505D4 /* Tracks */,
@@ -1227,6 +1249,7 @@
 				F072511D17AC35E500445F37 /* HomeViewController.xib in Resources */,
 				F072512417AC3D9600445F37 /* SubPlayer.xib in Resources */,
 				F072512B17AC4A3800445F37 /* icon_sound.png in Resources */,
+				F0BF337C182D542F007E6A5E /* noArtworkImageLarge @2x.png in Resources */,
 				F0AB2B14181EC94C0029BDDC /* AWImportViewController.xib in Resources */,
 				F072512C17AC4A3800445F37 /* icon_sound@2x.png in Resources */,
 				F072513017AC4EC900445F37 /* logoAudiowire@2x.png in Resources */,
@@ -1239,12 +1262,15 @@
 				F072514017ACA7FB00445F37 /* bg_radio@2x.jpeg in Resources */,
 				F072514317ACACC700445F37 /* play.png in Resources */,
 				F0D2130A18131E4600F844E2 /* prev_next_insc.png in Resources */,
+				F0F5D969182678FA002A4558 /* picto-check@2x.png in Resources */,
 				F072514417ACACC700445F37 /* play@2x.png in Resources */,
 				F072514717ACAD5F00445F37 /* prev.png in Resources */,
 				F072514817ACAD5F00445F37 /* prev@2x.png in Resources */,
 				F072514B17ACADDD00445F37 /* next.png in Resources */,
 				F072514C17ACADDD00445F37 /* next@2x.png in Resources */,
 				F072515517ACB01F00445F37 /* PlayerViewController.xib in Resources */,
+				F0BF337D182D542F007E6A5E /* noArtworkImageLarge.png in Resources */,
+				F0BF337E182D542F007E6A5E /* noArtworkImageSmall.png in Resources */,
 				F072516517ACB92000445F37 /* slider_maximum.png in Resources */,
 				F072516617ACB92000445F37 /* slider_maximum@2x.png in Resources */,
 				F0E43465181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 in Resources */,
@@ -1260,13 +1286,13 @@
 				F072516B17ACB92000445F37 /* sliderlabel.png in Resources */,
 				F0061F601812EC630057EBEA /* cocher.png in Resources */,
 				F072516C17ACB92000445F37 /* sliderlabel@2x.png in Resources */,
+				F0BF337F182D542F007E6A5E /* noArtworkImageSmall@2x.png in Resources */,
 				F072517717ACBFF000445F37 /* shuffle.png in Resources */,
 				F072517817ACBFF000445F37 /* shuffle@2x.png in Resources */,
 				F072517B17AD149200445F37 /* repeat.png in Resources */,
 				F072517C17AD149200445F37 /* repeat@2x.png in Resources */,
 				F0061F571812DFED0057EBEA /* input_field_insc.png in Resources */,
 				F0061F611812EC630057EBEA /* cocher@2x.png in Resources */,
-				F072517E17AD15AA00445F37 /* example_album_jacket@2x.jpg in Resources */,
 				F028545E17ADEF40005090CE /* MusicsViewController.xib in Resources */,
 				F0061F541812DFB00057EBEA /* bt-go@2x.png in Resources */,
 				F028546117ADF13A005090CE /* music_note@2x.png in Resources */,
@@ -1277,17 +1303,16 @@
 				F028546D17AEEE38005090CE /* pause@2x.png in Resources */,
 				F028547517AEF524005090CE /* ContactViewController.xib in Resources */,
 				F028547917AEF5FA005090CE /* avatar.png in Resources */,
+				F0F5D968182678FA002A4558 /* picto-check.png in Resources */,
 				F028547B17AEF5FA005090CE /* avatar@2x.png in Resources */,
 				F028548317AF8F38005090CE /* OptionsViewController.xib in Resources */,
 				F0061E981812C0CE0057EBEA /* 37x-Checkmark.png in Resources */,
 				F0061F4D1812DEE10057EBEA /* UIAWSubscribeViewController.xib in Resources */,
 				F028548B17B01BBD005090CE /* ConversationViewController.xib in Resources */,
 				F028549317B02892005090CE /* CellConversation.xib in Resources */,
-				F00A99BC181ABA5000973DAE /* picto-check@2x.png in Resources */,
 				F028549917B0A14D005090CE /* bubbleMe.png in Resources */,
 				F0061F471812DEE10057EBEA /* UIAWLostPasswordViewController.xib in Resources */,
 				F028549B17B0A14D005090CE /* bubbleMe@2x.png in Resources */,
-				F00A99BB181ABA5000973DAE /* picto-check.png in Resources */,
 				F028549D17B0A14D005090CE /* bubbleSomeone.png in Resources */,
 				F028549F17B0A14D005090CE /* bubbleSomeone@2x.png in Resources */,
 				F0AF04CF17B1B24E00E6D105 /* blackButton.png in Resources */,
@@ -1409,7 +1434,7 @@
 				F028545C17ADEF40005090CE /* MusicsViewController.m in Sources */,
 				F028547317AEF524005090CE /* ContactViewController.m in Sources */,
 				F0F7C70118171CDF0045FC6A /* UIImageView+AFNetworking.m in Sources */,
-				F0C8D4EC1819C54100801D00 /* AWUserPostModel.m in Sources */,
+				F0C8D4EC1819C54100801D00 /* AWUserModel.m in Sources */,
 				F0933251181DC07C00C505D4 /* AWTrackModel.m in Sources */,
 				F093324E181DB74E00C505D4 /* AWTracksManager.m in Sources */,
 				F0AB2B0E181EABBB0029BDDC /* AWFriendManager.m in Sources */,
@@ -1422,6 +1447,7 @@
 				F0061F211812CADA0057EBEA /* OHParagraphStyle.m in Sources */,
 				F0AF04D517B1F3A100E6D105 /* CellContact.m in Sources */,
 				F0C8D4EF1819C55500801D00 /* AWMasterModel.m in Sources */,
+				F09E23CD182BA98900F767E4 /* AWItunesImportManager.m in Sources */,
 				F0061F701812F70C0057EBEA /* AudioWireApp.xcdatamodeld in Sources */,
 				F0061F661812F63C0057EBEA /* AWMasterViewController.m in Sources */,
 				F0AF04E917B2123400E6D105 /* CellTrack.m in Sources */,
@@ -1533,11 +1559,11 @@
 		F07250BF17AC30C300445F37 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Guilaume Derivery (6Z84TM68EV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Guillaume/dev/AudioWire/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
+					"$(SRCROOT)/AudioWireApp/Tools/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioWireApp/SupportingFiles/AudioWireApp-Prefix.pch";
@@ -1545,7 +1571,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "EC243196-F47E-4D63-AA3B-BE113B4EF92C";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
@@ -1556,11 +1582,11 @@
 		F07250C017AC30C300445F37 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Guilaume Derivery (6Z84TM68EV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Guillaume/dev/AudioWire/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Tools/Frameworks,
+					"$(SRCROOT)/AudioWireApp/Tools/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioWireApp/SupportingFiles/AudioWireApp-Prefix.pch";
@@ -1568,7 +1594,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "BD21D923-6124-40E3-A9E5-2591FBB95E67";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";

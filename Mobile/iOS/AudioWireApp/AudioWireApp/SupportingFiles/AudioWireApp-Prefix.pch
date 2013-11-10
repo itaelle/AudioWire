@@ -15,6 +15,7 @@
 #define KEYBOARD_WIDTH 216
 #define PREFIX_MAIL_FB @"fb."
 #define FILE_AUTOLOGIN @"audiowire_autologin"
+#define FILE_IMPORT @"audiowire_import"
 #define URL_API @"http://54.246.145.178"
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)

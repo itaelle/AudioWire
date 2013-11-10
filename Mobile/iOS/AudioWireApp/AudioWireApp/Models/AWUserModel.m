@@ -1,15 +1,15 @@
 //
-//  AWUserPostModel.m
+//  AWUserModel.m
 //  AudioWireApp
 //
 //  Created by Derivery Guillaume on 10/24/13.
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
-#import "AWUserPostModel.h"
+#import "AWUserModel.h"
 #import "NSObject+NSObject_Tool.h"
 
-@implementation AWUserPostModel
+@implementation AWUserModel
 
 -(NSDictionary *)toDictionary
 {
@@ -24,9 +24,9 @@
              @"password" : self.password};
 }
 
-+(AWUserPostModel *) fromJSON:(NSDictionary*)data
++(AWUserModel *) fromJSON:(NSDictionary*)data
 {
-    AWUserPostModel *userModel = [AWUserPostModel new];
+    AWUserModel *userModel = [AWUserModel new];
     
     if (data && [data isKindOfClass:[NSDictionary class]])
     {
@@ -45,7 +45,7 @@
     __block NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:[a count]];
     for (id object in a)
     {
-        [ret addObject:[AWUserPostModel fromJSON:object]];
+        [ret addObject:[AWUserModel fromJSON:object]];
     }
     return ret;
 }

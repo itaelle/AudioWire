@@ -13,11 +13,11 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def   list
+  def list
     user = User.find_by_authentication_token(params[:token])
     playlists = Playlist.find_all_by_user_id(user.id)
     if playlists.nil?
-      render :status=>403, json: {:success=>false, :error=>"Couldn't find any playlist"}
+      render :status=>200, json: {:success=>true, :list=>[]}
     else
       lst = []
       playlists.each do |playlist|
@@ -27,7 +27,7 @@ class PlaylistsController < ApplicationController
         tmp[:created_at] = playlist[:created_at]
         tmp[:updated_at] = playlist[:updated_at]
         tmp[:user_id] = playlist[:user_id]
-        tmp[:nbr_tracks] = playlist.relation_playlists.count
+        tmp[:nb_tracks] = playlist.relation_playlists.count
         lst.append(tmp)
       end
       render :status=>200, json: {:success=>true, :list=>lst}
@@ -38,93 +38,159 @@ class PlaylistsController < ApplicationController
     user = User.find_by_authentication_token(params[:token])
     playlist = user.playlists.new(params[:playlist])
     if playlist.save
-      render :status => 200, :json => {:success=>true, :message => "Playlist has been created"}
+      render :status => 201, :json => {:success=>true, :message => "Playlist has been created", :id => playlist.id}
     else
-      render :status => 403, :json => {:success=>false, :error => playlist.errors}
+      render :status => 400, :json => {:success=>false, :error => 'title ' + playlist.errors['title'][0]}
     end
   end
   
 
-  def   delete
+  def bulk_delete
     user = User.find_by_authentication_token(params[:token])
-    playlists = user.playlists.find_with_ids(params[:playlist_ids])
-    if playlists.nil?
-      render :status => 404, :json => {:success=>false, :error => "Cannot find playlist"}
+    playlists = user.playlists.find_all_by_id(params[:playlist_ids])
+    if playlists.empty?
+      if params[:playlist_ids].count > 1
+        render :status => 404, :json => {:success=>false, :error => "Playlists do not exist"}
+      else
+        render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
+      end
     else
       Playlist.delete(playlists)
-      render :status => 200, :json => {:success=>true, :message => "PLaylist has been deleted"}
-    end
-  end
-
-  def   update
-    user = User.find_by_authentication_token(params[:token])
-    playlist = user.playlists.find_by_id(params[:playlist_id])
-    if playlist.nil?
-      render :status => 404, :json => {:success=>false, :error => "Cannot find playlist"}
-    else
-      playlist.update_attributes(params[:playlist])
-      render :status => 200, :json => {:success=>true, :message => "Attributes have been updated"}
-    end
-  end
-
-  def   find_tracks
-    user = User.find_by_authentication_token(params[:token])
-    begin
-      playlists = user.playlists.find_with_ids(params[:playlist_ids])
-    rescue
-      render :status => 404, :json => {:success=>false, :error => "Couldn't find playlists"}
-      return
-    end
-    lst = {}
-    playlists.each do |playlist|
-      lst[playlist.id] = []
-      tmp = playlist.relation_playlists.all
-      tmp.each do |relation|
-        lst[playlist.id].append(Track.find(relation.track_id))
+      if playlists.count > 1
+        render :status => 200, :json => {:success=>true, :message => "Playlists have been deleted"}
+      else
+        render :status => 200, :json => {:success=>true, :message => "Playlist has been deleted"}
       end
     end
-    render :status => 200, :json => {:success=>true, :result=>lst}
   end
-  
-  def   add_tracks
+
+  def delete
     user = User.find_by_authentication_token(params[:token])
-    playlist = user.playlists.find_by_id(params[:playlist_id])
+    playlist = user.playlists.find_by_id(params[:id])
+    if playlist.nil?
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
+    else
+      Playlist.delete(playlist)
+      render :status => 200, :json => {:success=>true, :message => "Playlist has been deleted"}
+    end
+  end
+
+  def update
+    user = User.find_by_authentication_token(params[:token])
+    playlist = user.playlists.find_by_id(params[:id])
+    if playlist.nil?
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
+    else
+      if playlist.update_attributes(params[:playlist])
+        render :status => 200, :json => {:success=>true, :message => "Attributes have been updated"}
+      else
+        render :status => 400, :json => {:success=>false, :error => 'title ' + playlist.errors['title'][0]}
+      end
+    end
+  end
+
+  def get_tracks
+    user = User.find_by_authentication_token(params[:token])
+    playlist = user.playlists.find_by_id(params[:id])
+    if playlist.nil?
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
+    else
+      tracks = []
+      tmp = playlist.relation_playlists.all
+      tmp.each do |relation|
+        tracks.append(Track.find(relation.track_id))
+      end
+      render :status => 200, :json => {:success=>true, :id=>playlist.id, :tracks=>tracks}
+    end
+  end
+
+  def add_tracks
+    user = User.find_by_authentication_token(params[:token])
+    playlist = user.playlists.find_by_id(params[:id])
     lst = params[:tracks_id]
     if playlist.nil?
-      render :status => 404, :json => {:success=>false, :error => "Cannot find playlist"}
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
     else
       lst.each do |track_id|
         if Track.find_by_id(track_id).nil?
-          render :status => 404, :json => {:success=>false, :error => "Couldn't find track"}
+          render :status => 404, :json => {:success=>false, :error => "Couldn't find track #{track_id}"}
           return
         else
           playlist.relation_playlists.new({:track_id => track_id})
-          playlist.save
         end
       end
-      render :status => 200, :json => {:success=>true, :message => "Tracks have been added to the playlist"}
+      playlist.save
+      render :status => 201, :json => {:success=>true, :message => "Tracks have been added to the playlist"}
     end
   end
 
-  def     delete_tracks
+  def bulk_delete_tracks
     user = User.find_by_authentication_token(params[:token])
-    playlist = user.playlists.find_by_id(params[:playlist_id])
+    playlist = user.playlists.find_by_id(params[:id])
     lst = params[:tracks_id]
     if playlist.nil?
-      render :status => 404, :json => {:success=>false, :error => "Cannot find playlist"}
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
     else
+      nb_deleted = 0
       lst.each do |track_id|
         relation_id = playlist.relation_playlists.find_by_track_id(track_id)
-        if relation_id.nil?
-          render :status => 404, :json => {:success=>false, :error => "Cannot find playlist"}
-          return
-        else
+        if !relation_id.nil?
           relation = playlist.relation_playlists.find_by_id(relation_id)
           relation.delete
+          nb_deleted = nb_deleted + 1
         end
       end
-      render :status => 200, :json => {:success=>true, :message => "Tracks have been deleted of the playlits"}
+      if nb_deleted == 0
+        render :status => 404, :json => {:success=>false, :message => "0 track has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count, :nb_deleted=>nb_deleted}
+      elsif nb_deleted == 1
+        render :status => 200, :json => {:success=>true, :message => "1 track has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count, :nb_deleted=>nb_deleted}
+      else
+        render :status => 200, :json => {:success=>true, :message => "#{nb_deleted} tracks have been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count, :nb_deleted=>nb_deleted}
+      end
     end
   end
-  
+
+  def delete_track
+    user = User.find_by_authentication_token(params[:token])
+    playlist = user.playlists.find_by_id(params[:id])
+    lst = params[:track_id]
+    if playlist.nil?
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
+    else
+      relation_id = playlist.relation_playlists.find_by_track_id(track_id)
+      if relation_id.nil?
+        render :status => 404, :json => {:success=>false, :message => "track #{track_id} is not in the playlist", :nb_tracks=>playlist.relation_playlists.count}
+      else
+        relation = playlist.relation_playlists.find_by_id(relation_id)
+        relation.delete
+      end
+    end
+      render :status => 200, :json => {:success=>true, :message => "Track #{track_id} has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count}
+    end
+  end
+  def   show
+    user = User.find_by_authentication_token(params[:token])
+    playlist = user.playlists.find_by_id(params[:id])
+    if playlist.nil?
+      render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
+    else
+      playlist[:nb_tracks] = playlist.relation_playlists.count
+      render :status => 200, :json => {:success=>true, :playlist => playlist}
+    end
+  end
+   protected
+
+  def   create_error_msg(resource)
+    if resource.errors[:username][0].nil? == false
+      return "Username " + resource.errors[:username][0]
+    end
+    if resource.errors[:email][0].nil? == false
+      return "Email " + resource.errors[:email][0]
+    end
+    if resource.errors[:password][0].nil? == false
+      return "Password " + resource.errors[:password][0]
+    end
+    return ""
+  end
+
 end

@@ -264,10 +264,13 @@
 - (NSInteger)indexForFirstChar:(NSString *)character inArray:(NSArray *)array
 {
     NSUInteger count = 0;
-    for (NSString *str in array)
+    for (AWPlaylistModel *playlist in array)
     {
-        if ([str hasPrefix:character])
-            return count;
+        if (playlist && [playlist isKindOfClass:[AWPlaylistModel class]])
+        {
+            if ([playlist.title hasPrefix:character])
+                return count;
+        }
         count++;
     }
     return 0;

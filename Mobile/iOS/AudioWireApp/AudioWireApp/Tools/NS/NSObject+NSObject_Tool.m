@@ -3,7 +3,7 @@
 //  AudioWireApp
 //
 //  Created by Derivery Guillaume on 10/23/13.
-//  Copyright (c) 2013 NetcoSports. All rights reserved.
+//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
 #import "NSObject+NSObject_Tool.h"

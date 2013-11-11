@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AWMusicPlayer.h"
 #import "ANPopoverSlider.h"
 
 @protocol SubPlayerDelegate <NSObject>
@@ -21,8 +22,10 @@
 @end
 
 
-@interface SubPlayer : UIView
+@interface SubPlayer : UIView<AWMusicPlayerDelegate>
 {
+    AWMusicPlayer *musicPlayer;
+    
     bool isSoundOpen;
     bool isPlaying;
 }

@@ -18,22 +18,21 @@
     SubPlayer *miniPlayer;
 }
 
-//- (void) prepareNavBarForLogin;
-//- (void) prepareNavBarForLogout;
 - (void) prepareNavBarForCancel;
+- (void) prepareNavBarForCancel:(BOOL)isLeft;
 - (void) prepareNavBarForClose;
 - (void) prepareNavBarForEditing;
+- (void) prepareNavBarForEditing:(BOOL)isLeft;
 - (void) prepareNavBarForAdd;
--(void)prepareNavBarForImport;
+- (void) prepareNavBarForImport;
 - (void) desactivateButtonBar:(bool)left right:(bool)right;
 
-
-//- (void) loginAction:(id)sender;
 - (void) cancelAction:(id)sender;
 - (void) closeAction:(id)sender;
 - (void) addAction:(id)sender;
 
-- (void) setFlasMessage:(NSString *)msg;
+- (void) setFlashMessage:(NSString *)msg;
+- (void) setFlashMessage:(NSString *)msg timeout:(NSTimeInterval)timeout_;
 - (void) setUpNavLogo;
 - (void) setUpLoadingView:(UIView *)viewToLoad;
 - (void) cancelLoadingView:(UIView *)viewDidLoad;

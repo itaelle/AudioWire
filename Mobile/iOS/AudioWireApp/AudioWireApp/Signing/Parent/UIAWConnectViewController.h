@@ -17,7 +17,6 @@
 @property (assign) int limit;
 @property (assign) int page;
 @property (assign) BOOL isSignedOut;
-
 @property (strong, nonatomic) UIAudioWireCustomNavigationController *myCustomNavForLogin;
 
 -(void)loadData;

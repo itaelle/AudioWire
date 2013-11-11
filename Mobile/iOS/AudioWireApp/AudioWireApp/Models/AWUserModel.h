@@ -1,5 +1,5 @@
 //
-//  AWUserPostModel.h
+//  AWUserModel.h
 //  AudioWireApp
 //
 //  Created by Derivery Guillaume on 10/24/13.
@@ -8,7 +8,7 @@
 
 #import "AWMasterModel.h"
 
-@interface AWUserPostModel : AWMasterModel
+@interface AWUserModel : AWMasterModel
 
 @property (strong, nonatomic) NSString *_id;
 @property (strong, nonatomic) NSString *email;
@@ -16,6 +16,6 @@
 @property (strong, nonatomic) NSString *username;
 
 -(NSDictionary *)toDictionaryLogin;
-+(AWUserPostModel *) fromJSON:(NSDictionary*)data;
++(AWUserModel *) fromJSON:(NSDictionary*)data;
 
 @end

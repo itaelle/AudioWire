@@ -70,7 +70,7 @@
     AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];
     
     NSURL* urlToRequester = [NSURL URLWithString:url_];
-    NSLog(@"URL => %@", urlToRequester);
+    NSLog(@"URL => %@\nPOST => %@", urlToRequester, [parameters_ description]);
     
     [afNetworkingManager POST:url_ parameters:parameters_ success:^(AFHTTPRequestOperation *operation, id responseObject)
     {

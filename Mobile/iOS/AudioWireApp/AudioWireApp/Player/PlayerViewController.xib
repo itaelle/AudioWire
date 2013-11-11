@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
@@ -164,8 +164,10 @@
                     <rect key="frame" x="18" y="409" width="284" height="29"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <connections>
-                        <action selector="dragMusicPlayingOffset:" destination="-1" eventType="valueChanged" id="55"/>
-                        <action selector="endEditingSlider:" destination="-1" eventType="editingDidEnd" id="T6v-Gd-6Tl"/>
+                        <action selector="beginDragMusicPlayingOffset:" destination="-1" eventType="touchDown" id="vkh-md-U30"/>
+                        <action selector="dragMusicPlayingOffset:" destination="-1" eventType="valueChanged" id="eFZ-mG-p9f"/>
+                        <action selector="endDragMusicPlayingOffset:" destination="-1" eventType="touchUpInside" id="FbA-ZF-oOc"/>
+                        <action selector="endDragMusicPlayingOffset:" destination="-1" eventType="touchUpOutside" id="aKK-7q-Tfo"/>
                     </connections>
                 </slider>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="23">

@@ -99,14 +99,14 @@
     constrainedSize.height = MAXFLOAT;
 
 // DEPRECATED
-//    CGSize messageSize = [message sizeWithFont:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE] constrainedToSize:constrainedSize];
+    CGSize messageSize = [message sizeWithFont:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE] constrainedToSize:constrainedSize];
 
     // REPLACED BY
-    CGRect textRect = [message boundingRectWithSize:constrainedSize
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE]}
-                                         context:nil];
-    CGSize messageSize = textRect.size;
+//    CGRect textRect = [message boundingRectWithSize:constrainedSize
+//                                         options:NSStringDrawingUsesLineFragmentOrigin
+//                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE]}
+//                                         context:nil];
+//CGSize messageSize = textRect.size;
     
     
     if (self)
@@ -178,15 +178,15 @@
     constrainedSize.height = MAXFLOAT;
     
     // DEPRECATED
-   // CGSize titleSize = [title sizeWithFont:[UIFont boldSystemFontOfSize:TITLE_FONT_SIZE] constrainedToSize:constrainedSize];
+    CGSize titleSize = [title sizeWithFont:[UIFont boldSystemFontOfSize:TITLE_FONT_SIZE] constrainedToSize:constrainedSize];
     
     // REPLACED BY
-    CGRect textRect = [title boundingRectWithSize:constrainedSize
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:TITLE_FONT_SIZE]}
-                                         context:nil];
-    
-    CGSize titleSize = textRect.size;
+//    CGRect textRect = [title boundingRectWithSize:constrainedSize
+//                                         options:NSStringDrawingUsesLineFragmentOrigin
+//                                      attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:TITLE_FONT_SIZE]}
+//                                         context:nil];
+//    
+//    CGSize titleSize = textRect.size;
 
     
     CGSize messageSize;
@@ -194,14 +194,14 @@
     if (message)
     {
         // DEPRECATED
-        // messageSize = [message sizeWithFont:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE] constrainedToSize:constrainedSize];
+        messageSize = [message sizeWithFont:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE] constrainedToSize:constrainedSize];
     
         // REPLACED BY
-        CGRect textRect = [message boundingRectWithSize:constrainedSize
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE]}
-                                              context:nil];
-        CGSize messageSize = textRect.size;
+//        CGRect textRect = [message boundingRectWithSize:constrainedSize
+//                                              options:NSStringDrawingUsesLineFragmentOrigin
+//                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:MESSAGE_FONT_SIZE]}
+//                                              context:nil];
+//        CGSize messageSize = textRect.size;
 
         totalHeight = titleSize.height + messageSize.height + floorf(VERTICAL_PADDING * 2.5);
     }

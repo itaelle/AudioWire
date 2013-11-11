@@ -11,7 +11,6 @@
 @interface NSTimeManager : NSObject
 
 +(NSString*)stringFromTime:(int)time withformat:(NSString*)format;
-
 +(NSString*)timeAgoInWordsLite:(int)timestamp;
 +(NSString*)timestampToStrDate:(NSString *)timeStampString _format:(NSString *)format;
 

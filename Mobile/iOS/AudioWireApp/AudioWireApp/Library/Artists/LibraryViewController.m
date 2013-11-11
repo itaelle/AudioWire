@@ -11,6 +11,8 @@
 #import "LibraryViewController.h"
 #import "CellTrack.h"
 #import "PlayerViewController.h"
+#import "AWTrackModel.h"
+#import "AWItunesImportManager.h"
 
 @implementation LibraryViewController
 
@@ -55,8 +57,8 @@
     pickerPlaylist.delegate = self;
     pickerPlaylist.showsSelectionIndicator = YES;
 
-    // TODO CHECK FOR IOS 7 IOS 6
-    //    [pickerPlaylist setTintColor:[UIColor whiteColor]];
+    if (IS_OS_7_OR_LATER)
+        [pickerPlaylist setTintColor:[UIColor whiteColor]];
     
     CGRect rectForButton = pickerContainer.frame;
     rectForButton.size.height -= 10;
@@ -332,12 +334,31 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     
-    // TODO Give music data to Player
     PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
+    
+    // PROD
+    if (tableData && [tableData count] > indexPath.row && [[tableData objectAtIndex:indexPath.row]isKindOfClass:[AWTrackModel class]])
+    {
+        AWTrackModel *track = [tableData objectAtIndex:indexPath.row];
+        [AWMusicPlayer getInstance].track = track.iTunesItem;
+    }
+    // TEST
+    else if (tableData && [tableData count] > indexPath.row)
+    {
+        // PLAYLIST
+        [AWMusicPlayer getInstance].playlist = [[AWItunesImportManager getInstance]getAllItunesMedia];
+        
+        // ONE TRACK
+        //        id object = [[[AWItunesImportManager getInstance]getAllItunesMedia]objectAtIndex:0];
+        //        if (object && [object isKindOfClass:[MPMediaItem class]])
+        //            player.track = object;
+        //        else
+        //            NSLog(@"SEND NULL TO PLAYER");
+    }
     [self.navigationController pushViewController:player animated:true];
 }
 

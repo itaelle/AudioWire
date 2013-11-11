@@ -21,26 +21,43 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    if (IS_OS_7_OR_LATER)
+        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+    
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     isLoading = false;
-    
-    if (IS_OS_7_OR_LATER)
-        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
     
     miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
     miniPlayer.delegate = self;
     [miniPlayer myInit];
 }
 
--(void)setFlasMessage:(NSString *)msg
+-(void)setFlashMessage:(NSString *)msg
 {
     if ([NSThread isMainThread])
         [[[OLGhostAlertView alloc] initWithTitle:msg] show];
     else
         dispatch_sync(dispatch_get_main_queue(), ^{
             [[[OLGhostAlertView alloc] initWithTitle:msg] show];
+        });
+}
+
+-(void)setFlashMessage:(NSString *)msg timeout:(NSTimeInterval)timeout_
+{
+    if ([NSThread isMainThread])
+        [[[OLGhostAlertView alloc] initWithTitle:msg timeout:timeout_] show];
+    else
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [[[OLGhostAlertView alloc] initWithTitle:msg timeout:timeout_] show];
         });
 }
 
@@ -93,15 +110,28 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
--(void) prepareNavBarForEditing
+-(void) prepareNavBarForEditing:(BOOL)isLeft
 {
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
     
     if (IS_OS_7_OR_LATER)
         editButton.tintColor = [UIColor whiteColor];
     
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = editButton;
+    if (!isLeft)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = editButton;
+    }
+    else
+    {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = editButton;
+    }
+}
+
+-(void) prepareNavBarForEditing
+{
+    [self prepareNavBarForEditing:NO];
 }
 
 -(void) prepareNavBarForClose
@@ -113,33 +143,28 @@
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = closeButton;
 }
-
 -(void) prepareNavBarForCancel
+{
+    [self prepareNavBarForCancel:NO];
+}
+
+-(void) prepareNavBarForCancel:(BOOL)isLeft
 {
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
     if (IS_OS_7_OR_LATER)
         cancelButton.tintColor = [UIColor whiteColor];
     
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = cancelButton;
+    if (!isLeft)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = cancelButton;
+    }
+    else
+    {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = cancelButton;
+    }
 }
-
-//- (void) prepareNavBarForLogin
-//{
-//    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", @"") style:UIBarButtonItemStylePlain target:self action:@selector(loginAction:)];
-//    loginButton.tintColor = [UIColor whiteColor];
-//
-//    self.navigationItem.rightBarButtonItem = nil;
-//    self.navigationItem.rightBarButtonItem = loginButton;
-//}
-//
-//- (void) prepareNavBarForLogout
-//{
-//    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", @"") style:UIBarButtonItemStylePlain target:self action:@selector(logoutAction:)];
-//    logoutButton.tintColor = [UIColor whiteColor];
-//    self.navigationItem.rightBarButtonItem = nil;
-//    self.navigationItem.rightBarButtonItem = logoutButton;
-//}
 
 - (void) prepareNavBarForAdd
 {
@@ -216,7 +241,6 @@
     if (right)
         self.navigationItem.rightBarButtonItem = nil;
 }
-
 
 #pragma SubPlayerDelegate
 -(void) didSelectPlayer:(id)sender

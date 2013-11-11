@@ -31,7 +31,7 @@
                                             <rect key="frame" x="8" y="0.0" width="254" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
-                                                <action selector="editSliderVolume:" destination="3" eventType="touchUpInside" id="xFd-Pd-Qc5"/>
+                                                <action selector="editSliderVolume:" destination="3" eventType="valueChanged" id="sIl-66-LCL"/>
                                             </connections>
                                         </slider>
                                     </subviews>

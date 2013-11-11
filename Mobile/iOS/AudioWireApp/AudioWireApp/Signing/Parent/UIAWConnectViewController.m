@@ -17,6 +17,8 @@
 
 -(void)runAuth
 {
+    return ;
+
     UIAWHomeLoginViewController *s = [[UIAWHomeLoginViewController alloc] initWithNibName:@"UIAWHomeLoginViewController" bundle:nil];
     
     self.myCustomNavForLogin = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:s];
@@ -69,7 +71,6 @@
         [self loadData];
     }
 }
-
 
 -(void)reconnectActive{
     [self reconnect:NO];

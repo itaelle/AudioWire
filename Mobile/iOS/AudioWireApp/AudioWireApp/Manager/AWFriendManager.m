@@ -19,7 +19,10 @@
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(nil, false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWGetFriends], token];
     
@@ -33,7 +36,7 @@
              
              // TODO LIST ARRAY TO MODEL ARRAY
              
-             //NSArray *models = [AWUserPostModel fromJSONArray:list];
+             //NSArray *models = [AWUserModel fromJSONArray:list];
              
              cb_rep(list, success, error);
          }
@@ -42,12 +45,15 @@
      }];
 }
 
--(void)addFriend:(AWUserPostModel *)userToAddinFrien_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+-(void)addFriend:(AWUserModel *)userToAddinFrien_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddFriend], token];
     
@@ -73,12 +79,15 @@
      }];
 }
 
--(void)deleteFriend:(AWUserPostModel *)frienToDel_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+-(void)deleteFriend:(AWUserModel *)frienToDel_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
+    {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddFriend], token];
     

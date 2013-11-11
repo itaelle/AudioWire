@@ -213,24 +213,7 @@
     userAWModel.lastName = user.last_name;
     userAWModel.username = user.username;
     
-    [[AWUserManager getInstance] login:userAWModel cb_rep:^(BOOL success, NSString *error)
-     {
-         [self.HUD hide:YES];
-         self.HUD = nil;
-         self.bt_login.hidden = NO;
-         
-         if (success)
-         {
-             [self.navigationController dismissViewControllerAnimated:true completion:^{
-             }];
-         }
-         else
-         {
-             [self tryToSubscribe:userAWModel uploadAvatar:TRUE];
-
-//             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
-         }
-     }];
+    [self tryToLogin:user uploadAvatar:YES];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView

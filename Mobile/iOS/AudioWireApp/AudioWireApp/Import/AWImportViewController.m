@@ -83,6 +83,7 @@
         [self.bt_import setAlpha:0];
     }];
     
+    [self setUpLoadingView:self.tb_content_import];
     [[AWItunesImportManager getInstance] integrateMediaInAWLibrary:data cb_rep:^(bool success, NSString *error)
     {
         [UIView animateWithDuration:0.2 animations:^{
@@ -101,6 +102,7 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
             [alert show];
         }
+        [self cancelLoadingView:self.tb_content_import];
     }];
 }
 

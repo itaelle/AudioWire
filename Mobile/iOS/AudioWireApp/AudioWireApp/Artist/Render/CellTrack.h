@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AWTrackModel.h"
 
 @interface CellTrack : UITableViewCell
 {
@@ -23,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
--(void)myInit:(NSString *)track details:(NSString *)detailContact;
-- (IBAction)clickBtInfo:(id)sender;
+- (void) myInit:(AWTrackModel *)track;
+- (IBAction) clickBtInfo:(id)sender;
 
 @end

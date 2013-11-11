@@ -43,7 +43,7 @@ class PlaylistsController < ApplicationController
       render :status => 400, :json => {:success=>false, :error => 'title ' + playlist.errors['title'][0]}
     end
   end
-  
+
 
   def bulk_delete
     user = User.find_by_authentication_token(params[:token])
@@ -165,9 +165,9 @@ class PlaylistsController < ApplicationController
         relation.delete
       end
     end
-      render :status => 200, :json => {:success=>true, :message => "Track #{track_id} has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count}
-    end
+    render :status => 200, :json => {:success=>true, :message => "Track #{track_id} has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count}
   end
+
   def   show
     user = User.find_by_authentication_token(params[:token])
     playlist = user.playlists.find_by_id(params[:id])
@@ -178,6 +178,7 @@ class PlaylistsController < ApplicationController
       render :status => 200, :json => {:success=>true, :playlist => playlist}
     end
   end
+
    protected
 
   def   create_error_msg(resource)

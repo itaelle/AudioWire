@@ -18,24 +18,35 @@ AudioWire::Application.routes.draw do
     match '/users/:id' => 'users#show', :via => :get
     match 'users/avatar' => 'users#update_avatar', :via => :put
 
+
     match '/tracks' => 'tracks#create', :via => :post
     match '/tracks' => 'tracks#list', :via => :get
-    match '/tracks/:id' => 'tracks#show', :via => :get
     match '/tracks' => 'tracks#bulk_delete', :via => :delete
+
+    match '/tracks/:id' => 'tracks#show', :via => :get
     match '/tracks/:id' => 'tracks#delete', :via => :delete
     match '/tracks/:id' => 'tracks#update', :via => :put
 
+
     match '/friends' => 'friendships#create', :via => :post
     match '/friends' => 'friendships#index', :via => :get
+
     match '/friends/:friend' => 'friendships#destroy', :via => :delete
 
-    match '/playlist' => 'playlists#create', :via => :post
-    match '/playlist' => 'playlists#delete', :via => :delete
-    match '/playlist/tracks/add' => 'playlists#add_tracks', :via => :post
-    match '/playlist/tracks/delete' => 'playlists#delete_tracks', :via => :delete
-    match '/playlist' => 'playlists#update', :via => :put
+
     match '/playlist' => 'playlists#list', :via => :get
-    match '/playlist/tracks' => 'playlists#find_tracks', :via => :post
+    match '/playlist' => 'playlists#create', :via => :post
+    match '/playlist' => 'playlists#bulk_delete', :via => :delete
+
+    match '/playlist/:id' => 'playlists#delete', :via => :delete
+    match '/playlist/:id' => 'playlists#show', :via => :get
+    match '/playlist/:id' => 'playlists#update', :via => :put
+
+    match '/playlist/:id/tracks' => 'playlists#get_tracks', :via => :get
+    match '/playlist/:id/tracks' => 'playlists#add_tracks', :via => :post
+    match '/playlist/:id/tracks' => 'playlists#bulk_delete_tracks', :via => :delete
+
+    match '/playlist/:id/tracks/:id_track' => 'playlists#delete_track', :via => :delete
   end
 
   # Sample of regular route:

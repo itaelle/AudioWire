@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class UsersController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/users_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-after_token_authentication">#after_token_authentication</a>
+    
+    <li><a href="#method-i-index">#index</a>
+    
+    <li><a href="#method-i-show">#show</a>
+    
+    <li><a href="#method-i-show_me">#show_me</a>
+    
+    <li><a href="#method-i-soft_delete">#soft_delete</a>
+    
+    <li><a href="#method-i-update">#update</a>
+    
+    <li><a href="#method-i-update_avatar">#update_avatar</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Friendship.html">Friendship</a>
+  
+    <li><a href="./FriendshipsController.html">FriendshipsController</a>
+  
+    <li><a href="./FriendshipsHelper.html">FriendshipsHelper</a>
+  
+    <li><a href="./HomeController.html">HomeController</a>
+  
+    <li><a href="./HomeHelper.html">HomeHelper</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./Playlist.html">Playlist</a>
+  
+    <li><a href="./PlaylistsController.html">PlaylistsController</a>
+  
+    <li><a href="./PlaylistsHelper.html">PlaylistsHelper</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RelationPlaylist.html">RelationPlaylist</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./SessionsHelper.html">SessionsHelper</a>
+  
+    <li><a href="./SongsHelper.html">SongsHelper</a>
+  
+    <li><a href="./TokensController.html">TokensController</a>
+  
+    <li><a href="./TokensHelper.html">TokensHelper</a>
+  
+    <li><a href="./Track.html">Track</a>
+  
+    <li><a href="./TracksController.html">TracksController</a>
+  
+    <li><a href="./TracksHelper.html">TracksHelper</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class UsersController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-after_token_authentication" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after_token_authentication</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="after_token_authentication-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 5</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">after_token_authentication</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:token</span>].<span class="ruby-identifier">present?</span>
+    <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_authentication_token</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:token</span>])
+    <span class="ruby-keyword">if</span> (<span class="ruby-ivar">@user</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>)
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">403</span>, <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> {<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>, <span class="ruby-value">:error=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">'Token is invalid'</span>}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">403</span>, <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> {<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>, <span class="ruby-value">:error=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">'token field is missing'</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- after_token_authentication-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- after_token_authentication-method -->
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 36</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-identifier">lst</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">all</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">200</span>, <span class="ruby-value">:json=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:list=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">lst</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- index-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- index-method -->
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 41</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
+   <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_id</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">user</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">200</span>, <span class="ruby-value">:json=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:user=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">user</span>}
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">404</span>, <span class="ruby-value">:json=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>, <span class="ruby-value">:error=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;User does not exist&quot;</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show-method -->
+
+    
+      <div id="method-i-show_me" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show_me</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show_me-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show_me</span>
+  <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_authentication_token</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:token</span>])
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">200</span>, <span class="ruby-value">:json=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:user=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">user</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show_me-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show_me-method -->
+
+    
+      <div id="method-i-soft_delete" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">soft_delete</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="soft_delete-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 55</span>
+<span class="ruby-keyword">def</span>     <span class="ruby-identifier">soft_delete</span>
+  <span class="ruby-identifier">update_attributes</span>(<span class="ruby-value">:delete_at</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">current</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- soft_delete-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- soft_delete-method -->
+
+    
+      <div id="method-i-update" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="update-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_authentication_token</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:token</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:user</span>]) <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">201</span>, <span class="ruby-value">:json=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:message=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;User has been updated&quot;</span>}
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">400</span>, <span class="ruby-value">:json=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>, <span class="ruby-value">:error=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;An error occured&quot;</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update-method -->
+
+    
+      <div id="method-i-update_avatar" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update_avatar</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="update_avatar-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 16</span>
+<span class="ruby-keyword">def</span>   <span class="ruby-identifier">update_avatar</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_authentication_token</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:token</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:avatar</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">404</span>, <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> {<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>, <span class="ruby-value">:error=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">'Picture is missing'</span>}
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">avatar</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:avatar</span>]
+  <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">200</span>, <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> {<span class="ruby-value">:success=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:error</span> =<span class="ruby-operator">&gt;</span><span class="ruby-string">'Avatar has been uploaded'</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update_avatar-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update_avatar-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

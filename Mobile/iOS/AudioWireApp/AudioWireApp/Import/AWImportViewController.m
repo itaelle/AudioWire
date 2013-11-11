@@ -21,6 +21,7 @@
     if (self)
     {
         self.title = NSLocalizedString(@"Import from iTunes", @"");
+        needASubPlayer = NO;
     }
     return self;
 }

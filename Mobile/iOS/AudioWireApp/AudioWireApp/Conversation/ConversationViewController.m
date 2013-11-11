@@ -55,10 +55,11 @@
                  @"Manu",
                  @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
                  @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates >",
-                 @"<Rayanheard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
-                 @"<Sergiodzdqzdqzdqzdqzdqzdqzdqzdqzdqzdqzd>",
-                 @"<heard before. Just>",
-                 @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
+                 @"Hey, What's up ? I found a new dj ! Man, he's awesome. He creates such great tracks. Just tell me when you are around here, I'll show you his stuff",
+                 @"Hi Bro' I am looking forward to listening at this music.",
+                 @"Man, you're on AudioWire, I'am sending it to you right here, right now !",
+                 @"No way ! You can't",
+                                  @"Look at this ;)",
                  nil];
     
     _tb_list_artist.delegate = self;

@@ -7,22 +7,18 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
         self.skipAuth = NO;
-        self.isSignedOut = NO;
     }
     return self;
 }
 
 -(void)runAuth
 {
-    return ;
-
     UIAWHomeLoginViewController *s = [[UIAWHomeLoginViewController alloc] initWithNibName:@"UIAWHomeLoginViewController" bundle:nil];
     
     self.myCustomNavForLogin = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:s];
-    s.isSignedOut = self.isSignedOut;
 
     if (IS_OS_7_OR_LATER)
     {
@@ -72,41 +68,42 @@
     }
 }
 
--(void)reconnectActive{
-    [self reconnect:NO];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
 
+//    if (self.skipAuth)
+//        return;
+//    [self reconnect:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     if (self.skipAuth)
         return;
     [self reconnect:YES];
 }
 
-- (void)didReceiveMemoryWarning{
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
--(void)loadData{
-    NSLog(@"ERRORR RRRR RRR RR");
+-(void)loadData
+{
+    NSLog(@"LoadData connectViewController");
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
-
     return;
-    
-    // adding menu
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reconnectActive) name:@"NsSnUserErrorValueNotLogin" object:nil];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NsSnUserErrorValueNotLogin" object:nil];    
 }
 @end

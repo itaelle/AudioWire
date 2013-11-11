@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Player/PlayerViewController.m"
-            timestampString = "405737935.63171"
+            filePath = "AudioWireApp/Master/AWMasterViewController.m"
+            timestampString = "405795136.488853"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "-pause:"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Player/PlayerViewController.m"
-            timestampString = "405737935.63171"
+            filePath = "AudioWireApp/Player/AWMusicPlayer/AWMusicPlayer.m"
+            timestampString = "405788593.038025"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
-            landmarkName = "-stop:"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "-update"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AudioWireApp/Player/AWMusicPlayer/AWMusicPlayer.m"
+            timestampString = "405788593.038025"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "-update"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

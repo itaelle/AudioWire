@@ -28,6 +28,11 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -115,10 +120,11 @@
                                                  @"V"]];
     
     pickerData = @[@"Playlist rock soft",
-                   @"Dubstep trash",
+                   @"My Dubstep",
                    @"Minimal",
                    @"Electro commercial",
-                   @"Psychedelic Trance - teuf"];
+                   @"At work",
+                   @"Psychedelic Trance"];
     
     if (pickerData && [pickerData count] > 1)
         [pickerPlaylist selectRow:([pickerData count]-2) inComponent:0 animated:YES];
@@ -352,6 +358,8 @@
         // PLAYLIST
         [AWMusicPlayer getInstance].playlist = [[AWItunesImportManager getInstance]getAllItunesMedia];
         
+        [[AWMusicPlayer getInstance] start];
+        
         // ONE TRACK
         //        id object = [[[AWItunesImportManager getInstance]getAllItunesMedia]objectAtIndex:0];
         //        if (object && [object isKindOfClass:[MPMediaItem class]])
@@ -386,7 +394,7 @@
     }
     else
     {
-        exampleDetails = @"Listed in Playlist Rock";
+        exampleDetails = @"Listed in your Playlists";
     }
     
     if (selectedMusicIndexes &&[selectedMusicIndexes containsObject:indexPath])

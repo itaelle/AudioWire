@@ -14,6 +14,7 @@
     UIView *loadingView_;
     UIActivityIndicatorView *spinner;
     bool isLoading;
+    bool needASubPlayer;
     
     SubPlayer *miniPlayer;
 }

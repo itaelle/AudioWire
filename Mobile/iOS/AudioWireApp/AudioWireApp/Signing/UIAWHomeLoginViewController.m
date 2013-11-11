@@ -23,7 +23,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        charAtTheEndOfNickname = 1;
         self.isSignedOut = NO;
     }
     return self;
@@ -38,17 +37,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    UIImageView *topLogo= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo-inter"]];
-//    [topLogo setFrame:(CGRect){143,5,35,35}];
-//    [topLogo setTag:TOPLOGO_TAG];
-//    [self.navigationController.navigationBar addSubview:topLogo];
-    
-//    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-//    BOOL boolVal = [prefs boolForKey:@"show_tuto"];
-//    if (!boolVal){
-//        [self showTuto];
-//    }
-
     [self.sc_scroll setContentSize:CGSizeMake(self.sc_scroll.frame.size.width, 568)];
 
     if (!IS_OS_7_OR_LATER)
@@ -66,7 +54,7 @@
 {
     [super viewDidAppear:animated];
     
-//    [FBAppEvents logEvent:@"Login"];
+    //[FBAppEvents logEvent:@"Login"];
 }
 
 - (void)viewDidLoad
@@ -99,146 +87,97 @@
     [self.bt_help setTitle:NSLocalizedString(@"Unable to connect to your account", @"") forState:(UIControlStateNormal)];
 
     // Facebook Connect
-/*    theLoginView = [[FBLoginView alloc] initWithReadPermissions:@[@"email"]];
+    theLoginView = [[FBLoginView alloc] initWithReadPermissions:@[@"email"]];
+    theLoginView.frame = self.v_buttonFacebook.bounds;
     [self.v_buttonFacebook addSubview:theLoginView];
     [self.v_buttonFacebook setHidden:NO];
-    theLoginView.delegate = self;*/
+    theLoginView.delegate = self;
 //    [self setWordingToFacebookButton:theLoginView];
 }
-/*
+
 ////////////////////////////////////////////////////////////////////////////////
 /// Facebook
 ////////////////////////////////////////////////////////////////////////////////
 -(void)uploadAvatarFromFB
 {
-    imageViewAvatarDL = [[UIImageViewJA alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    // TODO UPLOADAVATAR
 
-    [imageViewAvatarDL loadImageFromURL:urlAvatarFacebook ttl:60*60 endblock:^(UIImageViewJA *image)
-    {
-        [[NsSnUserManager getInstance] uploadAvatar:image.image cb_send:^(long long total, long long current) {
-             
-         } cb_rep:^(NSDictionary *rep, NsSnUserErrorValue error) {
-             
-             [[NSLEUserManager getInstance] updateUser:^(NSLEUserModel *user, NSLEUserErrorValue error, BOOL cache) {
-                 
-                 if (user)
-                 {
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"updateInfosUserChanged" object:nil userInfo:@{@"user":user}];
-                 }
-             }];
-         }];
-    }];
+    // END
+    subscribedFB = nil;
+    subscribedFB = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire player. Now enjoy the features of our brand new music player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+    
+    [subscribedFB show];
 }
 
--(void)tryToLogin:(NsSnSignModel *)userModel uploadAvatar:(BOOL)uploadAvatar_
+-(void)tryToLogin:(AWUserModel *)userModel uploadAvatar:(BOOL)uploadAvatar_
 {
-    [[NsSnUserManager getInstance] login:userModel.email passe:userModel.password cb_rep:^(BOOL ok)
+    [[AWUserManager getInstance] login:userModel cb_rep:^(BOOL success, NSString *error)
      {
-         if (ok)
+         [self.HUD hide:YES];
+         self.bt_subscribe.hidden = NO;
+         self.HUD = nil;
+         if (success)
+         {
+             [self.navigationController dismissViewControllerAnimated:NO completion:^{
+             }];
+         }
+         else
+         {
+             [self tryToSubscribe:userModel uploadAvatar:YES];
+         }
+     }];
+}
+
+-(void)tryToSubscribe:(AWUserModel *)userModel uploadAvatar:(BOOL)uploadAvatar_
+{
+    [[AWUserManager getInstance] subscribe:userModel cb_rep:^(BOOL success, NSString *error)
+     {
+         [self.HUD hide:YES];
+         self.bt_subscribe.hidden = NO;
+         self.HUD = nil;
+         
+         if (success)
          {
              if (uploadAvatar_)
                  [self uploadAvatarFromFB];
-             [self.navigationController dismissViewControllerAnimated:NO completion:^{}];
-         }
-         else
-         {
-             [self manageLogin:userModel];
-         }
-     }];
-}
-
--(void)manageLogin:(NsSnSignModel *)userModel
-{
-    NSString *login_ = userModel.login;
-    
-    [self checkAvailableLogin:login_ cb_rep:^(BOOL available)
-     {
-         if (available)
-         {
-             [self tryToSubscribe:userModel];
-         }
-         else
-         {
-             userModel.login = [login_ stringByAppendingString:[NSString stringWithFormat:@"%d", charAtTheEndOfNickname]];
-             charAtTheEndOfNickname++;
-             [self manageLogin:userModel];
-         }
-     }];
-}
-
--(void)tryToSubscribe:(NsSnSignModel *)signModel
-{
-    [[NsSnSignManager getInstance] subscribe:signModel cb_rep:^(BOOL inscription_ok, NSDictionary *rep, NsSnUserErrorValue error)
-     {
-         if (inscription_ok)
-         {
-             [self tryToLogin:signModel uploadAvatar:TRUE];
-         }
-         else
-         {
-             switch (error)
+             else
              {
-                 case NsSnUserErrorValueLoginExist:
-                 {
-                     UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Nickname exists", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-                     [a show];
-                 }
-                     break;
-                     
-                 case NsSnUserErrorValueEmailExist:
-                 {
-                     UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Email exists", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-                     [a show];
-                 }
-                     break;
-                     
-                 case NsSnUserErrorValueEmailError:
-                 {
-                     UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Email error", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-                     [a show];
-                 }
-                     break;
-                     
-                 default:
-                 {
-                     UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please Fill all fileds", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-                     [a show];
-                 }
-                     break;
+                 subscribedFB = nil;
+                 subscribedFB = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire player. Now enjoy the features of our brand new music player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+                 
+                 [subscribedFB show];
              }
          }
+         else
+         {
+             UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+             [a show];
+
+             [FBSession.activeSession closeAndClearTokenInformation];
+             
+             [self.act_facebook stopAnimating];
+             [self.act_facebook setHidden:YES];
+             [self.v_buttonFacebook setHidden:NO];
+         }
      }];
 }
 
--(void)checkAvailableLogin:(NSString *)login cb_rep:(void (^)(BOOL available))cb_rep
+#pragma UIAlertViewDelegate to dismiss this controller
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    NsSnSignModel *user = [NsSnSignModel new];
-    user.login = login;
+    [self.act_facebook stopAnimating];
+    [self.act_facebook setHidden:YES];
+    [self.v_buttonFacebook setHidden:NO];
     
-    [[NsSnSignManager getInstance] loginAvailable:user cb_rep:^(BOOL available)
-    {
-        cb_rep(available);
-    }];
+    if (alertView == subscribedFB)
+        [self.navigationController dismissViewControllerAnimated:NO completion:^{
+        }];
 }
 
-
--(void)setWordingToFacebookButton:(FBLoginView*)fbView_
-{
-    for (id obj in fbView_.subviews)
-    {
-        if ([obj isKindOfClass:[UILabel class]])
-        {
-            UILabel *lb_login_fb =  obj;
-            lb_login_fb.text = NSLocalizedString(@"Connect with Facebook", @"");
-        }
-    }
-}
-*/
 #pragma mark - FBLoginViewDelegate
-
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
-    NSLog(@"UIConnexionCanalView : loginViewShowingLoggedInUser");
+    NSLog(@"UIAWHomeLoginViewController : loginViewShowingLoggedInUser");
     //[self setWordingToFacebookButton:loginView];
     
     [self.act_facebook setHidden:NO];
@@ -248,7 +187,7 @@
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-    NSLog(@"UIConnexionCanalView : loginViewFetchedUserInfo => %@", [user description]);
+    NSLog(@"UIAWHomeLoginViewController : loginViewFetchedUserInfo => %@", [user description]);
     //[self setWordingToFacebookButton:loginView];
     
     [self.act_facebook setHidden:NO];
@@ -270,6 +209,9 @@
     AWUserModel *userAWModel = [AWUserModel new];
     userAWModel.email = mail_user;
     userAWModel.password = id_user;
+    userAWModel.firstName = user.first_name;
+    userAWModel.lastName = user.last_name;
+    userAWModel.username = user.username;
     
     [[AWUserManager getInstance] login:userAWModel cb_rep:^(BOOL success, NSString *error)
      {
@@ -284,14 +226,16 @@
          }
          else
          {
-             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
+             [self tryToSubscribe:userAWModel uploadAvatar:TRUE];
+
+//             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
          }
      }];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
-    NSLog(@"UIConnexionCanalView : loginViewShowingLoggedOutUser");
+    NSLog(@"UIAWHomeLoginViewController : loginViewShowingLoggedOutUser");
     //[self setWordingToFacebookButton:loginView];
     [self.act_facebook stopAnimating];
     [self.v_buttonFacebook setHidden:NO];
@@ -302,7 +246,7 @@
 - (void)loginView:(FBLoginView *)loginView
       handleError:(NSError *)error
 {
-    NSLog(@"UIConnexionCanalView : handleAuthError => %@", error);
+    NSLog(@"UIAWHomeLoginViewController : handleAuthError => %@", error);
     //[self setWordingToFacebookButton:loginView];
     [self.act_facebook stopAnimating];
     [self.act_facebook setHidden:YES];
@@ -332,19 +276,11 @@
         NSLog(@"Unexpected error:%@", error);
     }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"Football App ne parvient pas à vous authentifier sur Facebook. Merci de bien vouloir effacer le compte Facebook enregistré dans les réglages de votre iPhone, puis retentez de vous connecter depuis cet onglet.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"AudioWire cannot retrieve information about the facebook user. Try to reconnect on your facebook account in your settings.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
     [alert show];
 }
 ////////////////////////////////////////////////////////////////////////
 
-//-(void)showTuto{
-//    self.title = [NSLocalizedString(@"Welcome", @"") uppercaseString];
-//    
-//    self.tutoMasterView = [[PLGTutoViewController alloc] initWithNibName:@"PLGTutoViewController" bundle:nil];
-//    self.tutoMasterView.delegate = self;
-//    [self.view addSubviewToBonce:self.tutoMasterView.view autoSizing:YES];
-//    [self.tutoMasterView loadDatas];
-//}
 
 - (void) viewWillDisappear:(BOOL)animated
 {

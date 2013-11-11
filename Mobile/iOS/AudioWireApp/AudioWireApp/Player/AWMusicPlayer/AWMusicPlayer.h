@@ -43,14 +43,16 @@
 -(void) update;
 -(void) end;
 
+// Player volume and data set
 -(void) setVolume:(NSNumber *)value;
 -(BOOL) setNewTimeToPlay:(NSNumber *)newTimeOffset;
 -(void) startEditing;
 -(void) endEditing;
 -(BOOL) isPlaying;
--(void) updateDisplay;
 -(BOOL) setPlaylistToPlay:(NSArray *)musicsItunesMedia andStartAtIndex:(int)index;
 -(BOOL) setMusicToPlay:(MPMediaItem *)musicItunesMedia;
+
+// Player standart controls
 -(void) play;
 -(void) pause;
 -(void) stop;

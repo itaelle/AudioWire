@@ -14,6 +14,8 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) NSString *firstName;
+@property (strong, nonatomic) NSString *lastName;
 
 -(NSDictionary *)toDictionaryLogin;
 +(AWUserModel *) fromJSON:(NSDictionary*)data;

@@ -143,6 +143,8 @@
 		F072517817ACBFF000445F37 /* shuffle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517617ACBFEF00445F37 /* shuffle@2x.png */; };
 		F072517B17AD149200445F37 /* repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517917AD149100445F37 /* repeat.png */; };
 		F072517C17AD149200445F37 /* repeat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F072517A17AD149100445F37 /* repeat@2x.png */; };
+		F076EA00182FF5E5007FA026 /* sign-out.png in Resources */ = {isa = PBXBuildFile; fileRef = F076E9FE182FF5E5007FA026 /* sign-out.png */; };
+		F076EA01182FF5E5007FA026 /* sign-out@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F076E9FF182FF5E5007FA026 /* sign-out@2x.png */; };
 		F08C2E9A181EFE0B008D80E0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F817B6EC8500E6D105 /* MediaPlayer.framework */; };
 		F093324E181DB74E00C505D4 /* AWTracksManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F093324D181DB74E00C505D4 /* AWTracksManager.m */; };
 		F0933251181DC07C00C505D4 /* AWTrackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0933250181DC07C00C505D4 /* AWTrackModel.m */; };
@@ -368,6 +370,8 @@
 		F072517617ACBFEF00445F37 /* shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shuffle@2x.png"; path = "img/Player/shuffle@2x.png"; sourceTree = "<group>"; };
 		F072517917AD149100445F37 /* repeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = repeat.png; path = img/Player/repeat.png; sourceTree = "<group>"; };
 		F072517A17AD149100445F37 /* repeat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "repeat@2x.png"; path = "img/Player/repeat@2x.png"; sourceTree = "<group>"; };
+		F076E9FE182FF5E5007FA026 /* sign-out.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sign-out.png"; sourceTree = "<group>"; };
+		F076E9FF182FF5E5007FA026 /* sign-out@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sign-out@2x.png"; sourceTree = "<group>"; };
 		F0809A6617B7719400E7611B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F093324C181DB74E00C505D4 /* AWTracksManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWTracksManager.h; path = Manager/AWTracksManager.h; sourceTree = "<group>"; };
 		F093324D181DB74E00C505D4 /* AWTracksManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWTracksManager.m; path = Manager/AWTracksManager.m; sourceTree = "<group>"; };
@@ -621,6 +625,8 @@
 		F0061F501812DFB00057EBEA /* Signing */ = {
 			isa = PBXGroup;
 			children = (
+				F076E9FE182FF5E5007FA026 /* sign-out.png */,
+				F076E9FF182FF5E5007FA026 /* sign-out@2x.png */,
 				F0F5D966182678FA002A4558 /* picto-check.png */,
 				F0F5D967182678FA002A4558 /* picto-check@2x.png */,
 				F0D2130618131E4600F844E2 /* prev_next_insc.png */,
@@ -1282,6 +1288,7 @@
 				F072516817ACB92000445F37 /* slider_minimum@2x.png in Resources */,
 				F0D213161813F0BD00F844E2 /* nav_go_back.png in Resources */,
 				F072516917ACB92000445F37 /* sliderhandle.png in Resources */,
+				F076EA01182FF5E5007FA026 /* sign-out@2x.png in Resources */,
 				F072516A17ACB92000445F37 /* sliderhandle@2x.png in Resources */,
 				F072516B17ACB92000445F37 /* sliderlabel.png in Resources */,
 				F0061F601812EC630057EBEA /* cocher.png in Resources */,
@@ -1293,6 +1300,7 @@
 				F072517C17AD149200445F37 /* repeat@2x.png in Resources */,
 				F0061F571812DFED0057EBEA /* input_field_insc.png in Resources */,
 				F0061F611812EC630057EBEA /* cocher@2x.png in Resources */,
+				F076EA00182FF5E5007FA026 /* sign-out.png in Resources */,
 				F028545E17ADEF40005090CE /* MusicsViewController.xib in Resources */,
 				F0061F541812DFB00057EBEA /* bt-go@2x.png in Resources */,
 				F028546117ADF13A005090CE /* music_note@2x.png in Resources */,

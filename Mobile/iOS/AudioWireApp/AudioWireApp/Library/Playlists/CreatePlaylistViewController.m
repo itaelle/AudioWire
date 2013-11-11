@@ -18,6 +18,7 @@
     {
         self.title = NSLocalizedString(@"Playlist Edition", @"");
         isEditing = NO;
+        needASubPlayer = NO;
     }
     return self;
 }

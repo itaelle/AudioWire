@@ -17,6 +17,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.title = NSLocalizedString(@"Player", @"");
+        needASubPlayer = NO;
     }
     return self;
 }
@@ -25,15 +27,25 @@
 {
     [super viewWillAppear:animated];
     
-    [musicPlayer updateDisplay];
+    CGRect label = _labelTopPlaying.frame;
+    label.origin.x = 0;
+    label.size = [_labelTopPlaying.text sizeWithFont:FONTSIZE(17)];
+    [_labelTopPlaying setFrame:label];
+    [self startTimer];
     
 //    isPlaying = [musicPlayer isPlaying];
     isFlipped = false;
     
-    if (!musicPlayer.playlist || [musicPlayer.playlist count] == 0)
+    if (musicPlayer)
     {
-        [self.repeatButton setAlpha:0];
-        [self.shuffleButton setAlpha:0];
+        [self setUpPlayer];
+        [musicPlayer update];
+
+        if (!musicPlayer.playlist || [musicPlayer.playlist count] == 0)
+        {
+            [self.repeatButton setAlpha:0];
+            [self.shuffleButton setAlpha:0];
+        }
     }
     
     if (!IS_OS_7_OR_LATER)
@@ -74,6 +86,17 @@
     [self setUpViews];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self stopTimer];
+}
+
+-(void)dealloc
+{
+    [self stopTimer];
+}
+
 -(void)flipJacketView
 {
     [_jacketImg setAlpha:1];
@@ -92,9 +115,14 @@
 
 -(void)setUpPlayer
 {
+    if (musicPlayer)
+    {
+        musicPlayer.delegate = nil;
+        musicPlayer = nil;
+    }
+    
     musicPlayer = [AWMusicPlayer getInstance];
     musicPlayer.delegate = self;
-    [musicPlayer start];
 }
 
 -(void) setUpSlider
@@ -134,21 +162,24 @@
     
     // Labels set up
     CGRect label = _labelTopPlaying.frame;
-    label.size = [_labelTopPlaying.text sizeWithFont:FONTBOLDSIZE(17)];
+    label.origin.x = 0;
+    label.size = [_labelTopPlaying.text sizeWithFont:FONTSIZE(17)];
     [_labelTopPlaying setFrame:label];
-    
-    // Timer moving text
-    if (!_timer)
+}
+
+-(void)startTimer
+{
+    [self stopTimer];
+    _timer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:DELAY_BEFORE_SLIDING_TITLE] interval:0.1 target:self selector:@selector(timerFinish:) userInfo:nil repeats:true];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+}
+
+-(void)stopTimer
+{
+    if (_timer)
     {
-        NSDate *run = [NSDate dateWithTimeIntervalSinceNow:DELAY_BEFORE_SLIDING_TITLE];
-        _timer = [[NSTimer alloc] initWithFireDate:run interval:0.1 target:self selector:@selector(timerFinish:) userInfo:nil repeats:true];
-        
-        NSRunLoop * theRunLoop = [NSRunLoop currentRunLoop];
-        [theRunLoop addTimer:_timer forMode:NSDefaultRunLoopMode];
-    }
-    else
-    {
-        // Quand il relancé.
+        [_timer invalidate];
+        _timer = nil;
     }
 }
 
@@ -275,7 +306,7 @@
         [musicPlayer setNewTimeToPlay:value];
     }
     [musicPlayer endEditing];
-    [self setFlashMessage:self.sliderPlayingMedia.valueString];
+//    [self setFlashMessage:self.sliderPlayingMedia.valueString];
 }
 
 - (IBAction)dragMusicPlayingOffset:(ANPopoverSlider *)sender
@@ -348,6 +379,7 @@
 
 -(void)updateMediaInfo:(MPMediaItem *)item_
 {
+    NSLog(@"updateMediaInfo controller");
     NSString *artist = [item_ valueForProperty:MPMediaItemPropertyArtist];
     NSString *title = [item_ valueForProperty:MPMediaItemPropertyTitle];
     NSString *albumTitle = [item_ valueForProperty:MPMediaItemPropertyAlbumTitle];
@@ -364,11 +396,12 @@
     else
         [_labelTopPlaying setText:@""];
     
+    [self stopTimer];
     CGRect label = _labelTopPlaying.frame;
-    label.origin.x = _VolumeButton.frame.origin.x;
-    label.size = [_labelTopPlaying.text sizeWithFont:FONTBOLDSIZE(17)];
-    label.size.width += 10;
+    label.origin.x = 0; //_VolumeButton.frame.origin.x;
+    label.size = [_labelTopPlaying.text sizeWithFont:FONTSIZE(17)];
     [_labelTopPlaying setFrame:label];
+    [self startTimer];
     
     UIImage *artworkImageLarge = [UIImage imageNamed:@"noArtworkImageLarge.png"];
     UIImage *artworkImageSmall = [UIImage imageNamed:@"noArtworkImageSmall.png"];
@@ -386,21 +419,21 @@
 
 -(void) play:(id)sender
 {
-    NSLog(@"Play delegate");
+    NSLog(@"Play delegate controller");
     isPlaying = YES;
     [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
 }
 
 -(void) pause:(id)sender
 {
-    NSLog(@"Pause delegate");
+    NSLog(@"Pause delegate controller");
     isPlaying = NO;
     [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
 }
 
 -(void) stop:(id)sender
 {
-    NSLog(@"Stop delegate");
+    NSLog(@"Stop delegate controller");
     isPlaying = NO;
 }
 

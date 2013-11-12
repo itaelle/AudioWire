@@ -17,6 +17,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        needASubPlayer = YES;
     }
     return self;
 }
@@ -25,10 +26,23 @@
 {
     [super viewWillAppear:animated];
 
+    NSLog(@"********** %@ willAppear **********", self.title);
+    
     if (IS_OS_7_OR_LATER)
         [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
     
+    if (miniPlayer)
+        [miniPlayer updatePlayerStatus];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
     
+    NSLog(@"********** %@ willDisAppear **********", self.title);
+    
+    if (miniPlayer)
+        [miniPlayer endPlayerHandling];
 }
 
 - (void)viewDidLoad
@@ -36,9 +50,14 @@
     [super viewDidLoad];
     isLoading = false;
     
-    miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
-    miniPlayer.delegate = self;
-    [miniPlayer myInit];
+    if (needASubPlayer)
+    {
+        miniPlayer = [[[NSBundle mainBundle] loadNibNamed:@"SubPlayer" owner:self options:nil] objectAtIndex:0];
+        miniPlayer.delegate = self;
+        [miniPlayer myInit];
+    }
+    else
+        miniPlayer = nil;
 }
 
 -(void)setFlashMessage:(NSString *)msg

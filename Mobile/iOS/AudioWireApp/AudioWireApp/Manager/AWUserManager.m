@@ -25,25 +25,25 @@
 
 -(BOOL)isLogin
 {
-#warning REMOVE COMMENT FOR PRODUCTION
-    //    if (self.connectedUserTokenAccess && [self.connectedUserTokenAccess length] > 0)
-//        return true;
-//    else
+    if (self.connectedUserTokenAccess && [self.connectedUserTokenAccess length] > 0)
+        return true;
+    else
        return false;
 }
 
 +(NSString *)pathOfileAutologin
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *directory = paths[0];
-    return [directory stringByAppendingString:FILE_AUTOLOGIN];
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    return [path stringByAppendingPathComponent:FILE_AUTOLOGIN];
 }
 
 -(void)autologin:(void (^)(BOOL success, NSString *error))cb_rep
 {
+    NSLog(@"AUTOLOGIN method");
     NSString *autologinFilePath = [AWUserManager pathOfileAutologin];
     if ([[NSFileManager defaultManager] fileExistsAtPath:autologinFilePath])
     {
+         NSLog(@"AUTOLOGIN => file exists");
         NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:autologinFilePath];
         AWUserModel *loginModel = [AWUserModel fromJSON:ids];
         [self login:loginModel cb_rep:cb_rep];
@@ -56,6 +56,8 @@
 {
     NSString *url = [AWConfManager getURL:AWLogin];
     
+    user_.password = [user_.password md5];
+    
     [AWRequester requestAudiowireAPIPOST:url param:[user_ toDictionaryLogin] cb_rep:^(NSDictionary *rep, BOOL success)
     {
         if (success && rep)
@@ -64,9 +66,12 @@
 
             if (successCreation)
             {
+                NSLog(@"LOGIN => OK");
                 self.connectedUserTokenAccess = [NSObject getVerifiedString:[rep objectForKey:@"token"]];
                 
                 [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
+                NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
+                NSLog(@"Wrote to file => %@", [ids description]);
                 
                 cb_rep(true, nil);
             }
@@ -97,12 +102,15 @@
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:[user_ toDictionary] forKey:@"user"];
     
+    user_.password = [user_.password md5];
+    
     [AWRequester requestAudiowireAPIPOST:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
     {
         if (success && rep)
         {
             BOOL successCreation = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
             self.connectedUserTokenAccess = [NSObject getVerifiedString:[rep objectForKey:@"token"]];
+            self.idUser = [NSObject getVerifiedString:[rep objectForKey:@"id"]];
             
             if (successCreation && [self.connectedUserTokenAccess length] > 0)
             {
@@ -111,22 +119,15 @@
             }
             else
             {
-                NSDictionary *errors = [NSObject getVerifiedDictionary:[rep objectForKey:@"errors"]];
-                NSArray *email_errors = [NSObject getVerifiedArray:[errors objectForKey:@"email"]];
-                NSArray *password_errors = [NSObject getVerifiedArray:[errors objectForKey:@"password"]];
+                NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+                NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
                 
-                if ([email_errors count] > 0)
-                {
-                    NSString *emailFirstError = [NSObject getVerifiedString:[email_errors objectAtIndex:0]];
-                    cb_rep(FALSE, [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"The email", @""), emailFirstError]);
-                }
-                else if ([password_errors count] > 0)
-                {
-                    NSString *passwordFirstError = [NSObject getVerifiedString:[password_errors objectAtIndex:0]];
-                    cb_rep(FALSE, [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"The password", @""), passwordFirstError]);
-                }
+                if ([message length] > 0)
+                    cb_rep(FALSE, message);
+                else if ([error length] > 0)
+                    cb_rep(FALSE, error);
                 else
-                    cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
+                    cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
             }
         }
         else
@@ -169,11 +170,11 @@
 
 -(void)logOut:(void (^)(BOOL success, NSString *error))cb_rep
 {
-    NSString *url = [AWConfManager getURL:AWLogout];
-
     if (!self.connectedUserTokenAccess)
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to log out but you are not actually logged in", @""));
-
+    
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWLogout], self.connectedUserTokenAccess];
+    
     NSMutableDictionary *dict_token = [NSMutableDictionary new];
     [dict_token setObject:self.connectedUserTokenAccess forKey:@"token"];
     
@@ -183,6 +184,13 @@
         {
             BOOL successLogout = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+            
+            if (successLogout)
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:[AWUserManager pathOfileAutologin] error:nil];
+                self.idUser = nil;
+                self.connectedUserTokenAccess = nil;
+            }
             cb_rep(successLogout, message);
         }
         else

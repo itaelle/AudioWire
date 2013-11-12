@@ -7,6 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 
@@ -64,13 +65,16 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 //}
 
-//- (void)applicationWillEnterForeground:(UIApplication *)application
-//{
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [[AWMusicPlayer getInstance] update];
+    
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-//}
+}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [FBAppEvents setFlushBehavior:FBAppEventsFlushBehaviorExplicitOnly];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
  //   [self tryPlayMusic];
@@ -80,6 +84,22 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
    // [self saveContext];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if (!url)
+        return NO;
+    
+    NSString *strUrl = [url absoluteString];
+    
+    if ([strUrl isSubString:@"fb"])
+    {
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call)
+        {
+            NSLog(@"In fallback handler");
+        }];
+    }
+    return NO;
 }
 
 @end

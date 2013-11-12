@@ -11,6 +11,7 @@
 @interface AWUserManager : NSObject
 
 @property (strong, nonatomic) NSString *connectedUserTokenAccess;
+@property (strong, nonatomic) NSString *idUser;
 
 +(AWUserManager*)getInstance;
 

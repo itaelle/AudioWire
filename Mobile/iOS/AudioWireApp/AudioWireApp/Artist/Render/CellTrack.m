@@ -24,15 +24,15 @@
     [super setSelected:selected animated:animated];
 }
 
--(void)myInit:(NSString *)contact details:(NSString *)detailContact
+-(void)myInit:(AWTrackModel *)track
 {
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     
-    if (contact && [contact length] > 0)
-        [_nameLabel setText:contact];
+    if (track && [track.title length] > 0)
+        [_nameLabel setText:track.title];
     
-    if (contact && [detailContact length] > 0)
-        [_detailLabel setText:detailContact];
+    if (track && [track.title length] > 0)
+        [_detailLabel setText:track.title];
     
     [_backgroundImage setImage:[UIImage imageNamed:@"music_note.png"]];
 

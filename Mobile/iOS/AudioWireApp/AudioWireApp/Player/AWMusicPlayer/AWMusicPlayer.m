@@ -32,7 +32,9 @@
 
 -(BOOL)start
 {
+    NSLog(@"MusicPlayer => start");
     self.isEditingPlayingOffset = NO;
+    [self stopNotifications];
     [self registerNotifications];
     
     float volume = [player volume];
@@ -58,19 +60,48 @@
 
 -(void)update
 {
-//    [self stopNotifications];
-//    [self registerNotifications];
-//    
-//    float volume = [player volume];
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(updateVolumeValue:)])
-//    {
-//        [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
-//    }
-//    [self play];
+    NSLog(@"MusicPlayer => updates");
+    self.isEditingPlayingOffset = NO;
+
+    [self stopNotifications];
+    [self registerNotifications];
+    
+    float volume = [player volume];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(updateVolumeValue:)])
+    {
+        [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
+    }
+    
+    if (player.playbackState == MPMusicPlaybackStatePlaying)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(play:)])
+        {
+            [self.delegate performSelector:@selector(play:) withObject:self];
+        }
+    }
+    else if (player.playbackState == MPMusicPlaybackStatePaused)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(pause:)])
+        {
+            [self.delegate performSelector:@selector(pause:) withObject:self];
+        }
+    }
+    else
+    {
+        NSLog(@"PLAYBACKSTATE => %d", player.playbackState);
+    }
+    
+    [self updateMediaInfo];
+    [self updatePlayerVolume];
+    [self updateDisplayTime];
+    [self startTimer];
 }
 
 -(void)end
 {
+    NSLog(@"MusicPlayer => end");
+    self.isEditingPlayingOffset = NO;
+    [self stopTimer];
     [self stopNotifications];
 }
 
@@ -104,11 +135,7 @@
 
 - (void) handle_NowPlayingItemChanged: (id) notification
 {
-   	MPMediaItem *currentItem = [player nowPlayingItem];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(updateMediaInfo:)])
-    {
-        [self.delegate performSelector:@selector(updateMediaInfo:) withObject:currentItem];
-    }
+    [self updateMediaInfo];
 }
 
 - (void) handle_PlaybackStateChanged: (id) notification
@@ -119,11 +146,7 @@
 
 - (void) handle_VolumeChanged: (id) notification
 {
-    float volume = [player volume];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(updateVolumeValue:)])
-    {
-        [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
-    }
+    [self updatePlayerVolume];
 }
 
 #pragma Controls
@@ -162,6 +185,7 @@
 -(void) play
 {
     [player play];
+    [self updateDisplayTime];
     [self startTimer];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(play:)])
@@ -174,6 +198,7 @@
 {
     [player pause];
     [self stopTimer];
+    [self updateDisplayTime];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(pause:)])
     {
@@ -185,7 +210,7 @@
 {
     [player stop];
     [self stopTimer];
-    [self updateDisplay];
+    [self updateDisplayTime];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(stop:)])
     {
@@ -217,7 +242,7 @@
     player.shuffleMode = MPMusicShuffleModeOff;
 }
 
-- (void)updateDisplay
+- (void)updateDisplayTime
 {
     if (!player)
         return ;
@@ -228,12 +253,30 @@
     }
 }
 
+-(void)updateMediaInfo
+{
+   	MPMediaItem *currentItem = [player nowPlayingItem];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(updateMediaInfo:)])
+    {
+        [self.delegate performSelector:@selector(updateMediaInfo:) withObject:currentItem];
+    }
+}
+
+-(void)updatePlayerVolume
+{
+    float volume = [player volume];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(updateVolumeValue:)])
+    {
+        [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
+    }
+}
+
 -(BOOL) setNewTimeToPlay:(NSNumber *)newTimeOffset
 {
-    [self stopTimer];
+    // [self stopTimer]; => test pour décalage
     [player setCurrentPlaybackTime:[newTimeOffset floatValue]];
-    [self updateDisplay];
-    [self startTimer];
+    [self updateDisplayTime];
+    // [self startTimer]; => test
     return true;
 }
 
@@ -273,11 +316,12 @@
 
 - (void)timerFired:(NSTimer*)timer
 {
-    [self updateDisplay];
+    [self updateDisplayTime];
 }
 
 -(void)dealloc
 {
+    [self stopTimer];
     [player endGeneratingPlaybackNotifications];
 }
 

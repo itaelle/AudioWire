@@ -7,7 +7,9 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import "OptionsViewController.h"
+#import "AWUserManager.h"
 
 @implementation OptionsViewController
 
@@ -16,7 +18,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.title = NSLocalizedString(@"Options", @"Options");
+        self.title = NSLocalizedString(@"Options", @"");
+        needASubPlayer = NO;
     }
     return self;
 }
@@ -33,7 +36,6 @@
         
         [self.topView setFrame:rectTopView];
     }
-    
 }
 
 - (void)viewDidLoad
@@ -55,20 +57,41 @@
     
     _topView.layer.borderWidth = 1;
     _bottomView.layer.borderWidth = 1;
+
+    [_bt_signout setTitle:NSLocalizedString(@"Sign out", @"") forState:UIControlStateNormal];
+    [_firstOption setText:NSLocalizedString(@"Turn on switch :", @"")];
     
-    [_firstOption setText:NSLocalizedString(@"Turn on button :", @"Turn on button :")];
-    [_secondOption setText:NSLocalizedString(@"Ajust a value :", @"Ajust a value :")];
-    [_thirdOption setText:NSLocalizedString(@"Selection :", @"Selection :")];
-    
-    NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0\n08/05/2013", NSLocalizedString(@"AudioWire", @"AudioWire")];
+    NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\n2013", NSLocalizedString(@"AudioWire", @"")];
     
     [_bottomLabel setText:format];
+}
+
+- (IBAction)switchValueChanged:(id)sender
+{
+}
+
+- (IBAction)click_signOut:(id)sender
+{
+    [FBSession.activeSession closeAndClearTokenInformation];
+    
+    [[AWUserManager getInstance] logOut:^(BOOL success, NSString *error)
+    {
+        if (success)
+        {
+            [[AWMusicPlayer getInstance] pause];
+            [self.navigationController popViewControllerAnimated:TRUE];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

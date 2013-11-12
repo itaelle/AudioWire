@@ -4,7 +4,8 @@
 @interface UIAWHomeLoginViewController : UIViewController <UITextFieldDelegate, FBLoginViewDelegate>
 {
     FBLoginView *theLoginView;
-    int charAtTheEndOfNickname;
+    UIAlertView *subscribedFB;
+    
     NSString *urlAvatarFacebook;
 }
 

@@ -13,6 +13,8 @@
 #import "PlayerViewController.h"
 #import "AWTrackModel.h"
 #import "AWItunesImportManager.h"
+#import "AWTracksManager.h"
+#import "AWPlaylistManager.h"
 
 @implementation LibraryViewController
 
@@ -26,6 +28,11 @@
         isPickerDisplayed = NO;
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
@@ -91,75 +98,108 @@
 -(void)loadData
 {
     // Loading View
-    [super setUpLoadingView:_tb_list_artist];
+    [self setUpLoadingView:_tb_list_artist];
     
-    tableData = [NSMutableArray arrayWithArray:@[@"AC/DC - Back in black",
-                                                 @"Edith Piaf - Non rien de rien",
-                                                 @"Electro Dance Party Mix",
-                                                 @"Gipsy King - Flamenco",
-                                                 @"Infected Mushroom - War",
-                                                 @"Jacques Prévert - Chansonnette",
-                                                 @"Justin Bieber - Track 1",
-                                                 @"Kamini - Kamini",
-                                                 @"Lorie - Avoir 20 ans",
-                                                 @"Manau - Dans la vallée",
-                                                 @"Nostradamus",
-                                                 @"NTM",
-                                                 @"Ozone",
-                                                 @"PitBull",
-                                                 @"Piwies",
-                                                 @"Rolling Stones",
-                                                 @"System of a down",
-                                                 @"Taylor Swift",
-                                                 @"U",
-                                                 @"V"]];
+    [AWTracksManager getAllTracks:^(NSArray *data, BOOL success, NSString *error) {
+        if (success)
+        {
+            tableData = [data mutableCopy];
+            [self.tb_list_artist reloadData];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+        [self cancelLoadingView:_tb_list_artist];
+    }];
+    
+//    tableData = [NSMutableArray arrayWithArray:@[@"AC/DC - Back in black",
+//                                                 @"Edith Piaf - Non rien de rien",
+//                                                 @"Electro Dance Party Mix",
+//                                                 @"Gipsy King - Flamenco",
+//                                                 @"Infected Mushroom - War",
+//                                                 @"Jacques Prévert - Chansonnette",
+//                                                 @"Justin Bieber - Track 1",
+//                                                 @"Kamini - Kamini",
+//                                                 @"Lorie - Avoir 20 ans",
+//                                                 @"Manau - Dans la vallée",
+//                                                 @"Nostradamus",
+//                                                 @"NTM",
+//                                                 @"Ozone",
+//                                                 @"PitBull",
+//                                                 @"Piwies",
+//                                                 @"Rolling Stones",
+//                                                 @"System of a down",
+//                                                 @"Taylor Swift",
+//                                                 @"U",
+//                                                 @"V"]];
     
     pickerData = @[@"Playlist rock soft",
-                   @"Dubstep trash",
+                   @"My Dubstep",
                    @"Minimal",
                    @"Electro commercial",
-                   @"Psychedelic Trance - teuf"];
+                   @"At work",
+                   @"Psychedelic Trance"];
     
     if (pickerData && [pickerData count] > 1)
         [pickerPlaylist selectRow:([pickerData count]-2) inComponent:0 animated:YES];
-
-    // Loading View
-    [super cancelLoadingView:_tb_list_artist];
 }
 
 -(void)didSelectPlaylist:(id)sender
 {
+    [self setUpLoadingView:self.tb_list_artist];
     int rowSelected = [pickerPlaylist selectedRowInComponent:0];
-    NSString *playlistSelected = nil;
+    AWPlaylistModel *playlistSelected = nil;
     
     if ([pickerData count] > rowSelected)
         playlistSelected = [pickerData objectAtIndex:rowSelected];
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+
+    if (!selectedMusicIndexes || [selectedMusicIndexes count] <= 0)
+        return ;
     
     NSString *tracksNames = @"";
+    NSMutableArray *tracksToAdd = [[NSMutableArray alloc]initWithCapacity:selectedMusicIndexes.count];
     for (id object in selectedMusicIndexes)
     {
-        NSString *trackName = [tableData objectAtIndex:((NSIndexPath *)object).row];
-        tracksNames = [tracksNames stringByAppendingString:trackName];
-        tracksNames = [tracksNames stringByAppendingString:@", "];
+        if (object && [object isKindOfClass:[NSIndexPath class]])
+        {
+            AWTrackModel *trackModel = [tableData objectAtIndex:((NSIndexPath *)object).row];
+            if (trackModel && [trackModel isKindOfClass:[AWTrackModel class]])
+            {
+                tracksNames = [tracksNames stringByAppendingString:trackModel.title];
+                tracksNames = [tracksNames stringByAppendingString:@", "];
+                [tracksToAdd addObject:trackModel];
+            }
+        }
     }
-    
-    if (playlistSelected && selectedMusicIndexes && [selectedMusicIndexes count] > 0)
+    if (playlistSelected && [playlistSelected isKindOfClass:[AWPlaylistModel class]] && tracksToAdd && [tracksToAdd count] > 0)
     {
-        [alert setTitle:NSLocalizedString(@"Information", @"")];
-        [alert setMessage:[NSString stringWithFormat:@"%@ %@ %@", tracksNames, [selectedMusicIndexes count] == 1 ? NSLocalizedString(@"added in the playlist", @"") : NSLocalizedString(@"added in the playlist", @""), playlistSelected]];
-
-        
-        // TODO ADD MUSIC IN PLAYLIST
-        
+        [AWPlaylistManager addTracksInPlaylist:playlistSelected tracks:tracksToAdd cb_rep:^(BOOL success, NSString *error)
+        {
+            if (success)
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+                [alert setTitle:NSLocalizedString(@"Information", @"")];
+                [alert setMessage:[NSString stringWithFormat:@"%@ %@ %@", tracksNames, [selectedMusicIndexes count] == 1 ? NSLocalizedString(@"added in the playlist", @"") : NSLocalizedString(@"added in the playlist", @""), playlistSelected]];
+                [alert show];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+                [alert show];
+            }
+            [self cancelLoadingView:self.tb_list_artist];
+        }];
     }
     else
     {
+        [self cancelLoadingView:self.tb_list_artist];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
         [alert setTitle:NSLocalizedString(@"Oops !", @"")];
         [alert setMessage:NSLocalizedString(@"Something went wrong while trying to select one of your playlist", @"")];
+        [alert show];
     }
-    [alert show];
 }
 
 -(void)editAction:(id)sender
@@ -301,6 +341,7 @@
 {
     if (tableData && [tableData count] > indexPath.row)
     {
+        AWTrackModel *trackToDelete = [tableData objectAtIndex:indexPath.row];
         [tableData removeObjectAtIndex:indexPath.row];
 
         if (selectedMusicIndexes && [selectedMusicIndexes containsObject:indexPath])
@@ -327,7 +368,24 @@
         [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [_tb_list_artist reloadSectionIndexTitles];
         
-        // TODO Delete Track data
+        // Delete Track data on API
+        if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
+        {
+            [super setUpLoadingView:_tb_list_artist];
+            [AWTracksManager deleteTrack:@[trackToDelete] cb_rep:^(BOOL success, NSString *error) {
+                if (success)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Track deleted !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+                    [alert show];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+                    [alert show];
+                }
+                [super cancelLoadingView:_tb_list_artist];
+            }];
+        }
         
         // Gore mais c'est pour mettre à jour les indexPath dans les cellules
         [_tb_list_artist reloadData];
@@ -349,16 +407,11 @@
     // TEST
     else if (tableData && [tableData count] > indexPath.row)
     {
-        // PLAYLIST
+        // List of tracks
         [AWMusicPlayer getInstance].playlist = [[AWItunesImportManager getInstance]getAllItunesMedia];
-        
-        // ONE TRACK
-        //        id object = [[[AWItunesImportManager getInstance]getAllItunesMedia]objectAtIndex:0];
-        //        if (object && [object isKindOfClass:[MPMediaItem class]])
-        //            player.track = object;
-        //        else
-        //            NSLog(@"SEND NULL TO PLAYER");
     }
+    
+    [[AWMusicPlayer getInstance] start];
     [self.navigationController pushViewController:player animated:true];
 }
 
@@ -386,7 +439,7 @@
     }
     else
     {
-        exampleDetails = @"Listed in Playlist Rock";
+        exampleDetails = @"Listed in your Playlists";
     }
     
     if (selectedMusicIndexes &&[selectedMusicIndexes containsObject:indexPath])
@@ -395,7 +448,7 @@
     cell.displayIcon = YES;
     cell.parent = self;
     cell.myIndexPath = indexPath;
-    [cell myInit:[tableData objectAtIndex:indexPath.row] details:exampleDetails];
+    [cell myInit:[tableData objectAtIndex:indexPath.row]];
     
     return cell;
 }

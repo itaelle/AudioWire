@@ -9,11 +9,12 @@
 #import "AWMasterViewController.h"
 
 @interface OptionsViewController : AWMasterViewController
-@property (weak, nonatomic) IBOutlet UIView *topView;
-@property (weak, nonatomic) IBOutlet UILabel *firstOption;
-@property (weak, nonatomic) IBOutlet UILabel *secondOption;
-@property (weak, nonatomic) IBOutlet UILabel *thirdOption;
 
+@property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UILabel *firstOption;
 @property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *bt_signout;
+
 @end

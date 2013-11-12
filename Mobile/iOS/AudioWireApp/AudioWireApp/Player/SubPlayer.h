@@ -24,7 +24,7 @@
 
 @interface SubPlayer : UIView<AWMusicPlayerDelegate>
 {
-    AWMusicPlayer *musicPlayer;
+    __weak AWMusicPlayer *musicPlayer;
     
     bool isSoundOpen;
     bool isPlaying;
@@ -48,5 +48,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonPlayer;
 
 -(void) myInit;
+-(void) updatePlayerStatus;
+-(void) endPlayerHandling;
 
 @end

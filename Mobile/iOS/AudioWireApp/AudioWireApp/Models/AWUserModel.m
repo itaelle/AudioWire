@@ -15,7 +15,10 @@
 {
     return @{@"email" : self.email,
              @"password" : self.password,
-             @"username" : self.username};
+             @"username" : self.username,
+             @"first_name" : self.firstName,
+             @"last_name" : self.lastName,
+             };
 }
 
 -(NSDictionary *)toDictionaryLogin

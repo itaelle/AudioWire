@@ -17,6 +17,7 @@
     {
         self.title = NSLocalizedString(@"Add Contact", @"");
         isEditing = NO;
+        needASubPlayer = NO;
     }
     return self;
 }

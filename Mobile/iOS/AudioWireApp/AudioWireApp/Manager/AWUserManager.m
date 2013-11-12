@@ -43,8 +43,8 @@
     NSString *autologinFilePath = [AWUserManager pathOfileAutologin];
     if ([[NSFileManager defaultManager] fileExistsAtPath:autologinFilePath])
     {
-         NSLog(@"AUTOLOGIN => file exists");
         NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:autologinFilePath];
+         NSLog(@"AUTOLOGIN => file exists : %@", ids);
         AWUserModel *loginModel = [AWUserModel fromJSON:ids];
         [self login:loginModel cb_rep:cb_rep];
     }
@@ -55,8 +55,6 @@
 -(void)login:(AWUserModel *)user_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *url = [AWConfManager getURL:AWLogin];
-    
-    user_.password = [user_.password md5];
     
     [AWRequester requestAudiowireAPIPOST:url param:[user_ toDictionaryLogin] cb_rep:^(NSDictionary *rep, BOOL success)
     {
@@ -101,8 +99,6 @@
     
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:[user_ toDictionary] forKey:@"user"];
-    
-    user_.password = [user_.password md5];
     
     [AWRequester requestAudiowireAPIPOST:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
     {
@@ -166,7 +162,6 @@
          }
      }];
 }
-
 
 -(void)logOut:(void (^)(BOOL success, NSString *error))cb_rep
 {

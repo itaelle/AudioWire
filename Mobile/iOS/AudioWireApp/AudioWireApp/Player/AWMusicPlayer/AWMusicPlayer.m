@@ -26,6 +26,7 @@
     if (self)
     {
         player = [MPMusicPlayerController iPodMusicPlayer];
+        hasRequestAPlayAction = NO;
     }
     return self;
 }
@@ -72,14 +73,14 @@
         [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
     }
     
-    if (player.playbackState == MPMusicPlaybackStatePlaying)
+    if (player.playbackState == MPMusicPlaybackStatePlaying || hasRequestAPlayAction)
     {
         if (self.delegate && [self.delegate respondsToSelector:@selector(play:)])
         {
             [self.delegate performSelector:@selector(play:) withObject:self];
         }
     }
-    else if (player.playbackState == MPMusicPlaybackStatePaused)
+    else if (player.playbackState == MPMusicPlaybackStatePaused && !hasRequestAPlayAction)
     {
         if (self.delegate && [self.delegate respondsToSelector:@selector(pause:)])
         {
@@ -177,13 +178,24 @@
     if (!musicItunesMedia)
         return FALSE;
     
-    player.nowPlayingItem = musicItunesMedia;
+    // TEST
+    //player.nowPlayingItem = musicItunesMedia;
+    [self setPlaylistToPlay:@[musicItunesMedia] andStartAtIndex:0];
+    //
+    
     [self play];
     return TRUE;
 }
 
+-(MPMediaItem *)nowPlaying
+{
+    return player.nowPlayingItem;
+}
+
 -(void) play
 {
+    NSLog(@"PLAY PLAYER");
+    hasRequestAPlayAction = YES;
     [player play];
     [self updateDisplayTime];
     [self startTimer];
@@ -196,6 +208,8 @@
 
 -(void) pause
 {
+    NSLog(@"PAUSE PLAYER");
+    hasRequestAPlayAction = NO;
     [player pause];
     [self stopTimer];
     [self updateDisplayTime];
@@ -208,6 +222,7 @@
 
 -(void) stop
 {
+    hasRequestAPlayAction = NO;
     [player stop];
     [self stopTimer];
     [self updateDisplayTime];
@@ -220,12 +235,14 @@
 
 -(void) prev
 {
+    hasRequestAPlayAction = NO;
     [player skipToPreviousItem];
     [self play];
 }
 
 -(void) next
 {
+    hasRequestAPlayAction = NO;
     [player skipToNextItem];
     [self play];
 }

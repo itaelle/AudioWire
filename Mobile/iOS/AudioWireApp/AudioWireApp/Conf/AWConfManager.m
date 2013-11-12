@@ -64,22 +64,27 @@
             // TRACKS
         case AWGetTracks:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks/list?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks?token=%@"];
         } break;
 
-        case AWAddTrack: // To modify, we don't upload a music
+        case AWAddTracks:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks/upload?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks?token=%@"];
         } break;
 
         case AWUpdateTrack:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks/update?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks/%@?token=%@"];
         } break;
             
         case AWDelTrack:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks/delete?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks/%@?token=%@"];
+        } break;
+            
+        case AWDelTracks:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/tracks?token=%@"];
         } break;
 
             // PLAYLISTS

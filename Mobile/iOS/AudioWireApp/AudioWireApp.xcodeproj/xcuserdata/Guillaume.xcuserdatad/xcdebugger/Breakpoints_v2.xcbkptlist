@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Player/AWMusicPlayer/AWMusicPlayer.m"
-            timestampString = "405788593.038025"
+            timestampString = "405987708.238684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "-update"
             landmarkType = "5">
          </BreakpointContent>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Player/AWMusicPlayer/AWMusicPlayer.m"
-            timestampString = "405788593.038025"
+            filePath = "AudioWireApp/Manager/AWUserManager.m"
+            timestampString = "405981405.973699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "-update"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-login:cb_rep:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AudioWireApp/Player/PlayerViewController.m"
+            timestampString = "405987252.284646"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
+            landmarkName = "-pause:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

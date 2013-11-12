@@ -200,7 +200,7 @@
     
     AWUserModel *user = [AWUserModel new];
     user.email = [self.tf_email.text trim];
-    user.password = [self.tf_password.text trim];
+    user.password = [[self.tf_password.text trim] md5];
     user.username = [self.tf_login.text trim];
     user.firstName = [self.tf_firstname.text trim];
     user.lastName = [self.tf_lastname.text trim];

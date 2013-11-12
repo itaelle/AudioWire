@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AWMusicPlayer.h"
 #import "ANPopoverSlider.h"
+#import "AWTrackModel.h"
 
 @protocol SubPlayerDelegate <NSObject>
 
@@ -50,5 +51,6 @@
 -(void) myInit;
 -(void) updatePlayerStatus;
 -(void) endPlayerHandling;
+-(void) stopTrackInItsPlaying:(AWTrackModel *)track;
 
 @end

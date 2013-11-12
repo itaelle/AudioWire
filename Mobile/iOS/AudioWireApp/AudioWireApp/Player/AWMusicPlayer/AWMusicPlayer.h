@@ -28,6 +28,9 @@
 {
     MPMusicPlayerController *player;
     NSTimer* timer;
+    
+    // Dans update le player ne play pas encore. Donc on met un flag pour checker si on a play avant.
+    BOOL hasRequestAPlayAction;
 }
 // DATA PLAYING
 @property (nonatomic, strong) NSArray *playlist;
@@ -48,6 +51,7 @@
 -(BOOL) setNewTimeToPlay:(NSNumber *)newTimeOffset;
 -(void) startEditing;
 -(void) endEditing;
+-(MPMediaItem *)nowPlaying;
 -(BOOL) isPlaying;
 -(BOOL) setPlaylistToPlay:(NSArray *)musicsItunesMedia andStartAtIndex:(int)index;
 -(BOOL) setMusicToPlay:(MPMediaItem *)musicItunesMedia;

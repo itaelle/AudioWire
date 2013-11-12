@@ -20,8 +20,9 @@ typedef enum
     
     AWGetTracks,
     AWUpdateTrack,
-    AWAddTrack,
+    AWAddTracks,
     AWDelTrack,
+    AWDelTracks,
     
     AWGetPlaylists,
     AWAddPlaylists,

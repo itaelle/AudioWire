@@ -36,6 +36,17 @@
     [self setUpViews];
 }
 
+-(void)stopTrackInItsPlaying:(AWTrackModel *)track
+{
+    MPMediaItem *playing = [musicPlayer nowPlaying];
+    
+    if ([playing isEqual:track.iTunesItem])
+    {
+        NSLog(@"This is track is playing, so STOP");
+        [musicPlayer stop];
+    }
+}
+
 -(void)endPlayerHandling
 {
     [musicPlayer end];

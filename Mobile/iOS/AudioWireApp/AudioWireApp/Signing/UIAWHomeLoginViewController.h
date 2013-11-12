@@ -7,6 +7,7 @@
     UIAlertView *subscribedFB;
     
     NSString *urlAvatarFacebook;
+    id<FBGraphUser> userCached;
 }
 
 @property (nonatomic, strong) MBProgressHUD *HUD;

@@ -59,6 +59,8 @@
              
              if (!successApi)
                  cb_rep(nil, successApi, error);
+             else if ([models count] == 0)
+                 cb_rep(nil, successApi, NSLocalizedString(@"No tracks in your library. You should import them first !", @""));
              else
                  [AWTracksManager matchWithITunesLibrary:models cb_rep:cb_rep];
          }
@@ -77,7 +79,7 @@
         return ;
     }
     
-    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddTrack], token];
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddTracks], token];
     
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:[AWTrackModel toArray:tracks_] forKey:@"tracks"];
@@ -111,13 +113,13 @@
         return ;
     }
     
-    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWUpdateTrack], token];
-    
-    if (!trackToUpdate_)
+    if (!trackToUpdate_ || !trackToUpdate_._id)
     {
-        cb_rep(false, NSLocalizedString(@"Bad track sent !", @""));
+        cb_rep(false, NSLocalizedString(@"The selected track is incorrect, it cannot be updated !", @""));
         return ;
     }
+    
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWUpdateTrack], trackToUpdate_._id, token];
     
     [AWRequester requestAudiowireAPIPUT:url param:[trackToUpdate_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
      {
@@ -138,7 +140,7 @@
      }];
 }
 
-+(void)deleteTrack:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
++(void)deleteTracks:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
@@ -148,12 +150,49 @@
         return ;
     }
     
-    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddTrack], token];
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelTracks], token];
     
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:[AWTrackModel toArrayOfIds:tracksToDelete_] forKey:@"tracks_id"];
     
     [AWRequester requestAudiowireAPIDELETE:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
+     {
+         if (success && rep)
+         {
+             BOOL successApi = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+             if (success)
+                 cb_rep(successApi, message);
+             else
+                 cb_rep(successApi, error);
+         }
+         else
+         {
+             cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
+         }
+     }];
+}
+
++(void)deleteTrack:(AWTrackModel *)trackToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
+    
+    if (!token)
+    {
+        cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        return ;
+    }
+    
+    if (!trackToDelete_ || !trackToDelete_._id)
+    {
+        cb_rep(false, NSLocalizedString(@"The selected track is incorrect, it cannot be updated !", @""));
+        return ;
+    }
+    
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelTrack], trackToDelete_._id, token];
+    
+    [AWRequester requestAudiowireAPIDELETE:url param:nil cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {

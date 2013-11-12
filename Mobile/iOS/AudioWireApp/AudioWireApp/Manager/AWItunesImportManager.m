@@ -26,7 +26,7 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *directory = paths[0];
-    return [directory stringByAppendingString:FILE_IMPORT];
+    return [directory stringByAppendingPathComponent:FILE_IMPORT];
 }
 
 -(NSArray *)getAllItunesMedia
@@ -42,6 +42,7 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:[AWItunesImportManager pathOfileImport]])
     {
         importedTracks = [[NSArray alloc] initWithContentsOfFile:[AWItunesImportManager pathOfileImport]];
+        NSLog(@"Importe file fond : %@", [importedTracks description]);
         importedTracks = [AWTrackModel fromJSONArray:importedTracks];
     }
     int nbImported = importedTracks == nil ? 0 : [importedTracks count];
@@ -75,14 +76,20 @@
     {
         AWTrackModel *trackModel = [AWTrackModel new];
         trackModel.title = [song valueForProperty:MPMediaItemPropertyTitle];
+        trackModel.album = [song valueForProperty:MPMediaItemPropertyAlbumTitle];
+        trackModel.artist = [song valueForProperty:MPMediaItemPropertyArtist];
         trackModel.genre = [song valueForProperty:MPMediaItemPropertyGenre];
+        trackModel.numberTrack = [song valueForProperty:MPMediaItemPropertyAlbumTrackNumber];
+        trackModel.time = [song valueForProperty:MPMediaItemPropertyPlaybackDuration];
         
         [tracksToSend addObject:trackModel];
     }
     [AWTracksManager addTrack:tracksToSend cb_rep:^(BOOL success, NSString *error)
     {
-        if (success)
+        if (success) {
             [[AWTrackModel toArray:tracksToSend] writeToFile:[AWItunesImportManager pathOfileImport] atomically:NO];
+            NSLog(@"Wrote into file %@", [AWItunesImportManager pathOfileImport]);
+        }
         cb_rep(success, error);
     }];
 }

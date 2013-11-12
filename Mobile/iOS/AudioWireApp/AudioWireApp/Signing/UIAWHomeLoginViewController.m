@@ -111,6 +111,7 @@
 
 -(void)tryToLogin:(AWUserModel *)userModel uploadAvatar:(BOOL)uploadAvatar_
 {
+    NSLog(@"FB Try to login");
     [[AWUserManager getInstance] login:userModel cb_rep:^(BOOL success, NSString *error)
      {
          [self.HUD hide:YES];
@@ -118,11 +119,13 @@
          self.HUD = nil;
          if (success)
          {
+             NSLog(@"FB Login successful");
              [self.navigationController dismissViewControllerAnimated:NO completion:^{
              }];
          }
          else
          {
+         NSLog(@"FB Login fail => Subscribe");
              [self tryToSubscribe:userModel uploadAvatar:YES];
          }
      }];
@@ -130,6 +133,7 @@
 
 -(void)tryToSubscribe:(AWUserModel *)userModel uploadAvatar:(BOOL)uploadAvatar_
 {
+    NSLog(@"FB TrytoSubscribe");
     [[AWUserManager getInstance] subscribe:userModel cb_rep:^(BOOL success, NSString *error)
      {
          [self.HUD hide:YES];
@@ -138,6 +142,7 @@
          
          if (success)
          {
+             NSLog(@"FB Subscribe successful");
              if (uploadAvatar_)
                  [self uploadAvatarFromFB];
              else
@@ -150,6 +155,7 @@
          }
          else
          {
+             NSLog(@"FB Subscribe fail");
              UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
              [a show];
 
@@ -187,8 +193,20 @@
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-    NSLog(@"UIAWHomeLoginViewController : loginViewFetchedUserInfo => %@", [user description]);
-    //[self setWordingToFacebookButton:loginView];
+     if (![self isUser:userCached equalToUser:user])
+     {
+         NSLog(@"UIAWHomeLoginViewController : loginViewFetchedUserInfo => %@", [user description]);
+         userCached = user;
+     }
+    else
+    {
+        NSLog(@"UIAWHomeLoginViewController : loginViewFetchedUserInfo => CACHE");
+        [FBSession.activeSession closeAndClearTokenInformation];
+        [self.act_facebook setHidden:YES];
+        [self.act_facebook stopAnimating];
+        [self.v_buttonFacebook setHidden:NO];
+        return ;
+    }
     
     [self.act_facebook setHidden:NO];
     [self.act_facebook startAnimating];
@@ -205,6 +223,19 @@
     
     if ([user objectForKey:@"email"])
         mail_user = [NSString stringWithFormat:@"%@%@", PREFIX_MAIL_FB, [user objectForKey:@"email"]];
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"AudioWire cannot retrieve information about the facebook user. It appears that your facebook email is hidden. Please modify your facebook settings to use this feature :)", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+        return ;
+    }
+    
+    if (!id_user || !mail_user)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"AudioWire cannot retrieve information about the facebook user. Try to reconnect on your facebook account in your settings.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+        return ;
+    }
     
     AWUserModel *userAWModel = [AWUserModel new];
     userAWModel.email = mail_user;
@@ -213,7 +244,12 @@
     userAWModel.lastName = user.last_name;
     userAWModel.username = user.username;
     
-    [self tryToLogin:user uploadAvatar:YES];
+    [self tryToLogin:userAWModel uploadAvatar:YES];
+}
+
+- (BOOL)isUser:(id<FBGraphUser>)firstUser equalToUser:(id<FBGraphUser>)secondUser
+{
+    return [firstUser.id isEqual:secondUser.id] && [firstUser.username isEqual:secondUser.username];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
@@ -356,7 +392,7 @@
         self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self.HUD setMode:(MBProgressHUDModeIndeterminate)];
         [self.HUD show:YES];
-        NSString *p = [self.tf_password.text trim];
+        NSString *p = [[self.tf_password.text trim] md5];
         NSString *e = [self.tf_email.text trim];
         
         AWUserModel *user = [AWUserModel new];

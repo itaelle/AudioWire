@@ -14,7 +14,7 @@
 
 #define KEYBOARD_WIDTH 216
 #define FB_APP_ID @"505304152900086"
-#define PREFIX_MAIL_FB @"fb."
+#define PREFIX_MAIL_FB @""
 #define FILE_AUTOLOGIN @"audiowire_autologin"
 #define FILE_IMPORT @"audiowire_import"
 #define URL_API @"https://audiowire.co"

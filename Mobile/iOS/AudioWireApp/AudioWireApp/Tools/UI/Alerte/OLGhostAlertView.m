@@ -312,11 +312,11 @@
 - (void)show{
     CGFloat bottomMargin;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        bottomMargin = 50;
+        bottomMargin = 100;
     } else {
-        bottomMargin = 70;
+        bottomMargin = 100;
     }
-    [self showWithMargin:bottomMargin fromBottom:YES];
+    [self showWithMargin:bottomMargin fromBottom:NO];
 }
 
 - (void)hide

@@ -9,10 +9,6 @@
 #import "AWImportViewController.h"
 #import "AWItunesImportManager.h"
 
-@interface AWImportViewController ()
-
-@end
-
 @implementation AWImportViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -23,6 +19,7 @@
         self.title = NSLocalizedString(@"Import from iTunes", @"");
         needASubPlayer = NO;
     }
+    
     return self;
 }
 
@@ -83,26 +80,24 @@
         [self.bt_import setAlpha:0];
     }];
     
-    [self setUpLoadingView:self.tb_content_import];
     [[AWItunesImportManager getInstance] integrateMediaInAWLibrary:data cb_rep:^(bool success, NSString *error)
     {
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.act_import stopAnimating];
-            [self.act_import setAlpha:0];
-            [self.bt_import setAlpha:1];
-        }];
-        
         if (success)
         {
             [self setFlashMessage:NSLocalizedString(@"All your iTunes Music has been imported in AudioWire !", @"") timeout:1];
-            [self closeAction:self];
+            [self performSelector:@selector(closeAction:) withObject:self afterDelay:0.5];
         }
         else
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
             [alert show];
         }
-        [self cancelLoadingView:self.tb_content_import];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.act_import stopAnimating];
+            [self.act_import setAlpha:0];
+            [self.bt_import setAlpha:1];
+        }];
     }];
 }
 

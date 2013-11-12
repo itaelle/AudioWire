@@ -33,6 +33,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self loadData];
 }
 
 - (void)viewDidLoad
@@ -40,15 +41,12 @@
     [super viewDidLoad];
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
-
     [self setUpPicker];
     
     [self.viewForMiniPlayer addSubview:miniPlayer];
-    
     selectedMusicIndexes = [NSMutableArray new];
     
     [self setUpList];
-    [self loadData];
 }
 
 -(void) setUpPicker
@@ -372,11 +370,14 @@
         if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
         {
             [super setUpLoadingView:_tb_list_artist];
-            [AWTracksManager deleteTrack:@[trackToDelete] cb_rep:^(BOOL success, NSString *error) {
+            [AWTracksManager deleteTrack:trackToDelete cb_rep:^(BOOL success, NSString *error) {
                 if (success)
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Track deleted !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
-                    [alert show];
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Track deleted !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+//                    [alert show];
+                    if (miniPlayer)
+                        [miniPlayer stopTrackInItsPlaying:trackToDelete];
+                    [self setFlashMessage:NSLocalizedString(@"Track deleted !", @"")];
                 }
                 else
                 {
@@ -411,8 +412,10 @@
         [AWMusicPlayer getInstance].playlist = [[AWItunesImportManager getInstance]getAllItunesMedia];
     }
     
-    [[AWMusicPlayer getInstance] start];
-    [self.navigationController pushViewController:player animated:true];
+    if (![[AWMusicPlayer getInstance] start])
+        [self setFlashMessage:NSLocalizedString(@"Itunes Media failed", @"")];
+    else
+        [self.navigationController pushViewController:player animated:true];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -431,17 +434,6 @@
     if (cell == nil)
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellTrack" owner:self options:nil] objectAtIndex:0];
     
-    NSString *exampleDetails = nil;
-
-    if (indexPath.row % 3 == 0)
-    {
-        exampleDetails = @"Only in your library";
-    }
-    else
-    {
-        exampleDetails = @"Listed in your Playlists";
-    }
-    
     if (selectedMusicIndexes &&[selectedMusicIndexes containsObject:indexPath])
         cell.isAlreadySelected = YES;
     
@@ -457,11 +449,11 @@
 {
     NSMutableArray *alphabetical_indexes = [[NSMutableArray alloc] init];
 
-    for (NSString *str in tableData)
+    for (AWTrackModel *track in tableData)
     {
-        if (str && [str length] >= 1)
+        if (track && track.title && [track.title length] >= 1)
         {
-            NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
+            NSString *temp = [track.title substringWithRange:NSMakeRange(0, 1)];
             
             if ([alphabetical_indexes containsObject:temp] == false)
                 [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];

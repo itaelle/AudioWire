@@ -124,10 +124,9 @@
     CellTrack *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil)
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellTrack" owner:self options:nil] objectAtIndex:0];
-
+    
     cell.displayIcon = NO;
-    [cell myInit:[tableData objectAtIndex:indexPath.row] details:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Listed in :", @""), self.playlist.title]];
-
+    [cell myInit:[tableData objectAtIndex:indexPath.row]];
     return cell;
 }
 

@@ -16,11 +16,20 @@
     if (self._id)
         return @{@"track_id" : self._id,
                  @"title" : self.title,
-                 @"genre" : self.genre
+                 @"album" : self.album,
+                 @"artist" : self.artist,
+                 @"genre" : self.genre,
+                 @"numberTrack" : self.numberTrack,
+                 @"time" : [NSNumber numberWithInteger:[self.time integerValue]]
                  };
     else
-        return @{@"title" : self.title,
-                 @"genre" : self.genre
+        return @{
+                 @"title" : self.title,
+                 @"album" : self.album,
+                 @"artist" : self.artist,
+                 @"genre" : self.genre,
+                 @"numberTrack" : self.numberTrack,
+                 @"time" : [NSNumber numberWithInteger:[self.time integerValue]]
                  };
 }
 
@@ -52,7 +61,7 @@
     
     if (data && [data isKindOfClass:[NSDictionary class]])
     {
-        userModel._id = [NSObject getVerifiedString:[data objectForKey:@"id"]];
+        userModel._id = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[data objectForKey:@"id"]]];
         userModel.title = [NSObject getVerifiedString:[data objectForKey:@"title"]];
         userModel.genre = [NSObject getVerifiedString:[data objectForKey:@"genre"]];
     }

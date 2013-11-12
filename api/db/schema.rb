@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131111021939) do
+ActiveRecord::Schema.define(:version => 20131112214301) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20131111021939) do
     t.string   "genre"
     t.string   "artist"
     t.string   "album"
-    t.time     "time"
+    t.integer  "time"
     t.integer  "user_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false

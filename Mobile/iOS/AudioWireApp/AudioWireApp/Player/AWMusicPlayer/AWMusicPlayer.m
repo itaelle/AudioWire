@@ -292,6 +292,7 @@
 -(void)updateMediaInfo
 {
    	MPMediaItem *currentItem = [player nowPlayingItem];
+    NSLog(@"Now playing => %@", [currentItem valueForProperty:MPMediaItemPropertyTitle]);
     if (self.delegate && [self.delegate respondsToSelector:@selector(updateMediaInfo:)])
     {
         [self.delegate performSelector:@selector(updateMediaInfo:) withObject:currentItem];

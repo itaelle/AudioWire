@@ -80,6 +80,9 @@
 
 - (void) setUpViews
 {
+    [_lbMusicPlaying setFont:FONTSIZE(17)];
+    [_lbMusicTime setFont:FONTSIZE(17)];
+    
     // Slider Volume Placement
     _sliderVolume.popupView.hidden = true;
     CGRect sliderPos = _viewSlider.frame;

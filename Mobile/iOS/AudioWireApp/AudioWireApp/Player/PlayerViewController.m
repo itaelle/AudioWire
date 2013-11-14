@@ -145,6 +145,9 @@
 
 - (void) setUpViews
 {
+    [_labelTopPlaying setFont:FONTSIZE(17)];
+    [_labelMinutesPlayed setFont:FONTSIZE(17)];
+    
     // Jacket
     [_jacketView setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.3]];
     _jacketView.layer.borderColor = [[UIColor blackColor] CGColor];

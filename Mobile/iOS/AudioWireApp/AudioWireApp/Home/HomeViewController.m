@@ -181,10 +181,13 @@
 
 -(void)firstWaveAnimation
 {
-    [self.headView setAlpha:1];
-    [self.headView bouingAppear:TRUE oncomplete:^{
-        
-    }];
+    if (firstTime)
+    {
+        [self.headView setAlpha:1];
+        [self.headView bouingAppear:TRUE oncomplete:^{
+            
+        }];
+    }
     
     [_optionButton setAlpha:1];
     [UIView transitionWithView:_optionButton duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
@@ -238,6 +241,11 @@
     [_chatButton setTitle:NSLocalizedString(@"Friends", @"Friends") forState:UIControlStateNormal];
     [_thirdButton setTitle:NSLocalizedString(@"Playlists", @"Playlists") forState:UIControlStateNormal];
     [_optionButton setTitle:NSLocalizedString(@"Options", @"Options") forState:UIControlStateNormal];
+    
+    [_libraryButton.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_chatButton.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_thirdButton.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_optionButton.titleLabel setFont:FONTBOLDSIZE(14)];
     
     UIImage * tempLibrary = [UIImage imageWithColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
     UIImage * tempChat = [UIImage imageWithColor:[UIColor colorWithRed:0.57 green:0.57 blue:0.57 alpha:1]];

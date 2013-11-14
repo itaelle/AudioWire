@@ -26,6 +26,7 @@
         self.title = NSLocalizedString(@"Library", @"");
         isEditingState = NO;
         isPickerDisplayed = NO;
+        firstTime = YES;
     }
     return self;
 }
@@ -75,6 +76,7 @@
     pickerValidator = [[UIButton alloc] initWithFrame:rectForButton];
     [pickerValidator setBackgroundImage:buttonImageHighlight forState:UIControlStateNormal];
     [pickerValidator setTitle:NSLocalizedString(@"Add", @"") forState:UIControlStateNormal];
+    [pickerValidator.titleLabel setFont:FONTBOLDSIZE(17)];
     [pickerValidator addTarget:self action:@selector(didSelectPlaylist:) forControlEvents:UIControlEventTouchUpInside];
     
     [pickerContainer addSubview:pickerPlaylist];
@@ -95,8 +97,12 @@
 
 -(void)loadData
 {
+    if (firstTime)
+        firstTime = NO;
+    else
+        return ;
+
     [self setUpLoadingView:_tb_list_artist];
-    
     [[AWTracksManager getInstance] getAllTracks:^(NSArray *data, BOOL success, NSString *error) {
         if (success)
         {
@@ -212,6 +218,31 @@
         [selectedMusicIndexes removeAllObjects];
         [self hidePicker];
     }
+    if (tracksToDelete && [tracksToDelete count] > 0)
+        [self deleteSelectedTracks];
+}
+
+-(void)deleteSelectedTracks
+{
+    NSLog(@"DELETE TRACKS");
+    for (AWTrackModel *trck in tracksToDelete)
+        NSLog(@"Track => %@, %@", trck._id, trck.title);
+    
+    [self setUpLoadingView:_tb_list_artist];
+    [AWTracksManager deleteTracks:tracksToDelete cb_rep:^(BOOL success, NSString *error)
+    {
+        if (success)
+        {
+            [self setFlashMessage:NSLocalizedString(@"Tracks bas been deleted !", @"") timeout:1];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+        [tracksToDelete removeAllObjects];
+        [super cancelLoadingView:_tb_list_artist];
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -303,7 +334,7 @@
         pickerLabel = [[UILabel alloc] initWithFrame:frame];
         [pickerLabel setTextAlignment:NSTextAlignmentCenter];
         [pickerLabel setBackgroundColor:[UIColor clearColor]];
-        [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+        [pickerLabel setFont:FONTBOLDSIZE(14)];
         if (IS_OS_7_OR_LATER)
             [pickerLabel setTextColor:[UIColor whiteColor]];
         else
@@ -360,26 +391,14 @@
         [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [_tb_list_artist reloadSectionIndexTitles];
         
-        // Delete Track data on API
         if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
         {
-            [self setUpLoadingView:_tb_list_artist];
-            [AWTracksManager deleteTrack:trackToDelete cb_rep:^(BOOL success, NSString *error) {
-                if (success)
-                {
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Track deleted !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
-//                    [alert show];
-                    if (miniPlayer)
-                        [miniPlayer stopTrackInItsPlaying:trackToDelete];
-                    [self setFlashMessage:NSLocalizedString(@"Track deleted !", @"")];
-                }
-                else
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
-                    [alert show];
-                }
-                [super cancelLoadingView:_tb_list_artist];
-            }];
+            if (!tracksToDelete)
+                tracksToDelete = [[NSMutableArray alloc] init];
+            [tracksToDelete addObject:trackToDelete];
+
+            if (miniPlayer)
+                [miniPlayer stopTrackInItsPlaying:trackToDelete];
         }
         
         // Gore mais c'est pour mettre à jour les indexPath dans les cellules
@@ -396,8 +415,11 @@
     // PROD
     if (tableData && [tableData count] > indexPath.row && [[tableData objectAtIndex:indexPath.row]isKindOfClass:[AWTrackModel class]])
     {
-        NSLog(@"Track selected : %@", ((AWTrackModel *)[tableData objectAtIndex:indexPath.row]).title);
-        [AWMusicPlayer getInstance].playlist = [AWTracksManager getInstance].itunesMedia;
+        NSLog(@"Track selected %d : %@", indexPath.row , ((AWTrackModel *)[tableData objectAtIndex:indexPath.row]).title);
+        
+        NSArray *fromItunes = [AWTracksManager getInstance].itunesMedia;
+        
+        [AWMusicPlayer getInstance].playlist = fromItunes;
     
         if (![[AWMusicPlayer getInstance] startAtIndex:indexPath.row])
             [self setFlashMessage:NSLocalizedString(@"Itunes Media failed !", @"")];

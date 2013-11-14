@@ -16,7 +16,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.title = NSLocalizedString(@"Import from iTunes", @"");
+        self.title = NSLocalizedString(@"iTunes import", @"");
         needASubPlayer = NO;
     }
     
@@ -30,6 +30,7 @@
     [self prepareNavBarForEditing:YES];
 
     [self.bt_import setTitle:NSLocalizedString(@"Start import", @"") forState:UIControlStateNormal];
+    [self.bt_import.titleLabel setFont:FONTBOLDSIZE(15)];
     
     [self setUpList];
     [self getItunesMedia];
@@ -149,6 +150,8 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        [cell.textLabel setFont:FONTBOLDSIZE(17)];
+        [cell.detailTextLabel setFont:FONTSIZE(13)];
     }
     
     id selectedRowModel = [data objectAtIndex:indexPath.row];

@@ -106,15 +106,16 @@
 
 -(void)editAction:(id)sender
 {
-    [_tb_list_artist setEditing:TRUE animated:TRUE];
-    [self prepareNavBarForCancel];
-    
     if (tableData)
     {
         AWPlaylistModel *modelForAdding = [AWPlaylistModel new];
         [tableData insertObject:modelForAdding atIndex:0];
+        //        [_tb_list_artist reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
         [_tb_list_artist reloadData];
     }
+    [_tb_list_artist setEditing:TRUE animated:TRUE];
+    [_tb_list_artist reloadSectionIndexTitles];
+    [self prepareNavBarForCancel];
 }
 
 - (void)addAction:(id)sender
@@ -144,9 +145,17 @@
         [AWPlaylistManager deletePlaylists:playlistToDelete cb_rep:^(BOOL success, NSString *details)
          {
              [self cancelLoadingView:_tb_list_artist];
+             [playlistToDelete removeAllObjects];
              
-             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:details delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
-             [alert show];
+             if (success)
+             {
+                 [self setFlashMessage:NSLocalizedString(@"Playlist has been deleted!", @"") timeout:1];
+             }
+             else
+             {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:details delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+                 [alert show];
+             }
              
              if (tableData && [tableData count] == 0)
                  [self prepareNavBarForAdding];
@@ -174,8 +183,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO Delete Playlist data
-
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (tableData && [tableData count] > indexPath.row)
@@ -228,6 +235,9 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        
+        [cell.textLabel setFont:FONTBOLDSIZE(17)];
+        [cell.detailTextLabel setFont:FONTSIZE(13)];
     }
     
     id selectedRowModel = [tableData objectAtIndex:indexPath.row];
@@ -263,7 +273,10 @@
                 [alphabetical_indexes insertObject:[temp capitalizedString] atIndex:[alphabetical_indexes count]];
         }
     }
-    return alphabetical_indexes;
+    if (tableView.isEditing)
+        return nil;
+    else
+        return alphabetical_indexes;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index

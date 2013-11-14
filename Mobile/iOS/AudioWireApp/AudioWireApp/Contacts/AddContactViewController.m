@@ -71,6 +71,7 @@
     [self.lb_category setFont:FONTBOLDSIZE(12)];
     [self.lb_category setText:NSLocalizedString(@"E-mail of the contact :", @"")];
     [self.bt_create setTitle:NSLocalizedString(@"Add contact", @"") forState:UIControlStateNormal];
+    [self.bt_create.titleLabel setFont:FONTBOLDSIZE(15)];
 }
 
 - (void)didReceiveMemoryWarning

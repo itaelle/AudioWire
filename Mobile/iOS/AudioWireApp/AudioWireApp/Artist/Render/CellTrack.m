@@ -46,6 +46,9 @@
     }
     if (!_displayIcon)
         [_btInfo setHidden:true];
+    
+    [_nameLabel setFont:FONTBOLDSIZE(17)];
+    [_detailLabel setFont:FONTSIZE(13)];
 }
 
 - (IBAction)clickBtInfo:(id)sender
@@ -108,12 +111,11 @@
         [UIView animateWithDuration:0.4 animations:^{
 
             [_btInfo setAlpha:0];
-
+            
         } completion:^(BOOL finished) {
             
             self.nameLabel.frame = rectTitle;
             self.detailLabel.frame = rectDetail;
-
         }];
     }
 }

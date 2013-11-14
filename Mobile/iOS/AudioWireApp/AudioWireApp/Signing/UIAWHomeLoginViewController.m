@@ -23,6 +23,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.title = NSLocalizedString(@"Login", @"");
         self.isSignedOut = NO;
     }
     return self;
@@ -60,8 +61,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.title = [NSLocalizedString(@"Login", @"") uppercaseString];
         
 //    [self configTextViewsForView:self.view];
     
@@ -70,19 +69,19 @@
     self.lb_or.text = [NSLocalizedString(@"Or", @"") uppercaseString];
     
     self.lb_email.text = NSLocalizedString(@"Email", @"");
-    [self.lb_email setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
+    [self.lb_email setFont:FONTBOLDSIZE(12)];
 
     self.lb_password.text = NSLocalizedString(@"Password", @"");
-    [self.lb_password setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
+    [self.lb_password setFont:FONTBOLDSIZE(12)];
     
     [self.bt_lostPassword setTitle:NSLocalizedString(@"Lost password ?", @"") forState:(UIControlStateNormal)];
-    [self.bt_lostPassword.titleLabel setFont:[UIFont fontWithName:@"Futura" size:10]];
+    [self.bt_lostPassword.titleLabel setFont:FONTBOLDSIZE(12)];
 
     [self.bt_login setTitle:[NSLocalizedString(@"Go", @"") uppercaseString] forState:(UIControlStateNormal)];
-    [self.bt_login.titleLabel setFont:[UIFont fontWithName:@"Futura-Bold" size:15]];
+    [self.bt_login.titleLabel setFont:FONTBOLDSIZE(15)];
 
     [self.bt_subscribe setTitle:[NSLocalizedString(@"Subscribe", @"") uppercaseString] forState:(UIControlStateNormal)];
-    [self.bt_subscribe.titleLabel setFont:[UIFont fontWithName:@"Futura-Bold" size:15]];
+    [self.bt_subscribe.titleLabel setFont:FONTBOLDSIZE(15)];
     
     [self.bt_help setTitle:NSLocalizedString(@"Unable to connect to your account", @"") forState:(UIControlStateNormal)];
 
@@ -120,7 +119,7 @@
          if (success)
          {
              NSLog(@"FB Login successful");
-             [self.navigationController dismissViewControllerAnimated:NO completion:^{
+             [self.navigationController dismissViewControllerAnimated:TRUE completion:^{
              }];
          }
          else

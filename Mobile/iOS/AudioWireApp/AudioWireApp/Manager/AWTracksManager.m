@@ -56,12 +56,19 @@
         {
             if ([trackModel.title isEqualToString:[object valueForProperty:MPMediaItemPropertyTitle]])
             {
-                //trackModel.iTunesItem = [object copy];
+//                [itunesMediaMatch insertObject:object atIndex:([itunesMediaMatch count]-1)];
                 [itunesMediaMatch addObject:object];
                 break;
             }
         }
     }
+    
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
+    for (MPMediaItem *item in itunesMediaMatch)
+    {
+        NSLog(@"%@", [item valueForProperty:MPMediaItemPropertyTitle]);
+    }
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
     return itunesMediaMatch;
 }
 

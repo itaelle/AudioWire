@@ -145,7 +145,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGSize sizeFullLabel = [[tableData objectAtIndex:indexPath.row] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:15]];
+    CGSize sizeFullLabel = [[tableData objectAtIndex:indexPath.row] sizeWithFont:FONTSIZE(15)];
     
     int widthLabel = 239;
     int widthContent = sizeFullLabel.width;

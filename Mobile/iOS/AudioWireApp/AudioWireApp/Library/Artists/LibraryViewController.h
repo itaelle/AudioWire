@@ -10,7 +10,11 @@
 
 @interface LibraryViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate>
 {
+    BOOL firstTime;
+    
     // Data
+    NSMutableArray *tracksToDelete;
+    
     NSMutableArray *tableData;
     NSArray *pickerData;
     

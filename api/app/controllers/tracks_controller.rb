@@ -27,11 +27,12 @@ class TracksController < ApplicationController
       render :status => 400, :json=>{:success=>false, :error=>"tracks_id field is missing or invalid"}
       return
     end
-    puts lst
+    playlists = Playlist.find_all_by_user_id(user.id)
     counter = 0
     lst.each do |id|
       track = user.tracks.find_by_id(id)
        if !track.nil?
+          delete_track_from_playlists(user, track)
           track.delete
           counter = counter + 1
       end
@@ -47,6 +48,7 @@ class TracksController < ApplicationController
     user = User.find_by_authentication_token(params[:token])
     track = user.tracks.find_by_id(params[:id])
     if !track.nil?
+      delete_track_from_playlists(user, track)
       track.delete
     else
       render :status=>404, :json=>{:success=>false, :message=>"Track does not exist"}
@@ -100,4 +102,20 @@ class TracksController < ApplicationController
       render :status=>404, :json=>{:success=>false, :error=>"Track does not exist"}
     end
   end
+
+
+  protected
+
+  def delete_track_from_playlists(user, track)
+    playlists = Playlist.find_all_by_user_id(user.id)
+    if !playlists.nil?
+      playlists.each do |playlist|
+        relation_id = playlist.relation_playlists.find_by_track_id(track.id)
+        if !relation_id.nil?
+          playlist.relation_playlists.find_by_id(relation_id).delete
+        end
+      end
+    end
+  end
+
 end

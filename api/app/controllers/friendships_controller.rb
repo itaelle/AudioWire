@@ -38,7 +38,7 @@ class FriendshipsController < ApplicationController
     end
     friend = User.find_by_email(params[:friend_email])
     if !friend
-      # UserMailer.ask_join(user, params[:friend_email]).deliver
+      UserMailer.ask_join(user, params[:friend_email]).deliver
       render :status => 404, :json=>{:success=>false, :error=>"Friend does not exists"}
       return
     end

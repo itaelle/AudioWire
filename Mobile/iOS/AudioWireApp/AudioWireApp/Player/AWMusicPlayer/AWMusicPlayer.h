@@ -21,7 +21,8 @@
 -(void) play:(id)sender;
 -(void) pause:(id)sender;
 -(void) stop:(id)sender;
-
+-(void) prev:(id)sender;
+-(void) next:(id)sender;
 @end
 
 @interface AWMusicPlayer : NSObject<AVAudioPlayerDelegate>
@@ -31,6 +32,8 @@
     
     // Dans update le player ne play pas encore. Donc on met un flag pour checker si on a play avant.
     BOOL hasRequestAPlayAction;
+    
+    BOOL isUpdating;
 }
 // DATA PLAYING
 @property (nonatomic, strong) NSArray *playlist;

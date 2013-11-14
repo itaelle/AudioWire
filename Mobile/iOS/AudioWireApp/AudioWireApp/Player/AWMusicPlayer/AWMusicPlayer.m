@@ -27,6 +27,7 @@
     {
         player = [MPMusicPlayerController iPodMusicPlayer];
         hasRequestAPlayAction = NO;
+        isUpdating = NO;
     }
     return self;
 }
@@ -141,7 +142,7 @@
 
 - (void) handle_NowPlayingItemChanged: (id) notification
 {
-    [self updateMediaInfo];
+   // [self updateMediaInfo];
 }
 
 - (void) handle_PlaybackStateChanged: (id) notification
@@ -171,6 +172,7 @@
         #warning GORE
         for (int i = 0; i < index; i++)
             [player skipToNextItem];
+
         [self play];
         return TRUE;
     }
@@ -242,6 +244,12 @@
 {
     hasRequestAPlayAction = NO;
     [player skipToPreviousItem];
+    [self updateMediaInfo];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(prev:)])
+    {
+        [self.delegate performSelector:@selector(prev:) withObject:self];
+    }
     [self play];
 }
 
@@ -249,6 +257,12 @@
 {
     hasRequestAPlayAction = NO;
     [player skipToNextItem];
+    [self updateMediaInfo];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(next:)])
+    {
+        [self.delegate performSelector:@selector(next:) withObject:self];
+    }
     [self play];
 }
 

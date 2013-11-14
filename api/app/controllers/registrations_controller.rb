@@ -12,7 +12,7 @@ class   RegistrationsController < Devise::RegistrationsController
      if resource.save
           if resource.active_for_authentication?
               sign_up(resource_name, resource)
-              # UserMailer.welcome_email(resource).deliver
+              UserMailer.welcome_email(resource).deliver
               render :status=>201, :json=>{:success=>true, :token=>@user.authentication_token, :id=>@user.id}
           else
             expire_session_data_after_sign_in!

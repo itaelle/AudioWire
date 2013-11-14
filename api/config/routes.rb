@@ -7,7 +7,6 @@ AudioWire::Application.routes.draw do
   devise_for :users, :skip => [:registrations, :sessions, :passwords]
   as :user do
     post '/api/users' => 'registrations#create'
-#    delete '/users' => 'registrations#destroy'
   end
   scope '/api' do
     match '/users/login' => 'tokens#create', :via => :post
@@ -22,6 +21,7 @@ AudioWire::Application.routes.draw do
     match '/tracks' => 'tracks#create', :via => :post
     match '/tracks' => 'tracks#list', :via => :get
     match '/tracks' => 'tracks#bulk_delete', :via => :delete
+    match '/tracks/delete' => 'tracks#bulk_delete', :via => :post  # for ios support
 
     match '/tracks/:id' => 'tracks#show', :via => :get
     match '/tracks/:id' => 'tracks#delete', :via => :delete
@@ -31,12 +31,13 @@ AudioWire::Application.routes.draw do
     match '/friends' => 'friendships#create', :via => :post
     match '/friends' => 'friendships#index', :via => :get
 
-    match '/friends/:friend' => 'friendships#destroy', :via => :delete
+    match '/friends' => 'friendships#destroy', :via => :delete
 
 
     match '/playlist' => 'playlists#list', :via => :get
     match '/playlist' => 'playlists#create', :via => :post
     match '/playlist' => 'playlists#bulk_delete', :via => :delete
+    match '/playlist/delete' => 'playlists#bulk_delete', :via => :post  # for ios support
 
     match '/playlist/:id' => 'playlists#delete', :via => :delete
     match '/playlist/:id' => 'playlists#show', :via => :get
@@ -45,6 +46,7 @@ AudioWire::Application.routes.draw do
     match '/playlist/:id/tracks' => 'playlists#get_tracks', :via => :get
     match '/playlist/:id/tracks' => 'playlists#add_tracks', :via => :post
     match '/playlist/:id/tracks' => 'playlists#bulk_delete_tracks', :via => :delete
+    match '/playlist/:id/tracks/delete' => 'playlists#bulk_delete_tracks', :via => :post  # for ios support
 
     match '/playlist/:id/tracks/:id_track' => 'playlists#delete_track', :via => :delete
   end

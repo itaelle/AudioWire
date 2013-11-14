@@ -23,11 +23,11 @@ class TracksController < ApplicationController
   def bulk_delete
     user = User.find_by_authentication_token(params[:token])
     lst = params[:tracks_id]
-    puts params[:tracks_id].class
     if params[:tracks_id].nil?
       render :status => 400, :json=>{:success=>false, :error=>"tracks_id field is missing or invalid"}
       return
     end
+    puts lst
     counter = 0
     lst.each do |id|
       track = user.tracks.find_by_id(id)

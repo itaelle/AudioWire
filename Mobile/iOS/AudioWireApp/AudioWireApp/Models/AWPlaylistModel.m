@@ -30,6 +30,7 @@
     {
         if (object && [object isKindOfClass:[AWPlaylistModel class]])
             [ret addObject:((AWPlaylistModel*)object)._id];
+            //[ret addObject:[NSNumber numberWithInt:[((AWPlaylistModel*)object)._id intValue]]];
     }
     return ret;
 }
@@ -40,8 +41,9 @@
     
     if (data && [data isKindOfClass:[NSDictionary class]])
     {
-        playlistModel._id = [NSObject getVerifiedString:[data objectForKey:@"id"]];
+        playlistModel._id = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[data objectForKey:@"id"]]];
         playlistModel.title = [NSObject getVerifiedString:[data objectForKey:@"title"]];
+        playlistModel.nb_tracks = [NSObject getVerifiedInteger:[data objectForKey:@"nb_tracks"]];
     }
     return playlistModel;
 }

@@ -212,7 +212,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     }
 
     // HTTP Method Definitions; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
-    self.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", @"DELETE", nil];
+    self.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", /*@"DELETE",*/ nil];
 
     return self;
 }
@@ -331,10 +331,12 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     NSString *query = nil;
     if (self.queryStringSerialization) {
         query = self.queryStringSerialization(request, parameters, error);
+        NSLog(@"Query 1 : %@", query);
     } else {
         switch (self.queryStringSerializationStyle) {
             case AFHTTPRequestQueryStringDefaultStyle:
                 query = AFQueryStringFromParametersWithEncoding(parameters, self.stringEncoding);
+                NSLog(@"Query 2 : %@", query);
                 break;
             default:
                 break;
@@ -343,12 +345,13 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 
     if ([self.HTTPMethodsEncodingParametersInURI containsObject:[[request HTTPMethod] uppercaseString]]) {
         mutableRequest.URL = [NSURL URLWithString:[[mutableRequest.URL absoluteString] stringByAppendingFormat:mutableRequest.URL.query ? @"&%@" : @"?%@", AFQueryStringFromParametersWithEncoding(parameters, self.stringEncoding)]];
+        NSLog(@"Request 1 using HTTP body : %@", [mutableRequest description]);
     } else {
         NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(self.stringEncoding));
         [mutableRequest setValue:[NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
         [mutableRequest setHTTPBody:[query dataUsingEncoding:self.stringEncoding]];
+        NSLog(@"Request 2 using HTTP body : %@", [mutableRequest description]);
     }
-
     return mutableRequest;
 }
 
@@ -1023,33 +1026,68 @@ typedef enum {
 
 #pragma mark - AFURLRequestSerialization
 
+//- (NSURLRequest *)requestBySerializingRequest:(NSURLRequest *)request
+//                               withParameters:(NSDictionary *)parameters
+//                                        error:(NSError *__autoreleasing *)error
+//{
+//    NSParameterAssert(request);
+//
+//    if ([self.HTTPMethodsEncodingParametersInURI containsObject:[[request HTTPMethod] uppercaseString]]) {
+//        return [super requestBySerializingRequest:request withParameters:parameters error:error];
+//    }
+//
+//    NSMutableURLRequest *mutableRequest = [request mutableCopy];
+//
+//    [self.HTTPRequestHeaders enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
+//        if (![request valueForHTTPHeaderField:field]) {
+//            [mutableRequest setValue:value forHTTPHeaderField:field];
+//        }
+//    }];
+//    
+//    if (!parameters) {
+//        NSLog(@"Request JSON : %@", [mutableRequest description]);
+//        return mutableRequest;
+//    }
+//
+//    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+//
+//    [mutableRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
+//    [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
+//    
+//    NSLog(@"Request JSON : %@", [mutableRequest.HTTPBody description]);
+//
+//    return mutableRequest;
+//}
+
 - (NSURLRequest *)requestBySerializingRequest:(NSURLRequest *)request
                                withParameters:(NSDictionary *)parameters
                                         error:(NSError *__autoreleasing *)error
 {
     NSParameterAssert(request);
-
-    if ([self.HTTPMethodsEncodingParametersInURI containsObject:[[request HTTPMethod] uppercaseString]]) {
-        return [super requestBySerializingRequest:request withParameters:parameters error:error];
-    }
-
-    NSMutableURLRequest *mutableRequest = [request mutableCopy];
-
-    [self.HTTPRequestHeaders enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
-        if (![request valueForHTTPHeaderField:field]) {
-            [mutableRequest setValue:value forHTTPHeaderField:field];
-        }
-    }];
     
-    if (!parameters) {
-        return mutableRequest;
+    NSMutableURLRequest *mutableRequest;
+    
+    if ([self.HTTPMethodsEncodingParametersInURI containsObject:[[request HTTPMethod] uppercaseString]]) {
+        mutableRequest = [[super requestBySerializingRequest:request withParameters:parameters error:error] mutableCopy];
     }
-
+    else {
+        mutableRequest = [request mutableCopy];
+        
+        [self.HTTPRequestHeaders enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
+            if (![request valueForHTTPHeaderField:field]) {
+                [mutableRequest setValue:value forHTTPHeaderField:field];
+            }
+        }];
+        
+        if (parameters) {
+            [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
+        }
+    }
+    
     NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-
+    
     [mutableRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
-    [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
-
+    NSLog(@"Request JSON : %@", [mutableRequest description]);
     return mutableRequest;
 }
 

@@ -77,6 +77,13 @@
     [_jacketView setFrame:jacketViewFrame];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [_jacketImg setAlpha:0];
+    [self flipJacketView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -99,9 +106,10 @@
 
 -(void)flipJacketView
 {
-    [_jacketImg setAlpha:1];
+    NSLog(@"FLIP");
+
     [UIView transitionWithView:_jacketImg duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
-        
+        [_jacketImg setAlpha:1];
     } completion:^(BOOL finished) {
         if (finished)
         {
@@ -414,7 +422,8 @@
     }
     [_jacketImg setImage:artworkImageSmall];
     [_im_bg_album setImage:artworkImageLarge];
-    [self flipJacketView];
+    
+    [_jacketImg setAlpha:0];
 }
 
 -(void) play:(id)sender
@@ -435,6 +444,16 @@
 {
     NSLog(@"Stop delegate controller");
     isPlaying = NO;
+}
+
+-(void) prev:(id)sender
+{
+    [self flipJacketView];
+}
+
+-(void) next:(id)sender
+{
+    [self flipJacketView];
 }
 
 @end

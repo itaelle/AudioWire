@@ -11,10 +11,17 @@
 
 @interface AWTracksManager : NSObject
 
-+(void)getAllTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
+@property (nonatomic, strong) NSArray *itunesMedia;
+
++(AWTracksManager*)getInstance;
+-(void)getAllTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
+
 +(void)addTrack:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 +(void)deleteTracks:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 +(void)deleteTrack:(AWTrackModel *)trackToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 +(void)updateTrack:(AWTrackModel *)trackToUpdate_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
++(NSMutableArray *)matchWithITunesLibrary:(NSArray *)arrayTrackModel;
+
+//+(void)matchWithITunesLibrary:(NSArray *)arrayTrackModel cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
 
 @end

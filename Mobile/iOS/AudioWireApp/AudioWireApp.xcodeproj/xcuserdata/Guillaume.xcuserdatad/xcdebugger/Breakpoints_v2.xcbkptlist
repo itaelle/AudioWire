@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Player/AWMusicPlayer/AWMusicPlayer.m"
-            timestampString = "405987708.238684"
+            timestampString = "406123516.988318"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "-update"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,13 +58,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Player/PlayerViewController.m"
-            timestampString = "405987252.284646"
+            timestampString = "406124290.475374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "-pause:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

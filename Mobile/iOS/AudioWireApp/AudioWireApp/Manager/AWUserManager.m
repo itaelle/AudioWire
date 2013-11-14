@@ -111,6 +111,8 @@
             if (successCreation && [self.connectedUserTokenAccess length] > 0)
             {
                 [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
+                NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
+                NSLog(@"Wrote to file => %@", [ids description]);
                 cb_rep(true, nil);
             }
             else
@@ -170,10 +172,7 @@
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWLogout], self.connectedUserTokenAccess];
     
-    NSMutableDictionary *dict_token = [NSMutableDictionary new];
-    [dict_token setObject:self.connectedUserTokenAccess forKey:@"token"];
-    
-    [AWRequester requestAudiowireAPIDELETE:url param:dict_token cb_rep:^(NSDictionary *rep, BOOL success)
+    [AWRequester requestAudiowireAPIDELETE:url cb_rep:^(NSDictionary *rep, BOOL success)
     {
         if (success && rep)
         {

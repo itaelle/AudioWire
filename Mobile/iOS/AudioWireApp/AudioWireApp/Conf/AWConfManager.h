@@ -28,6 +28,7 @@ typedef enum
     AWAddPlaylists,
     AWDelPlaylists,
     AWUpdatePlaylists,
+    AWGetTracksInPlaylist,
     AWAddTracksPlaylist,
     AWDelTracksPlaylist,
     

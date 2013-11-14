@@ -27,11 +27,17 @@
     {
         player = [MPMusicPlayerController iPodMusicPlayer];
         hasRequestAPlayAction = NO;
+        isUpdating = NO;
     }
     return self;
 }
 
 -(BOOL)start
+{
+    return [self startAtIndex:0];
+}
+
+-(BOOL)startAtIndex:(NSUInteger)index
 {
     NSLog(@"MusicPlayer => start");
     self.isEditingPlayingOffset = NO;
@@ -44,9 +50,9 @@
         [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
     }
     
-    if (self.playlist && [self.playlist count] > 0)
+    if (self.playlist && [self.playlist count] > 0 && [self.playlist count] > index)
     {
-        [self setPlaylistToPlay:self.playlist andStartAtIndex:0];
+        [self setPlaylistToPlay:self.playlist andStartAtIndex:index];
         return TRUE;
     }
     
@@ -136,7 +142,7 @@
 
 - (void) handle_NowPlayingItemChanged: (id) notification
 {
-    [self updateMediaInfo];
+   // [self updateMediaInfo];
 }
 
 - (void) handle_PlaybackStateChanged: (id) notification
@@ -166,6 +172,7 @@
         #warning GORE
         for (int i = 0; i < index; i++)
             [player skipToNextItem];
+
         [self play];
         return TRUE;
     }
@@ -237,6 +244,12 @@
 {
     hasRequestAPlayAction = NO;
     [player skipToPreviousItem];
+    [self updateMediaInfo];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(prev:)])
+    {
+        [self.delegate performSelector:@selector(prev:) withObject:self];
+    }
     [self play];
 }
 
@@ -244,6 +257,12 @@
 {
     hasRequestAPlayAction = NO;
     [player skipToNextItem];
+    [self updateMediaInfo];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(next:)])
+    {
+        [self.delegate performSelector:@selector(next:) withObject:self];
+    }
     [self play];
 }
 

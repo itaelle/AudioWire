@@ -11,6 +11,7 @@
 #import "PlayerViewController.h"
 #import "SubPlayer.h"
 #import "MusicsViewController.h"
+#import "AWTracksManager.h"
 
 @implementation MusicsViewController
 
@@ -30,10 +31,27 @@
 
     if (self.playlist)
         self.title = self.playlist.title;
-    [_viewForMiniPlayer addSubview:miniPlayer];
+    _isAlreadyInPlaylist = false;
 
+    [_viewForMiniPlayer addSubview:miniPlayer];
     [self setUpList];
-    [self loadData];
+}
+
+-(void)editAction:(id)sender
+{
+    isEditingState = YES;
+    [_tb_list_artist reloadSectionIndexTitles];
+    [_tb_list_artist setEditing:TRUE animated:TRUE];
+    [self prepareNavBarForCancel];
+}
+
+-(void)cancelAction:(id)sender
+{
+    isEditingState = NO;
+    [_tb_list_artist reloadSectionIndexTitles];
+    [_tb_list_artist setEditing:FALSE animated:TRUE];
+    
+    [self prepareNavBarForEditing];
 }
 
 -(void)setUpList
@@ -50,28 +68,30 @@
 {
     // Loading View
     [super setUpLoadingView:_tb_list_artist];
+    if (!self.playlist)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Playlist doesn't exist!", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+        return ;
+    }
     
-    _isAlreadyInPlaylist = false;
-    tableData = [NSMutableArray arrayWithArray:@[@"War of mushrooms",
-                                                 @"Saxon",
-                                                 @"Insane - Electro Dance Party Electro Dance Party",
-                                                 @"Track 5",
-                                                 @"Electro Panic"]];
-    
+    [[AWPlaylistManager getInstance] getTracksInPlaylist:self.playlist cb_rep:^(NSArray *data, BOOL success, NSString *error) {
+        if (success)
+        {
+            [tableData removeAllObjects];
+            tableData = nil;
+            tableData = [data mutableCopy];
+            [self.tb_list_artist reloadData];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+
     // Loading View
     [super cancelLoadingView:_tb_list_artist];
-}
-
--(void)editAction:(id)sender
-{
-    [_tb_list_artist setEditing:TRUE animated:TRUE];
-    [self prepareNavBarForCancel];
-}
-
--(void)cancelAction:(id)sender
-{
-    [_tb_list_artist setEditing:FALSE animated:TRUE];
-    [self prepareNavBarForEditing];
 }
 
 
@@ -93,40 +113,79 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO Delete Music data
-
     if (tableData && [tableData count] > indexPath.row)
     {
+        AWTrackModel *trackToDelete = [tableData objectAtIndex:indexPath.row];
         [tableData removeObjectAtIndex:indexPath.row];
+        
         [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [_tb_list_artist reloadSectionIndexTitles];
+        
+        // Delete Track data on API
+        if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
+        {
+            [self setUpLoadingView:_tb_list_artist];
+            [AWPlaylistManager delTracksInPlaylist:self.playlist tracks:@[trackToDelete] cb_rep:^(BOOL success, NSString *error)
+            {
+                if (success)
+                {
+                    if (miniPlayer)
+                        [miniPlayer stopTrackInItsPlaying:trackToDelete];
+                    [self setFlashMessage:NSLocalizedString(@"Track deleted from playlist!", @"")];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+                    [alert show];
+                }
+                [super cancelLoadingView:_tb_list_artist];
+            }];
+        }
+        
+        // Gore mais c'est pour mettre à jour les indexPath dans les cellules
+        [_tb_list_artist reloadData];
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
-
-    // Go To PLAYER Controller
+    
     PlayerViewController *player = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
-    [self.navigationController pushViewController:player animated:true];
+    
+    // PROD
+    if (tableData && [tableData count] > indexPath.row && [[tableData objectAtIndex:indexPath.row]isKindOfClass:[AWTrackModel class]])
+    {
+        [AWMusicPlayer getInstance].playlist = [AWTracksManager getInstance].itunesMedia;
+        
+        if (![[AWMusicPlayer getInstance] startAtIndex:indexPath.row])
+            [self setFlashMessage:NSLocalizedString(@"Itunes Media failed !", @"")];
+        else
+            [self.navigationController pushViewController:player animated:true];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [tableData count];
+    if (tableData)
+        return [tableData count];
+    else
+        return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
+    static NSString *simpleTableIdentifier = @"musicCell";
     
     CellTrack *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil)
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellTrack" owner:self options:nil] objectAtIndex:0];
     
-    cell.displayIcon = NO;
+    cell.displayIcon = YES;
+    cell.parent = self;
+    cell.myIndexPath = indexPath;
     [cell myInit:[tableData objectAtIndex:indexPath.row]];
+    
     return cell;
 }
 
@@ -134,27 +193,28 @@
 {
     NSMutableArray *alphabetical_indexes = [[NSMutableArray alloc] init];
     
-    for (NSString *str in tableData)
+    for (AWTrackModel *track in tableData)
     {
-        if (str && [str length] > 1)
+        if (track && track.title && [track.title length] >= 1)
         {
-            NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
+            NSString *temp = [track.title substringWithRange:NSMakeRange(0, 1)];
             
-            if ([alphabetical_indexes containsObject:temp] == false)
-                [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];
+            if ([alphabetical_indexes containsObject:[temp capitalizedString]] == false)
+                [alphabetical_indexes insertObject:[temp capitalizedString] atIndex:[alphabetical_indexes count]];
         }
     }
-    return alphabetical_indexes;
+    
+    if (isEditingState)
+        return nil;
+    else
+        return alphabetical_indexes;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     NSInteger newRow = [self indexForFirstChar:title inArray:tableData];
-    
-    // NSLog(@"Index to scroll to : %u", newRow);
-    
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:0];
-    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:TRUE];
     
     return index;
 }
@@ -162,10 +222,13 @@
 - (NSInteger)indexForFirstChar:(NSString *)character inArray:(NSArray *)array
 {
     NSUInteger count = 0;
-    for (NSString *str in array)
+    for (AWTrackModel *track in array)
     {
-        if ([str hasPrefix:character])
-            return count;
+        if (track && [track isKindOfClass:[AWTrackModel class]])
+        {
+            if ([track.title hasPrefix:character])
+                return count;
+        }
         count++;
     }
     return 0;

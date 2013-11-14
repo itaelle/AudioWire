@@ -91,10 +91,10 @@
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddFriend], token];
     
-    NSMutableDictionary *userDict = [NSMutableDictionary new];
-    [userDict setObject:frienToDel_._id forKey:@"friend_id"];
+//    NSMutableDictionary *userDict = [NSMutableDictionary new];
+//    [userDict setObject:frienToDel_._id forKey:@"friend_id"];
     
-    [AWRequester requestAudiowireAPIDELETE:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
+    [AWRequester requestAudiowireAPIDELETE:url cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {

@@ -194,9 +194,7 @@
 		F0D213181813F1AE00F844E2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0061F2C1812CBE30057EBEA /* CoreLocation.framework */; };
 		F0D2131C18141C9200F844E2 /* AWConfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0D2131B18141C9200F844E2 /* AWConfManager.m */; };
 		F0E43460181BFCFF002E7949 /* AWMusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F0E4345F181BFCFF002E7949 /* AWMusicPlayer.m */; };
-		F0E43462181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac in Resources */ = {isa = PBXBuildFile; fileRef = F0E43461181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac */; };
 		F0E43463181C1620002E7949 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */; };
-		F0E43465181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */; };
 		F0EBC88B181F28DF000FF73B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */; };
 		F0F5D968182678FA002A4558 /* picto-check.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F5D966182678FA002A4558 /* picto-check.png */; };
 		F0F5D969182678FA002A4558 /* picto-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F5D967182678FA002A4558 /* picto-check@2x.png */; };
@@ -431,8 +429,6 @@
 		F0D2131B18141C9200F844E2 /* AWConfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWConfManager.m; path = Conf/AWConfManager.m; sourceTree = "<group>"; };
 		F0E4345E181BFCFF002E7949 /* AWMusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWMusicPlayer.h; path = Player/AWMusicPlayer/AWMusicPlayer.h; sourceTree = "<group>"; };
 		F0E4345F181BFCFF002E7949 /* AWMusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMusicPlayer.m; path = Player/AWMusicPlayer/AWMusicPlayer.m; sourceTree = "<group>"; };
-		F0E43461181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = Jimi_Hendrix_All_Along_The_Watchtower.flac; path = SupportingFiles/Jimi_Hendrix_All_Along_The_Watchtower.flac; sourceTree = "<group>"; };
-		F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = TheWho_WeWontGetFooledAgain.mp3; path = SupportingFiles/TheWho_WeWontGetFooledAgain.mp3; sourceTree = "<group>"; };
 		F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = AudioWireApp/Tools/Frameworks/FacebookSDK.framework; sourceTree = "<group>"; };
 		F0F5D966182678FA002A4558 /* picto-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picto-check.png"; path = "AudioWireApp/img/picto-check.png"; sourceTree = SOURCE_ROOT; };
 		F0F5D967182678FA002A4558 /* picto-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picto-check@2x.png"; path = "AudioWireApp/img/picto-check@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -771,8 +767,6 @@
 		F072508617AC30C300445F37 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F0E43464181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 */,
-				F0E43461181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac */,
 				F0061F6C1812F6890057EBEA /* Default-568h@2x.png */,
 				F0061F711812F8BB0057EBEA /* AudioWireApp-Prefix.pch */,
 				F0061F6E1812F70C0057EBEA /* AudioWireApp.xcdatamodeld */,
@@ -1279,9 +1273,7 @@
 				F0BF337E182D542F007E6A5E /* noArtworkImageSmall.png in Resources */,
 				F072516517ACB92000445F37 /* slider_maximum.png in Resources */,
 				F072516617ACB92000445F37 /* slider_maximum@2x.png in Resources */,
-				F0E43465181C175C002E7949 /* TheWho_WeWontGetFooledAgain.mp3 in Resources */,
 				F0061F631812EC630057EBEA /* non-cocher@2x.png in Resources */,
-				F0E43462181C1518002E7949 /* Jimi_Hendrix_All_Along_The_Watchtower.flac in Resources */,
 				F0061F6B1812F6550057EBEA /* Futura-Bold.otf in Resources */,
 				F0D21313181347B900F844E2 /* CreatePlaylistViewController.xib in Resources */,
 				F072516717ACB92000445F37 /* slider_minimum.png in Resources */,

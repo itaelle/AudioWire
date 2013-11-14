@@ -76,9 +76,20 @@
     [self.act_creating startAnimating];
     [self.bt_create setAlpha:0];
     
-    // TODO Create the playlist
+    if ([[self.tf_playlist.text trim] length] == 0)
+    {
+        [self.act_creating setAlpha:0];
+        [self.act_creating stopAnimating];
+        [self.bt_create setAlpha:1];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"The title of the playlist cannot be blank. Please make it right, you won't be disappointed :)", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+        [alert show];
+        return ;
+    }
+    
     AWPlaylistModel *playlistModelToAdd = [AWPlaylistModel new];
     playlistModelToAdd.title = [self.tf_playlist.text trim];
+    
     
     [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *error)
     {

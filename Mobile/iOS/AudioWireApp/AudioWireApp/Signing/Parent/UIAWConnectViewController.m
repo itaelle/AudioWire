@@ -63,8 +63,8 @@
     }
     else
     {
-        NSLog(@"isLogin => TRUE => DONE");
-        return ;
+//        NSLog(@"isLogin => TRUE => DONE");
+//        return ;
         
         NSLog(@"isLogin => TRUE => Continue /LoadData/");
         [self loadData];

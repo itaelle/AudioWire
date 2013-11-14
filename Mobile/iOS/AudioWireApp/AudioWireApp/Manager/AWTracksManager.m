@@ -17,25 +17,55 @@
 
 @implementation AWTracksManager
 
-+(void)matchWithITunesLibrary:(NSArray *)arrayTrackModel cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
++(AWTracksManager*)getInstance
+{
+    static AWTracksManager *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [[AWTracksManager alloc] init];
+    });
+    return sharedMyManager;
+}
+
+//+(void)matchWithITunesLibrary:(NSArray *)arrayTrackModel cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
+//{
+//    NSArray *itunesMedia = [[AWItunesImportManager getInstance] getAllItunesMedia];
+// 
+//    for (MPMediaItem *object in itunesMedia)
+//    {
+//        for (AWTrackModel *trackModel in arrayTrackModel)
+//        {
+//            if ([trackModel.title isEqualToString:[object valueForProperty:MPMediaItemPropertyTitle]])
+//            {
+//                trackModel.iTunesItem = [object copy];
+//                break;
+//            }
+//        }
+//    }
+//    cb_rep(arrayTrackModel, true, nil);
+//}
+
++(NSMutableArray *)matchWithITunesLibrary:(NSArray *)arrayTrackModel
 {
     NSArray *itunesMedia = [[AWItunesImportManager getInstance] getAllItunesMedia];
- 
-    for (MPMediaItem *object in itunesMedia)
+    NSMutableArray *itunesMediaMatch = [[NSMutableArray alloc] initWithCapacity:[arrayTrackModel count]];
+    
+    for (AWTrackModel *trackModel in arrayTrackModel)
     {
-        for (AWTrackModel *trackModel in arrayTrackModel)
+        for (MPMediaItem *object in itunesMedia)
         {
             if ([trackModel.title isEqualToString:[object valueForProperty:MPMediaItemPropertyTitle]])
             {
-                trackModel.iTunesItem = [object copy];
+                //trackModel.iTunesItem = [object copy];
+                [itunesMediaMatch addObject:object];
                 break;
             }
         }
     }
-    cb_rep(arrayTrackModel, true, nil);
+    return itunesMediaMatch;
 }
 
-+(void)getAllTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
+-(void)getAllTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
 {
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
@@ -54,15 +84,18 @@
              BOOL successApi = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              NSArray *list = [NSObject getVerifiedArray:[rep objectForKey:@"list"]];
-
              NSArray *models = [AWTrackModel fromJSONArray:list];
              
              if (!successApi)
                  cb_rep(nil, successApi, error);
              else if ([models count] == 0)
-                 cb_rep(nil, successApi, NSLocalizedString(@"No tracks in your library. You should import them first !", @""));
+                 cb_rep(nil, false, NSLocalizedString(@"No tracks in your library. You should import them first from your home screen!", @""));
              else
-                 [AWTracksManager matchWithITunesLibrary:models cb_rep:cb_rep];
+             {
+                 self.itunesMedia = nil;
+                 self.itunesMedia = [AWTracksManager matchWithITunesLibrary:models];
+                 cb_rep(models, successApi, nil);
+             }
          }
          else
              cb_rep(nil, false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
@@ -155,7 +188,7 @@
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:[AWTrackModel toArrayOfIds:tracksToDelete_] forKey:@"tracks_id"];
     
-    [AWRequester requestAudiowireAPIDELETE:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
+    [AWRequester requestAudiowireAPIPOST:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {
@@ -191,8 +224,8 @@
     }
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelTrack], trackToDelete_._id, token];
-    
-    [AWRequester requestAudiowireAPIDELETE:url param:nil cb_rep:^(NSDictionary *rep, BOOL success)
+
+    [AWRequester requestAudiowireAPIDELETE:url cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {

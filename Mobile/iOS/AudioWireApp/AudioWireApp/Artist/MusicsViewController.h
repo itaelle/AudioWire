@@ -8,10 +8,11 @@
 
 #import "AWMasterViewController.h"
 #import "SubPlayer.h"
-#import "AWPlaylistModel.h"
+#import "AWPlaylistManager.h"
 
 @interface MusicsViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
+    BOOL isEditingState;
     NSMutableArray *tableData;
 }
 @property Boolean isAlreadyInPlaylist;

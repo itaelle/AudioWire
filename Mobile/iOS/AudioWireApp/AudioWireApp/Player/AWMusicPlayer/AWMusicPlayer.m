@@ -33,6 +33,11 @@
 
 -(BOOL)start
 {
+    return [self startAtIndex:0];
+}
+
+-(BOOL)startAtIndex:(NSUInteger)index
+{
     NSLog(@"MusicPlayer => start");
     self.isEditingPlayingOffset = NO;
     [self stopNotifications];
@@ -44,9 +49,9 @@
         [self.delegate performSelector:@selector(updateVolumeValue:) withObject:[NSNumber numberWithFloat:volume]];
     }
     
-    if (self.playlist && [self.playlist count] > 0)
+    if (self.playlist && [self.playlist count] > 0 && [self.playlist count] > index)
     {
-        [self setPlaylistToPlay:self.playlist andStartAtIndex:0];
+        [self setPlaylistToPlay:self.playlist andStartAtIndex:index];
         return TRUE;
     }
     

@@ -68,6 +68,7 @@
 +(void)requestAudiowireAPIPOST:(NSString *)url_ param:(NSDictionary *)parameters_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
 {
     AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];
+    [afNetworkingManager setRequestSerializer:[AFJSONRequestSerializer serializer]];
     
     NSURL* urlToRequester = [NSURL URLWithString:url_];
     NSLog(@"URL => %@\nPOST => %@", urlToRequester, [parameters_ description]);
@@ -89,14 +90,65 @@
     }];
 }
 
-+(void)requestAudiowireAPIDELETE:(NSString *)url_ param:(NSDictionary *)parameters_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
++(void)requestAudiowireAPIDELETE:(NSString *)url_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
 {
-    AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];
+//    AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];
+//    [afNetworkingManager setRequestSerializer:[AFJSONRequestSerializer serializer]];
+//    
+//    NSURL* urlToRequester = [NSURL URLWithString:url_];
+//    NSLog(@"URL => %@\nDELETE WITH POST => %@", urlToRequester, [parameters_ description]);
+//    
+//    [afNetworkingManager POST:url_ parameters:parameters_ success:^(AFHTTPRequestOperation *operation, id responseObject)
+//     {
+//         NSLog(@"RESPONSE => %@", responseObject);
+//         cb_rep_(responseObject, true);
+//     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         
+//         NSLog(@"ERROR => %@", error);
+//         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+//         
+//         if (operation.responseObject)
+//             cb_rep_(operation.responseObject, true);
+//         else
+//             cb_rep_([error userInfo], false);
+//     }];
+//    
+//    return ;
+//    
+//    NSURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"DELETE" URLString:url_ parameters:parameters_];
+//    
+//    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+//    op.responseSerializer = [AFJSONResponseSerializer serializer];
+//    
+//    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        
+//        NSLog(@"RESPONSE => %@", responseObject);
+//        cb_rep_(responseObject, true);
+//        
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"ERROR => %@", error);
+//        NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
+//        
+//        if (operation.responseObject)
+//            cb_rep_(operation.responseObject, true);
+//        else
+//            cb_rep_([error userInfo], false);
+//    }];
+//    [[NSOperationQueue mainQueue] addOperation:op];
+//    
+//    
+//    return ;
     
-    NSURL* urlToRequester = [NSURL URLWithString:url_];
-    NSLog(@"URL => %@", urlToRequester);
     
-    [afNetworkingManager DELETE:url_ parameters:parameters_ success:^(AFHTTPRequestOperation *operation, id responseObject)
+
+    AFHTTPRequestOperationManager *afNetworkingManager_ = [AFHTTPRequestOperationManager manager];
+    [afNetworkingManager_ setRequestSerializer:[AFJSONRequestSerializer serializer]];
+
+    NSURL* urlToRequester_ = [NSURL URLWithString:url_];
+    NSLog(@"URL => %@", urlToRequester_);
+    
+    [afNetworkingManager_ DELETE:url_ parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSLog(@"RESPONSE => %@", responseObject);
          cb_rep_(responseObject, true);
@@ -115,6 +167,7 @@
 +(void)requestAudiowireAPIPUT:(NSString *)url_ param:(NSDictionary *)parameters_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
 {
     AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];
+    [afNetworkingManager setRequestSerializer:[AFJSONRequestSerializer serializer]];
     
     NSURL* urlToRequester = [NSURL URLWithString:url_];
     NSLog(@"URL => %@", urlToRequester);

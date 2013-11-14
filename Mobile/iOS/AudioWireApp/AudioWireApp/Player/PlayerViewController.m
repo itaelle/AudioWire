@@ -414,6 +414,8 @@
     }
     [_jacketImg setImage:artworkImageSmall];
     [_im_bg_album setImage:artworkImageLarge];
+    
+    
     [self flipJacketView];
 }
 

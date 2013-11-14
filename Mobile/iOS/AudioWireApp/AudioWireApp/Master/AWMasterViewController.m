@@ -185,7 +185,7 @@
     }
 }
 
-- (void) prepareNavBarForAdd
+- (void) prepareNavBarForAdding
 {
     UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addAction:)];
     if (IS_OS_7_OR_LATER)

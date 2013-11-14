@@ -25,14 +25,6 @@
     return self;
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (!firstTime)
-        [self loadData];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -44,9 +36,6 @@
     [_viewForMiniPlayer addSubview:miniPlayer];
     
     [self setUpList];
-    
-// Remove loadData, called after reconnect
-//    [self loadData];
 }
 
 -(void)setUpList
@@ -71,7 +60,16 @@
         {
             tableData = nil;
             tableData = [NSMutableArray arrayWithArray:data];
-            [_tb_list_artist reloadData];
+            
+            if (tableData && [tableData count] == 0)
+            {
+                [self prepareNavBarForAdding];
+            }
+            else
+            {
+                [self prepareNavBarForEditing];
+                [_tb_list_artist reloadData];
+            }
         }
         else
         {
@@ -83,6 +81,8 @@
 
 - (void)addPlaylist
 {
+    [self deleteSelectedPlaylist];
+
     CreatePlaylistViewController *createPlaylist = [[CreatePlaylistViewController alloc] initWithNibName:@"CreatePlaylistViewController" bundle:nil];
     
     UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:createPlaylist];
@@ -99,7 +99,9 @@
     }
     
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
-    [self cancelAction:self];
+    
+    if (tableData && [tableData count] > 0)
+        [self cancelAction:self];
 }
 
 -(void)editAction:(id)sender
@@ -115,6 +117,11 @@
     }
 }
 
+- (void)addAction:(id)sender
+{
+    [self addPlaylist];
+}
+
 -(void)cancelAction:(id)sender
 {
     [_tb_list_artist setEditing:FALSE animated:TRUE];
@@ -124,18 +131,26 @@
     {
         [tableData removeObjectAtIndex:0];
         [_tb_list_artist reloadData];
+        [self deleteSelectedPlaylist];
+    }
+}
+
+-(void)deleteSelectedPlaylist
+{
+    if (playlistToDelete && [playlistToDelete count] > 0)
+    {
+        [self setUpLoadingView:_tb_list_artist];
         
-        if (playlistToDelete && [playlistToDelete count] > 0)
-        {
-            [self setUpLoadingView:_tb_list_artist];
-            
-            [AWPlaylistManager deletePlaylist:playlistToDelete cb_rep:^(BOOL success, NSString *details) {
-                [self cancelLoadingView:_tb_list_artist];
-                
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:details delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
-                    [alert show];
-            }];
-        }
+        [AWPlaylistManager deletePlaylists:playlistToDelete cb_rep:^(BOOL success, NSString *details)
+         {
+             [self cancelLoadingView:_tb_list_artist];
+             
+             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:details delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+             [alert show];
+             
+             if (tableData && [tableData count] == 0)
+                 [self prepareNavBarForAdding];
+         }];
     }
 }
 
@@ -217,18 +232,20 @@
     
     id selectedRowModel = [tableData objectAtIndex:indexPath.row];
     if (selectedRowModel && [selectedRowModel isKindOfClass:[AWPlaylistModel class]])
+    {
         cell.textLabel.text = ((AWPlaylistModel *)selectedRowModel).title;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", ((AWPlaylistModel *)selectedRowModel).nb_tracks];
+    }
     
     if ([tableView isEditing])
     {
         if (indexPath && indexPath.row == 0)
-            cell.detailTextLabel.text = NSLocalizedString(@"New playlist", @"");
-        else
+        {
+            cell.textLabel.text = NSLocalizedString(@"New playlist", @"");
             cell.detailTextLabel.text = @"";
+        }
     }
-    else
-        cell.detailTextLabel.text = @"10 tracks";
-
+    
     return cell;
 }
 
@@ -242,8 +259,8 @@
         {
             NSString *temp = [playlist.title substringWithRange:NSMakeRange(0, 1)];
             
-            if ([alphabetical_indexes containsObject:temp] == false)
-                [alphabetical_indexes insertObject:temp atIndex:[alphabetical_indexes count]];
+            if ([alphabetical_indexes containsObject:[temp capitalizedString]] == false)
+                [alphabetical_indexes insertObject:[temp capitalizedString] atIndex:[alphabetical_indexes count]];
         }
     }
     return alphabetical_indexes;
@@ -256,7 +273,7 @@
    // NSLog(@"Index to scroll to : %u", newRow);
 
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:0];
-    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:TRUE];
 
     return index;
 }

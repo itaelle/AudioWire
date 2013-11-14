@@ -43,6 +43,7 @@
 
 // Player life cycle
 -(BOOL) start;
+-(BOOL) startAtIndex:(NSUInteger)index;
 -(void) update;
 -(void) end;
 

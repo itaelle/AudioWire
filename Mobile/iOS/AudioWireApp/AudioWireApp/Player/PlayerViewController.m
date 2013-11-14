@@ -145,8 +145,26 @@
 
 - (void) setUpViews
 {
+    // FONT
     [_labelTopPlaying setFont:FONTSIZE(17)];
     [_labelMinutesPlayed setFont:FONTSIZE(17)];
+    
+    // Buttons
+    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"play_pressed.png"] forState:UIControlStateHighlighted];
+    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause_pressed.png"] forState:UIControlStateSelected];
+    
+    [_nextButton setBackgroundImage:[UIImage imageNamed:@"next.png"] forState:UIControlStateNormal];
+    [_nextButton setBackgroundImage:[UIImage imageNamed:@"next_pressed.png"] forState:UIControlStateHighlighted];
+
+    [_prevButton setBackgroundImage:[UIImage imageNamed:@"prev.png"] forState:UIControlStateNormal];
+    [_prevButton setBackgroundImage:[UIImage imageNamed:@"prev_pressed.png"] forState:UIControlStateHighlighted];
+
+    [_shuffleButton setBackgroundImage:[UIImage imageNamed:@"shuffle.png"] forState:UIControlStateNormal];
+    [_shuffleButton setBackgroundImage:[UIImage imageNamed:@"shuffle_pressed.png"] forState:UIControlStateHighlighted];
+
+    [_repeatButton setBackgroundImage:[UIImage imageNamed:@"repeat.png"] forState:UIControlStateNormal];
+    [_repeatButton setBackgroundImage:[UIImage imageNamed:@"repeat_pressed.png"] forState:UIControlStateHighlighted];
     
     // Jacket
     [_jacketView setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.3]];
@@ -433,14 +451,18 @@
 {
     NSLog(@"Play delegate controller");
     isPlaying = YES;
-    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+    [_playButton setSelected:YES];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause_pressed.png"] forState:UIControlStateHighlighted];
 }
 
 -(void) pause:(id)sender
 {
     NSLog(@"Pause delegate controller");
     isPlaying = NO;
-    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+    [_playButton setSelected:NO];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"play_pressed.png"] forState:UIControlStateHighlighted];
 }
 
 -(void) stop:(id)sender

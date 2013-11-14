@@ -45,30 +45,56 @@
 //    cb_rep(arrayTrackModel, true, nil);
 //}
 
-+(NSMutableArray *)matchWithITunesLibrary:(NSArray *)arrayTrackModel
++(NSMutableArray *)matchWithITunesLibrary:(NSMutableArray *)arrayTrackModel
 {
+    NSMutableArray *toDelete = [[NSMutableArray alloc] init];
     NSArray *itunesMedia = [[AWItunesImportManager getInstance] getAllItunesMedia];
     NSMutableArray *itunesMediaMatch = [[NSMutableArray alloc] initWithCapacity:[arrayTrackModel count]];
     
-    for (AWTrackModel *trackModel in arrayTrackModel)
+    if (!itunesMedia || [itunesMedia count] == 0)
+        [arrayTrackModel removeAllObjects];
+    for (int index = 0; index < [arrayTrackModel count]; index++)
     {
-        for (MPMediaItem *object in itunesMedia)
+        AWTrackModel *trackModel = [arrayTrackModel objectAtIndex:index];
+        BOOL foundInItunes = NO;
+        
+        for (int i = 0; i < [itunesMedia count]; i++)
         {
+            MPMediaItem *object = [itunesMedia objectAtIndex:i];
+            
             if ([trackModel.title isEqualToString:[object valueForProperty:MPMediaItemPropertyTitle]])
             {
-//                [itunesMediaMatch insertObject:object atIndex:([itunesMediaMatch count]-1)];
-                [itunesMediaMatch addObject:object];
+                foundInItunes = YES;
+                [itunesMediaMatch addObject:[object copy]];
                 break;
             }
         }
+        if (foundInItunes == NO)
+        {
+            NSLog(@"Delete from api %@ at index %d", trackModel.title, index);
+            [toDelete addObject:trackModel];
+        }
+        else
+        {
+            NSLog(@"Keep from api %@", trackModel.title);
+        }
     }
-    
-        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
-    for (MPMediaItem *item in itunesMediaMatch)
+    // TODO SYNC remove objects on server side that is not in your itunes
+    [arrayTrackModel removeObjectsInArray:toDelete];
+
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
+    for (int index = 0; index < [itunesMediaMatch count]; index++)
     {
-        NSLog(@"%@", [item valueForProperty:MPMediaItemPropertyTitle]);
+        NSLog(@"%@", [[itunesMediaMatch objectAtIndex:index] valueForProperty:MPMediaItemPropertyTitle]);
     }
-        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
+    
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Available from API after Match");
+    for (int index = 0; index < [arrayTrackModel count]; index++)
+    {
+        NSLog(@"%@", ((AWTrackModel *)[arrayTrackModel objectAtIndex:index]).title);
+    }
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Available from API after Match");
     return itunesMediaMatch;
 }
 
@@ -91,7 +117,7 @@
              BOOL successApi = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              NSArray *list = [NSObject getVerifiedArray:[rep objectForKey:@"list"]];
-             NSArray *models = [AWTrackModel fromJSONArray:list];
+             NSMutableArray *models = [[AWTrackModel fromJSONArray:list] mutableCopy];
              
              if (!successApi)
                  cb_rep(nil, successApi, error);
@@ -101,7 +127,13 @@
              {
                  self.itunesMedia = nil;
                  self.itunesMedia = [AWTracksManager matchWithITunesLibrary:models];
-                 cb_rep(models, successApi, nil);
+                 if ([models count] == 0)
+                 {
+                     cb_rep(nil, false, NSLocalizedString(@"The tracks of your library doesn't not match the ones you have in iTunes. You can import new from you home screen!", @""));
+                     return ;
+                 }
+                 else
+                     cb_rep(models, successApi, nil);
              }
          }
          else

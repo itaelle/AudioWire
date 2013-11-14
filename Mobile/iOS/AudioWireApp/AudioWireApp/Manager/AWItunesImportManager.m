@@ -42,13 +42,15 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:[AWItunesImportManager pathOfileImport]])
     {
         importedTracks = [[NSArray alloc] initWithContentsOfFile:[AWItunesImportManager pathOfileImport]];
-        NSLog(@"Importe file fond : %@", [importedTracks description]);
         importedTracks = [AWTrackModel fromJSONArray:importedTracks];
+        
+        for (AWTrackModel *track in importedTracks)
+            NSLog(@"Importe file found : %@", track.title);
     }
     int nbImported = importedTracks == nil ? 0 : [importedTracks count];
 
     NSArray *itemsFromGenericQuery = [[[MPMediaQuery alloc] init] items];
-    if (!importedTracks || [importedTracks count])
+    if (!importedTracks || [importedTracks count] == 0)
     {
         self.itunesMedia = itemsFromGenericQuery;
         return itemsFromGenericQuery;
@@ -56,13 +58,18 @@
     NSMutableArray *rightTracks = [[NSMutableArray alloc] initWithCapacity:([itemsFromGenericQuery count] - nbImported)];
     for (MPMediaItem *song in itemsFromGenericQuery)
     {
+        BOOL found = NO;
+        
         for (AWTrackModel *trackModel in importedTracks)
         {
-            if (![trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
+            if ([trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
             {
-                [rightTracks addObject:song];
+                found = YES;
+                break;
             }
         }
+        if (found == NO)
+            [rightTracks addObject:song];
     }
     self.itunesMedia = rightTracks;
     return rightTracks;
@@ -77,7 +84,7 @@
         AWTrackModel *trackModel = [AWTrackModel new];
         trackModel.title = [song valueForProperty:MPMediaItemPropertyTitle];
         trackModel.album = [song valueForProperty:MPMediaItemPropertyAlbumTitle];
-        trackModel.artist = [song valueForProperty:MPMediaItemPropertyArtist];
+        trackModel.artist = [[song valueForProperty:MPMediaItemPropertyArtist]length] > 0 ? [song valueForProperty:MPMediaItemPropertyArtist] : [song valueForProperty:MPMediaItemPropertyAlbumArtist];
         trackModel.genre = [song valueForProperty:MPMediaItemPropertyGenre];
         trackModel.numberTrack = [song valueForProperty:MPMediaItemPropertyAlbumTrackNumber];
         trackModel.time = [song valueForProperty:MPMediaItemPropertyPlaybackDuration];
@@ -88,7 +95,7 @@
     {
         if (success) {
             [[AWTrackModel toArray:tracksToSend] writeToFile:[AWItunesImportManager pathOfileImport] atomically:NO];
-            NSLog(@"Wrote into file %@", [AWItunesImportManager pathOfileImport]);
+            NSLog(@"Wrote into file %@", [AWTrackModel toArray:tracksToSend]);
         }
         cb_rep(success, error);
     }];

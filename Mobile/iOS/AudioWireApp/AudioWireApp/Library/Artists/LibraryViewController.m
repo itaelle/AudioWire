@@ -241,7 +241,7 @@
             [alert show];
         }
         [tracksToDelete removeAllObjects];
-        [super cancelLoadingView:_tb_list_artist];
+        [self cancelLoadingView:_tb_list_artist];
     }];
 }
 
@@ -416,9 +416,8 @@
     if (tableData && [tableData count] > indexPath.row && [[tableData objectAtIndex:indexPath.row]isKindOfClass:[AWTrackModel class]])
     {
         NSLog(@"Track selected %d : %@", indexPath.row , ((AWTrackModel *)[tableData objectAtIndex:indexPath.row]).title);
-        
         NSArray *fromItunes = [AWTracksManager getInstance].itunesMedia;
-        
+
         [AWMusicPlayer getInstance].playlist = fromItunes;
     
         if (![[AWMusicPlayer getInstance] startAtIndex:indexPath.row])

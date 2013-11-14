@@ -165,13 +165,29 @@
 
 -(BOOL) setPlaylistToPlay:(NSArray *)musicsItunesMedia andStartAtIndex:(int)index
 {
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
+    for (int index = 0; index < [musicsItunesMedia count]; index++)
+    {
+        NSLog(@"%@", [[musicsItunesMedia objectAtIndex:index] valueForProperty:MPMediaItemPropertyTitle]);
+    }
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes");
+    
     if (musicsItunesMedia && [musicsItunesMedia count] > 0)
     {
         [player setQueueWithItemCollection:[MPMediaItemCollection collectionWithItems:musicsItunesMedia]];
+
+        player.repeatMode = MPMusicRepeatModeAll;
+        player.shuffleMode = MPMusicShuffleModeOff;
+
+        player.nowPlayingItem = [musicsItunesMedia objectAtIndex:index];
         
-        #warning GORE
-        for (int i = 0; i < index; i++)
-            [player skipToNextItem];
+//        #warning GORE
+//        for (int i = 0; i < index; i++)
+//        {
+//            [player skipToNextItem];
+//            MPMediaItem *now = player.nowPlayingItem;
+//            NSLog(@"Skip => %@", [now valueForProperty:MPMediaItemPropertyTitle]);
+//        }
 
         [self play];
         return TRUE;
@@ -260,22 +276,26 @@
     [self updateMediaInfo];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(next:)])
-    {
         [self.delegate performSelector:@selector(next:) withObject:self];
-    }
+
     [self play];
 }
 
 -(void)shuffle
 {
-    player.repeatMode = MPMusicRepeatModeNone;
-    player.shuffleMode = MPMusicShuffleModeDefault;
+    if (player.shuffleMode == MPMusicShuffleModeSongs)
+        player.shuffleMode = MPMusicShuffleModeOff;
+    else
+        player.shuffleMode = MPMusicShuffleModeSongs;
 }
 
 -(void)repeat
 {
-    player.repeatMode = MPMusicRepeatModeAll;
-    player.shuffleMode = MPMusicShuffleModeOff;
+    if (player.repeatMode == MPMusicRepeatModeNone || player.repeatMode == MPMusicRepeatModeAll)
+        player.repeatMode = MPMusicRepeatModeOne;
+    
+    if (player.repeatMode == MPMusicRepeatModeOne)
+        player.repeatMode = MPMusicRepeatModeAll;
 }
 
 - (void)updateDisplayTime

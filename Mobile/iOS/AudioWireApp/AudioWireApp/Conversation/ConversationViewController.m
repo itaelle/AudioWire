@@ -43,23 +43,14 @@
     // Loading View
     [super setUpLoadingView:_tb_list_artist];
     
-    tableData = [NSArray arrayWithObjects:@"<Hey, What's up ? I found a new dj ! Man, he's awesome. He creates a sound like you never heard before. Just tell me when you are connected, I will let you try it through AudioWire. It's a great apps by the way I like it. One more thing, remember to ask Jennifer for saturday. See you then, Bye dude !Adrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. De rien, de rien.>",
-                 @"Eli",
-                 @"Flavien",
-                 @"<Adrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. de rien de rien>",
-                 @"Irène",
-                 @"Jack",
-                 @"Adrien a besoin de rien alors qu'André est un vrai ",
-                 @"Karim",
-                 @"<dré est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est ignoble. de rien de rienAdrien a besoin de rien alors qu'André est un vrai flémard. Paragraphe brain stormed, en francais-anglais. C'est never heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates a sound like you never heard before. Just tell me when you are connected, I will let you try it through AudioWire. It's a great apps by the way I like it. One more thing, remember to ask Jennifer for saturday>",
-                 @"Manu",
-                 @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates>",
-                 @"<heard before. Just tell me when you are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates are conHey, What's up ? I found a new dj ! Man, he's awesome. He creates >",
+    tableData = [NSArray arrayWithObjects:
                  @"Hey, What's up ? I found a new dj ! Man, he's awesome. He creates such great tracks. Just tell me when you are around here, I'll show you his stuff",
                  @"Hi Bro' I am looking forward to listening at this music.",
                  @"Man, you're on AudioWire, I'am sending it to you right here, right now !",
                  @"No way ! You can't",
-                                  @"Look at this ;)",
+                 @"Of course you can, you will also have a remote controller within the mobile application to control your library on your dektop computer",
+                 @"Awesome ! "
+                 @"Look at this ;)",
                  nil];
     
     _tb_list_artist.delegate = self;

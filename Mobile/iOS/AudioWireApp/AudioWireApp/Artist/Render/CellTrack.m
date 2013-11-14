@@ -30,9 +30,13 @@
     
     if (track && [track.title length] > 0)
         [_nameLabel setText:track.title];
-    
-    if (track && [track.title length] > 0)
-        [_detailLabel setText:track.title];
+    else
+        [_detailLabel setText:@""];
+
+    if (track && [track.album length] > 0)
+        [_detailLabel setText:track.album];
+    else
+        [_detailLabel setText:@""];
     
     [_backgroundImage setImage:[UIImage imageNamed:@"music_note.png"]];
 

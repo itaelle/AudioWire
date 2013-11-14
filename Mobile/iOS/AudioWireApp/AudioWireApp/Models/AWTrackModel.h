@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSNumber *numberTrack;
 @property (nonatomic, strong) NSNumber *time;
 
-@property (nonatomic, strong) MPMediaItem *iTunesItem;
+//@property (nonatomic, strong) MPMediaItem *iTunesItem;
 
 +(NSArray *)toArrayOfIds:(NSArray *)trackModels_;
 +(AWTrackModel *) fromJSON:(NSDictionary*)data;

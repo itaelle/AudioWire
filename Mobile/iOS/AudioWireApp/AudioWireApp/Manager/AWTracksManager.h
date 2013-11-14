@@ -20,7 +20,7 @@
 +(void)deleteTracks:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 +(void)deleteTrack:(AWTrackModel *)trackToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 +(void)updateTrack:(AWTrackModel *)trackToUpdate_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
-+(NSMutableArray *)matchWithITunesLibrary:(NSArray *)arrayTrackModel;
++(NSMutableArray *)matchWithITunesLibrary:(NSMutableArray *)arrayTrackModel;
 
 //+(void)matchWithITunesLibrary:(NSArray *)arrayTrackModel cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
 

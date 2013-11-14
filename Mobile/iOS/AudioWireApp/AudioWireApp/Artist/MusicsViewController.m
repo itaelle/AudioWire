@@ -47,10 +47,11 @@
 
 -(void)cancelAction:(id)sender
 {
+    [self deleteTracks];
+    
     isEditingState = NO;
     [_tb_list_artist reloadSectionIndexTitles];
     [_tb_list_artist setEditing:FALSE animated:TRUE];
-    
     [self prepareNavBarForEditing];
 }
 
@@ -94,6 +95,28 @@
     [super cancelLoadingView:_tb_list_artist];
 }
 
+-(void)deleteTracks
+{
+    [self setUpLoadingView:self.tb_list_artist];
+    
+    if (tracksToDelete && [tracksToDelete count] > 0)
+    {
+        [self setUpLoadingView:_tb_list_artist];
+        [AWPlaylistManager delTracksInPlaylist:self.playlist tracks:tracksToDelete cb_rep:^(BOOL success, NSString *error)
+         {
+             if (success)
+             {
+                 [self setFlashMessage:NSLocalizedString(@"Track deleted from playlist!", @"")];
+             }
+             else
+             {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+                 [alert show];
+             }
+             [self cancelLoadingView:_tb_list_artist];
+         }];
+    }
+}
 
 - (void)didReceiveMemoryWarningxz
 {
@@ -119,31 +142,20 @@
         [tableData removeObjectAtIndex:indexPath.row];
         
         [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        
+        if (miniPlayer)
+            [miniPlayer stopTrackInItsPlaying:trackToDelete];
+        
+        if (!tracksToDelete)
+            tracksToDelete = [[NSMutableArray alloc] init];
+        
+        if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
+            [tracksToDelete addObject:trackToDelete];
+        
         [_tb_list_artist reloadSectionIndexTitles];
         
-        // Delete Track data on API
-        if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
-        {
-            [self setUpLoadingView:_tb_list_artist];
-            [AWPlaylistManager delTracksInPlaylist:self.playlist tracks:@[trackToDelete] cb_rep:^(BOOL success, NSString *error)
-            {
-                if (success)
-                {
-                    if (miniPlayer)
-                        [miniPlayer stopTrackInItsPlaying:trackToDelete];
-                    [self setFlashMessage:NSLocalizedString(@"Track deleted from playlist!", @"")];
-                }
-                else
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
-                    [alert show];
-                }
-                [super cancelLoadingView:_tb_list_artist];
-            }];
-        }
-        
         // Gore mais c'est pour mettre à jour les indexPath dans les cellules
-        [_tb_list_artist reloadData];
+//        [_tb_list_artist reloadData];
     }
 }
 
@@ -156,7 +168,7 @@
     // PROD
     if (tableData && [tableData count] > indexPath.row && [[tableData objectAtIndex:indexPath.row]isKindOfClass:[AWTrackModel class]])
     {
-        [AWMusicPlayer getInstance].playlist = [AWTracksManager getInstance].itunesMedia;
+        [AWMusicPlayer getInstance].playlist = [AWPlaylistManager getInstance].itunesMedia;
         
         if (![[AWMusicPlayer getInstance] startAtIndex:indexPath.row])
             [self setFlashMessage:NSLocalizedString(@"Itunes Media failed !", @"")];
@@ -181,7 +193,7 @@
     if (cell == nil)
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellTrack" owner:self options:nil] objectAtIndex:0];
     
-    cell.displayIcon = YES;
+    cell.displayIcon = NO;
     cell.parent = self;
     cell.myIndexPath = indexPath;
     [cell myInit:[tableData objectAtIndex:indexPath.row]];

@@ -14,6 +14,8 @@
 {
     BOOL isEditingState;
     NSMutableArray *tableData;
+    
+    NSMutableArray *tracksToDelete;
 }
 @property Boolean isAlreadyInPlaylist;
 @property (strong, nonatomic) AWPlaylistModel *playlist;

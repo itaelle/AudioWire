@@ -67,6 +67,7 @@
         userModel.artist = [NSObject getVerifiedString:[data objectForKey:@"artist"]];
         userModel.genre = [NSObject getVerifiedString:[data objectForKey:@"genre"]];
         userModel.time = [NSNumber numberWithInt:[NSObject getVerifiedInteger:[data objectForKey:@"time"]]];
+        userModel.numberTrack = [NSNumber numberWithInt:[NSObject getVerifiedInteger:[data objectForKey:@"numberTrack"]]];
     }
     return userModel;
 }

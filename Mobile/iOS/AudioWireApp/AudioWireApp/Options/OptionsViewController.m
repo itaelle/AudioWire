@@ -59,15 +59,22 @@
     _bottomView.layer.borderWidth = 1;
 
     [_bt_signout setTitle:NSLocalizedString(@"Sign out", @"") forState:UIControlStateNormal];
-    [_firstOption setText:NSLocalizedString(@"Turn on switch :", @"")];
+    [_bt_userInfo setTitle:NSLocalizedString(@"Modify user information", @"") forState:UIControlStateNormal];
+    [_firstOption setText:NSLocalizedString(@"Turn on active sync :", @"")];
     
-    NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\n2013", NSLocalizedString(@"AudioWire", @"")];
+    [_bt_userInfo.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_bt_signout.titleLabel setFont:FONTBOLDSIZE(15)];
+    [_firstOption setFont:FONTSIZE(15)];
+    
+    NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\nForum 2013", NSLocalizedString(@"AudioWire", @"")];
     
     [_bottomLabel setText:format];
+    [_bottomLabel setFont:FONTSIZE(15)];
 }
 
 - (IBAction)switchValueChanged:(id)sender
 {
+    // TODO sync active ?
 }
 
 - (IBAction)click_signOut:(id)sender
@@ -87,6 +94,11 @@
             [alert show];
         }
     }];
+}
+
+- (IBAction)click_userInfo:(id)sender
+{
+    // TODO userInfo
 }
 
 - (void)didReceiveMemoryWarning

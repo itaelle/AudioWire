@@ -15,7 +15,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            UITextAttributeTextColor: [UIColor whiteColor],
+                                                            UITextAttributeFont: FONTBOLDSIZE(18)
+                                                            }];
+    
+    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, 1) forBarMetrics:UIBarMetricsDefault];
+    
+//    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+    
+    if (IS_OS_7_OR_LATER)
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    UIFont *fontTest = FONTSIZE(10);
+    if ([fontTest.familyName isEqualToString:@"Futura"])
+        [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -2) forBarMetrics:UIBarMetricsDefault];
+    
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
+     @{UITextAttributeTextColor:[UIColor whiteColor],
+       UITextAttributeFont:FONTSIZE(13)
+       } forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,7 +64,7 @@
     UIButton *b = [UIButton buttonWithType:(UIButtonTypeCustom)];
     b.frame = CGRectMake(0, 0, 70, 44);
     [b setTitle:NSLocalizedString(@"Close", @"") forState:(UIControlStateNormal)];
-    [b.titleLabel setFont:[UIFont fontWithName:@"Futura" size:11]];
+    [b.titleLabel setFont:FONTSIZE(12)];
     
     [b setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [b addTarget:self action:@selector(goClose) forControlEvents:(UIControlEventTouchUpInside)];

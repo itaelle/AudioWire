@@ -49,6 +49,7 @@
 {
     [super viewDidLoad];
     isLoading = false;
+    [self setUpNavTitle];
     
     if (needASubPlayer)
     {
@@ -92,6 +93,17 @@
     self.navigationItem.titleView = nav;
 }
 
+- (void) setUpNavTitle
+{
+    UIView *titleView =  self.navigationItem.titleView;
+    if (titleView && [titleView isKindOfClass:[UILabel class]])
+    {
+        NSLog(@"TITLEVIEW IS LABEL");
+        UILabel *labelTitle = (UILabel *)titleView;
+        [labelTitle setFont:FONTBOLDSIZE(25)];
+    }
+}
+
 //-(void)logoutAction:(id)sender
 //{
 //    self.navigationItem.rightBarButtonItem = nil;
@@ -132,7 +144,7 @@
 -(void) prepareNavBarForEditing:(BOOL)isLeft
 {
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
-    
+
     if (IS_OS_7_OR_LATER)
         editButton.tintColor = [UIColor whiteColor];
     
@@ -156,6 +168,7 @@
 -(void) prepareNavBarForClose
 {
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(closeAction:)];
+
     if (IS_OS_7_OR_LATER)
         closeButton.tintColor = [UIColor whiteColor];
     
@@ -170,6 +183,7 @@
 -(void) prepareNavBarForCancel:(BOOL)isLeft
 {
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
+    
     if (IS_OS_7_OR_LATER)
         cancelButton.tintColor = [UIColor whiteColor];
     
@@ -188,6 +202,7 @@
 - (void) prepareNavBarForAdding
 {
     UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addAction:)];
+    
     if (IS_OS_7_OR_LATER)
         createPlaylistButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;
@@ -197,6 +212,7 @@
 -(void)prepareNavBarForImport
 {
     UIBarButtonItem *importButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Import", @"") style:UIBarButtonItemStylePlain target:self action:@selector(importAction:)];
+    
     if (IS_OS_7_OR_LATER)
         importButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = nil;

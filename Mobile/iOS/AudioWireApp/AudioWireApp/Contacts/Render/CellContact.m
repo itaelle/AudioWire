@@ -38,6 +38,9 @@
         [_detailLabel setText:detailContact];
     
     [_backgroundImage setImage:[UIImage imageNamed:@"avatar.png"]];
+
+    [_nameLabel setFont:FONTBOLDSIZE(17)];
+    [_detailLabel setFont:FONTSIZE(13)];
 }
 
 - (IBAction)clickBtInfo:(id)sender

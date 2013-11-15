@@ -27,7 +27,8 @@
 // Font
 #define FONTSIZE(_A) [UIFont fontWithName:@"Futura" size:_A]
 #define FONTBOLDSIZE(_A) [UIFont fontWithName:@"Futura-Bold" size:_A]
-
+//#define FONTSIZE(_A) [UIFont fontWithName:@"Arial" size:_A]
+//#define FONTBOLDSIZE(_A) [UIFont fontWithName:@"Arial-BoldMT" size:_A]
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>

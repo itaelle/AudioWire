@@ -71,6 +71,7 @@
     [self.lb_category setFont:FONTBOLDSIZE(12)];
     [self.lb_category setText:NSLocalizedString(@"E-mail of the contact :", @"")];
     [self.bt_create setTitle:NSLocalizedString(@"Add contact", @"") forState:UIControlStateNormal];
+    [self.bt_create.titleLabel setFont:FONTBOLDSIZE(15)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,7 +99,11 @@
     [self prepareNavBarForCancel];
     isEditing = YES;
     
-    int height_view = [UIDevice getScreenFrame].size.height - 20 /*Status*/ - 44 /*NavBar*/;
+    int height_view;
+    if (!IS_OS_7_OR_LATER)
+        height_view = [UIDevice getScreenFrame].size.height - 20 /*Status*/ - 44 /*NavBar*/;
+    else
+        height_view = [UIDevice getScreenFrame].size.height;
     [self.sc_container setFrame:CGRectMake(self.sc_container.frame.origin.x, self.sc_container.frame.origin.y, self.sc_container.frame.size.width, height_view - KEYBOARD_WIDTH)];
 
 
@@ -113,7 +118,7 @@
     
     if (![UIDevice isIphone5])
     {
-        [self.sc_container setContentOffset:CGPointMake(0, sender.superview.frame.origin.y - 35) animated:NO];
+        [self.sc_container setContentOffset:CGPointMake(0, sender.superview.frame.origin.y - 64) animated:NO];
     }
     else
     {

@@ -16,7 +16,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.title = NSLocalizedString(@"Import from iTunes", @"");
+        self.title = NSLocalizedString(@"iTunes import", @"");
         needASubPlayer = NO;
     }
     
@@ -30,9 +30,18 @@
     [self prepareNavBarForEditing:YES];
 
     [self.bt_import setTitle:NSLocalizedString(@"Start import", @"") forState:UIControlStateNormal];
+    [self.bt_import.titleLabel setFont:FONTBOLDSIZE(15)];
+    
+    if (IS_OS_7_OR_LATER)
+        self.tb_content_import.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self setUpList];
     [self getItunesMedia];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 -(void)editAction:(id)sender
@@ -65,6 +74,12 @@
     data = [[[AWItunesImportManager getInstance] getItunesMediaAndIgnoreAlreadyImportedOnes] mutableCopy];
     [self.tb_content_import reloadData];
     [self cancelLoadingView:self.tb_content_import];
+    
+    if (data && [data count] == 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"It seems that you didn't add new file into your iTunes library since the last time you made an import. To get new tracks inside your AudioWire library, please synchronise your iTunes first :)", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -114,8 +129,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO Delete Playlist data
-    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (data && [data count] > indexPath.row)
@@ -149,6 +162,8 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        [cell.textLabel setFont:FONTBOLDSIZE(17)];
+        [cell.detailTextLabel setFont:FONTSIZE(13)];
     }
     
     id selectedRowModel = [data objectAtIndex:indexPath.row];
@@ -156,9 +171,23 @@
     if (selectedRowModel && [selectedRowModel isKindOfClass:[MPMediaItem class]])
     {
         cell.textLabel.text = [((MPMediaItem *)selectedRowModel) valueForProperty:MPMediaItemPropertyTitle];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@",
-                                     [((MPMediaItem *)selectedRowModel) valueForProperty:MPMediaItemPropertyArtist],
-                                     [((MPMediaItem *)selectedRowModel) valueForProperty:MPMediaItemPropertyAlbumTitle]];
+        
+        NSString *artist = [((MPMediaItem *)selectedRowModel) valueForProperty:MPMediaItemPropertyArtist];
+        
+        NSString *albumArtist = [((MPMediaItem *)selectedRowModel) valueForProperty:MPMediaItemPropertyAlbumArtist];
+        
+        NSString *albumTitle = [((MPMediaItem *)selectedRowModel) valueForProperty:MPMediaItemPropertyAlbumTitle];
+        
+        if ((artist && ![artist isEqualToString:@"(null)"]) &&
+            (albumTitle && ![albumTitle isEqualToString:@"(null)"]))
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", artist, albumTitle];
+        else if ((albumArtist && ![albumArtist isEqualToString:@"(null)"]) &&
+            (albumTitle && ![albumTitle isEqualToString:@"(null)"]))
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", albumArtist, albumTitle];
+        else if (albumTitle && ![albumArtist isEqualToString:@"(null)"])
+            cell.detailTextLabel.text = albumTitle;
+        else
+            cell.detailTextLabel.text = @"";
     }
     return cell;
 }

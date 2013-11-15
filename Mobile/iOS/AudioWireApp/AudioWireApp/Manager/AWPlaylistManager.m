@@ -152,7 +152,7 @@
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelPlaylists], token];
     
     NSMutableDictionary *playlistsDict = [NSMutableDictionary new];
-    [playlistsDict setObject:[AWPlaylistModel toArrayOfIds:playlistsToDelete_] forKey:@"playlists_ids"];
+    [playlistsDict setObject:[AWPlaylistModel toArrayOfIds:playlistsToDelete_] forKey:@"playlist_ids"];
     NSLog(@"Playlist to delete : %@", [playlistsDict description]);
     
     [AWRequester requestAudiowireAPIPOST:url param:playlistsDict cb_rep:^(NSDictionary *rep, BOOL success)

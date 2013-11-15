@@ -14,7 +14,7 @@
 -(NSDictionary *)toDictionary
 {
     if (self._id)
-        return @{@"track_id" : self._id,
+        return @{@"id" : self._id,
                  @"title" : self.title,
                  @"album" : self.album,
                  @"artist" : self.artist,
@@ -63,7 +63,11 @@
     {
         userModel._id = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[data objectForKey:@"id"]]];
         userModel.title = [NSObject getVerifiedString:[data objectForKey:@"title"]];
+        userModel.album = [NSObject getVerifiedString:[data objectForKey:@"album"]];
+        userModel.artist = [NSObject getVerifiedString:[data objectForKey:@"artist"]];
         userModel.genre = [NSObject getVerifiedString:[data objectForKey:@"genre"]];
+        userModel.time = [NSNumber numberWithInt:[NSObject getVerifiedInteger:[data objectForKey:@"time"]]];
+        userModel.numberTrack = [NSNumber numberWithInt:[NSObject getVerifiedInteger:[data objectForKey:@"numberTrack"]]];
     }
     return userModel;
 }

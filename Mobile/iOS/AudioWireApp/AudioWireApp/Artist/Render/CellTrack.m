@@ -30,9 +30,13 @@
     
     if (track && [track.title length] > 0)
         [_nameLabel setText:track.title];
-    
-    if (track && [track.title length] > 0)
-        [_detailLabel setText:track.title];
+    else
+        [_detailLabel setText:@""];
+
+    if (track && [track.album length] > 0)
+        [_detailLabel setText:track.album];
+    else
+        [_detailLabel setText:@""];
     
     [_backgroundImage setImage:[UIImage imageNamed:@"music_note.png"]];
 
@@ -46,6 +50,9 @@
     }
     if (!_displayIcon)
         [_btInfo setHidden:true];
+    
+    [_nameLabel setFont:FONTBOLDSIZE(17)];
+    [_detailLabel setFont:FONTSIZE(13)];
 }
 
 - (IBAction)clickBtInfo:(id)sender
@@ -55,9 +62,9 @@
         _isAlreadySelected = NO;
         [self.btInfo setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
         
-        if (self.parent && [self.parent respondsToSelector:@selector(deleteMusicSelectionForPlaylist:)])
+        if (self.parent && [self.parent respondsToSelector:@selector(deleteMusicSelectionForPlaylist:sender:)])
         {
-            [self.parent performSelector:@selector(deleteMusicSelectionForPlaylist:) withObject:self.myIndexPath];
+            [self.parent performSelector:@selector(deleteMusicSelectionForPlaylist:sender:) withObject:self.myIndexPath withObject:self];
         }
     }
     else
@@ -65,11 +72,17 @@
         _isAlreadySelected = YES;
         [self.btInfo setBackgroundImage:[UIImage imageNamed:@"picto-check.png"] forState:UIControlStateNormal];
         
-        if (self.parent && [self.parent respondsToSelector:@selector(addMusicSelectionForPlaylist:)])
+        if (self.parent && [self.parent respondsToSelector:@selector(addMusicSelectionForPlaylist:sender:)])
         {
-            [self.parent performSelector:@selector(addMusicSelectionForPlaylist:) withObject:self.myIndexPath];
+            [self.parent performSelector:@selector(addMusicSelectionForPlaylist:sender:) withObject:self.myIndexPath withObject:self];
         }
     }
+}
+
+-(void)unCheck
+{
+    _isAlreadySelected = NO;
+    [self.btInfo setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -108,12 +121,11 @@
         [UIView animateWithDuration:0.4 animations:^{
 
             [_btInfo setAlpha:0];
-
+            
         } completion:^(BOOL finished) {
             
             self.nameLabel.frame = rectTitle;
             self.detailLabel.frame = rectDetail;
-
         }];
     }
 }

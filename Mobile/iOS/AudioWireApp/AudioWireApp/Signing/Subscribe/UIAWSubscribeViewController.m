@@ -13,8 +13,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        self.title = NSLocalizedString(@"Subscribe", @"");
     }
     return self;
 }
@@ -36,47 +37,45 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = [NSLocalizedString(@"Subscribe", @"") uppercaseString];
     
-    [self.lb_title setFont:FONTBOLDSIZE(20)];
-    [self.lb_title setText:NSLocalizedString(@"AudioWire", @"")];
-
     [self.sc_content addSubview:self.v_placeholder];
     self.sc_content.contentSize = self.v_placeholder.frame.size;
-    //    [self.v_keyword_tools  renderRelativeSubviewsSetMyContentScrollWithoutParent:NO paddings:nil];
+
     [self registerForKeyboardNotifications];
     
+    self.lb_title.text = NSLocalizedString(@"AudioWire", @"");
     self.lb_email.text = NSLocalizedString(@"Email", @"");
     self.lb_firstname.text = NSLocalizedString(@"First name", @"");
     self.lb_lastname.text = NSLocalizedString(@"Last name", @"");
     self.lb_login.text = NSLocalizedString(@"Nickname", @"");
     self.lb_password.text = NSLocalizedString(@"Password", @"");
     self.lb_sex.text = NSLocalizedString(@"Gender", @"");
-    
-    [self.lb_email setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    [self.lb_firstname setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    [self.lb_lastname setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    [self.lb_login setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    [self.lb_password setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    [self.lb_sex setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    
-    [self.lb_cgu setFont:[UIFont fontWithName:@"Futura-Bold" size:12]];
-    [self.lb_cgu setText:NSLocalizedString(@"Terms & Conditions", @"")];
-
-    [self.bt_viewCGU.titleLabel setFont:FONTBOLDSIZE(12)];
-    [self.bt_viewCGU setTitle:NSLocalizedString(@"Read", @"") forState:UIControlStateNormal];
-    
-    //    self.tf_password.placeholder = self.lb_password.text;
-    //    self.tf_login.placeholder = self.lb_login.text;
-    //    self.tf_email.placeholder = self.lb_email.text;
-    //    self.tf_lastname.placeholder = self.lb_lastname.text;
-    //    self.tf_firstname.placeholder = self.lb_firstname.text;
-    
-    [self.lb_sex_m setFont:[UIFont fontWithName:@"Futura" size:11]];
-    [self.lb_sex_w setFont:[UIFont fontWithName:@"Futura" size:11]];
-    
     self.lb_sex_m.text = NSLocalizedString(@"Male", @"");
     self.lb_sex_w.text = NSLocalizedString(@"Female", @"");
+    self.lb_cgu.text = NSLocalizedString(@"Terms & Conditions", @"");
+    
+    [self.bt_viewCGU setTitle:NSLocalizedString(@"Read", @"") forState:UIControlStateNormal];
+    [self.bt_back setTitle:NSLocalizedString(@"Prev", @"") forState:(UIControlStateNormal)];
+    [self.bt_next setTitle:NSLocalizedString(@"Next", @"") forState:(UIControlStateNormal)];
+    [self.bt_ok setTitle:NSLocalizedString(@"OK", @"") forState:(UIControlStateNormal)];
+    [self.bt_login setTitle:NSLocalizedString(@"Login", @"") forState:(UIControlStateNormal)];
+    [self.bt_subscribe setTitle:NSLocalizedString(@"Subscribe", @"") forState:(UIControlStateNormal)];
+    [self.bt_login setTitle:[NSLocalizedString(@"Connexion", @"") uppercaseString] forState:UIControlStateNormal];
+    [self.bt_subscribe setTitle:[NSLocalizedString(@"Subscribe", @"") uppercaseString] forState:UIControlStateNormal];
+    
+    [self.lb_email setFont:FONTBOLDSIZE(12)];
+    [self.lb_firstname setFont:FONTBOLDSIZE(12)];
+    [self.lb_lastname setFont:FONTBOLDSIZE(12)];
+    [self.lb_login setFont:FONTBOLDSIZE(12)];
+    [self.lb_password setFont:FONTBOLDSIZE(12)];
+    [self.lb_sex setFont:FONTBOLDSIZE(12)];
+    [self.lb_cgu setFont:FONTBOLDSIZE(12)];
+    [self.lb_title setFont:FONTBOLDSIZE(20)];
+    [self.bt_login.titleLabel setFont:FONTSIZE(11)];
+    [self.bt_viewCGU.titleLabel setFont:FONTBOLDSIZE(12)];
+
+    [self.lb_sex_m setFont:FONTSIZE(11)];
+    [self.lb_sex_w setFont:FONTSIZE(11)];
     [self.sex_m setSelected:YES];
     [self.sex_w setSelected:NO];
     
@@ -84,23 +83,12 @@
     [self.sex_m setBackgroundImage:[UIImage imageNamed:@"cocher.png"] forState:UIControlStateSelected];
     [self.sex_w setBackgroundImage:[UIImage imageNamed:@"non-cocher.png"] forState:UIControlStateNormal];
     [self.sex_w setBackgroundImage:[UIImage imageNamed:@"cocher.png"] forState:UIControlStateSelected];
-
-    [self.bt_back setTitle:NSLocalizedString(@"Prev", @"") forState:(UIControlStateNormal)];
-    [self.bt_next setTitle:NSLocalizedString(@"Next", @"") forState:(UIControlStateNormal)];
-    [self.bt_ok setTitle:NSLocalizedString(@"OK", @"") forState:(UIControlStateNormal)];
+    [self.bt_login setBackgroundImage:[UIImage imageNamed:@"bt-connexion.png"] forState:UIControlStateNormal];
+    [self.bt_subscribe setBackgroundImage:[UIImage imageNamed:@"bt-go.png"] forState:UIControlStateNormal];
     
-    [self.bt_login setTitle:NSLocalizedString(@"Login", @"") forState:(UIControlStateNormal)];
-    [self.bt_subscribe setTitle:NSLocalizedString(@"Subscribe", @"") forState:(UIControlStateNormal)];
-    //[self selectResponder];
     self.v_keyword_tools.alpha = 0.0f;
     
-    [self.bt_login setBackgroundImage:[UIImage imageNamed:@"bt-connexion.png"] forState:UIControlStateNormal];
-    [self.bt_login setTitle:[NSLocalizedString(@"Connexion", @"") uppercaseString] forState:UIControlStateNormal];
-    [self.bt_login.titleLabel setFont:[UIFont fontWithName:@"Futura" size:11]];
     [self.bt_login setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
-    [self.bt_subscribe setBackgroundImage:[UIImage imageNamed:@"bt-go.png"] forState:UIControlStateNormal];
-    [self.bt_subscribe setTitle:[NSLocalizedString(@"Subscribe", @"") uppercaseString] forState:UIControlStateNormal];
     [self.bt_subscribe setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.bt_subscribe setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
@@ -231,7 +219,7 @@
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (alertView == self.subscribed)
-        [self.navigationController dismissViewControllerAnimated:NO completion:^{
+        [self.navigationController dismissViewControllerAnimated:TRUE completion:^{
         }];
 }
 
@@ -534,12 +522,12 @@
     }
 }
 
--(UIBarButtonItem*)getCloseCGU{
+-(UIBarButtonItem*)getCloseCGU
+{
     UIButton *b = [UIButton buttonWithType:(UIButtonTypeCustom)];
     b.frame = CGRectMake(0, 0, 70, 44);
     [b setTitle:NSLocalizedString(@"Close", @"") forState:(UIControlStateNormal)];
-    [b.titleLabel setFont:[UIFont fontWithName:@"Futura" size:12]];
-    
+    [b.titleLabel setFont:FONTSIZE(13)];
     [b setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [b addTarget:self action:@selector(closeCGU) forControlEvents:(UIControlEventTouchUpInside)];
     return [[UIBarButtonItem alloc] initWithCustomView:b];

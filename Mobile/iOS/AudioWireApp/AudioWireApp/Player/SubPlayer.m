@@ -40,7 +40,10 @@
 {
     MPMediaItem *playing = [musicPlayer nowPlaying];
     
-    if ([playing isEqual:track.iTunesItem])
+    if ([[playing valueForProperty:MPMediaItemPropertyTitle] isEqualToString:track.title] &&
+        [[playing valueForProperty:MPMediaItemPropertyAlbumTitle] isEqualToString:track.album] &&
+        [[playing valueForProperty:MPMediaItemPropertyArtist] isEqualToString:track.artist] &&
+        [playing valueForProperty:MPMediaItemPropertyPlaybackDuration] == track.time)
     {
         NSLog(@"This is track is playing, so STOP");
         [musicPlayer stop];
@@ -80,6 +83,15 @@
 
 - (void) setUpViews
 {
+    // Font
+    [_lbMusicPlaying setFont:FONTSIZE(17)];
+    [_lbMusicTime setFont:FONTSIZE(17)];
+    
+    // Buttons
+    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+    //    [_playButton setBackgroundImage:[UIImage imageNamed:@"play_pressed.png"] forState:UIControlStateHighlighted];
+    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause_pressed.png"] forState:UIControlStateSelected];
+    
     // Slider Volume Placement
     _sliderVolume.popupView.hidden = true;
     CGRect sliderPos = _viewSlider.frame;
@@ -280,6 +292,7 @@
 {
     NSLog(@"updateMediaInfo delegate Sub");
     NSString *artist = [item_ valueForProperty:MPMediaItemPropertyArtist];
+    NSString *albumArtist = [item_ valueForProperty:MPMediaItemPropertyAlbumArtist];
     NSString *title = [item_ valueForProperty:MPMediaItemPropertyTitle];
     NSString *albumTitle = [item_ valueForProperty:MPMediaItemPropertyAlbumTitle];
     
@@ -289,6 +302,9 @@
     else if (artist && title)
         [_lbMusicPlaying setText:[NSString stringWithFormat:@"%@ - %@",
                                    title, artist]];
+    else if (albumArtist && title)
+        [_lbMusicPlaying setText:[NSString stringWithFormat:@"%@ - %@",
+                                   title, albumArtist]];
     else if (title)
         [_lbMusicPlaying setText:[NSString stringWithFormat:@"%@",
                                    title]];
@@ -307,14 +323,18 @@
 {
     NSLog(@"Play delegate Sub");
     isPlaying = YES;
-    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+    [_playButton setSelected:YES];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause_pressed.png"] forState:UIControlStateHighlighted];
 }
 
 -(void) pause:(id)sender
 {
     NSLog(@"Pause delegate Sub");
     isPlaying = NO;
-    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+    [_playButton setSelected:NO];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+//    [_playButton setBackgroundImage:[UIImage imageNamed:@"play_pressed.png"] forState:UIControlStateHighlighted];
 }
 
 -(void) stop:(id)sender

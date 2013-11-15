@@ -181,7 +181,7 @@
 		F0BD23E11835646C000675F8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BD23801835646C000675F8 /* Default.png */; };
 		F0BD23E21835646C000675F8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BD23811835646C000675F8 /* Default@2x.png */; };
 		F0BD23E5183595C0000675F8 /* noArtworkImageLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BD23E3183595C0000675F8 /* noArtworkImageLarge@2x.png */; };
-		F0BD23E6183595C0000675F8 /* noArtworkImageSmall @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BD23E4183595C0000675F8 /* noArtworkImageSmall @2x.png */; };
+		F0BD23E81835A08D000675F8 /* noArtworkImageSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BD23E71835A08D000675F8 /* noArtworkImageSmall@2x.png */; };
 		F0C8D4E81819C20F00801D00 /* AWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4E71819C20F00801D00 /* AWUserManager.m */; };
 		F0C8D4EC1819C54100801D00 /* AWUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EB1819C54100801D00 /* AWUserModel.m */; };
 		F0C8D4EF1819C55500801D00 /* AWMasterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C8D4EE1819C55500801D00 /* AWMasterModel.m */; };
@@ -422,7 +422,7 @@
 		F0BD23801835646C000675F8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F0BD23811835646C000675F8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F0BD23E3183595C0000675F8 /* noArtworkImageLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noArtworkImageLarge@2x.png"; sourceTree = "<group>"; };
-		F0BD23E4183595C0000675F8 /* noArtworkImageSmall @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noArtworkImageSmall @2x.png"; sourceTree = "<group>"; };
+		F0BD23E71835A08D000675F8 /* noArtworkImageSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noArtworkImageSmall@2x.png"; sourceTree = "<group>"; };
 		F0C8D4E61819C20F00801D00 /* AWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserManager.h; path = Manager/AWUserManager.h; sourceTree = "<group>"; };
 		F0C8D4E71819C20F00801D00 /* AWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWUserManager.m; path = Manager/AWUserManager.m; sourceTree = "<group>"; };
 		F0C8D4EA1819C54100801D00 /* AWUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWUserModel.h; path = Models/AWUserModel.h; sourceTree = "<group>"; };
@@ -1048,8 +1048,8 @@
 		F0BD233D1835646B000675F8 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				F0BD23E71835A08D000675F8 /* noArtworkImageSmall@2x.png */,
 				F0BD23E3183595C0000675F8 /* noArtworkImageLarge@2x.png */,
-				F0BD23E4183595C0000675F8 /* noArtworkImageSmall @2x.png */,
 				F0BD233E1835646B000675F8 /* next.png */,
 				F0BD233F1835646B000675F8 /* next_pressed.png */,
 				F0BD23401835646B000675F8 /* noArtworkImageLarge.png */,
@@ -1308,7 +1308,6 @@
 				F072511D17AC35E500445F37 /* HomeViewController.xib in Resources */,
 				F0BD238F1835646C000675F8 /* bubbleSomeone@2x.png in Resources */,
 				F0BD23BD1835646C000675F8 /* prev.png in Resources */,
-				F0BD23E6183595C0000675F8 /* noArtworkImageSmall @2x.png in Resources */,
 				F0BD23991835646C000675F8 /* icon_sound.png in Resources */,
 				F0BD23961835646C000675F8 /* icon29.png in Resources */,
 				F0BD23E11835646C000675F8 /* Default.png in Resources */,
@@ -1317,6 +1316,7 @@
 				F0BD23CB1835646C000675F8 /* nav_go_back.png in Resources */,
 				F0BD23D81835646C000675F8 /* slider_minimum@2x.png in Resources */,
 				F0BD23871835646C000675F8 /* bg@2x.png in Resources */,
+				F0BD23E81835A08D000675F8 /* noArtworkImageSmall@2x.png in Resources */,
 				F0BD23911835646C000675F8 /* info@2x.png in Resources */,
 				F0BD23901835646C000675F8 /* info.png in Resources */,
 				F0BD23941835646C000675F8 /* icon114.png in Resources */,
@@ -1624,7 +1624,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "EC243196-F47E-4D63-AA3B-BE113B4EF92C";
+				PROVISIONING_PROFILE = "295CC923-540F-4896-8B60-727E93F69F07";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
@@ -1647,7 +1647,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "BD21D923-6124-40E3-A9E5-2591FBB95E67";
+				PROVISIONING_PROFILE = "295CC923-540F-4896-8B60-727E93F69F07";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";

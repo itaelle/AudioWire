@@ -62,9 +62,9 @@
         _isAlreadySelected = NO;
         [self.btInfo setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
         
-        if (self.parent && [self.parent respondsToSelector:@selector(deleteMusicSelectionForPlaylist:)])
+        if (self.parent && [self.parent respondsToSelector:@selector(deleteMusicSelectionForPlaylist:sender:)])
         {
-            [self.parent performSelector:@selector(deleteMusicSelectionForPlaylist:) withObject:self.myIndexPath];
+            [self.parent performSelector:@selector(deleteMusicSelectionForPlaylist:sender:) withObject:self.myIndexPath withObject:self];
         }
     }
     else
@@ -72,11 +72,17 @@
         _isAlreadySelected = YES;
         [self.btInfo setBackgroundImage:[UIImage imageNamed:@"picto-check.png"] forState:UIControlStateNormal];
         
-        if (self.parent && [self.parent respondsToSelector:@selector(addMusicSelectionForPlaylist:)])
+        if (self.parent && [self.parent respondsToSelector:@selector(addMusicSelectionForPlaylist:sender:)])
         {
-            [self.parent performSelector:@selector(addMusicSelectionForPlaylist:) withObject:self.myIndexPath];
+            [self.parent performSelector:@selector(addMusicSelectionForPlaylist:sender:) withObject:self.myIndexPath withObject:self];
         }
     }
+}
+
+-(void)unCheck
+{
+    _isAlreadySelected = NO;
+    [self.btInfo setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated

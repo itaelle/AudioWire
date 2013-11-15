@@ -41,7 +41,10 @@
     [super setUpNavLogo];
 
     // Loading View
-    [super setUpLoadingView:_tb_list_artist];
+    [self setUpLoadingView:_tb_list_artist];
+    
+    if (IS_OS_7_OR_LATER)
+        self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     tableData = [NSArray arrayWithObjects:
                  @"Hey, What's up ? I found a new dj ! Man, he's awesome. He creates such great tracks. Just tell me when you are around here, I'll show you his stuff",

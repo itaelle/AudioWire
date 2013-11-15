@@ -44,6 +44,9 @@
     [self prepareNavBarForEditing];
     [self setUpPicker];
     
+    if (IS_OS_7_OR_LATER)
+        self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
     [self.viewForMiniPlayer addSubview:miniPlayer];
     selectedMusicIndexes = [NSMutableArray new];
     
@@ -250,8 +253,20 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)addMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData
+-(void)addMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData sender:(id)sender_
 {
+    if (!pickerData || (pickerData && [pickerData count] == 0))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You don't have any playlist yep, please create at least one to add this track in it!", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+        
+        if (sender_ && [sender_ isKindOfClass:[CellTrack class]])
+        {
+            [(CellTrack *)sender_ unCheck];
+        }
+        return;
+    }
+    
     if (selectedMusicIndexes)
         [selectedMusicIndexes addObject:indexPathinListData];
     else
@@ -261,7 +276,7 @@
         [self showPicker];
 }
 
--(void)deleteMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData
+-(void)deleteMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData sender:(id)sender_
 {
     if (selectedMusicIndexes && [selectedMusicIndexes containsObject:indexPathinListData])
     {

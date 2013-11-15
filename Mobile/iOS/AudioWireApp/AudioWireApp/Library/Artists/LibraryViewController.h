@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;
 @property (weak, nonatomic) IBOutlet UITableView *tb_list_artist;
 
--(void)addMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData;
--(void)deleteMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData;
+-(void)addMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData sender:(id)sender_;
+-(void)deleteMusicSelectionForPlaylist:(NSIndexPath *)indexPathinListData sender:(id)sender_;
 
 @end

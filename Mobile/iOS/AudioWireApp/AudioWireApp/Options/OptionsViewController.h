@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *bt_signout;
+@property (weak, nonatomic) IBOutlet UIButton *bt_userInfo;
 
 @end

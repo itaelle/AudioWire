@@ -410,6 +410,7 @@
 {
     NSLog(@"updateMediaInfo controller");
     NSString *artist = [item_ valueForProperty:MPMediaItemPropertyArtist];
+    NSString *albumArtist = [item_ valueForProperty:MPMediaItemPropertyAlbumArtist];
     NSString *title = [item_ valueForProperty:MPMediaItemPropertyTitle];
     NSString *albumTitle = [item_ valueForProperty:MPMediaItemPropertyAlbumTitle];
     
@@ -419,6 +420,9 @@
     else if (artist && title)
         [_labelTopPlaying setText:[NSString stringWithFormat:@"%@ - %@",
                                    title, artist]];
+    else if (albumArtist && title)
+        [_labelTopPlaying setText:[NSString stringWithFormat:@"%@ - %@",
+                                   title, albumArtist]];
     else if (title)
         [_labelTopPlaying setText:[NSString stringWithFormat:@"%@",
                                    title]];

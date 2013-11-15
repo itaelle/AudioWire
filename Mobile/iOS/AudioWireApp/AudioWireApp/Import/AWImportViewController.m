@@ -32,8 +32,16 @@
     [self.bt_import setTitle:NSLocalizedString(@"Start import", @"") forState:UIControlStateNormal];
     [self.bt_import.titleLabel setFont:FONTBOLDSIZE(15)];
     
+    if (IS_OS_7_OR_LATER)
+        self.tb_content_import.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
     [self setUpList];
     [self getItunesMedia];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 -(void)editAction:(id)sender
@@ -121,8 +129,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO Delete Playlist data
-    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (data && [data count] > indexPath.row)

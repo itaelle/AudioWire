@@ -10,6 +10,8 @@
 
 @implementation AWRequester
 
+// TODO reachability
+
 +(void)customRequestAudiowireAPI:(NSString *)url_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
 {
     AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];

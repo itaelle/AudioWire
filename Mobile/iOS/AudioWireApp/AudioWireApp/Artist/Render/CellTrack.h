@@ -26,5 +26,6 @@
 
 - (void) myInit:(AWTrackModel *)track;
 - (IBAction) clickBtInfo:(id)sender;
+- (void)unCheck;
 
 @end

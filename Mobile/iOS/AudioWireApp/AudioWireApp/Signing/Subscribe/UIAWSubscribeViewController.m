@@ -219,7 +219,7 @@
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (alertView == self.subscribed)
-        [self.navigationController dismissViewControllerAnimated:NO completion:^{
+        [self.navigationController dismissViewControllerAnimated:TRUE completion:^{
         }];
 }
 

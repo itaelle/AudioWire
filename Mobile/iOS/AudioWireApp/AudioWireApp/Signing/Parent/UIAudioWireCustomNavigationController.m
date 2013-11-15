@@ -25,6 +25,9 @@
     
 //    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
+    if (IS_OS_7_OR_LATER)
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
     UIFont *fontTest = FONTSIZE(10);
     if ([fontTest.familyName isEqualToString:@"Futura"])
         [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -2) forBarMetrics:UIBarMetricsDefault];

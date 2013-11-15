@@ -41,6 +41,9 @@
     
     [_viewForMiniPlayer addSubview:miniPlayer];
     
+    if (IS_OS_7_OR_LATER)
+        self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
     [self setUpList];
     [self loadData];
 }
@@ -51,22 +54,20 @@
     [self setUpLoadingView:_tb_list_artist];
     
     // Data Loading
-    tableData = [[NSMutableArray alloc]initWithObjects:@"Adrien",
-                 @"Eli",
-                 @"Flavien",
-                 @"Gaston",
-                 @"Irène",
-                 @"Jack",
-                 @"Justine",
-                 @"Karim",
-                 @"Lorie",
-                 @"Manu",
-                 @"Nunuk",
-                 @"Patrick",
-                 @"Rayan",
-                 @"Sergio",
-                 @"Tirone",
-                 @"Viktor",
+    tableData = [[NSMutableArray alloc]initWithObjects:@"Adrien Lami",
+                 @"Eli Bavarois",
+                 @"Flavien Mateque",
+                 @"Gaston Lagaf",
+                 @"Irène Dubois",
+                 @"Jack Daniel",
+                 @"Justine Delafitte",
+                 @"Karim Benzemah",
+                 @"Youssouf Isri",
+                 @"Manu Tchao",
+                 @"Guillaume Lecointre",
+                 @"Patrick Sebastien",
+                 @"Rayan Oconor",
+                 @"Sergio De Milano",
                  nil];
     
     // Stop Loading
@@ -204,7 +205,7 @@
             cell.detailTextLabel.text = @"";
     }
     else
-        [cell myInit:[tableData objectAtIndex:indexPath.row] details:@"Last message example"];
+        [cell myInit:[tableData objectAtIndex:indexPath.row] details:@"Details about contact"];
     
     return cell;
 }

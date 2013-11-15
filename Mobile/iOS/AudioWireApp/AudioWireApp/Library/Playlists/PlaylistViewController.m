@@ -33,6 +33,9 @@
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
     
+    if (IS_OS_7_OR_LATER)
+        self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
     [_viewForMiniPlayer addSubview:miniPlayer];
     
     [self setUpList];

@@ -94,6 +94,7 @@
     [AWTracksManager addTrack:tracksToSend cb_rep:^(BOOL success, NSString *error)
     {
         if (success) {
+            // TODO incorporer token sinon pour un autre user, ce sera la même chose, il ne pourra pa tout importer s'il ne l'a jamais fais
             [[AWTrackModel toArray:tracksToSend] writeToFile:[AWItunesImportManager pathOfileImport] atomically:NO];
             NSLog(@"Wrote into file %@", [AWTrackModel toArray:tracksToSend]);
         }

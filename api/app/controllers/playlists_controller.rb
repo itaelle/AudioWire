@@ -57,7 +57,7 @@ class PlaylistsController < ApplicationController
         render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
       end
     else
-      #Playlist.delete(playlists)
+      Playlist.delete(playlists)
       if playlists.count > 1
         render :status => 200, :json => {:success=>true, :message => "Playlists have been deleted"}
       else

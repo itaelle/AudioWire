@@ -1,8 +1,8 @@
 AudioWire::Application.routes.draw do
 
-  root :to => "home#index"
+  root :to => "websiteen#home"
 
-  get "home/index"
+  # get "home/index"
 
   devise_for :users, :skip => [:registrations, :sessions, :passwords]
   as :user do
@@ -51,6 +51,23 @@ AudioWire::Application.routes.draw do
     match '/playlist/:id/tracks/:id_track' => 'playlists#delete_track', :via => :delete
   end
 
+  scope '/fr' do
+      get '' => 'websitefr#home'
+      match '/project' => 'websitefr#project', :via => :get
+      match '/team' => 'websitefr#team', :via => :get
+      match '/contact' => 'websitefr#contact', :via => :get
+      match '/login' => 'websitefr#login', :via => :get
+      match '/about' => 'websitefr#about', :via => :get
+    end
+
+scope '/en' do
+      get '' => 'websiteen#home'
+      match '/project' => 'websiteen#project', :via => :get
+      match '/team' => 'websiteen#team', :via => :get
+      match '/contact' => 'websiteen#contact', :via => :get
+      match '/login' => 'websiteen#login', :via => :get
+      match '/about' => 'websiteen#about', :via => :get
+    end
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

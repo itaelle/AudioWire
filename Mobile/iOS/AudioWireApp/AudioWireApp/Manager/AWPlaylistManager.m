@@ -83,7 +83,7 @@
              else
              {
                  self.itunesMedia = nil;
-                 self.itunesMedia = [AWTracksManager matchWithITunesLibrary:modelsTracks];
+                 self.itunesMedia = [AWTracksManager matchWithITunesLibrary:[modelsTracks mutableCopy]];
                  cb_rep(modelsTracks, successAPI, nil);
              }
              //[AWTracksManager matchWithITunesLibrary:modelsTracks cb_rep:cb_rep];

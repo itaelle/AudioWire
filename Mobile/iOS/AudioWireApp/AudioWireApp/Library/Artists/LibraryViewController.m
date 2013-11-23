@@ -40,6 +40,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.skipAuth = YES;
+    
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
     [self setUpPicker];
@@ -106,7 +109,9 @@
         return ;
 
     [self setUpLoadingView:_tb_list_artist];
-    [[AWTracksManager getInstance] getAllTracks:^(NSArray *data, BOOL success, NSString *error) {
+
+    [[AWTracksManager getInstance] getAllLocalTracks:^(NSArray *data, BOOL success, NSString *error)
+    {
         if (success)
         {
             // AppendData for showMore action right here
@@ -123,25 +128,26 @@
         }
         [self cancelLoadingView:_tb_list_artist];
     }];
-    
-    [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
-     {
-         if (success)
-         {
-             pickerData = nil;
-             pickerData = [NSMutableArray arrayWithArray:data];
-             NSLog(@"Received Playlists");
-             [pickerPlaylist reloadComponent:0];
-             if (pickerData && [pickerData count] > 1)
-                 [pickerPlaylist selectRow:([pickerData count]-2) inComponent:0 animated:YES];
-         }
-         else
-         {
-             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
-             [alert show];
-         }
-         [self cancelLoadingView:_tb_list_artist];
-     }];
+
+    // TODO LOCAL PLAYLIST
+//    [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
+//     {
+//         if (success)
+//         {
+//             pickerData = nil;
+//             pickerData = [NSMutableArray arrayWithArray:data];
+//             NSLog(@"Received Playlists");
+//             [pickerPlaylist reloadComponent:0];
+//             if (pickerData && [pickerData count] > 1)
+//                 [pickerPlaylist selectRow:([pickerData count]-2) inComponent:0 animated:YES];
+//         }
+//         else
+//         {
+//             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+//             [alert show];
+//         }
+//         [self cancelLoadingView:_tb_list_artist];
+//     }];
 }
 
 -(void)didSelectPlaylist:(id)sender
@@ -257,7 +263,7 @@
 {
     if (!pickerData || (pickerData && [pickerData count] == 0))
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You don't have any playlist yep, please create at least one to add this track in it!", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You don't have any playlist yet, please create at least one to add this track in it!", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
         [alert show];
         
         if (sender_ && [sender_ isKindOfClass:[CellTrack class]])

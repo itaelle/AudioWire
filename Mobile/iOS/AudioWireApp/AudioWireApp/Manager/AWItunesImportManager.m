@@ -1,4 +1,4 @@
-    //
+//
 //  AWItunesImportManager.m
 //  AudioWireApp
 //
@@ -32,24 +32,26 @@
 -(NSArray *)getAllItunesMedia
 {
     MPMediaQuery *everything = [[MPMediaQuery alloc] init];
+    [everything addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[NSNumber numberWithBool:NO] forProperty:MPMediaItemPropertyIsCloudItem]];
     NSArray *itemsFromGenericQuery = [everything items];
+    
     return itemsFromGenericQuery;
 }
 
 -(NSArray *)getItunesMediaAndIgnoreAlreadyImportedOnes
 {
     NSArray *importedTracks = nil;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[AWItunesImportManager pathOfileImport]])
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[AWTracksManager pathOfileLibrary]])
     {
-        importedTracks = [[NSArray alloc] initWithContentsOfFile:[AWItunesImportManager pathOfileImport]];
+        importedTracks = [[NSArray alloc] initWithContentsOfFile:[AWTracksManager pathOfileLibrary]];
         importedTracks = [AWTrackModel fromJSONArray:importedTracks];
         
         for (AWTrackModel *track in importedTracks)
             NSLog(@"Importe file found : %@", track.title);
     }
     int nbImported = importedTracks == nil ? 0 : [importedTracks count];
-
-    NSArray *itemsFromGenericQuery = [[[MPMediaQuery alloc] init] items];
+    
+    NSArray *itemsFromGenericQuery = [self getAllItunesMedia];
     if (!importedTracks || [importedTracks count] == 0)
     {
         self.itunesMedia = itemsFromGenericQuery;
@@ -77,29 +79,58 @@
 
 -(void)integrateMediaInAWLibrary:(NSArray *)itunesMedia cb_rep:(void(^)(bool success, NSString *error))cb_rep
 {
-    NSMutableArray *tracksToSend = [[NSMutableArray alloc] initWithCapacity:[itunesMedia count]];
-
-    for (MPMediaItem *song in itunesMedia)
-    {
-        AWTrackModel *trackModel = [AWTrackModel new];
-        trackModel.title = [song valueForProperty:MPMediaItemPropertyTitle];
-        trackModel.album = [song valueForProperty:MPMediaItemPropertyAlbumTitle];
-        trackModel.artist = [[song valueForProperty:MPMediaItemPropertyArtist]length] > 0 ? [song valueForProperty:MPMediaItemPropertyArtist] : [song valueForProperty:MPMediaItemPropertyAlbumArtist];
-        trackModel.genre = [song valueForProperty:MPMediaItemPropertyGenre];
-        trackModel.numberTrack = [song valueForProperty:MPMediaItemPropertyAlbumTrackNumber];
-        trackModel.time = [song valueForProperty:MPMediaItemPropertyPlaybackDuration];
+    dispatch_queue_t queue = dispatch_queue_create("com.yourdomain.yourappname", NULL);
+    dispatch_async(queue, ^{
+        //code to be executed in the background
         
-        [tracksToSend addObject:trackModel];
-    }
-    [AWTracksManager addTrack:tracksToSend cb_rep:^(BOOL success, NSString *error)
-    {
-        if (success) {
-            // TODO incorporer token sinon pour un autre user, ce sera la même chose, il ne pourra pa tout importer s'il ne l'a jamais fais
-            [[AWTrackModel toArray:tracksToSend] writeToFile:[AWItunesImportManager pathOfileImport] atomically:NO];
-            NSLog(@"Wrote into file %@", [AWTrackModel toArray:tracksToSend]);
+        NSMutableArray *tracksToSend = [[NSMutableArray alloc] initWithCapacity:[itunesMedia count]];
+        for (MPMediaItem *song in itunesMedia)
+        {
+            if (song && [song isKindOfClass:[MPMediaItem class]])
+            {
+                AWTrackModel *trackModel = [AWTrackModel new];
+                trackModel.title = [song valueForProperty:MPMediaItemPropertyTitle];
+                trackModel.album = [song valueForProperty:MPMediaItemPropertyAlbumTitle];
+                trackModel.artist = [[song valueForProperty:MPMediaItemPropertyArtist]length] > 0 ? [song valueForProperty:MPMediaItemPropertyArtist] : [song valueForProperty:MPMediaItemPropertyAlbumArtist];
+                trackModel.genre = [song valueForProperty:MPMediaItemPropertyGenre];
+                trackModel.numberTrack = [song valueForProperty:MPMediaItemPropertyAlbumTrackNumber];
+                trackModel.time = [song valueForProperty:MPMediaItemPropertyPlaybackDuration];
+                
+                [tracksToSend addObject:trackModel];
+            }
         }
-        cb_rep(success, error);
-    }];
+        
+        // Local
+        NSString *pathOfLibraryAW = [AWTracksManager pathOfileLibrary];
+        NSLog(@"Write into file : %@", pathOfLibraryAW);
+        
+        BOOL sucess = [[AWTrackModel toArray:tracksToSend] writeToFile:pathOfLibraryAW atomically:NO];
+        
+        NSLog(@"Sucess write : %d", sucess);
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWTracksManager pathOfileLibrary]])
+        {
+            NSLog(@"Nb Items in file => %d", [[NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]] count]);
+            NSLog(@"GET FROM FILE => %@", [NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]]);
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cb_rep(true, nil);
+        });
+    });
+    
+    
+    // AudioWire - API Server
+
+    //    [AWTracksManager addTrack:tracksToSend cb_rep:^(BOOL success, NSString *error)
+    //    {
+    //        if (success)
+    //        {
+    //            // TODO incorporer token sinon pour un autre user, ce sera la même chose, il ne pourra pa tout importer s'il ne l'a jamais fais
+    //            [[AWTrackModel toArray:tracksToSend] writeToFile:[AWItunesImportManager pathOfileImport] atomically:NO];
+    //            NSLog(@"Wrote into file %@", [AWTrackModel toArray:tracksToSend]);
+    //        }
+    //        cb_rep(success, error);
+    //    }];
 }
 
 @end

@@ -87,6 +87,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.skipAuth = YES;
+    
     [self setUpNavLogo];
     [self setUpPlayer];
     [self setUpSlider];

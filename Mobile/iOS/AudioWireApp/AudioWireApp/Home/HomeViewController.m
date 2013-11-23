@@ -35,7 +35,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self prepareNavBarForImport];
+    self.skipAuth = YES;
+    
     [self setUpViews];
 }
 
@@ -229,6 +232,7 @@
 -(void) setUpMiddleView
 {
     [_special_button setBackgroundImage:[UIImage imageNamed:@"funny_monkey.jpg"] forState:UIControlStateNormal];
+
     if (!IS_OS_7_OR_LATER)
     {
         CGRect rectSpecialButton = self.special_button.frame;

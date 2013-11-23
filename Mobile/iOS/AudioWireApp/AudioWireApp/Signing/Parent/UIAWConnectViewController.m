@@ -85,7 +85,10 @@
     [super viewWillAppear:animated];
     
     if (self.skipAuth)
+    {
+        [self loadData];
         return;
+    }
     [self reconnect:YES];
 }
 
@@ -102,7 +105,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    return;
 }
 
 -(void)viewDidDisappear:(BOOL)animated

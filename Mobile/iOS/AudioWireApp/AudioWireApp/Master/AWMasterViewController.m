@@ -175,6 +175,7 @@
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = closeButton;
 }
+
 -(void) prepareNavBarForCancel
 {
     [self prepareNavBarForCancel:NO];

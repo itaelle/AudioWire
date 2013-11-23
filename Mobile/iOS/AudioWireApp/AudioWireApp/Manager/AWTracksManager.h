@@ -12,9 +12,12 @@
 @interface AWTracksManager : NSObject
 
 @property (nonatomic, strong) NSArray *itunesMedia;
+@property (nonatomic, strong) NSArray *awTracks;
 
 +(AWTracksManager*)getInstance;
++(NSString *)pathOfileLibrary;
 -(void)getAllTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
+-(void)getAllLocalTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
 
 +(void)addTrack:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 +(void)deleteTracks:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;

@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "OptionsViewController.h"
 #import "AWUserManager.h"
+#import "AWTracksManager.h"
 
 @implementation OptionsViewController
 
@@ -41,6 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.skipAuth = YES;
     [self setUpOptionViews];
 }
 
@@ -60,21 +62,21 @@
 
     [_bt_signout setTitle:NSLocalizedString(@"Sign out", @"") forState:UIControlStateNormal];
     [_bt_userInfo setTitle:NSLocalizedString(@"Modify user information", @"") forState:UIControlStateNormal];
-    [_firstOption setText:NSLocalizedString(@"Turn on active sync :", @"")];
+    [_bt_reset setTitle:NSLocalizedString(@"Reset Library", @"") forState:UIControlStateNormal];
+    [_topLabel setText:NSLocalizedString(@"What do you want to do ?", @"")];
     
     [_bt_userInfo.titleLabel setFont:FONTBOLDSIZE(14)];
     [_bt_signout.titleLabel setFont:FONTBOLDSIZE(15)];
-    [_firstOption setFont:FONTSIZE(15)];
+    [_bt_reset.titleLabel setFont:FONTBOLDSIZE(15)];
+    [_topLabel setFont:FONTSIZE(15)];
     
     NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\nForum 2013", NSLocalizedString(@"AudioWire", @"")];
     
     [_bottomLabel setText:format];
     [_bottomLabel setFont:FONTSIZE(15)];
-}
-
-- (IBAction)switchValueChanged:(id)sender
-{
-    // TODO sync active ?
+    
+    [_bt_reset setBackgroundColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
+    [_bt_userInfo setBackgroundColor:[UIColor colorWithRed:0.57 green:0.57 blue:0.57 alpha:1]];
 }
 
 - (IBAction)click_signOut:(id)sender
@@ -99,6 +101,20 @@
 - (IBAction)click_userInfo:(id)sender
 {
     // TODO userInfo
+}
+
+- (IBAction)click_reset:(id)sender
+{
+    BOOL sucess = [[NSFileManager defaultManager] removeItemAtPath:[AWTracksManager pathOfileLibrary] error:nil];
+    
+    if (sucess)
+    {
+        [self setFlashMessage:NSLocalizedString(@"The local library has been removed !", @"") timeout:1];
+    }
+    else
+    {
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning

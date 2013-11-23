@@ -17,6 +17,7 @@
 #define PREFIX_MAIL_FB @""
 #define FILE_AUTOLOGIN @"audiowire_autologin"
 #define FILE_IMPORT @"audiowire_import"
+#define FILE_LIBRARY @"audiowire_library"
 #define URL_API @"https://audiowire.co"
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)

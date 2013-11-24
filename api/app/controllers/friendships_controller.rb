@@ -23,8 +23,10 @@ class FriendshipsController < ApplicationController
       res[:user_id] = friendship[:user_id]
       res[:created_at] = friendship[:created_at]
       res[:updated_at] = friendship[:updated_at]
-      res[:first_name] = User.find(friendship[:friend_id])[:first_name]
-      res[:last_name] = User.find(friendship[:friend_id])[:last_name]
+      u = User.find(friendship[:friend_id])
+      res[:first_name] = u[:first_name]
+      res[:last_name] = u[:last_name]
+      res[:username] = u[:username]
       list.append(res)
     end
     render :status => 200, :json=>{:success=>true, :friends => list, :nb_friends => list.size}

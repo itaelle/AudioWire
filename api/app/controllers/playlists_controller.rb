@@ -123,7 +123,7 @@ class PlaylistsController < ApplicationController
         elsif ret + ret2 >= 1  # at least one sonf was added
           render :status => 201, :json => {:success=>true, :message => "Tracks have been added to the playlist"}
         else  # no tracks in params
-          render :status => 400, :json => {:success=>true, :message => "No track found in params"}
+          render :status => 400, :json => {:success=>false, :message => "No track found in params"}
         end
       end
     end

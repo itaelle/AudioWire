@@ -106,23 +106,26 @@ class PlaylistsController < ApplicationController
     end
   end
 
+
   def add_tracks
     user = User.find_by_authentication_token(params[:token])
     playlist = user.playlists.find_by_id(params[:id])
-    lst = params[:tracks_id]
     if playlist.nil?
       render :status => 404, :json => {:success=>false, :error => "Playlist does not exist"}
     else
-      lst.each do |track_id|
-        if Track.find_by_id(track_id).nil?
-          render :status => 404, :json => {:success=>false, :error => "Couldn't find track #{track_id}"}
+      ret = add_tracks_by_ids(playlist, params[:tracks_id])
+      if ret == -1  # an error occured
+        return
+      else
+        ret2 = add_tracks_by_content(user, playlist, params[:tracks])
+        if ret2  == -1  # an error occured
           return
-        else
-          playlist.relation_playlists.new({:track_id => track_id})
+        elsif ret + ret2 >= 1  # at least one sonf was added
+          render :status => 201, :json => {:success=>true, :message => "Tracks have been added to the playlist"}
+        else  # no tracks in params
+          render :status => 400, :json => {:success=>true, :message => "No track found in params"}
         end
       end
-      playlist.save
-      render :status => 201, :json => {:success=>true, :message => "Tracks have been added to the playlist"}
     end
   end
 
@@ -194,6 +197,43 @@ class PlaylistsController < ApplicationController
       return "Password " + resource.errors[:password][0]
     end
     return ""
+  end
+
+  def add_tracks_by_ids(playlist, ids)
+    if ids.nil?
+      return 0
+    end
+    ids.each do |track_id|
+      if Track.find_by_id(track_id).nil?
+        render :status => 404, :json => {:success=>false, :error => "Couldn't find track #{track_id}"}
+        return -1
+      else
+        playlist.relation_playlists.new({:track_id => track_id})
+      end
+    end
+    playlist.save
+    return 1
+  end
+
+  def add_tracks_by_content(user, playlist, tracks)
+    if tracks.nil?
+      return 0
+    end
+    flag_error = false
+    tracks.each do |t|
+      track = user.tracks.new(t)
+      if !track.save
+        flag_error = true
+        render :status => 403, :json => {:success=>false, :error => track.errors}
+      else
+        playlist.relation_playlists.new({:track_id => track.id})
+      end
+    end
+    playlist.save
+    if flag_error == true
+      return -1
+    end
+    return 1
   end
 
 end

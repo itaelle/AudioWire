@@ -65,18 +65,29 @@ class FriendshipsController < ApplicationController
 
   def destroy
     user = User.find_by_authentication_token(params[:token])
-    friend = User.find_by_email(params[:friend_email])
-    if params[:friend_email].nil?
-      render :status => 400, :json=>{:success=>false, :error=>"friend_email field is missing"}
+    friends = params[:friends_email]
+    nb_deleted = 0
+    if params[:friends_email].nil? || params[:friends_email].empty?
+      render :status => 400, :json=>{:success=>false, :error=>"friends_email field is missing"}
       return
     end
-    @friendship = get_friendship(user.id, friend.id)
-    if @friendship.nil?
-      render :status => 404, :json=>{:success=>false, :error=>"#{friend.email} is not your friend"}
-      return
+    friends.each do |friend_email|
+      friend = User.find_by_email(friend_email)
+      if !friend.nil?
+        @friendship = get_friendship(user.id, friend.id)
+        if !@friendship.nil?
+          @friendship.destroy
+          nb_deleted = nb_deleted + 1
+        end
+      end
     end
-    @friendship.destroy
-    render :status => 200, :json=>{:success=>true, :message=>"#{friend.email} is no longer your friend"}
+    if nb_deleted == 0
+      render :status => 404, :json => {:success=>false, :message => "0 friend were deleted from your friendlist", :nb_friends=>user.friends.count, :nb_deleted=>nb_deleted}
+    elsif nb_deleted == 1
+      render :status => 200, :json => {:success=>true, :message => "1 friend has been deleted from your friendlist", :nb_friends=>user.friends.count, :nb_deleted=>nb_deleted}
+    else
+      render :status => 200, :json => {:success=>true, :message => "#{nb_deleted} friends have been deleted from your friendlist", :nb_friends=>user.friends.count, :nb_deleted=>nb_deleted}
+    end
   end
 
   protected

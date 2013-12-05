@@ -146,7 +146,7 @@ class PlaylistsController < ApplicationController
         end
       end
       if nb_deleted == 0
-        render :status => 404, :json => {:success=>false, :message => "0 track has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count, :nb_deleted=>nb_deleted}
+        render :status => 404, :json => {:success=>false, :message => "0 track were deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count, :nb_deleted=>nb_deleted}
       elsif nb_deleted == 1
         render :status => 200, :json => {:success=>true, :message => "1 track has been deleted from the playlist", :nb_tracks=>playlist.relation_playlists.count, :nb_deleted=>nb_deleted}
       else

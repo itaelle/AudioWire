@@ -32,6 +32,7 @@ AudioWire::Application.routes.draw do
     match '/friends' => 'friendships#index', :via => :get
 
     match '/friends' => 'friendships#destroy', :via => :delete
+    match '/friends/delete' => 'friendships#destroy', :via => :post  # for ios support
 
 
     match '/playlist' => 'playlists#list', :via => :get

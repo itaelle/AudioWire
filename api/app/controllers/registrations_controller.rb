@@ -1,3 +1,5 @@
+require 'net/http'
+
 class   RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
@@ -13,6 +15,10 @@ class   RegistrationsController < Devise::RegistrationsController
           if resource.active_for_authentication?
               sign_up(resource_name, resource)
               UserMailer.welcome_email(resource).deliver
+              secret = "E7SBm6qv"
+              createChatUserURL = "http://audiowire.co:9090/plugins/userService/userservice?type=add&secret=#{ secret }&username=#{ @user.username}&password=#{ @user.password}&name=#{@user.first_name + " " + @user.last_name}&email=#{@user.email}"
+              # result = Net::HTTP.get(URI.parse(createChatUserURL))
+              # puts result
               render :status=>201, :json=>{:success=>true, :token=>@user.authentication_token, :id=>@user.id}
           else
             expire_session_data_after_sign_in!

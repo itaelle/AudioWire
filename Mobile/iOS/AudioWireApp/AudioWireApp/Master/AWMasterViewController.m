@@ -200,14 +200,28 @@
     }
 }
 
-- (void) prepareNavBarForAdding
+- (void) prepareNavBarForAdding:(BOOL)isLeft
 {
     UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addAction:)];
     
     if (IS_OS_7_OR_LATER)
         createPlaylistButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = createPlaylistButton;
+    
+    if (isLeft)
+    {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = createPlaylistButton;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = createPlaylistButton;
+    }
+}
+
+- (void) prepareNavBarForAdding
+{
+    [self prepareNavBarForAdding:NO];
 }
 
 -(void)prepareNavBarForImport

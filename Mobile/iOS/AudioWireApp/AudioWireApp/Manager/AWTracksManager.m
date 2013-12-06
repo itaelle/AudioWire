@@ -28,7 +28,7 @@
 }
 
 /****************************************************/
-/****** BASIC LOCAL FUNCTIONNING ******/
+/************* BASIC LOCAL FUNCTIONNING *************/
 /****************************************************/
 
 +(NSString *)pathOfileLibrary
@@ -40,16 +40,35 @@
 
 -(void)deleteLocalTracks:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
-    NSMutableArray *mutableAwTracks = [self.awTracks mutableCopy];
+    dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    for (AWTrackModel *trackToDelete in tracksToDelete_)
-    {
-        if ([mutableAwTracks containsObject:tracksToDelete_])
+    dispatch_async(queueGlobal, ^{
+        
+        NSMutableArray *mutableAwTracks = [self.awTracks mutableCopy];
+        
+        for (AWTrackModel *trackToDelete in tracksToDelete_)
         {
-            [mutableAwTracks removeObject:trackToDelete];
+            if ([mutableAwTracks containsObject:tracksToDelete_])
+            {
+                [mutableAwTracks removeObject:trackToDelete];
+            }
         }
-    }
-    [mutableAwTracks writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];
+
+        BOOL success = [mutableAwTracks writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];;
+    
+        if (success)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cb_rep(YES, nil);
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cb_rep(YES, NSLocalizedString(@"", @""));
+            });
+        }
+    });
 }
 
 -(void)getAllLocalTracks:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
@@ -58,7 +77,8 @@
     // Remove in local file the deleted tracks from itunes
     // Create an array of matched MPMediaItems from tracks in AudioWire
     
-    dispatch_queue_t queueCreated = dispatch_queue_create("com.yourdomain.yourappname", NULL); // Necessary ?
+//    dispatch_queue_t queueCreated = dispatch_queue_create("com.yourdomain.yourappname", NULL); // Necessary ?
+    
     dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     dispatch_async(queueGlobal, ^{
@@ -71,12 +91,14 @@
         alreadyInAudioWire = [AWTrackModel fromJSONArray:alreadyInAudioWire];
         
         for (AWTrackModel *track in alreadyInAudioWire)
-            NSLog(@"File in audioWire : %@", track.title);    
+            NSLog(@"Tracks FILE_LIBRARY : %@", track.title);
     }
     if (!alreadyInAudioWire || [alreadyInAudioWire count] == 0)
     {
+        dispatch_async(dispatch_get_main_queue(), ^{
         cb_rep(nil, false, NSLocalizedString(@"The tracks of your library doesn't match the ones you have in iTunes. You can import new from you home screen!", @""));
         return ;
+        });
     }
     
     NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> File");
@@ -161,6 +183,17 @@
 /****************************************************/
 /****************************************************/
 /****************************************************/
+/****************************************************/
+
+
+
+
+
+
+
+
+/****************************************************/
+/************* ONLY ONLINE FUNCTIONNING *************/
 /****************************************************/
 
 +(NSMutableArray *)matchWithITunesLibrary:(NSMutableArray *)arrayTrackModel
@@ -400,6 +433,11 @@
          }
      }];
 }
+
+/****************************************************/
+/****************************************************/
+/****************************************************/
+/****************************************************/
 
 @end
 

@@ -27,15 +27,15 @@
     // Configure the view for the selected state
 }
 
--(void)myInit:(NSString *)contact details:(NSString *)detailContact
+-(void)myInit:(AWUserModel *)contact
 {
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     
-    if (contact && [contact length] > 0)
-        [_nameLabel setText:contact];
+    if (contact && contact.username)
+        [_nameLabel setText:contact.username];
     
-    if (contact && [detailContact length] > 0)
-        [_detailLabel setText:detailContact];
+    if (contact && contact.lastName && contact.firstName)
+        [_detailLabel setText:[NSString stringWithFormat:@"%@ %@", contact.firstName, contact.lastName]];
     
     [_backgroundImage setImage:[UIImage imageNamed:@"avatar.png"]];
 

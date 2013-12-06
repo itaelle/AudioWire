@@ -57,6 +57,7 @@
 		F028549117B027FF005090CE /* CellConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = F028548F17B027FF005090CE /* CellConversation.m */; };
 		F028549317B02892005090CE /* CellConversation.xib in Resources */ = {isa = PBXBuildFile; fileRef = F028549217B02892005090CE /* CellConversation.xib */; };
 		F028549417B02892005090CE /* CellConversation.xib in Resources */ = {isa = PBXBuildFile; fileRef = F028549217B02892005090CE /* CellConversation.xib */; };
+		F04C0A03184FDBA2004985CF /* AWPlaylistSynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = F04C0A02184FDBA2004985CF /* AWPlaylistSynchronizer.m */; };
 		F055AAC717B86EB7007ABC61 /* PlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F055AAC517B86EB7007ABC61 /* PlaylistViewController.m */; };
 		F055AAC817B86EB7007ABC61 /* PlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F055AAC517B86EB7007ABC61 /* PlaylistViewController.m */; };
 		F055AAC917B86EB7007ABC61 /* PlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F055AAC617B86EB7007ABC61 /* PlaylistViewController.xib */; };
@@ -288,6 +289,8 @@
 		F028548E17B027FF005090CE /* CellConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CellConversation.h; path = Conversation/Render/CellConversation.h; sourceTree = "<group>"; };
 		F028548F17B027FF005090CE /* CellConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellConversation.m; path = Conversation/Render/CellConversation.m; sourceTree = "<group>"; };
 		F028549217B02892005090CE /* CellConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CellConversation.xib; path = Conversation/Render/CellConversation.xib; sourceTree = "<group>"; };
+		F04C0A01184FDBA2004985CF /* AWPlaylistSynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWPlaylistSynchronizer.h; path = Requester/AWPlaylistSynchronizer.h; sourceTree = "<group>"; };
+		F04C0A02184FDBA2004985CF /* AWPlaylistSynchronizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWPlaylistSynchronizer.m; path = Requester/AWPlaylistSynchronizer.m; sourceTree = "<group>"; };
 		F055AAC417B86EB7007ABC61 /* PlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaylistViewController.h; path = Library/Playlists/PlaylistViewController.h; sourceTree = "<group>"; };
 		F055AAC517B86EB7007ABC61 /* PlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaylistViewController.m; path = Library/Playlists/PlaylistViewController.m; sourceTree = "<group>"; };
 		F055AAC617B86EB7007ABC61 /* PlaylistViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlaylistViewController.xib; path = Library/Playlists/PlaylistViewController.xib; sourceTree = "<group>"; };
@@ -983,6 +986,13 @@
 			name = Import;
 			sourceTree = "<group>";
 		};
+		F0B62E9818416DDE00ADEBC3 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Friends;
+			sourceTree = "<group>";
+		};
 		F0BD23191835646B000675F8 /* img */ = {
 			isa = PBXGroup;
 			children = (
@@ -1134,6 +1144,7 @@
 		F0C8D4E91819C27200801D00 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F0B62E9818416DDE00ADEBC3 /* Friends */,
 				F0AB2B02181E93450029BDDC /* Master */,
 				F0AB2B07181E9FF90029BDDC /* Playlists */,
 				F0933252181DC18E00C505D4 /* Track */,
@@ -1187,6 +1198,8 @@
 			children = (
 				F0F7C6DE18171C680045FC6A /* AWRequester.h */,
 				F0F7C6DF18171C680045FC6A /* AWRequester.m */,
+				F04C0A01184FDBA2004985CF /* AWPlaylistSynchronizer.h */,
+				F04C0A02184FDBA2004985CF /* AWPlaylistSynchronizer.m */,
 			);
 			name = Requester;
 			sourceTree = "<group>";
@@ -1452,6 +1465,7 @@
 				F0061EA21812C0CE0057EBEA /* ANPopoverView.m in Sources */,
 				F0061F201812CADA0057EBEA /* OHAttributedLabel.m in Sources */,
 				F0AB2B0A181EA00E0029BDDC /* AWPlaylistModel.m in Sources */,
+				F04C0A03184FDBA2004985CF /* AWPlaylistSynchronizer.m in Sources */,
 				F0F7C6FB18171CC90045FC6A /* AFURLConnectionOperation.m in Sources */,
 				F0D2131C18141C9200F844E2 /* AWConfManager.m in Sources */,
 				F0F7C6D5181713BF0045FC6A /* NSString+NSString_Tool.m in Sources */,

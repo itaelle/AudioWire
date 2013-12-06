@@ -42,7 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.skipAuth = YES;
+    self.skipAuth = NO;
     [self setUpOptionViews];
 }
 
@@ -62,21 +62,30 @@
 
     [_bt_signout setTitle:NSLocalizedString(@"Sign out", @"") forState:UIControlStateNormal];
     [_bt_userInfo setTitle:NSLocalizedString(@"Modify user information", @"") forState:UIControlStateNormal];
-    [_bt_reset setTitle:NSLocalizedString(@"Reset Library", @"") forState:UIControlStateNormal];
+    [_bt_reset setTitle:NSLocalizedString(@"Reset library", @"") forState:UIControlStateNormal];
     [_topLabel setText:NSLocalizedString(@"What do you want to do ?", @"")];
     
     [_bt_userInfo.titleLabel setFont:FONTBOLDSIZE(14)];
-    [_bt_signout.titleLabel setFont:FONTBOLDSIZE(15)];
-    [_bt_reset.titleLabel setFont:FONTBOLDSIZE(15)];
-    [_topLabel setFont:FONTSIZE(15)];
+    [_bt_signout.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_bt_reset.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_topLabel setFont:FONTSIZE(17)];
+    
+    _bt_userInfo.titleLabel.numberOfLines = 2;
+    [_bt_userInfo.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
     
     NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\nForum 2013", NSLocalizedString(@"AudioWire", @"")];
     
     [_bottomLabel setText:format];
     [_bottomLabel setFont:FONTSIZE(15)];
     
+    [_bt_signout setBackgroundImage:[UIImage imageNamed:@"sign-out.png"] forState:UIControlStateNormal];
     [_bt_reset setBackgroundColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
     [_bt_userInfo setBackgroundColor:[UIColor colorWithRed:0.57 green:0.57 blue:0.57 alpha:1]];
+    
+    return ;
+    
+    [_bt_userInfo setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.57 green:0.57 blue:0.57 alpha:1]] forState:UIControlStateNormal];
+    [_bt_reset setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]] forState:UIControlStateNormal];
 }
 
 - (IBAction)click_signOut:(id)sender

@@ -25,6 +25,7 @@
 - (void) prepareNavBarForEditing;
 - (void) prepareNavBarForEditing:(BOOL)isLeft;
 - (void) prepareNavBarForAdding;
+- (void) prepareNavBarForAdding:(BOOL)isLeft;
 - (void) prepareNavBarForImport;
 - (void) desactivateButtonBar:(bool)left right:(bool)right;
 

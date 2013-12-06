@@ -22,13 +22,6 @@
     return sharedMyManager;
 }
 
-+(NSString *)pathOfileImport
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *directory = paths[0];
-    return [directory stringByAppendingPathComponent:FILE_IMPORT];
-}
-
 -(NSArray *)getAllItunesMedia
 {
     MPMediaQuery *everything = [[MPMediaQuery alloc] init];
@@ -79,8 +72,8 @@
 
 -(void)integrateMediaInAWLibrary:(NSArray *)itunesMedia cb_rep:(void(^)(bool success, NSString *error))cb_rep
 {
-    dispatch_queue_t queue = dispatch_queue_create("com.yourdomain.yourappname", NULL);
-    dispatch_async(queue, ^{
+    dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queueGlobal, ^{
         //code to be executed in the background
         
         NSMutableArray *tracksToSend = [[NSMutableArray alloc] initWithCapacity:[itunesMedia count]];
@@ -111,13 +104,12 @@
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWTracksManager pathOfileLibrary]])
         {
             NSLog(@"Nb Items in file => %d", [[NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]] count]);
-            NSLog(@"GET FROM FILE => %@", [NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]]);
+            NSLog(@"GET FROM FILE => %@", [[NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]] description]);
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             cb_rep(true, nil);
         });
     });
-    
     
     // AudioWire - API Server
 
@@ -132,5 +124,13 @@
     //        cb_rep(success, error);
     //    }];
 }
+
+//+(NSString *)pathOfileImport
+//{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *directory = paths[0];
+//    return [directory stringByAppendingPathComponent:FILE_IMPORT];
+//}
+
 
 @end

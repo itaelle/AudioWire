@@ -133,13 +133,9 @@
     
     
     if (![UIDevice isIphone5])
-    {
         [self.sc_container setContentOffset:CGPointMake(0, sender.superview.frame.origin.y - 64) animated:NO];
-    }
     else
-    {
         [self.sc_container setContentOffset:CGPointMake(0, 0) animated:NO];
-    }
 }
 
 - (IBAction)editDidEnd:(UITextField *)sender

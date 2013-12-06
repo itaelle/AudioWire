@@ -12,6 +12,8 @@
 #import "CreatePlaylistViewController.h"
 #import "NSObject+NSObject_Tool.h"
 #import "AWPlaylistManager.h"
+#import "AWPlaylistSynchronizer.h"
+#import "AWUserManager.h"
 
 @implementation PlaylistViewController
 
@@ -28,8 +30,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.requireLogin = NO;
     firstTime = YES;
-
+    
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
     
@@ -39,6 +42,52 @@
     [_viewForMiniPlayer addSubview:miniPlayer];
     
     [self setUpList];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loggedIn) name:@"loggedIn" object:nil];
+
+    if ([[AWUserManager getInstance] isLogin])
+        [self loggedIn];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)loggedIn
+{
+    if ([AWPlaylistSynchronizer isThereSomethingToSynchronize])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You have some playlists that need to be synchronized. Do you want to launch it now ?", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Yes", @"") otherButtonTitles:NSLocalizedString(@"No", @""), nil];
+        [alert show];
+    }
+}
+
+#pragma UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+{
+    [self setUpLoadingView:self.tb_list_artist];
+    
+    if (buttonIndex == alertView.cancelButtonIndex)
+    {
+        [AWPlaylistSynchronizer runPlaylistSync:^(BOOL success, NSString *error) {
+            if (success)
+            {
+                [self setFlashMessage:NSLocalizedString(@"All playlists have been synchronized !", @"")];
+            }
+            else
+            {
+                [self setFlashMessage:error];
+            }
+            [self cancelLoadingView:self.tb_list_artist];
+        }];
+    }
 }
 
 -(void)setUpList
@@ -307,6 +356,11 @@
         count++;
     }
     return 0;
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

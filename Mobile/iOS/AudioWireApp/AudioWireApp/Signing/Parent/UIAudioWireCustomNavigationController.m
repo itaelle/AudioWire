@@ -70,24 +70,24 @@
     [b addTarget:self action:@selector(goClose) forControlEvents:(UIControlEventTouchUpInside)];
     return [[UIBarButtonItem alloc] initWithCustomView:b];
 }
-
--(UIBarButtonItem*)getBackButton
-{
-    UIButton *b = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    b.frame = CGRectMake(0, 0, 30, 44);
-    //    [b setTitle:@"<" forState:(UIControlStateNormal)];
-    [b setImage:[UIImage imageNamed:@"nav_go_back.png"] forState:UIControlStateNormal];
-    [b setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    [b addTarget:self action:@selector(goBack) forControlEvents:(UIControlEventTouchUpInside)];
-    return [[UIBarButtonItem alloc] initWithCustomView:b];
-    
-}
+//
+//-(UIBarButtonItem*)getBackButton
+//{
+//    UIButton *b = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    b.frame = CGRectMake(0, 0, 30, 44);
+//    //    [b setTitle:@"<" forState:(UIControlStateNormal)];
+//    [b setImage:[UIImage imageNamed:@"nav_go_back.png"] forState:UIControlStateNormal];
+//    [b setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+//    [b addTarget:self action:@selector(goBack) forControlEvents:(UIControlEventTouchUpInside)];
+//    return [[UIBarButtonItem alloc] initWithCustomView:b];
+//    
+//}
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     if ([navigationController.viewControllers count] > 1)
     {
-        viewController.navigationItem.leftBarButtonItem = [self getBackButton];
+//        viewController.navigationItem.leftBarButtonItem = [self getBackButton];
         // viewController.navigationItem.rightBarButtonItem = [self getBackCancel];
     }
     else
@@ -100,7 +100,7 @@
 {
     if([navigationController.viewControllers count] > 1)
     {
-        viewController.navigationItem.leftBarButtonItem = [self getBackButton];
+//        viewController.navigationItem.leftBarButtonItem = [self getBackButton];
          //viewController.navigationItem.rightBarButtonItem = [self getCloseButton];
     }
     else

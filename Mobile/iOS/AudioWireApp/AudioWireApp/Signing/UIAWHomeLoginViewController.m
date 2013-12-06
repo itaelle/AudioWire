@@ -92,6 +92,9 @@
     [self.v_buttonFacebook setHidden:NO];
     theLoginView.delegate = self;
 //    [self setWordingToFacebookButton:theLoginView];
+
+    if (self.requireLogin == NO)
+        [self prepareNavBarForClose];
 }
 
 -(void)closeAction:(id)sender

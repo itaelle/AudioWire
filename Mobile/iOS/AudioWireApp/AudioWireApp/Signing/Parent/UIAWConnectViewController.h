@@ -14,6 +14,8 @@
     
 }
 @property (assign) BOOL skipAuth;
+@property (assign) BOOL requireLogin;
+
 @property (assign) int limit;
 @property (assign) int page;
 @property (assign) BOOL isSignedOut;

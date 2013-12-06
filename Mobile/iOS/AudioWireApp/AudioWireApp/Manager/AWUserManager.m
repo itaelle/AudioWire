@@ -70,6 +70,8 @@
                 [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
                 NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
                 NSLog(@"Wrote to file => %@", [ids description]);
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
                 
                 cb_rep(true, nil);
             }
@@ -113,6 +115,8 @@
                 [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
                 NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
                 NSLog(@"Wrote to file => %@", [ids description]);
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
                 cb_rep(true, nil);
             }
             else

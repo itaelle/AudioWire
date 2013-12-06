@@ -35,6 +35,8 @@
     {
         userModel.password = [NSObject getVerifiedString:[data objectForKey:@"password"]];
         userModel.username = [NSObject getVerifiedString:[data objectForKey:@"username"]];
+        userModel.lastName = [NSObject getVerifiedString:[data objectForKey:@"lastName"]];
+        userModel.firstName = [NSObject getVerifiedString:[data objectForKey:@"firstName"]];
         userModel.email = [NSObject getVerifiedString:[data objectForKey:@"email"]];
         userModel._id = [NSObject getVerifiedString:[data objectForKey:@"id"]];
     }

@@ -15,9 +15,12 @@
 #define KEYBOARD_WIDTH 216
 #define FB_APP_ID @"505304152900086"
 #define PREFIX_MAIL_FB @""
+
 #define FILE_AUTOLOGIN @"audiowire_autologin"
-#define FILE_IMPORT @"audiowire_import"
 #define FILE_LIBRARY @"audiowire_library"
+#define FILE_PLAYLIST_SYNCHRONISATION @"sync_playlist"
+#define FILE_PLAYLISTS @"audiowire_playlists"
+
 #define URL_API @"https://audiowire.co"
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
@@ -40,3 +43,11 @@
 #import "NSString+NSString_Tool.h"
 #import "UIDevice+UIDevice_Tool.h"
 #import "UIView+UIView_Tool.h"
+
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
+
+// DEPRECATED
+#pragma DEPRECATED
+#define FILE_IMPORT @"audiowire_import" // No longer used for importation

@@ -30,7 +30,17 @@
     {
         if (object && [object isKindOfClass:[AWPlaylistModel class]])
             [ret addObject:((AWPlaylistModel*)object)._id];
-            //[ret addObject:[NSNumber numberWithInt:[((AWPlaylistModel*)object)._id intValue]]];
+    }
+    return ret;
+}
+
++(NSArray *)toArray:(NSArray *)playlistModels_
+{
+    NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:[playlistModels_ count]];
+    for (id object in playlistModels_)
+    {
+        if (object && [object isKindOfClass:[NSDictionary class]])
+            [ret addObject:[((AWPlaylistModel*)object) toDictionary]];
     }
     return ret;
 }

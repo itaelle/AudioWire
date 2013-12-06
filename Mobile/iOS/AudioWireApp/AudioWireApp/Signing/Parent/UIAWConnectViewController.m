@@ -1,6 +1,7 @@
 #import "UIAWConnectViewController.h"
 #import "AWUserManager.h"
 #import "UIAWHomeLoginViewController.h"
+#import "AFNetworking.h"
 
 @implementation UIAWConnectViewController
 
@@ -10,6 +11,7 @@
     if (self)
     {
         self.skipAuth = NO;
+        self.requireLogin = YES;
     }
     return self;
 }
@@ -17,6 +19,7 @@
 -(void)runAuth
 {
     UIAWHomeLoginViewController *s = [[UIAWHomeLoginViewController alloc] initWithNibName:@"UIAWHomeLoginViewController" bundle:nil];
+    s.requireLogin = self.requireLogin;
     
     self.myCustomNavForLogin = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:s];
 
@@ -30,8 +33,19 @@
         self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlack;
         self.myCustomNavForLogin.navigationBar.translucent = NO;
     }
-    
+
     [self performSelector:@selector(launchNavigation) withObject:nil afterDelay:0.3];
+}
+
+-(void)isInternetAvailable:(void(^)(BOOL available))cb_rep
+{
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+    {
+        if (status == AFNetworkReachabilityStatusNotReachable)
+            cb_rep(NO);
+        else
+            cb_rep(YES);
+    }];
 }
 
 -(void)launchNavigation

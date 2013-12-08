@@ -37,16 +37,16 @@
     [self performSelector:@selector(launchNavigation) withObject:nil afterDelay:0.3];
 }
 
--(void)isInternetAvailable:(void(^)(BOOL available))cb_rep
-{
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
-    {
-        if (status == AFNetworkReachabilityStatusNotReachable)
-            cb_rep(NO);
-        else
-            cb_rep(YES);
-    }];
-}
+//-(void)isInternetAvailable:(void(^)(BOOL available))cb_rep
+//{
+//    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+//    {
+//        if (status == AFNetworkReachabilityStatusNotReachable)
+//            cb_rep(NO);
+//        else
+//            cb_rep(YES);
+//    }];
+//}
 
 -(void)launchNavigation
 {
@@ -60,30 +60,60 @@
     
     if (![[AWUserManager getInstance] isLogin])
     {
-        NSLog(@"isLogin => FALSE => Autologin");
         [[AWUserManager getInstance] autologin:^(BOOL success, NSString *error)
-        {
-            if (!success)
-            {
-                NSLog(@"Autologin => FALSE => LOGIN SCREEN");
-                [self runAuth];
-            }
-            else
-            {
-                NSLog(@"Autologin => TRUE");
-                [self loadData];
-            }
-        }];
+         {
+             if (!success)
+             {
+                 [self runAuth];
+             }
+             else
+             {
+                 [self loadData];
+             }
+         }];
     }
     else
     {
-//        NSLog(@"isLogin => TRUE => DONE");
-//        return ;
+        //        NSLog(@"isLogin => TRUE => DONE");
+        //        return ;
         
-        NSLog(@"isLogin => TRUE => Continue /LoadData/");
+        //        NSLog(@"isLogin => TRUE => Continue /LoadData/");
         [self loadData];
     }
 }
+
+//-(void)reconnect:(BOOL)start
+//{
+//    if (!self.view.window && !start)
+//        return;
+//    
+//    if (![[AWUserManager getInstance] isLogin] && self.requireLogin)
+//    {
+////        NSLog(@"isLogin => FALSE => Autologin");
+//        [[AWUserManager getInstance] autologin:^(BOOL success, NSString *error)
+//        {
+//            if (!success)
+//            {
+////                NSLog(@"Autologin => FALSE => LOGIN SCREEN");
+//                [self runAuth];
+//            }
+//            else
+//            {
+////                NSLog(@"Autologin => TRUE");
+//                [self loadData];
+//            }
+//        }];
+//    }
+//    else if ((![[AWUserManager getInstance] isLogin] && !self.requireLogin) ||
+//        ([[AWUserManager getInstance] isLogin]))
+//    {
+////        NSLog(@"isLogin => TRUE => DONE");
+////        return ;
+//        
+////        NSLog(@"isLogin => TRUE => Continue /LoadData/");
+//        [self loadData];
+//    }
+//}
 
 - (void)viewDidLoad
 {

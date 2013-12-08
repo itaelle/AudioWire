@@ -129,25 +129,24 @@
         [self cancelLoadingView:_tb_list_artist];
     }];
 
-    // TODO LOCAL PLAYLIST
-//    [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
-//     {
-//         if (success)
-//         {
-//             pickerData = nil;
-//             pickerData = [NSMutableArray arrayWithArray:data];
-//             NSLog(@"Received Playlists");
-//             [pickerPlaylist reloadComponent:0];
-//             if (pickerData && [pickerData count] > 1)
-//                 [pickerPlaylist selectRow:([pickerData count]-2) inComponent:0 animated:YES];
-//         }
-//         else
-//         {
-//             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
-//             [alert show];
-//         }
-//         [self cancelLoadingView:_tb_list_artist];
-//     }];
+    [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
+     {
+         if (success)
+         {
+             pickerData = nil;
+             pickerData = [NSMutableArray arrayWithArray:data];
+             NSLog(@"Received Playlists");
+             [pickerPlaylist reloadComponent:0];
+             if (pickerData && [pickerData count] > 1)
+                 [pickerPlaylist selectRow:([pickerData count]-2) inComponent:0 animated:YES];
+         }
+         else
+         {
+             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+             [alert show];
+         }
+         [self cancelLoadingView:_tb_list_artist];
+     }];
 }
 
 -(void)didSelectPlaylist:(id)sender
@@ -238,7 +237,7 @@
         NSLog(@"Track => %@, %@", trck._id, trck.title);
     
     [self setUpLoadingView:_tb_list_artist];
-    [AWTracksManager deleteTracks:tracksToDelete cb_rep:^(BOOL success, NSString *error)
+    [[AWTracksManager getInstance] deleteLocalTracks:tracksToDelete cb_rep:^(BOOL success, NSString *error)
     {
         if (success)
         {

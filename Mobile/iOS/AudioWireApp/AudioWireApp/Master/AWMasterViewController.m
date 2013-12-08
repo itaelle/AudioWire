@@ -8,7 +8,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "AWMasterViewController.h"
-#import "OLGhostAlertView.h"
 
 @implementation AWMasterViewController
 
@@ -64,10 +63,20 @@
 -(void)setFlashMessage:(NSString *)msg
 {
     if ([NSThread isMainThread])
-        [[[OLGhostAlertView alloc] initWithTitle:msg] show];
+    {
+        if (flash)
+            [flash hide];
+        flash = nil;
+        flash = [[OLGhostAlertView alloc] initWithTitle:msg];
+        [flash show];
+    }
     else
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [[[OLGhostAlertView alloc] initWithTitle:msg] show];
+            if (flash)
+                [flash hide];
+            flash = nil;
+            flash = [[OLGhostAlertView alloc] initWithTitle:msg];
+            [flash show];
         });
 }
 

@@ -39,7 +39,7 @@
 
 -(BOOL)startAtIndex:(NSUInteger)index
 {
-    NSLog(@"MusicPlayer => start");
+ //   NSLog(@"MusicPlayer => start");
     self.isEditingPlayingOffset = NO;
     [self stopNotifications];
     [self registerNotifications];
@@ -67,7 +67,7 @@
 
 -(void)update
 {
-    NSLog(@"MusicPlayer => updates");
+//    NSLog(@"MusicPlayer => updates");
     self.isEditingPlayingOffset = NO;
 
     [self stopNotifications];
@@ -106,7 +106,7 @@
 
 -(void)end
 {
-    NSLog(@"MusicPlayer => end");
+//    NSLog(@"MusicPlayer => end");
     self.isEditingPlayingOffset = NO;
     [self stopTimer];
     [self stopNotifications];
@@ -312,7 +312,7 @@
 -(void)updateMediaInfo
 {
    	MPMediaItem *currentItem = [player nowPlayingItem];
-    NSLog(@"Now playing => %@", [currentItem valueForProperty:MPMediaItemPropertyTitle]);
+//    NSLog(@"Now playing => %@", [currentItem valueForProperty:MPMediaItemPropertyTitle]);
     if (self.delegate && [self.delegate respondsToSelector:@selector(updateMediaInfo:)])
     {
         [self.delegate performSelector:@selector(updateMediaInfo:) withObject:currentItem];

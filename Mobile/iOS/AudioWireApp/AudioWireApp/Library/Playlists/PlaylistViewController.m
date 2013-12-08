@@ -30,7 +30,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.requireLogin = NO;
+//    self.requireLogin = NO;
+    isSynchronizing = NO;
+    showOffLineMessageFunctionning = NO;
     firstTime = YES;
     
     [self setUpNavLogo];
@@ -44,27 +46,53 @@
     [self setUpList];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loggedIn) name:@"loggedIn" object:nil];
-
-    if ([[AWUserManager getInstance] isLogin])
-        [self loggedIn];
-}
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.skipAuth = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loggedIn) name:@"loggedIn" object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closedLogin) name:@"closedLogin" object:nil];
+    
+    if ([[AWUserManager getInstance] isLogin] && !isSynchronizing)
+        [self loggedIn];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (showOffLineMessageFunctionning)
+    {
+        NSString *msg = NSLocalizedString(@"You choose to manage your playlists offline, all the changes will be synchornized later!", @"");
+
+        [self setFlashMessage:msg];
+        showOffLineMessageFunctionning = NO;
+    }
+}
+
+#pragma NOTIFICATION from Signing
+
+-(void)closedLogin
+{
+    showOffLineMessageFunctionning = YES;
+}
+
 -(void)loggedIn
 {
     if ([AWPlaylistSynchronizer isThereSomethingToSynchronize])
     {
+        isSynchronizing = YES;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You have some playlists that need to be synchronized. Do you want to launch it now ?", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Yes", @"") otherButtonTitles:NSLocalizedString(@"No", @""), nil];
+        alert.tag = 4242;
         [alert show];
     }
 }
@@ -72,22 +100,29 @@
 #pragma UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 {
+    if (alertView.tag != 4242)
+        return ;
+
+    [self setFlashMessage:NSLocalizedString(@"Syncing ...", @"")];
     [self setUpLoadingView:self.tb_list_artist];
-    
     if (buttonIndex == alertView.cancelButtonIndex)
     {
         [AWPlaylistSynchronizer runPlaylistSync:^(BOOL success, NSString *error) {
             if (success)
             {
-                [self setFlashMessage:NSLocalizedString(@"All playlists have been synchronized !", @"")];
+                [self setFlashMessage:NSLocalizedString(@"Syncing is done!", @"")];
+                [self loadData];
             }
             else
             {
                 [self setFlashMessage:error];
             }
+            isSynchronizing = NO;
             [self cancelLoadingView:self.tb_list_artist];
         }];
     }
+    else
+        isSynchronizing = NO;
 }
 
 -(void)setUpList
@@ -100,34 +135,33 @@
     _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
 }
 
--(void) loadData
+-(void) loadData // LoadData appelé que quand je me suis connecté || quand le skipAuth = YES
 {
     [self setUpLoadingView:_tb_list_artist];
+    NSLog(@"LoadData playlist");
     
     [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
     {
-        [self cancelLoadingView:_tb_list_artist];
-        
+        if (tableData)
+            [tableData removeAllObjects];
+        tableData = nil;
+        tableData = [NSMutableArray arrayWithArray:data];
+
+        if (tableData && [tableData count] == 0)
+            [self prepareNavBarForAdding];
+        else
+            [self prepareNavBarForEditing];
+            
         if (success)
         {
-            tableData = nil;
-            tableData = [NSMutableArray arrayWithArray:data];
-            
-            if (tableData && [tableData count] == 0)
-            {
-                [self prepareNavBarForAdding];
-            }
-            else
-            {
-                [self prepareNavBarForEditing];
-                [_tb_list_artist reloadData];
-            }
+            [_tb_list_artist reloadData];
         }
         else
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
             [alert show];
         }
+        [self cancelLoadingView:_tb_list_artist];
     }];
 }
 

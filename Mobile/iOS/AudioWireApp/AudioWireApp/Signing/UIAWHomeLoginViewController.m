@@ -93,12 +93,14 @@
     theLoginView.delegate = self;
 //    [self setWordingToFacebookButton:theLoginView];
 
-    if (self.requireLogin == NO)
-        [self prepareNavBarForClose];
+//    if (self.requireLogin == NO)
+    [self prepareNavBarForClose];
 }
 
 -(void)closeAction:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"closedLogin" object:nil];
+    
     [self.navigationController dismissViewControllerAnimated:true completion:^{
         
     }];

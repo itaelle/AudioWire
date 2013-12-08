@@ -14,12 +14,13 @@
 -(NSDictionary *)toDictionary
 {
     if (self._id)
-        return @{@"playlist_id" : self._id,
+        return @{@"id" : self._id,
                  @"title" : self.title,
                  @"nb_tracks" : [NSNumber numberWithInt:self.nb_tracks]
                  };
     else
         return @{@"title" : self.title
+//                 @"nb_tracks" : [NSNumber numberWithInt:self.nb_tracks]
                  };
 }
 
@@ -39,7 +40,7 @@
     NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:[playlistModels_ count]];
     for (id object in playlistModels_)
     {
-        if (object && [object isKindOfClass:[NSDictionary class]])
+        if (object && [object isKindOfClass:[AWPlaylistModel class]])
             [ret addObject:[((AWPlaylistModel*)object) toDictionary]];
     }
     return ret;
@@ -52,6 +53,8 @@
     if (data && [data isKindOfClass:[NSDictionary class]])
     {
         playlistModel._id = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[data objectForKey:@"id"]]];
+        if ([data objectForKey:@"id"] == nil)
+            playlistModel._id = nil;
         playlistModel.title = [NSObject getVerifiedString:[data objectForKey:@"title"]];
         playlistModel.nb_tracks = [NSObject getVerifiedInteger:[data objectForKey:@"nb_tracks"]];
     }

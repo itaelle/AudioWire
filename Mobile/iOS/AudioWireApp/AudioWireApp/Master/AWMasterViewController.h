@@ -8,6 +8,7 @@
 
 #import "UIAWConnectViewController.h"
 #import "SubPlayer.h"
+#import "OLGhostAlertView.h"
 
 @interface AWMasterViewController : UIAWConnectViewController<SubPlayerDelegate>
 {
@@ -17,6 +18,7 @@
     bool needASubPlayer;
     
     SubPlayer *miniPlayer;
+    OLGhostAlertView *flash;
 }
 
 - (void) prepareNavBarForCancel;

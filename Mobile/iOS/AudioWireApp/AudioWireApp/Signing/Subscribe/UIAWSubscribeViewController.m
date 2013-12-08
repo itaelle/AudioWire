@@ -95,12 +95,13 @@
     self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.HUD hide:YES];
     
-    if (self.requireLogin == NO)
-        [self prepareNavBarForClose];
+    [self prepareNavBarForClose];
 }
 
 -(void)closeAction:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"closedLogin" object:nil];
+    
     [self.navigationController dismissViewControllerAnimated:true completion:^{
         
     }];

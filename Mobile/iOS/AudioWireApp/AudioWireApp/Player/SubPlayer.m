@@ -290,7 +290,7 @@
 
 -(void)updateMediaInfo:(MPMediaItem *)item_
 {
-    NSLog(@"updateMediaInfo delegate Sub");
+//    NSLog(@"updateMediaInfo delegate Sub");
     NSString *artist = [item_ valueForProperty:MPMediaItemPropertyArtist];
     NSString *albumArtist = [item_ valueForProperty:MPMediaItemPropertyAlbumArtist];
     NSString *title = [item_ valueForProperty:MPMediaItemPropertyTitle];
@@ -321,7 +321,7 @@
 
 -(void) play:(id)sender
 {
-    NSLog(@"Play delegate Sub");
+//    NSLog(@"Play delegate Sub");
     isPlaying = YES;
     [_playButton setSelected:YES];
 //    [_playButton setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
@@ -330,7 +330,7 @@
 
 -(void) pause:(id)sender
 {
-    NSLog(@"Pause delegate Sub");
+//    NSLog(@"Pause delegate Sub");
     isPlaying = NO;
     [_playButton setSelected:NO];
 //    [_playButton setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
@@ -339,7 +339,7 @@
 
 -(void) stop:(id)sender
 {
-    NSLog(@"Stop delegate Sub");
+//    NSLog(@"Stop delegate Sub");
     isPlaying = NO;
 }
 

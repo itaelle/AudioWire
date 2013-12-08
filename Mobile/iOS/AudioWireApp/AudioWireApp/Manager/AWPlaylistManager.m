@@ -63,7 +63,8 @@
         if (!playlistsInAudioWire)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                cb_rep(nil, false, NSLocalizedString(@"There is no playlist stored in AudioWire. Please try to create new ones or connect your device to internet if you have created playlists on another device.", @""));
+                // NSLocalizedString(@"There is no playlist stored in AudioWire. Please try to create new ones with the Edit button at the top of this screen.", @"")
+                cb_rep(@[], YES, nil);
             });
         }
         else
@@ -86,9 +87,6 @@
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfilePlaylist]])
         {
             playlistsInAudioWire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfilePlaylist]] mutableCopy];
-            
-            for (AWPlaylistModel *playlist in playlistsInAudioWire)
-                NSLog(@"Playlist in FILE_PLAYLISTS : %@", playlist.title);
         }
         
         if (!playlistsInAudioWire)
@@ -97,7 +95,9 @@
         // ADD new playlist
         [playlistsInAudioWire addObject:[playlist_ toDictionary]];
         
-        [playlistsInAudioWire writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
+       BOOL sucessWrite = [playlistsInAudioWire writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
+        
+        NSLog(@"    playlists added in Local file, write returns : %@", sucessWrite == 0 ? @"NO" : @"YES");
         
         dispatch_async(dispatch_get_main_queue(), ^{
             cb_rep(YES, nil);
@@ -117,27 +117,39 @@
         {
             playlistsInAudioWire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfilePlaylist]] mutableCopy];
             
-            for (AWPlaylistModel *playlist in playlistsInAudioWire)
-                NSLog(@"Playlist in FILE_PLAYLISTS : %@", playlist.title);
-            
-            
-            [playlistsInAudioWire removeObjectsInArray:playlistsToDelete_];
-            [playlistsInAudioWire writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
-            
-            
+//            playlistsInAudioWire = [[AWPlaylistModel fromJSONArray:playlistsInAudioWire]mutableCopy];
+            NSArray *arrayPlaylistToDelete = [AWPlaylistModel  toArray:playlistsToDelete_];
+            [playlistsInAudioWire removeObjectsInArray:arrayPlaylistToDelete];
+
+            BOOL sucessWrite = [playlistsInAudioWire writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
+
             for (AWPlaylistModel *playlist_ in playlistsToDelete_)
             {
-                if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]])
+                NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+                if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
                 {
                     NSError *error;
-                    [[NSFileManager defaultManager] removeItemAtPath:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]] error:&error];
+                    [[NSFileManager defaultManager] removeItemAtPath:[AWPlaylistManager pathOfile:fileName] error:&error];
                      
-                     NSLog(@"DELETE LOCAL tracks file : %@", [AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]);
+                     NSLog(@"DELETE LOCAL tracks file : %@", [AWPlaylistManager pathOfile:fileName]);
                 }
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cb_rep(YES, nil);
-            });
+            
+            if (sucessWrite)
+            {
+                NSLog(@" write succed, local file updated !");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cb_rep(YES, nil);
+                });
+            }
+            else
+            {
+                NSLog(@" write failed, local file still the same !");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cb_rep(NO, NSLocalizedString(@"The application cannot write into the specificed file!", @""));
+                });
+            }
         }
         else
         {
@@ -157,10 +169,13 @@
         NSLog(@"GET Tracks in LOCAL Playlist");
         NSMutableArray *tracksInPlaylistAudiowire = nil;
 
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]])
+        NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
         {
-            tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]] mutableCopy];
-            
+            tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:fileName]] mutableCopy];
+
+            tracksInPlaylistAudiowire = [[AWTrackModel fromJSONArray:tracksInPlaylistAudiowire]mutableCopy];
             for (AWTrackModel *track in tracksInPlaylistAudiowire)
                 NSLog(@"Tracks local in Playlist : %@", playlist_.title);
         }
@@ -193,17 +208,21 @@
         
         NSMutableArray *tracksInPlaylistAudiowire = nil;
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]])
+        NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
         {
-            tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]] mutableCopy];
+            tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:fileName]] mutableCopy];
         }
         
         if (!tracksInPlaylistAudiowire)
             tracksInPlaylistAudiowire = [[NSMutableArray alloc] init];
         
-        [tracksInPlaylistAudiowire addObjectsFromArray:tracks_];
-        [tracksInPlaylistAudiowire writeToFile:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]] atomically:YES];
+        [tracksInPlaylistAudiowire addObjectsFromArray:[AWTrackModel toArray:tracks_]];
+        BOOL sucessWrite = [tracksInPlaylistAudiowire writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
         
+        if (sucessWrite)
+            NSLog(@"it worked !");
         dispatch_async(dispatch_get_main_queue(), ^{
             cb_rep(YES, nil);
         });
@@ -220,12 +239,14 @@
         
         NSMutableArray *tracksInPlaylistAudiowire = nil;
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]])
+        NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
         {
-            tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]]] mutableCopy];
-            
+            tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:fileName]] mutableCopy];
+            tracksInPlaylistAudiowire = [[AWTrackModel fromJSONArray:tracksInPlaylistAudiowire] mutableCopy];
             [tracksInPlaylistAudiowire removeObjectsInArray:tracks_];
-            [tracksInPlaylistAudiowire writeToFile:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]] atomically:YES];
+            [tracksInPlaylistAudiowire writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
         }
         
         if (tracksInPlaylistAudiowire)
@@ -250,6 +271,25 @@
 
 +(void)canWorkOnline:(void(^)(BOOL workonline))cb_rep
 {
+    if ([AFNetworkReachabilityManager sharedManager].reachable == YES &&
+             [[AWUserManager getInstance] isLogin])
+    {
+        NSLog(@"REACH => Network found and Connected");
+        cb_rep(YES);
+    }
+    else if ([AFNetworkReachabilityManager sharedManager].reachable == YES &&
+                 ![[AWUserManager getInstance] isLogin])
+    {
+        NSLog(@"REACH => Network found and NOT connected");
+        cb_rep(NO);
+    }
+    else
+    {
+        NSLog(@"REACH => No network found");
+        cb_rep(NO);
+    }
+    
+    return ;
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
      {
          if (status == AFNetworkReachabilityStatusNotReachable)
@@ -279,6 +319,9 @@
         cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""));
         return ;
     }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+        };
     
     [AWPlaylistManager canWorkOnline:^(BOOL workonline)
     {
@@ -286,8 +329,13 @@
             [AWPlaylistManager addServerPlaylist:playlist_ cb_rep:cb_rep];
         else
         {
-            [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:cb_rep];
-            [AWPlaylistSynchronizer addPlaylistInSyncFile:playlist_ cb_rep:cb_rep];
+            [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:^(BOOL success, NSString *error)
+            {
+                if (success)
+                    [AWPlaylistSynchronizer addPlaylistInSyncFile:playlist_ cb_rep:cb_rep];
+                else
+                    cb_rep(NO, error);
+            }];
         }
     }];
 }
@@ -299,6 +347,9 @@
         cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
         return ;
     }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+        };
     
     [AWPlaylistManager canWorkOnline:^(BOOL workonline)
      {
@@ -308,8 +359,13 @@
          }
          else
          {
-             [AWPlaylistManager deleteLocalPlaylist:playlistToDelete_ cb_rep:cb_rep];
-             [AWPlaylistSynchronizer deletePlaylistInSyncFile:playlistToDelete_ cb_rep:cb_rep];
+             [AWPlaylistManager deleteLocalPlaylist:playlistToDelete_ cb_rep:^(BOOL success, NSString *error)
+             {
+                 if (success)
+                     [AWPlaylistSynchronizer deletePlaylistInSyncFile:playlistToDelete_ cb_rep:cb_rep];
+                 else
+                     cb_rep(NO, error);
+             }];
          }
      }];
 }
@@ -321,7 +377,7 @@
         cb_rep(nil, false, NSLocalizedString(@"Bad playlist sents !", @""));
         return ;
     }
-    
+
     [AWPlaylistManager canWorkOnline:^(BOOL workonline)
      {
          if (workonline)
@@ -342,6 +398,10 @@
         cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
         return ;
     }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+            NSLog(@"Returns from addTracksInPlaylist");
+        };
     
     [AWPlaylistManager canWorkOnline:^(BOOL workonline)
      {
@@ -351,8 +411,12 @@
          }
          else
          {
-             [AWPlaylistManager addLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
-             [AWPlaylistSynchronizer addTracksInPlaylistInSyncFile:playlist_ tracksToAdd:tracks_ cb_rep:cb_rep];
+             [AWPlaylistManager addLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:^(BOOL success, NSString *error) {
+                 if (success)
+                     [AWPlaylistSynchronizer addTracksInPlaylistInSyncFile:playlist_ tracksToAdd:tracks_ cb_rep:cb_rep];
+                 else
+                     cb_rep(NO, error);
+             }];
          }
      }];
 }
@@ -364,6 +428,9 @@
         cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
         return ;
     }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+        };
     
     [AWPlaylistManager canWorkOnline:^(BOOL workonline)
      {
@@ -373,8 +440,13 @@
          }
          else
          {
-             [AWPlaylistManager delLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
-             [AWPlaylistSynchronizer deleteTracksInPlaylistInSyncFile:playlist_ tracksToDelete:tracks_ cb_rep:cb_rep];
+             [AWPlaylistManager delLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:^(BOOL success, NSString *error)
+             {
+                 if (success)
+                     [AWPlaylistSynchronizer deleteTracksInPlaylistInSyncFile:playlist_ tracksToDelete:tracks_ cb_rep:cb_rep];
+                 else
+                     cb_rep(NO, error);
+             }];
          }
      }];
 }
@@ -385,6 +457,7 @@
 
 -(void)getServerTracksInPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
 {
+    NSLog(@"GET SERVER tracks in playlist");
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
@@ -414,7 +487,9 @@
                  self.itunesMedia = nil;
                  self.itunesMedia = [AWTracksManager matchWithITunesLibrary:[modelsTracks mutableCopy]];
                  
-                 [modelsTracks writeToFile:[AWPlaylistManager pathOfile:[NSString stringWithFormat:@"%@.txt", playlist_._id]] atomically:YES];
+                 NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+                 [modelsTracks writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
                  
                  cb_rep(modelsTracks, successAPI, nil);
              }
@@ -427,7 +502,7 @@
 
 +(void)addServerTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
-    
+    NSLog(@"ADD SERVER tracks in playlist");
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
@@ -451,7 +526,7 @@
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddTracksPlaylist], playlist_._id, token];
     NSMutableDictionary *playlistsDict = [NSMutableDictionary new];
     [playlistsDict setObject:playlist_._id forKey:@"playlist_id"];
-    [playlistsDict setObject:[AWTrackModel toArrayOfIds:tracks_] forKey:@"tracks_id"];
+    [playlistsDict setObject:[AWTrackModel toArray:tracks_] forKey:@"tracks"];
     
     [AWRequester requestAudiowireAPIPOST:url param:playlistsDict cb_rep:^(NSDictionary *rep, BOOL success)
      {
@@ -475,6 +550,7 @@
 
 +(void)delServerTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
+    NSLog(@"DEL SERVER tracks in playlist");
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
@@ -533,10 +609,10 @@
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddPlaylists], token];
     
-    NSMutableDictionary *playlistDict = [NSMutableDictionary new];
-    [playlistDict setObject:[playlist_ toDictionary] forKey:@"playlist"];
+//    NSMutableDictionary *playlistDict = [NSMutableDictionary new];
+//    [playlistDict setObject:[playlist_ toDictionary] forKey:@"playlist"];
     
-    [AWRequester requestAudiowireAPIPOST:url param:playlistDict cb_rep:^(NSDictionary *rep, BOOL success)
+    [AWRequester requestAudiowireAPIPOST:url param:[playlist_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {

@@ -27,6 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.skipAuth = YES;
     [self prepareNavBarForEditing];
 
     if (self.playlist)
@@ -78,8 +79,9 @@
         [alert show];
         return ;
     }
-    
-    [[AWPlaylistManager getInstance] getTracksInPlaylist:self.playlist cb_rep:^(NSArray *data, BOOL success, NSString *error) {
+
+    [AWPlaylistManager getTracksInPlaylist:self.playlist cb_rep:^(NSArray *data, BOOL success, NSString *error)
+    {
         if (success)
         {
             [tableData removeAllObjects];

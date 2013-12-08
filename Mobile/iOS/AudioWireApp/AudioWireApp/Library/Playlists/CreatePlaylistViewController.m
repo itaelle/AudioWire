@@ -89,7 +89,7 @@
     
     AWPlaylistModel *playlistModelToAdd = [AWPlaylistModel new];
     playlistModelToAdd.title = [self.tf_playlist.text trim];
-    
+    playlistModelToAdd._id = nil;
     
     [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *error)
     {

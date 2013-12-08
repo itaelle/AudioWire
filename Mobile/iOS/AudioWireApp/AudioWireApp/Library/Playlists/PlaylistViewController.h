@@ -15,6 +15,8 @@
     NSMutableArray *playlistToDelete;
     
     BOOL firstTime;
+    BOOL isSynchronizing;
+    BOOL showOffLineMessageFunctionning;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;

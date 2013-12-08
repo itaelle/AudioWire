@@ -53,8 +53,11 @@
                 [mutableAwTracks removeObject:trackToDelete];
             }
         }
+        
+        self.awTracks = nil;
+        self.awTracks = mutableAwTracks;
 
-        BOOL success = [mutableAwTracks writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];;
+        BOOL success = [[AWTrackModel toArray:mutableAwTracks] writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];;
     
         if (success)
         {
@@ -65,7 +68,7 @@
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                cb_rep(YES, NSLocalizedString(@"", @""));
+                cb_rep(NO, NSLocalizedString(@"Write in library file failed!", @""));
             });
         }
     });
@@ -77,102 +80,112 @@
     // Remove in local file the deleted tracks from itunes
     // Create an array of matched MPMediaItems from tracks in AudioWire
     
-//    dispatch_queue_t queueCreated = dispatch_queue_create("com.yourdomain.yourappname", NULL); // Necessary ?
-    
     dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     dispatch_async(queueGlobal, ^{
-        //code to be executed in the background
-
-    NSArray *alreadyInAudioWire = nil;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[AWTracksManager pathOfileLibrary]])
-    {
-        alreadyInAudioWire = [NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]];
-        alreadyInAudioWire = [AWTrackModel fromJSONArray:alreadyInAudioWire];
         
-        for (AWTrackModel *track in alreadyInAudioWire)
-            NSLog(@"Tracks FILE_LIBRARY : %@", track.title);
-    }
-    if (!alreadyInAudioWire || [alreadyInAudioWire count] == 0)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-        cb_rep(nil, false, NSLocalizedString(@"The tracks of your library doesn't match the ones you have in iTunes. You can import new from you home screen!", @""));
-        return ;
-        });
-    }
-    
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> File");
-    for (int index = 0; index < [alreadyInAudioWire count]; index++)
-    {
-        NSLog(@"%@", ((AWTrackModel *)[alreadyInAudioWire objectAtIndex:index]).title);
-    }
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> File");
-
-    
-    NSMutableArray *alreadyInAudioWireAndNewOnesFromItunes = [alreadyInAudioWire mutableCopy];
-    NSArray *itemsFromGenericQuery = [[AWItunesImportManager getInstance] getAllItunesMedia];
-
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes LIBRARY");
-    for (int index = 0; index < [itemsFromGenericQuery count]; index++)
-    {
-        NSLog(@"%@", [[itemsFromGenericQuery objectAtIndex:index] valueForProperty:MPMediaItemPropertyTitle]);
-    }
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes LIBRARY");
-
-    // ADD NEW SONGS
-//    for (MPMediaItem *song in itemsFromGenericQuery)
-//    {
-//        BOOL found = FALSE;
-//        for (AWTrackModel *trackModel in alreadyInAudioWireAndNewOnesFromItunes)
-//        {
-//            if ([trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
-//            {
-//                found = YES;
-//                break;
-//            }
-//        }
-//        if (found == NO)
-//            [alreadyInAudioWireAndNewOnesFromItunes addObject:song];
-//    }
-    
-    // DELETE TRACKS IN AW THAT HAS BEEN DELETED IN iTUNES.
-    NSMutableArray *toDelete = [[NSMutableArray alloc] init];
-    NSMutableArray *itunesMediaMatch = [[NSMutableArray alloc] initWithCapacity:[alreadyInAudioWireAndNewOnesFromItunes count]];
-    for (AWTrackModel *trackModel in alreadyInAudioWireAndNewOnesFromItunes)
-    {
-        BOOL found = FALSE;
-        for (MPMediaItem *song in itemsFromGenericQuery)
+        NSArray *alreadyInAudioWire = nil;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWTracksManager pathOfileLibrary]])
         {
-            if ([trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
-            {
-                // The media saved in file is still in iTunes library;
-                found = YES;
-                [itunesMediaMatch addObject:song];
-                break;
-            }
+            alreadyInAudioWire = [NSArray arrayWithContentsOfFile:[AWTracksManager pathOfileLibrary]];
+            alreadyInAudioWire = [AWTrackModel fromJSONArray:alreadyInAudioWire];
+            
+            for (AWTrackModel *track in alreadyInAudioWire)
+                NSLog(@"Tracks FILE_LIBRARY : %@", track.title);
         }
-        if (found == NO)
-            [toDelete addObject:trackModel];
-    }
-    [alreadyInAudioWireAndNewOnesFromItunes removeObjectsInArray:toDelete];
-    [alreadyInAudioWireAndNewOnesFromItunes writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];
-    
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> AWTrackModel match With Itunes");
-    for (int index = 0; index < [alreadyInAudioWireAndNewOnesFromItunes count]; index++)
-    {
-        NSLog(@"%@", ((AWTrackModel *)[alreadyInAudioWireAndNewOnesFromItunes objectAtIndex:index]).title);
-    }
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> AWTrackModel match With Itunes");
-    
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Match with Itunes");
-    for (int index = 0; index < [itunesMediaMatch count]; index++)
-    {
-        NSLog(@"%@", [[itunesMediaMatch objectAtIndex:index] valueForProperty:MPMediaItemPropertyTitle]);
-    }
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Match with Itunes");
-    
-    self.awTracks = alreadyInAudioWireAndNewOnesFromItunes; // TODO necessary ?
-    self.itunesMedia = itunesMediaMatch;
+        if (!alreadyInAudioWire || [alreadyInAudioWire count] == 0)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cb_rep(nil, false, NSLocalizedString(@"You don't have any tracks in your AudioWire library, you can import new ones from the home screen!", @""));
+            });
+            return ;
+        }
+        
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> File");
+        for (int index = 0; index < [alreadyInAudioWire count]; index++)
+        {
+            NSLog(@"%@", ((AWTrackModel *)[alreadyInAudioWire objectAtIndex:index]).title);
+        }
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> File");
+        
+        
+        NSMutableArray *alreadyInAudioWireAndNewOnesFromItunes = [alreadyInAudioWire mutableCopy];
+        NSArray *itemsFromGenericQuery = [[AWItunesImportManager getInstance] getAllItunesMedia];
+        
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes LIBRARY");
+        for (int index = 0; index < [itemsFromGenericQuery count]; index++)
+        {
+            NSLog(@"%@", [[itemsFromGenericQuery objectAtIndex:index] valueForProperty:MPMediaItemPropertyTitle]);
+        }
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes LIBRARY");
+        
+        // ADD NEW SONGS
+        //    for (MPMediaItem *song in itemsFromGenericQuery)
+        //    {
+        //        BOOL found = FALSE;
+        //        for (AWTrackModel *trackModel in alreadyInAudioWireAndNewOnesFromItunes)
+        //        {
+        //            if ([trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
+        //            {
+        //                found = YES;
+        //                break;
+        //            }
+        //        }
+        //        if (found == NO)
+        //            [alreadyInAudioWireAndNewOnesFromItunes addObject:song];
+        //    }
+        
+        // DELETE TRACKS IN AW THAT HAS BEEN DELETED IN iTUNES.
+        NSMutableArray *toDelete = [[NSMutableArray alloc] init];
+        NSMutableArray *itunesMediaMatch = [[NSMutableArray alloc] initWithCapacity:[alreadyInAudioWireAndNewOnesFromItunes count]];
+        for (AWTrackModel *trackModel in alreadyInAudioWireAndNewOnesFromItunes)
+        {
+            BOOL found = FALSE;
+            for (MPMediaItem *song in itemsFromGenericQuery)
+            {
+                if ([trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
+                {
+                    // The media saved in file is still in iTunes library;
+                    found = YES;
+                    [itunesMediaMatch addObject:song];
+                    break;
+                }
+            }
+            if (found == NO)
+                [toDelete addObject:trackModel];
+        }
+        [alreadyInAudioWireAndNewOnesFromItunes removeObjectsInArray:toDelete];
+        BOOL successWrite = [[AWTrackModel toArray:alreadyInAudioWireAndNewOnesFromItunes] writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];
+        
+        if (!successWrite)
+        {
+            NSLog(@"Write failed in GetAllLocalTracks");
+        }
+        
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> AWTrackModel match With Itunes");
+        for (int index = 0; index < [alreadyInAudioWireAndNewOnesFromItunes count]; index++)
+        {
+            NSLog(@"%@", ((AWTrackModel *)[alreadyInAudioWireAndNewOnesFromItunes objectAtIndex:index]).title);
+        }
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> AWTrackModel match With Itunes");
+        
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Match with Itunes");
+        for (int index = 0; index < [itunesMediaMatch count]; index++)
+        {
+            NSLog(@"%@", [[itunesMediaMatch objectAtIndex:index] valueForProperty:MPMediaItemPropertyTitle]);
+        }
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Match with Itunes");
+        
+        self.awTracks = alreadyInAudioWireAndNewOnesFromItunes; // TODO necessary ?
+        self.itunesMedia = itunesMediaMatch;
+        
+        if (!self.awTracks || !self.itunesMedia || [self.itunesMedia count] == 0 || [self.awTracks count] == 0)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cb_rep(nil, false, NSLocalizedString(@"The tracks of your library doesn't match the ones you have in iTunes. You can import new from the home screen!", @""));
+            });
+            return ;
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             cb_rep(alreadyInAudioWireAndNewOnesFromItunes, true, nil);
@@ -280,7 +293,7 @@
                  self.itunesMedia = [AWTracksManager matchWithITunesLibrary:models];
                  if ([models count] == 0)
                  {
-                     cb_rep(nil, false, NSLocalizedString(@"The tracks of your library doesn't match the ones you have in iTunes. You can import new from you home screen!", @""));
+                     cb_rep(nil, false, NSLocalizedString(@"The tracks of your library doesn't match the ones you have in iTunes. You can import new from the home screen!", @""));
                      return ;
                  }
                  else

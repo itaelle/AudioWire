@@ -15,9 +15,11 @@
 
 +(AWPlaylistManager*)getInstance;
 
++(NSString *)pathOfilePlaylist;
+
 +(void)getAllPlaylists:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
 
-+(void)addPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
++(void)addPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *idPLaylistCreated, NSString *error))cb_rep;
 
 +(void)deletePlaylists:(NSArray *)playlistsToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 

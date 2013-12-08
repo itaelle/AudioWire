@@ -20,7 +20,7 @@
     return [directory stringByAppendingPathComponent:FILE_PLAYLIST_SYNCHRONISATION];
 }
 
-+(void)addPlaylistInSyncFile:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
++(void)addPlaylistInSyncFile:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success,NSString *idPLaylistCreated,  NSString *error))cb_rep
 {
     NSLog(@"SYNC => ADD playlist in FILE");
     if (!playlist_)
@@ -37,9 +37,9 @@
         [mutableArrayCommandsSync addObject:newCommandForFile];
         BOOL successWrite = [mutableArrayCommandsSync writeToFile:[AWPlaylistSynchronizer pathOfFilePlaylistSync] atomically:YES];
         if (successWrite)
-            cb_rep(successWrite, nil);
+            cb_rep(successWrite, playlist_._id, nil);
         else
-            cb_rep(successWrite, NSLocalizedString(@"The application cannot write into the specificed file!", @""));
+            cb_rep(successWrite, nil, NSLocalizedString(@"The application cannot write into the specificed file!", @""));
     }
     else
     {
@@ -50,9 +50,9 @@
         NSArray *arrayOfCommands = @[newCommandForFile];
         BOOL successWrite = [arrayOfCommands writeToFile:[AWPlaylistSynchronizer pathOfFilePlaylistSync] atomically:YES];
         if (successWrite)
-            cb_rep(successWrite, nil);
+            cb_rep(successWrite, playlist_._id, nil);
         else
-            cb_rep(successWrite, NSLocalizedString(@"The application cannot write into the specificed file!", @""));
+            cb_rep(successWrite, nil, NSLocalizedString(@"The application cannot write into the specificed file!", @""));
     }
 }
 
@@ -125,6 +125,8 @@
 
 +(void)deleteTracksInPlaylistInSyncFile:(AWPlaylistModel *)playlist_ tracksToDelete:(NSArray*)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
+    NSLog(@"DELETE track in Sync FILE");
+
     if (!tracksToDelete_ || !playlist_)
         return ;
     
@@ -138,8 +140,8 @@
                                             @"playlist" : [playlist_ toDictionary]
                                             };
         
-        BOOL found = NO;
         // Delete tracks in playlist from file if ADDED earlier
+        BOOL found = NO;
         for (id object in mutableArrayCommandsSync)
         {
             if (object && [object isKindOfClass:[NSDictionary class]])
@@ -147,26 +149,31 @@
                 if ([[object objectForKey:@"command"] isEqualToString:@"ADD-TRACKS"])
                 {
                     NSMutableArray *addedTracksInSyncFile = [[NSObject getVerifiedArray:[object objectForKey:@"tracks"]]mutableCopy];
-                    NSDictionary *dictPlaylistAlreadyAdded = [object objectForKey:@"playlist"];;
-                    
-                    for (NSDictionary *dictTrackPlaylistToDelete in arrayOfDictTracksToDelete)
+                    NSDictionary *dictPlaylistAlreadyAdded = [object objectForKey:@"playlist"];
+
+                    if ([dictPlaylistAlreadyAdded isEqualToDictionary:[playlist_ toDictionary]])
                     {
-                        for (NSDictionary *dictTrackPlaylistAdded in addedTracksInSyncFile)
-                            
+                        for (NSDictionary *dictTrackPlaylistToDelete in arrayOfDictTracksToDelete)
                         {
-                            if ([dictTrackPlaylistAdded isEqualToDictionary:dictTrackPlaylistToDelete])
+                            NSMutableArray *toDeleteInAddedTracksInSyncFile = [[NSMutableArray alloc] init];
+                            for (NSDictionary *dictTrackPlaylistAdded in addedTracksInSyncFile)
+                                
                             {
-                                if ([dictPlaylistAlreadyAdded isEqualToDictionary:[playlist_ toDictionary]])
+                                if ([dictTrackPlaylistAdded isEqualToDictionary:dictTrackPlaylistToDelete])
                                 {
                                     found = YES;
-                                    [addedTracksInSyncFile removeObject:dictTrackPlaylistAdded];
-                                    [object setValue:addedTracksInSyncFile forKey:@"tracks"];
+                                    [toDeleteInAddedTracksInSyncFile addObject:dictTrackPlaylistAdded];
                                 }
                             }
+                            [addedTracksInSyncFile removeObjectsInArray:toDeleteInAddedTracksInSyncFile];
+                            [object setValue:addedTracksInSyncFile forKey:@"tracks"];
+                            break;
                         }
                     }
                 }
             }
+            if (found == YES)
+                break;
         }
         //
         if (!found)
@@ -242,10 +249,14 @@
 
 +(void)runPlaylistSync:(void (^)(BOOL success, NSString *error))cb_rep
 {
+    BOOL addTracksInNewPlaylistFound = NO;
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistSynchronizer pathOfFilePlaylistSync]])
     {
         NSMutableArray *arrayOfComands = [[NSArray arrayWithContentsOfFile:[AWPlaylistSynchronizer pathOfFilePlaylistSync]] mutableCopy];
         __block NSMutableArray *toDelete = [[NSMutableArray alloc] init];
+        __block int nbCommandsToExecute = [arrayOfComands count];
+        __block int nbCommandsExecuted = 0;
         
         for (id object in arrayOfComands)
         {
@@ -256,41 +267,69 @@
                 {
                     NSArray *arrayOfPlaylistsToDelete = [NSObject getVerifiedArray:[((NSDictionary *)object) objectForKey:@"playlists"]];
                     NSArray *arrayOfModelsPlaylistsToDelete = [AWPlaylistModel fromJSONArray:arrayOfPlaylistsToDelete];
-                    [AWPlaylistManager deletePlaylists:arrayOfModelsPlaylistsToDelete cb_rep:nil];
-                    
+                    [AWPlaylistManager deletePlaylists:arrayOfModelsPlaylistsToDelete cb_rep:^(BOOL success, NSString *error) {
+                        nbCommandsExecuted += 1;
+                        nbCommandsExecuted += 1;
+                        if (nbCommandsExecuted == nbCommandsToExecute)
+                            cb_rep(YES, nil);
+                    }];
+
                     [toDelete addObject:object];
                 }
                 else if ([command isEqualToString:@"ADD"])
                 {
                     NSDictionary *dictOfPlaylistToAdd = [NSObject getVerifiedDictionary:[((NSDictionary *)object) objectForKey:@"playlist"]];
-                    
-                    // Add playlist
                     AWPlaylistModel *playlistAWToAdd = [AWPlaylistModel fromJSON:dictOfPlaylistToAdd];
-                    [AWPlaylistManager addPlaylist:playlistAWToAdd cb_rep:^(BOOL success, NSString *error)
+                    
+                    __block AWPlaylistModel *foundPlaylistModel;
+                    __block NSArray *foundArrayOfTracks;
+                    addTracksInNewPlaylistFound = NO;
+
+                    // Prepare addMusic if necessary
+                    for (id object2 in arrayOfComands)
                     {
-                        if (success)
+                        if (object2 && [object2 isKindOfClass:[NSDictionary class]])
                         {
-                            // Add music in playlist
-                            for (id object2 in arrayOfComands)
+                            NSString *command2 = [NSObject getVerifiedString:[((NSDictionary *)object2) objectForKey:@"command"]];
+                            
+                            if ([command2 isEqualToString:@"ADD-TRACKS"])
                             {
-                                if (object && [object isKindOfClass:[NSDictionary class]])
+                                AWPlaylistModel *playlistModel = [AWPlaylistModel fromJSON:[((NSDictionary *)object2) objectForKey:@"playlist"]];
+                                
+                                if ([playlistModel.title isEqualToString:playlistAWToAdd.title])
                                 {
-                                    if ([command isEqualToString:@"ADD-TRACKS"])
-                                    {
-                                        AWPlaylistModel *playlistModel = [AWPlaylistModel fromJSON:[((NSDictionary *)object) objectForKey:@"playlist"]];
-                                        
-                                        if ([playlistModel.title isEqualToString:playlistAWToAdd.title])
-                                        {
-                                            NSArray *arrayOfTracks = [NSObject getVerifiedArray:[((NSDictionary *)object) objectForKey:@"tracks"]];
-                                            
-                                            [AWPlaylistManager addTracksInPlaylist:playlistModel tracks:arrayOfTracks cb_rep:nil];
-                                            
-                                            [toDelete addObject:object2];
-                                        }
-                                    }
+                                    foundArrayOfTracks = [NSObject getVerifiedArray:[((NSDictionary *)object2) objectForKey:@"tracks"]];
+                                    addTracksInNewPlaylistFound = YES;
+                                    foundPlaylistModel = playlistModel;
+                                    [toDelete addObject:object2];
                                 }
                             }
                         }
+                    }
+                    
+                    // REQUEST Add playlist
+                    [AWPlaylistManager addPlaylist:playlistAWToAdd cb_rep:^(BOOL success, NSString *idPlaylistCreated, NSString *error)
+                    {
+                        if (success)
+                        {
+                            foundPlaylistModel._id = idPlaylistCreated;
+
+                            if (addTracksInNewPlaylistFound)
+                            {
+                                // REQUEST Add Musics in playlist
+                                [AWPlaylistManager addTracksInPlaylist:foundPlaylistModel tracks:[AWTrackModel fromJSONArray:foundArrayOfTracks] cb_rep:^(BOOL success, NSString *error)
+                                {
+                                    NSLog(@"Server => Music added in playlist");
+                                    nbCommandsExecuted += 1;
+                                    if (nbCommandsExecuted == nbCommandsToExecute)
+                                        cb_rep(YES, nil);
+                                }];
+                            }
+                        }
+                        nbCommandsExecuted += 1;
+                        if (nbCommandsExecuted == nbCommandsToExecute)
+                            cb_rep(YES, nil);
+
                     }];
                     [toDelete addObject:object];
                 }
@@ -300,20 +339,30 @@
                     
                     AWPlaylistModel *playlistModel = [AWPlaylistModel fromJSON:[((NSDictionary *)object) objectForKey:@"playlist"]];
                     
-                    [AWPlaylistManager delTracksInPlaylist:playlistModel tracks:arrayOfTracks cb_rep:nil];
+                    [AWPlaylistManager delTracksInPlaylist:playlistModel tracks:[AWTrackModel fromJSONArray:arrayOfTracks] cb_rep:^(BOOL success, NSString *error) {
+                        nbCommandsExecuted += 1;
+                        if (nbCommandsExecuted == nbCommandsToExecute)
+                            cb_rep(YES, nil);
+                    }];
 
                     [toDelete addObject:object];
                 }
-//                else if ([command isEqualToString:@"ADD-TRACKS"])
-//                {
-//                    NSArray *arrayOfTracks = [NSObject getVerifiedArray:[((NSDictionary *)object) objectForKey:@"tracks"]];
-//                    
-//                    AWPlaylistModel *playlistModel = [AWPlaylistModel fromJSON:[((NSDictionary *)object) objectForKey:@"playlist"]];
-//                    
-//                    [AWPlaylistManager addTracksInPlaylist:playlistModel tracks:arrayOfTracks cb_rep:nil];
-//                    
-//                    [toDelete addObject:object];
-//                }
+                else if ([command isEqualToString:@"ADD-TRACKS"])
+                {
+                    NSArray *arrayOfTracks = [NSObject getVerifiedArray:[((NSDictionary *)object) objectForKey:@"tracks"]];
+                    
+                    AWPlaylistModel *playlistModel = [AWPlaylistModel fromJSON:[((NSDictionary *)object) objectForKey:@"playlist"]];
+                    
+                    if (playlistModel && playlistModel._id && [playlistModel._id length] > 0)
+                    {
+                        [AWPlaylistManager addTracksInPlaylist:playlistModel tracks:[AWTrackModel fromJSONArray:arrayOfTracks] cb_rep:^(BOOL success, NSString *error) {
+                            nbCommandsExecuted += 1;
+                            if (nbCommandsExecuted == nbCommandsToExecute)
+                                cb_rep(YES, nil);
+                        }];
+                        [toDelete addObject:object];
+                    }
+                }
 //                else
 //                {
 //                    [arrayOfComands removeObjectsInArray:toDelete];
@@ -325,7 +374,8 @@
         }
         [arrayOfComands removeObjectsInArray:toDelete];
         [arrayOfComands writeToFile:[AWPlaylistSynchronizer pathOfFilePlaylistSync] atomically:YES];
-        cb_rep(YES, nil);
+        if (nbCommandsExecuted == nbCommandsToExecute)
+            cb_rep(YES, nil);
     }
     else
     {

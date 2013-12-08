@@ -90,8 +90,9 @@
     AWPlaylistModel *playlistModelToAdd = [AWPlaylistModel new];
     playlistModelToAdd.title = [self.tf_playlist.text trim];
     playlistModelToAdd._id = nil;
+    playlistModelToAdd.nb_tracks = -1;
     
-    [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *error)
+    [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *idPlaylistCreated, NSString *error)
     {
         // Finish creating
         [self.act_creating setAlpha:0];

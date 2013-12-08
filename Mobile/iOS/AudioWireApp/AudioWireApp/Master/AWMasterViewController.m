@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "AWMasterViewController.h"
+#import "AWRemoteViewController.h"
 
 @implementation AWMasterViewController
 
@@ -150,6 +151,26 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
+-(void)remoteAction:(id)sender
+{
+    AWRemoteViewController *remoteVC = [[AWRemoteViewController alloc] initWithNibName:@"AWRemoteViewController" bundle:nil];
+    
+    UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:remoteVC];
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        nav.navigationBar.translucent = YES;
+    }
+    else
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlack;
+        nav.navigationBar.translucent = NO;
+    }
+    
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
+}
+
 -(void) prepareNavBarForEditing:(BOOL)isLeft
 {
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
@@ -173,6 +194,18 @@
 {
     [self prepareNavBarForEditing:NO];
 }
+
+-(void) prepareNavBarForRemote
+{
+    UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Remote", @"") style:UIBarButtonItemStylePlain target:self action:@selector(remoteAction:)];
+    
+    if (IS_OS_7_OR_LATER)
+        remoteButton.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = remoteButton;
+}
+
 
 -(void) prepareNavBarForClose
 {

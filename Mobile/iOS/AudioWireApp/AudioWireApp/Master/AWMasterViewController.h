@@ -29,6 +29,7 @@
 - (void) prepareNavBarForAdding;
 - (void) prepareNavBarForAdding:(BOOL)isLeft;
 - (void) prepareNavBarForImport;
+- (void) prepareNavBarForRemote;
 - (void) desactivateButtonBar:(bool)left right:(bool)right;
 
 - (void) cancelAction:(id)sender;

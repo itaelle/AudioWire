@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
 //    self.requireLogin = NO;
-    isSynchronizing = NO;
+    self.isSynchronizing = NO;
     showOffLineMessageFunctionning = NO;
     firstTime = YES;
     
@@ -62,7 +62,7 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closedLogin) name:@"closedLogin" object:nil];
     
-    if ([[AWUserManager getInstance] isLogin] && !isSynchronizing)
+    if ([[AWUserManager getInstance] isLogin] && !self.isSynchronizing)
         [self loggedIn];
 }
 
@@ -90,7 +90,7 @@
 {
     if ([AWPlaylistSynchronizer isThereSomethingToSynchronize])
     {
-        isSynchronizing = YES;
+        self.isSynchronizing = YES;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You have some playlists that need to be synchronized. Do you want to launch it now ?", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Yes", @"") otherButtonTitles:NSLocalizedString(@"No", @""), nil];
         alert.tag = 4242;
         [alert show];
@@ -103,26 +103,30 @@
     if (alertView.tag != 4242)
         return ;
 
-    [self setFlashMessage:NSLocalizedString(@"Syncing ...", @"")];
-    [self setUpLoadingView:self.tb_list_artist];
     if (buttonIndex == alertView.cancelButtonIndex)
     {
-        [AWPlaylistSynchronizer runPlaylistSync:^(BOOL success, NSString *error) {
+        [self setFlashMessage:NSLocalizedString(@"Syncing ...", @"")];
+        [self setUpLoadingView:self.tb_list_artist];
+        
+        __weak PlaylistViewController *weak_self = self;
+        
+        [AWPlaylistSynchronizer runPlaylistSync:^(BOOL success, NSString *error)
+        {
+            weak_self.isSynchronizing = NO;
             if (success)
             {
-                [self setFlashMessage:NSLocalizedString(@"Syncing is done!", @"")];
-                [self loadData];
+                [weak_self setFlashMessage:NSLocalizedString(@"Syncing is done!", @"")];
+                [weak_self loadData];
             }
             else
             {
-                [self setFlashMessage:error];
+                [weak_self setFlashMessage:error];
+                [weak_self cancelLoadingView:self.tb_list_artist];
             }
-            isSynchronizing = NO;
-            [self cancelLoadingView:self.tb_list_artist];
         }];
     }
     else
-        isSynchronizing = NO;
+        self.isSynchronizing = NO;
 }
 
 -(void)setUpList
@@ -137,6 +141,9 @@
 
 -(void) loadData // LoadData appelé que quand je me suis connecté || quand le skipAuth = YES
 {
+    if (self.isSynchronizing)
+        return ;
+    
     [self setUpLoadingView:_tb_list_artist];
     NSLog(@"LoadData playlist");
     

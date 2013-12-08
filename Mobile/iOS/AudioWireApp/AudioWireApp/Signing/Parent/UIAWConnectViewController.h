@@ -23,5 +23,6 @@
 
 -(void)loadData;
 -(void)runAuth;
+-(void)reconnect:(BOOL)start;
 
 @end

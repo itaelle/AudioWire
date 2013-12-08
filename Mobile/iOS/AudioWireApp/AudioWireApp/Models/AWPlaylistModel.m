@@ -13,15 +13,18 @@
 
 -(NSDictionary *)toDictionary
 {
-    if (self._id)
-        return @{@"id" : self._id,
+    if (self._id && [self._id length] > 0)
+        return @{@"id" : [NSNumber numberWithInt:[self._id intValue]],
                  @"title" : self.title,
                  @"nb_tracks" : [NSNumber numberWithInt:self.nb_tracks]
                  };
-    else
+    else if (self.nb_tracks == -1)
         return @{@"title" : self.title
 //                 @"nb_tracks" : [NSNumber numberWithInt:self.nb_tracks]
                  };
+    else
+        return @{@"title" : self.title,
+                 @"nb_tracks" : [NSNumber numberWithInt:self.nb_tracks] };
 }
 
 +(NSArray *)toArrayOfIds:(NSArray *)playlistModels_

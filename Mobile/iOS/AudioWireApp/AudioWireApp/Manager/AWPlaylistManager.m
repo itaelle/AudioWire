@@ -76,13 +76,13 @@
     });
 }
 
-+(void)addLocalPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
++(void)addLocalPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *idCreated, NSString *error))cb_rep
 {
     dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     dispatch_async(queueGlobal, ^{
-       
         NSLog(@"ADD in LOCAL playlists");
+
         NSMutableArray *playlistsInAudioWire = nil;
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfilePlaylist]])
         {
@@ -100,7 +100,7 @@
         NSLog(@"    playlists added in Local file, write returns : %@", sucessWrite == 0 ? @"NO" : @"YES");
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            cb_rep(YES, nil);
+            cb_rep(YES, playlist_._id, nil);
         });
     });
 }
@@ -204,6 +204,25 @@
     
     dispatch_async(queueGlobal, ^{
         
+        // +1 nbTracks
+        NSMutableArray *playlistsInAudioWire = nil;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfilePlaylist]])
+        {
+            playlistsInAudioWire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfilePlaylist]] mutableCopy];
+            for (NSDictionary *dict in playlistsInAudioWire)
+            {
+                if ([[NSObject getVerifiedString:[dict objectForKey:@"title"]] isEqualToString:playlist_.title])
+                {
+                    int currentValue = [NSObject getVerifiedInteger:[dict objectForKey:@"nb_tracks"]];
+                    [dict setValue:[NSNumber numberWithInt:(currentValue+[tracks_ count])] forKey:@"nb_tracks"];
+                    
+                    [playlistsInAudioWire writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
+                    break;
+                }
+            }
+        }
+        //
+        
         NSLog(@"ADD Tracks in LOCAL playlists");
         
         NSMutableArray *tracksInPlaylistAudiowire = nil;
@@ -234,7 +253,27 @@
     dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     dispatch_async(queueGlobal, ^{
-        
+
+#warning -1 pas appliqué lors d'un delete server
+        // -1 nbTracks
+        NSMutableArray *playlistsInAudioWire = nil;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfilePlaylist]])
+        {
+            playlistsInAudioWire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfilePlaylist]] mutableCopy];
+            for (NSDictionary *dict in playlistsInAudioWire)
+            {
+                if ([[NSObject getVerifiedString:[dict objectForKey:@"title"]] isEqualToString:playlist_.title])
+                {
+                    int currentValue = [NSObject getVerifiedInteger:[dict objectForKey:@"nb_tracks"]];
+                    [dict setValue:[NSNumber numberWithInt:(currentValue-[tracks_ count])] forKey:@"nb_tracks"];
+                    
+                    [playlistsInAudioWire writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
+                    break;
+                }
+            }
+        }
+        //
+
         NSLog(@"DELETE Tracks in LOCAL playlists");
         
         NSMutableArray *tracksInPlaylistAudiowire = nil;
@@ -312,15 +351,15 @@
     }];
 }
 
-+(void)addPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
++(void)addPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *idPLaylistCreated, NSString *error))cb_rep
 {
     if (!playlist_)
     {
-        cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""));
+        cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""), nil);
         return ;
     }
     if (!cb_rep)
-        cb_rep = ^(BOOL success, NSString *error){
+        cb_rep = ^(BOOL success, NSString *idPLaylistCreated, NSString *error){
         };
     
     [AWPlaylistManager canWorkOnline:^(BOOL workonline)
@@ -329,12 +368,12 @@
             [AWPlaylistManager addServerPlaylist:playlist_ cb_rep:cb_rep];
         else
         {
-            [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:^(BOOL success, NSString *error)
+            [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:^(BOOL success, NSString *idPlaylistCreated, NSString *error)
             {
                 if (success)
                     [AWPlaylistSynchronizer addPlaylistInSyncFile:playlist_ cb_rep:cb_rep];
                 else
-                    cb_rep(NO, error);
+                    cb_rep(NO, error, nil);
             }];
         }
     }];
@@ -489,7 +528,7 @@
                  
                  NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
-                 [modelsTracks writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
+                 [list writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
                  
                  cb_rep(modelsTracks, successAPI, nil);
              }
@@ -537,7 +576,8 @@
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              
              if (successAPI)
-                 [AWPlaylistManager addLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
+                 cb_rep(successAPI, nil);
+                 //[AWPlaylistManager addLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
              else
                  cb_rep(successAPI, error);
          }
@@ -596,14 +636,14 @@
      }];
 }
 
-+(void)addServerPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
++(void)addServerPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *idCreated, NSString *error))cb_rep
 {
     NSLog(@"ADD in SERVER playlist");
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
     
     if (!token)
     {
-        cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
+        cb_rep(false, nil, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
         return ;
     }
     
@@ -619,15 +659,18 @@
              BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+             NSString *idPlaylistCreated = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[rep objectForKey:@"id"]]];
+             playlist_._id = idPlaylistCreated;
 
              if (successAPI)
-                 [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:cb_rep];
+                 cb_rep(successAPI, idPlaylistCreated, nil);
+                 //[AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:cb_rep];
              else
-                 cb_rep(successAPI, error);
+                 cb_rep(successAPI, nil, error);
          }
          else
          {
-             cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
+             cb_rep(FALSE, nil, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
          }
      }];
 }
@@ -705,7 +748,7 @@
                      NSLog(@"Error => Cannot remove file at path : %@", [AWPlaylistManager pathOfilePlaylist]);
                  }
              }
-             [list writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
+             [[AWPlaylistModel toArray:[AWPlaylistModel fromJSONArray:list]] writeToFile:[AWPlaylistManager pathOfilePlaylist] atomically:YES];
              cb_rep([AWPlaylistModel fromJSONArray:list], successAPI, error);
          }
          else

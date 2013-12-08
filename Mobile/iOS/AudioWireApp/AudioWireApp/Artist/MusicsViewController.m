@@ -112,6 +112,7 @@
              if (success)
              {
                  [self setFlashMessage:NSLocalizedString(@"Track deleted from playlist!", @"")];
+                 [self loadData];
              }
              else
              {

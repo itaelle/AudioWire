@@ -71,9 +71,11 @@
                 NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
                 NSLog(@"Wrote to file => %@", [ids description]);
 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
-                
-                cb_rep(true, nil);
+                [self getUserConnected:^(AWUserModel *data, BOOL success, NSString *error)
+                 {
+                     [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
+                     cb_rep(success, error);
+                 }];
             }
             else
             {
@@ -116,8 +118,11 @@
                 NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
                 NSLog(@"Wrote to file => %@", [ids description]);
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
-                cb_rep(true, nil);
+                [self getUserConnected:^(AWUserModel *data, BOOL success, NSString *error)
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
+                    cb_rep(success, error);
+                }];
             }
             else
             {
@@ -159,9 +164,19 @@
          {
              BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
-//             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
 
-             cb_rep(successUpdate, message);
+             [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
+             
+             NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
+             NSLog(@"Wrote to file => %@", [ids description]);
+
+             [self getUserConnected:^(AWUserModel *data, BOOL success, NSString *error)
+              {
+                  [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
+                  cb_rep(success, error);
+              }];
+
+//             cb_rep(successUpdate, message);
          }
          else
          {
@@ -225,24 +240,35 @@
      }];
 }
 
--(void)getUserFromId:(NSString *)userId_ cb_rep:(void (^)(AWUserModel *data, BOOL success, NSString *error))cb_rep
+-(void)getUserConnected:(void (^)(AWUserModel *data, BOOL success, NSString *error))cb_rep
 {
     if (!self.connectedUserTokenAccess)
     {
         cb_rep(nil, false, NSLocalizedString(@"Something went wrong. You are trying to get data from the API but you are not actually logged in", @""));
         return ;
     }
-    
-    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWGetUser], userId_, self.connectedUserTokenAccess];
-    
+
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWGetUserConntected], self.connectedUserTokenAccess];
+
     [AWRequester requestAudiowireAPIGET:url cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {
-             BOOL success = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+             BOOL successGet = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              NSDictionary *userDict = [NSObject getVerifiedDictionary:[rep objectForKey:@"user"]];
-             cb_rep([AWUserModel fromJSON:userDict], success, error);
+
+             if (successGet)
+             {
+                 self.user = nil;
+                 self.user = [AWUserModel fromJSON:userDict];
+                 
+                 cb_rep(self.user, successGet, error);
+             }
+             else
+             {
+                 cb_rep(nil, successGet, NSLocalizedString(@"Can't retrieve user's information", @""));
+             }
          }
          else
              cb_rep(nil, false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));

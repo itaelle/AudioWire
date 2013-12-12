@@ -15,7 +15,7 @@ typedef enum
     AWSubscribe,
     AWUpdateUser,
     
-    AWGetUser,
+    AWGetUserConntected,
     AWGetUsers,
     
     AWGetTracks,

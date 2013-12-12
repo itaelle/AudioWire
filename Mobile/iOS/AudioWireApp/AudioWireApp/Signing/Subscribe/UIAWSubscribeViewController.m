@@ -43,13 +43,7 @@
 -(void)presetUserForUpdate:(AWUserModel *)me
 {
     updateUser = YES;
-    self.title = NSLocalizedString(@"Update", @"");
-    [self.bt_subscribe setTitle:NSLocalizedString(@"Update", @"") forState:(UIControlStateNormal)];
-
-    self.tf_firstname.text = me.firstName;
-    self.tf_lastname.text = me.lastName;
-    self.tf_login.text = me.username;
-    self.tf_email.text = me.email;
+    presetUser = me;
 }
 
 - (void)viewDidLoad
@@ -114,6 +108,17 @@
     [self.HUD hide:YES];
     
     [self prepareNavBarForClose];
+    
+    if (updateUser && presetUser)
+    {
+        self.title = NSLocalizedString(@"Update", @"");
+        [self.bt_subscribe setTitle:NSLocalizedString(@"Update", @"") forState:(UIControlStateNormal)];
+        
+        self.tf_firstname.text = presetUser.firstName;
+        self.tf_lastname.text = presetUser.lastName;
+        self.tf_login.text = presetUser.username;
+        self.tf_email.text = presetUser.email;
+    }
 }
 
 -(void)closeAction:(id)sender

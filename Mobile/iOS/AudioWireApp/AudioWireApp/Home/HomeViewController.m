@@ -41,6 +41,14 @@
     
     self.skipAuth = YES;
     
+    if (![[AWUserManager getInstance] isLogin])
+    {
+        [[AWUserManager getInstance] autologin:^(BOOL success, NSString *error)
+         {
+             [self setFlashMessage:NSLocalizedString(@"Connected !", @"") timeout:1];
+         }];
+    }
+    
     [self setUpViews];
 }
 

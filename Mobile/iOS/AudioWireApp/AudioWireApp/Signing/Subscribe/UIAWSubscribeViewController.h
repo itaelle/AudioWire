@@ -14,6 +14,7 @@
     UITextField *activeField;
     CGSize kbSize;
     
+    AWUserModel *presetUser;
     BOOL updateUser;
 }
 @property (assign) BOOL requireLogin;

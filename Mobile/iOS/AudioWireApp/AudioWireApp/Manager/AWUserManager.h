@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) NSString *connectedUserTokenAccess;
 @property (strong, nonatomic) NSString *idUser;
+@property (strong, nonatomic) AWUserModel *user;
 
 +(AWUserManager*)getInstance;
 
@@ -29,7 +30,7 @@
 
 -(void)getAllUsers:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
 
--(void)getUserFromId:(NSString *)userId_ cb_rep:(void (^)(AWUserModel *data, BOOL success, NSString *error))cb_rep;
+-(void)getUserConnected:(void (^)(AWUserModel *data, BOOL success, NSString *error))cb_rep;
 
 +(NSString *)pathOfileAutologin;
 

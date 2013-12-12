@@ -39,10 +39,8 @@
         CGRect rectTopView = self.topView.frame;
         rectTopView.origin.y = 31;
         rectTopView.size.height += 31;
-        
         [self.topView setFrame:rectTopView];
     }
-    
     [self loginButtonRender];
 }
 
@@ -157,8 +155,12 @@
 {
     if ([[AWUserManager getInstance] isLogin])
     {
+        AWUserModel *me = [AWUserManager getInstance].user;
+        
         UIAWSubscribeViewController *s = [[UIAWSubscribeViewController alloc] initWithNibName:@"UIAWSubscribeViewController" bundle:nil];
         s.requireLogin = self.requireLogin;
+        
+        [s presetUserForUpdate:me];
         
         self.myCustomNavForLogin = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:s];
         

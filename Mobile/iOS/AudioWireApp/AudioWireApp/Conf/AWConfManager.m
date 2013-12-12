@@ -35,9 +35,9 @@
             return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/users?token=%@"];
         } break;
 
-        case AWGetUser:
+        case AWGetUserConntected:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/users/%@?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/users/me?token=%@"];
         } break;
             
         case AWGetUsers:

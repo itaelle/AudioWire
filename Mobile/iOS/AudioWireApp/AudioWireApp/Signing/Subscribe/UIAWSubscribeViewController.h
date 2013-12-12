@@ -12,7 +12,7 @@
     UITextField *activeField;
     CGSize kbSize;
 }
-
+@property (assign) BOOL requireLogin;
 @property (weak, nonatomic) IBOutlet UIScrollView *sc_content;
 @property (strong, nonatomic) IBOutlet UIView *v_placeholder;
 

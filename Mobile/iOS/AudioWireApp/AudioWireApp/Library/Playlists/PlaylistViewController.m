@@ -12,6 +12,8 @@
 #import "CreatePlaylistViewController.h"
 #import "NSObject+NSObject_Tool.h"
 #import "AWPlaylistManager.h"
+#import "AWPlaylistSynchronizer.h"
+#import "AWUserManager.h"
 
 @implementation PlaylistViewController
 
@@ -28,8 +30,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//    self.requireLogin = NO;
+    self.isSynchronizing = NO;
+    showOffLineMessageFunctionning = NO;
     firstTime = YES;
-
+    
     [self setUpNavLogo];
     [self prepareNavBarForEditing];
     
@@ -39,6 +44,89 @@
     [_viewForMiniPlayer addSubview:miniPlayer];
     
     [self setUpList];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.skipAuth = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loggedIn) name:@"loggedIn" object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closedLogin) name:@"closedLogin" object:nil];
+    
+    if ([[AWUserManager getInstance] isLogin] && !self.isSynchronizing)
+        [self loggedIn];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (showOffLineMessageFunctionning)
+    {
+        NSString *msg = NSLocalizedString(@"You choose to manage your playlists offline, all the changes will be synchornized later!", @"");
+
+        [self setFlashMessage:msg];
+        showOffLineMessageFunctionning = NO;
+    }
+}
+
+#pragma NOTIFICATION from Signing
+
+-(void)closedLogin
+{
+    showOffLineMessageFunctionning = YES;
+}
+
+-(void)loggedIn
+{
+    if ([AWPlaylistSynchronizer isThereSomethingToSynchronize])
+    {
+        self.isSynchronizing = YES;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You have some playlists that need to be synchronized. Do you want to launch it now ?", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Yes", @"") otherButtonTitles:NSLocalizedString(@"No", @""), nil];
+        alert.tag = 4242;
+        [alert show];
+    }
+}
+
+#pragma UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+{
+    if (alertView.tag != 4242)
+        return ;
+
+    if (buttonIndex == alertView.cancelButtonIndex)
+    {
+        [self setFlashMessage:NSLocalizedString(@"Syncing ...", @"")];
+        [self setUpLoadingView:self.tb_list_artist];
+        
+        __weak PlaylistViewController *weak_self = self;
+        
+        [AWPlaylistSynchronizer runPlaylistSync:^(BOOL success, NSString *error)
+        {
+            weak_self.isSynchronizing = NO;
+            if (success)
+            {
+                [weak_self setFlashMessage:NSLocalizedString(@"Syncing is done!", @"")];
+                [weak_self loadData];
+            }
+            else
+            {
+                [weak_self setFlashMessage:error];
+                [weak_self cancelLoadingView:self.tb_list_artist];
+            }
+        }];
+    }
+    else
+        self.isSynchronizing = NO;
 }
 
 -(void)setUpList
@@ -51,34 +139,36 @@
     _tb_list_artist.sectionIndexMinimumDisplayRowCount = MIN_AMOUNT_ARTISTS_TO_DISPLAY_INDEX;
 }
 
--(void) loadData
+-(void) loadData // LoadData appelé que quand je me suis connecté || quand le skipAuth = YES
 {
+    if (self.isSynchronizing)
+        return ;
+    
     [self setUpLoadingView:_tb_list_artist];
+    NSLog(@"LoadData playlist");
     
     [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
     {
-        [self cancelLoadingView:_tb_list_artist];
-        
+        if (tableData)
+            [tableData removeAllObjects];
+        tableData = nil;
+        tableData = [NSMutableArray arrayWithArray:data];
+
+        if (tableData && [tableData count] == 0)
+            [self prepareNavBarForAdding];
+        else
+            [self prepareNavBarForEditing];
+            
         if (success)
         {
-            tableData = nil;
-            tableData = [NSMutableArray arrayWithArray:data];
-            
-            if (tableData && [tableData count] == 0)
-            {
-                [self prepareNavBarForAdding];
-            }
-            else
-            {
-                [self prepareNavBarForEditing];
-                [_tb_list_artist reloadData];
-            }
+            [_tb_list_artist reloadData];
         }
         else
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
             [alert show];
         }
+        [self cancelLoadingView:_tb_list_artist];
     }];
 }
 
@@ -307,6 +397,11 @@
         count++;
     }
     return 0;
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

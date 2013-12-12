@@ -9,7 +9,7 @@
     NSString *urlAvatarFacebook;
     id<FBGraphUser> userCached;
 }
-
+@property (assign) BOOL requireLogin;
 @property (nonatomic, strong) MBProgressHUD *HUD;
 @property (weak, nonatomic) IBOutlet UIImageView *im_logo;
 @property (weak, nonatomic) IBOutlet UIImageView *im_nssn_logo;
@@ -37,6 +37,5 @@
 - (void) selectResponder;
 - (IBAction)startEditing:(UITextField *)sender;
 - (IBAction)endEditing:(UITextField *)sender;
-
 
 @end

@@ -16,5 +16,6 @@
 
 +(AWPlaylistModel *) fromJSON:(NSDictionary*)data;
 +(NSArray *)toArrayOfIds:(NSArray *)playlistModels_;
++(NSArray *)toArray:(NSArray *)playlistModels_;
 
 @end

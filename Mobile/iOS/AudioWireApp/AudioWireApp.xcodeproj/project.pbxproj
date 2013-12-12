@@ -57,6 +57,7 @@
 		F028549117B027FF005090CE /* CellConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = F028548F17B027FF005090CE /* CellConversation.m */; };
 		F028549317B02892005090CE /* CellConversation.xib in Resources */ = {isa = PBXBuildFile; fileRef = F028549217B02892005090CE /* CellConversation.xib */; };
 		F028549417B02892005090CE /* CellConversation.xib in Resources */ = {isa = PBXBuildFile; fileRef = F028549217B02892005090CE /* CellConversation.xib */; };
+		F04C0A03184FDBA2004985CF /* AWPlaylistSynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = F04C0A02184FDBA2004985CF /* AWPlaylistSynchronizer.m */; };
 		F055AAC717B86EB7007ABC61 /* PlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F055AAC517B86EB7007ABC61 /* PlaylistViewController.m */; };
 		F055AAC817B86EB7007ABC61 /* PlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F055AAC517B86EB7007ABC61 /* PlaylistViewController.m */; };
 		F055AAC917B86EB7007ABC61 /* PlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F055AAC617B86EB7007ABC61 /* PlaylistViewController.xib */; };
@@ -193,6 +194,10 @@
 		F0E43460181BFCFF002E7949 /* AWMusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F0E4345F181BFCFF002E7949 /* AWMusicPlayer.m */; };
 		F0E43463181C1620002E7949 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AF04F317B36D3A00E6D105 /* AVFoundation.framework */; };
 		F0EBC88B181F28DF000FF73B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */; };
+		F0F61D4D18551BD30024475C /* AWRemoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F61D4B18551BD30024475C /* AWRemoteViewController.m */; };
+		F0F61D4E18551BD30024475C /* AWRemoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0F61D4C18551BD30024475C /* AWRemoteViewController.xib */; };
+		F0F61D5118551E850024475C /* remote.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F61D4F18551E850024475C /* remote.png */; };
+		F0F61D5218551E850024475C /* remote@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F61D5018551E850024475C /* remote@2x.png */; };
 		F0F7C6D1181711990045FC6A /* UIView+UIView_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */; };
 		F0F7C6D5181713BF0045FC6A /* NSString+NSString_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D4181713BF0045FC6A /* NSString+NSString_Tool.m */; };
 		F0F7C6D8181714B10045FC6A /* UIDevice+UIDevice_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D7181714B10045FC6A /* UIDevice+UIDevice_Tool.m */; };
@@ -288,6 +293,8 @@
 		F028548E17B027FF005090CE /* CellConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CellConversation.h; path = Conversation/Render/CellConversation.h; sourceTree = "<group>"; };
 		F028548F17B027FF005090CE /* CellConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellConversation.m; path = Conversation/Render/CellConversation.m; sourceTree = "<group>"; };
 		F028549217B02892005090CE /* CellConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CellConversation.xib; path = Conversation/Render/CellConversation.xib; sourceTree = "<group>"; };
+		F04C0A01184FDBA2004985CF /* AWPlaylistSynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWPlaylistSynchronizer.h; path = Requester/AWPlaylistSynchronizer.h; sourceTree = "<group>"; };
+		F04C0A02184FDBA2004985CF /* AWPlaylistSynchronizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWPlaylistSynchronizer.m; path = Requester/AWPlaylistSynchronizer.m; sourceTree = "<group>"; };
 		F055AAC417B86EB7007ABC61 /* PlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaylistViewController.h; path = Library/Playlists/PlaylistViewController.h; sourceTree = "<group>"; };
 		F055AAC517B86EB7007ABC61 /* PlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaylistViewController.m; path = Library/Playlists/PlaylistViewController.m; sourceTree = "<group>"; };
 		F055AAC617B86EB7007ABC61 /* PlaylistViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlaylistViewController.xib; path = Library/Playlists/PlaylistViewController.xib; sourceTree = "<group>"; };
@@ -439,6 +446,11 @@
 		F0E4345E181BFCFF002E7949 /* AWMusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWMusicPlayer.h; path = Player/AWMusicPlayer/AWMusicPlayer.h; sourceTree = "<group>"; };
 		F0E4345F181BFCFF002E7949 /* AWMusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMusicPlayer.m; path = Player/AWMusicPlayer/AWMusicPlayer.m; sourceTree = "<group>"; };
 		F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = AudioWireApp/Tools/Frameworks/FacebookSDK.framework; sourceTree = "<group>"; };
+		F0F61D4A18551BD30024475C /* AWRemoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWRemoteViewController.h; path = Remote/AWRemoteViewController.h; sourceTree = "<group>"; };
+		F0F61D4B18551BD30024475C /* AWRemoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWRemoteViewController.m; path = Remote/AWRemoteViewController.m; sourceTree = "<group>"; };
+		F0F61D4C18551BD30024475C /* AWRemoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AWRemoteViewController.xib; path = Remote/AWRemoteViewController.xib; sourceTree = "<group>"; };
+		F0F61D4F18551E850024475C /* remote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remote.png; sourceTree = "<group>"; };
+		F0F61D5018551E850024475C /* remote@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote@2x.png"; sourceTree = "<group>"; };
 		F0F7C6CF181711990045FC6A /* UIView+UIView_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIView_Tool.h"; sourceTree = "<group>"; };
 		F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIView_Tool.m"; sourceTree = "<group>"; };
 		F0F7C6D3181713BF0045FC6A /* NSString+NSString_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_Tool.h"; sourceTree = "<group>"; };
@@ -827,6 +839,7 @@
 		F07C1BDD180C9C050056187E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F0F61D4918551BA60024475C /* RemoteControl */,
 				F0AB2B0F181EC92C0029BDDC /* Import */,
 				F07250C417AC32D500445F37 /* Master */,
 				F07250C517AC32E100445F37 /* Home */,
@@ -983,9 +996,18 @@
 			name = Import;
 			sourceTree = "<group>";
 		};
+		F0B62E9818416DDE00ADEBC3 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Friends;
+			sourceTree = "<group>";
+		};
 		F0BD23191835646B000675F8 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				F0F61D4F18551E850024475C /* remote.png */,
+				F0F61D5018551E850024475C /* remote@2x.png */,
 				F0BD231A1835646B000675F8 /* add.png */,
 				F0BD231B1835646B000675F8 /* add@2x.png */,
 				F0BD231C1835646B000675F8 /* avatar.png */,
@@ -1134,6 +1156,7 @@
 		F0C8D4E91819C27200801D00 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F0B62E9818416DDE00ADEBC3 /* Friends */,
 				F0AB2B02181E93450029BDDC /* Master */,
 				F0AB2B07181E9FF90029BDDC /* Playlists */,
 				F0933252181DC18E00C505D4 /* Track */,
@@ -1170,6 +1193,16 @@
 			name = AWMusicPlayer;
 			sourceTree = "<group>";
 		};
+		F0F61D4918551BA60024475C /* RemoteControl */ = {
+			isa = PBXGroup;
+			children = (
+				F0F61D4A18551BD30024475C /* AWRemoteViewController.h */,
+				F0F61D4B18551BD30024475C /* AWRemoteViewController.m */,
+				F0F61D4C18551BD30024475C /* AWRemoteViewController.xib */,
+			);
+			name = RemoteControl;
+			sourceTree = "<group>";
+		};
 		F0F7C6D2181713BF0045FC6A /* NS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1187,6 +1220,8 @@
 			children = (
 				F0F7C6DE18171C680045FC6A /* AWRequester.h */,
 				F0F7C6DF18171C680045FC6A /* AWRequester.m */,
+				F04C0A01184FDBA2004985CF /* AWPlaylistSynchronizer.h */,
+				F04C0A02184FDBA2004985CF /* AWPlaylistSynchronizer.m */,
 			);
 			name = Requester;
 			sourceTree = "<group>";
@@ -1351,6 +1386,7 @@
 				F0061F6B1812F6550057EBEA /* Futura-Bold.otf in Resources */,
 				F0BD23A51835646C000675F8 /* noArtworkImageLarge.png in Resources */,
 				F0BD23DF1835646C000675F8 /* _Default@2x.png in Resources */,
+				F0F61D5118551E850024475C /* remote.png in Resources */,
 				F0BD23D21835646C000675F8 /* separateur-vertical@2x.png in Resources */,
 				F0D21313181347B900F844E2 /* CreatePlaylistViewController.xib in Resources */,
 				F0BD23851835646C000675F8 /* avatar@2x.png in Resources */,
@@ -1391,6 +1427,7 @@
 				F0BD238E1835646C000675F8 /* bubbleSomeone.png in Resources */,
 				F0061EA01812C0CE0057EBEA /* UISiteViewController.xib in Resources */,
 				F0AF04E317B2059A00E6D105 /* CellContact.xib in Resources */,
+				F0F61D5218551E850024475C /* remote@2x.png in Resources */,
 				F0BD23C41835646C000675F8 /* remove@2x.png in Resources */,
 				F0AF04EB17B2123400E6D105 /* CellTrack.xib in Resources */,
 				F0BD238D1835646C000675F8 /* bubbleMe@2x.png in Resources */,
@@ -1404,6 +1441,7 @@
 				F055AAC917B86EB7007ABC61 /* PlaylistViewController.xib in Resources */,
 				F0BD23A41835646C000675F8 /* next_pressed.png in Resources */,
 				F055AAD017B86EC0007ABC61 /* LibraryViewController.xib in Resources */,
+				F0F61D4E18551BD30024475C /* AWRemoteViewController.xib in Resources */,
 				F0BD239D1835646C000675F8 /* music_note.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1452,6 +1490,7 @@
 				F0061EA21812C0CE0057EBEA /* ANPopoverView.m in Sources */,
 				F0061F201812CADA0057EBEA /* OHAttributedLabel.m in Sources */,
 				F0AB2B0A181EA00E0029BDDC /* AWPlaylistModel.m in Sources */,
+				F04C0A03184FDBA2004985CF /* AWPlaylistSynchronizer.m in Sources */,
 				F0F7C6FB18171CC90045FC6A /* AFURLConnectionOperation.m in Sources */,
 				F0D2131C18141C9200F844E2 /* AWConfManager.m in Sources */,
 				F0F7C6D5181713BF0045FC6A /* NSString+NSString_Tool.m in Sources */,
@@ -1500,6 +1539,7 @@
 				F0061F211812CADA0057EBEA /* OHParagraphStyle.m in Sources */,
 				F0AF04D517B1F3A100E6D105 /* CellContact.m in Sources */,
 				F0C8D4EF1819C55500801D00 /* AWMasterModel.m in Sources */,
+				F0F61D4D18551BD30024475C /* AWRemoteViewController.m in Sources */,
 				F09E23CD182BA98900F767E4 /* AWItunesImportManager.m in Sources */,
 				F0061F701812F70C0057EBEA /* AudioWireApp.xcdatamodeld in Sources */,
 				F0061F661812F63C0057EBEA /* AWMasterViewController.m in Sources */,

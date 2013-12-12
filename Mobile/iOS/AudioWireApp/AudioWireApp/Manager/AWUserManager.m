@@ -39,12 +39,12 @@
 
 -(void)autologin:(void (^)(BOOL success, NSString *error))cb_rep
 {
-    NSLog(@"AUTOLOGIN method");
+//    NSLog(@"AUTOLOGIN method");
     NSString *autologinFilePath = [AWUserManager pathOfileAutologin];
     if ([[NSFileManager defaultManager] fileExistsAtPath:autologinFilePath])
     {
         NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:autologinFilePath];
-         NSLog(@"AUTOLOGIN => file exists : %@", ids);
+//         NSLog(@"AUTOLOGIN => file exists : %@", ids);
         AWUserModel *loginModel = [AWUserModel fromJSON:ids];
         [self login:loginModel cb_rep:cb_rep];
     }
@@ -70,6 +70,8 @@
                 [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
                 NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
                 NSLog(@"Wrote to file => %@", [ids description]);
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
                 
                 cb_rep(true, nil);
             }
@@ -113,6 +115,8 @@
                 [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
                 NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:[AWUserManager pathOfileAutologin]];
                 NSLog(@"Wrote to file => %@", [ids description]);
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
                 cb_rep(true, nil);
             }
             else

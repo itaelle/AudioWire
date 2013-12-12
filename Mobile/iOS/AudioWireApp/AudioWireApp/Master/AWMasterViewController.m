@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "AWMasterViewController.h"
-#import "OLGhostAlertView.h"
+#import "AWRemoteViewController.h"
 
 @implementation AWMasterViewController
 
@@ -64,10 +64,20 @@
 -(void)setFlashMessage:(NSString *)msg
 {
     if ([NSThread isMainThread])
-        [[[OLGhostAlertView alloc] initWithTitle:msg] show];
+    {
+        if (flash)
+            [flash hide];
+        flash = nil;
+        flash = [[OLGhostAlertView alloc] initWithTitle:msg];
+        [flash show];
+    }
     else
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [[[OLGhostAlertView alloc] initWithTitle:msg] show];
+            if (flash)
+                [flash hide];
+            flash = nil;
+            flash = [[OLGhostAlertView alloc] initWithTitle:msg];
+            [flash show];
         });
 }
 
@@ -141,6 +151,26 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
+-(void)remoteAction:(id)sender
+{
+    AWRemoteViewController *remoteVC = [[AWRemoteViewController alloc] initWithNibName:@"AWRemoteViewController" bundle:nil];
+    
+    UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:remoteVC];
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        nav.navigationBar.translucent = YES;
+    }
+    else
+    {
+        nav.navigationBar.barStyle = UIBarStyleBlack;
+        nav.navigationBar.translucent = NO;
+    }
+    
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
+}
+
 -(void) prepareNavBarForEditing:(BOOL)isLeft
 {
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
@@ -164,6 +194,18 @@
 {
     [self prepareNavBarForEditing:NO];
 }
+
+-(void) prepareNavBarForRemote
+{
+    UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Remote", @"") style:UIBarButtonItemStylePlain target:self action:@selector(remoteAction:)];
+    
+    if (IS_OS_7_OR_LATER)
+        remoteButton.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = remoteButton;
+}
+
 
 -(void) prepareNavBarForClose
 {
@@ -200,14 +242,28 @@
     }
 }
 
-- (void) prepareNavBarForAdding
+- (void) prepareNavBarForAdding:(BOOL)isLeft
 {
     UIBarButtonItem *createPlaylistButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addAction:)];
     
     if (IS_OS_7_OR_LATER)
         createPlaylistButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = createPlaylistButton;
+    
+    if (isLeft)
+    {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = createPlaylistButton;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = createPlaylistButton;
+    }
+}
+
+- (void) prepareNavBarForAdding
+{
+    [self prepareNavBarForAdding:NO];
 }
 
 -(void)prepareNavBarForImport

@@ -9,6 +9,9 @@
 #import "AWMasterViewController.h"
 
 @interface OptionsViewController : AWMasterViewController
+{
+    BOOL firstTime;
+}
 
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;

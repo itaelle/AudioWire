@@ -11,6 +11,8 @@
 #import "OptionsViewController.h"
 #import "AWUserManager.h"
 #import "AWTracksManager.h"
+#import "AWPlaylistSynchronizer.h"
+#import "AWPlaylistManager.h"
 
 @implementation OptionsViewController
 
@@ -29,19 +31,39 @@
 {
     [super viewWillAppear:animated];
     
-    if (!IS_OS_7_OR_LATER)
+    if (!IS_OS_7_OR_LATER && firstTime)
     {
+        firstTime = NO;
         CGRect rectTopView = self.topView.frame;
         rectTopView.origin.y = 31;
         rectTopView.size.height += 31;
         
         [self.topView setFrame:rectTopView];
     }
+    
+    [self loginButtonRender];
+}
+
+-(void)loginButtonRender
+{
+    if ([[AWUserManager getInstance] isLogin])
+    {
+        [_bt_signout setBackgroundImage:[UIImage imageNamed:@"sign-out.png"] forState:UIControlStateNormal];
+        [_bt_signout setTitle:NSLocalizedString(@"Sign out", @"") forState:UIControlStateNormal];
+        [_bt_signout addTarget:self action:@selector(click_signOut:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else
+    {
+        [_bt_signout setBackgroundImage:[UIImage imageNamed:@"bt-go.png"] forState:UIControlStateNormal];
+        [_bt_signout setTitle:NSLocalizedString(@"Sign up", @"") forState:UIControlStateNormal];
+        [_bt_signout addTarget:self action:@selector(click_signUp:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    firstTime = YES;
     self.skipAuth = YES;
     [self setUpOptionViews];
 }
@@ -60,15 +82,18 @@
     _topView.layer.borderWidth = 1;
     _bottomView.layer.borderWidth = 1;
 
-    [_bt_signout setTitle:NSLocalizedString(@"Sign out", @"") forState:UIControlStateNormal];
+
     [_bt_userInfo setTitle:NSLocalizedString(@"Modify user information", @"") forState:UIControlStateNormal];
-    [_bt_reset setTitle:NSLocalizedString(@"Reset Library", @"") forState:UIControlStateNormal];
+    [_bt_reset setTitle:NSLocalizedString(@"Reset library", @"") forState:UIControlStateNormal];
     [_topLabel setText:NSLocalizedString(@"What do you want to do ?", @"")];
     
     [_bt_userInfo.titleLabel setFont:FONTBOLDSIZE(14)];
-    [_bt_signout.titleLabel setFont:FONTBOLDSIZE(15)];
-    [_bt_reset.titleLabel setFont:FONTBOLDSIZE(15)];
-    [_topLabel setFont:FONTSIZE(15)];
+    [_bt_signout.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_bt_reset.titleLabel setFont:FONTBOLDSIZE(14)];
+    [_topLabel setFont:FONTSIZE(17)];
+    
+    _bt_userInfo.titleLabel.numberOfLines = 2;
+    [_bt_userInfo.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
     
     NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\nForum 2013", NSLocalizedString(@"AudioWire", @"")];
     
@@ -77,6 +102,16 @@
     
     [_bt_reset setBackgroundColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
     [_bt_userInfo setBackgroundColor:[UIColor colorWithRed:0.57 green:0.57 blue:0.57 alpha:1]];
+    
+    return ;
+    
+    [_bt_userInfo setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.57 green:0.57 blue:0.57 alpha:1]] forState:UIControlStateNormal];
+    [_bt_reset setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]] forState:UIControlStateNormal];
+}
+
+- (IBAction)click_signUp:(id)sender
+{
+    [self reconnect:YES];
 }
 
 - (IBAction)click_signOut:(id)sender
@@ -88,6 +123,7 @@
         if (success)
         {
             [[AWMusicPlayer getInstance] pause];
+            [self loginButtonRender];
             [self.navigationController popViewControllerAnimated:TRUE];
         }
         else
@@ -100,20 +136,36 @@
 
 - (IBAction)click_userInfo:(id)sender
 {
-    // TODO userInfo
+    if ([[AWUserManager getInstance] isLogin])
+    {
+        // TODO userInfo
+        [self setFlashMessage:NSLocalizedString(@"Still in development !", @"")];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"You should be logged in to be able to modify you personal information.", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (IBAction)click_reset:(id)sender
 {
     BOOL sucess = [[NSFileManager defaultManager] removeItemAtPath:[AWTracksManager pathOfileLibrary] error:nil];
+    sucess = [[NSFileManager defaultManager] removeItemAtPath:[AWPlaylistSynchronizer pathOfFilePlaylistSync] error:nil];
+    sucess = [[NSFileManager defaultManager] removeItemAtPath:[AWPlaylistManager pathOfilePlaylist] error:nil];
+    
+     [self setFlashMessage:NSLocalizedString(@"All local files have been deleted!", @"") timeout:1];
+    
+    return ;
     
     if (sucess)
     {
-        [self setFlashMessage:NSLocalizedString(@"The local library has been removed !", @"") timeout:1];
+        [self setFlashMessage:NSLocalizedString(@"All local files have been deleted!", @"") timeout:1];
     }
     else
     {
-        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Somehting went wrong while attempting to remove local files.", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+        [alert show];
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AWUserModel.h"
 
 @interface CellContact : UITableViewCell
 {
@@ -18,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
--(void)myInit:(NSString *)contact details:(NSString *)detailContact;
+- (void)myInit:(AWUserModel *)contact;
 - (IBAction)clickBtInfo:(id)sender;
 
 @end

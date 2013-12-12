@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIAWHomeLoginViewController">
@@ -193,7 +193,7 @@
         </view>
     </objects>
     <resources>
-        <image name="bg.png" width="351" height="504"/>
+        <image name="bg.png" width="343" height="499"/>
         <image name="bt-go.png" width="294" height="40"/>
         <image name="input_field_insc.png" width="294" height="40"/>
         <image name="logoAudiowire.png" width="325" height="325"/>

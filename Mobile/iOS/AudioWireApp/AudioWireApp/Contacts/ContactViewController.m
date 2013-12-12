@@ -13,6 +13,9 @@
 #import "ConversationViewController.h"
 #import "AddContactViewController.h"
 #import "NSObject+NSObject_Tool.h"
+#import "AWFriendManager.h"
+
+#define NEW_CONTACT_DEFINE @{@"username" :NSLocalizedString(@"New contact", @""), @"first_name" : NSLocalizedString(@"New firstname", @""), @"last_name" : NSLocalizedString(@"New lastname", @""), @"email" : NSLocalizedString(@"New e-mail", @"")};
 
 @implementation ContactViewController
 
@@ -28,9 +31,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [self loadData];
-    [_tb_list_artist reloadData];
 }
 
 - (void)viewDidLoad
@@ -45,7 +45,6 @@
         self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self setUpList];
-    [self loadData];
 }
 
 -(void)loadData
@@ -53,25 +52,19 @@
     // Show Loading
     [self setUpLoadingView:_tb_list_artist];
     
-    // Data Loading
-    tableData = [[NSMutableArray alloc]initWithObjects:@"Adrien Lami",
-                 @"Eli Bavarois",
-                 @"Flavien Mateque",
-                 @"Gaston Lagaf",
-                 @"Irène Dubois",
-                 @"Jack Daniel",
-                 @"Justine Delafitte",
-                 @"Karim Benzemah",
-                 @"Youssouf Isri",
-                 @"Manu Tchao",
-                 @"Guillaume Lecointre",
-                 @"Patrick Sebastien",
-                 @"Rayan Oconor",
-                 @"Sergio De Milano",
-                 nil];
-    
-    // Stop Loading
-    [self cancelLoadingView:_tb_list_artist];
+    [AWFriendManager getAllFriends:^(NSArray *data, BOOL success, NSString *error) {
+        if (success)
+        {
+            tableData = [data mutableCopy];
+            [self.tb_list_artist reloadData];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+        [self cancelLoadingView:_tb_list_artist];
+    }];
 }
 
 - (void)addContact
@@ -100,9 +93,18 @@
     [_tb_list_artist setEditing:TRUE animated:TRUE];
     [self prepareNavBarForCancel];
     
+    savedBackButton = self.navigationItem.leftBarButtonItem;
+    [self prepareNavBarForAdding:YES];
+    
     if (tableData)
     {
-        [tableData insertObject:@"" atIndex:0];
+        AWUserModel *newContact = [AWUserModel fromJSON:@{@"username" : NSLocalizedString(@"New contact", @""),
+                                                          @"first_name" : NSLocalizedString(@"New firstname", @""),
+                                                          @"last_name" : NSLocalizedString(@"New lastname", @""),
+                                                          @"email" : NSLocalizedString(@"New e-mail", @""),
+                                                          }
+                                   ];
+        [tableData insertObject:newContact atIndex:0];
         [_tb_list_artist reloadData];
     }
 }
@@ -112,10 +114,17 @@
     [_tb_list_artist setEditing:FALSE animated:TRUE];
     [self prepareNavBarForEditing];
     
-    if (tableData)
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = savedBackButton;
+    
+    if (tableData && [tableData count] > 0)
     {
         [tableData removeObjectAtIndex:0];
         [_tb_list_artist reloadData];
+    }
+        // TODO DELETE SERVER toDelete
+    if (toDelete && [toDelete count] > 0)
+    {
     }
 }
 
@@ -145,9 +154,18 @@
 {
     if (tableData && [tableData count] > indexPath.row)
     {
-        NSString *stringAtIndex = [NSObject getVerifiedString:[tableData objectAtIndex:indexPath.row]];
-        if ([stringAtIndex isEqualToString:@""])
-            return UITableViewCellEditingStyleInsert;
+        AWUserModel *contact = [tableData objectAtIndex:indexPath.row];
+        if (contact && [contact isKindOfClass:[AWUserModel class]])
+        {
+            AWUserModel *newContact = [AWUserModel fromJSON:@{@"username" : NSLocalizedString(@"New contact", @""),
+                                                              @"first_name" : NSLocalizedString(@"New firstname", @""),
+                                                              @"last_name" : NSLocalizedString(@"New lastname", @""),
+                                                              @"email" : NSLocalizedString(@"New e-mail", @""),
+                                                              }
+                                       ];
+            if ([[contact toDictionary] isEqualToDictionary:[newContact toDictionary]])
+                return UITableViewCellEditingStyleInsert;
+        }
     }
     return UITableViewCellEditingStyleDelete;
 }
@@ -160,6 +178,9 @@
     {
         if (tableData && [tableData count] > indexPath.row)
         {
+            if (!toDelete)
+                toDelete = [[NSMutableArray alloc] init];
+            [toDelete addObject:[tableData objectAtIndex:indexPath.row]];
             [tableData removeObjectAtIndex:indexPath.row];
             [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
             [_tb_list_artist reloadSectionIndexTitles];
@@ -195,18 +216,21 @@
     if (cell == nil)
     {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellContact" owner:self options:nil] objectAtIndex:0];
-        
     }
-    if ([[tableData objectAtIndex:indexPath.row] isEqualToString:@""])
-    {
-        if ([tableView isEditing])
-            [cell myInit:[tableData objectAtIndex:indexPath.row] details:NSLocalizedString(@"New contact", @"") ];
-        else
-            cell.detailTextLabel.text = @"";
-    }
-    else
-        [cell myInit:[tableData objectAtIndex:indexPath.row] details:@"Details about contact"];
+    [cell myInit:[tableData objectAtIndex:indexPath.row]];
     
+#warning TODO
+    //    if (tableView.isEditing && indexPath.row == 0)
+//    {
+//        
+//    }
+//    else
+//    {
+//        id object = [tableData objectAtIndex:indexPath.row-1];
+//        if (object && [object isKindOfClass:[AWUserModel class]])
+//            [cell myInit:object];
+//    }
+
     return cell;
 }
 
@@ -214,9 +238,10 @@
 {
     NSMutableArray *alphabetical_indexes = [[NSMutableArray alloc] init];
     
-    for (NSString *str in tableData)
+    for (AWUserModel *contact in tableData)
     {
-        if (str && [str length] > 1)
+        NSString *str = contact.username;
+        if (str && [str length] >= 1)
         {
             NSString *temp = [str substringWithRange:NSMakeRange(0, 1)];
             
@@ -243,9 +268,11 @@
     NSUInteger count = 0;
     for (NSString *str in array)
     {
-        if ([str hasPrefix:character])
+        for (AWUserModel *contact in tableData)
         {
-            return count;
+            NSString *str = contact.username;
+            if ([str hasPrefix:character])
+                return count;
         }
         count++;
     }

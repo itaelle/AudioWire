@@ -89,9 +89,10 @@
     
     AWPlaylistModel *playlistModelToAdd = [AWPlaylistModel new];
     playlistModelToAdd.title = [self.tf_playlist.text trim];
+    playlistModelToAdd._id = nil;
+    playlistModelToAdd.nb_tracks = -1;
     
-    
-    [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *error)
+    [AWPlaylistManager addPlaylist:playlistModelToAdd cb_rep:^(BOOL success, NSString *idPlaylistCreated, NSString *error)
     {
         // Finish creating
         [self.act_creating setAlpha:0];
@@ -133,13 +134,9 @@
     
     
     if (![UIDevice isIphone5])
-    {
         [self.sc_container setContentOffset:CGPointMake(0, sender.superview.frame.origin.y - 64) animated:NO];
-    }
     else
-    {
         [self.sc_container setContentOffset:CGPointMake(0, 0) animated:NO];
-    }
 }
 
 - (IBAction)editDidEnd:(UITextField *)sender

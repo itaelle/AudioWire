@@ -94,6 +94,28 @@
     
     self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.HUD hide:YES];
+    
+    [self prepareNavBarForClose];
+}
+
+-(void)closeAction:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"closedLogin" object:nil];
+    
+    [self.navigationController dismissViewControllerAnimated:true completion:^{
+        
+    }];
+}
+
+-(void) prepareNavBarForClose
+{
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(closeAction:)];
+    
+    if (IS_OS_7_OR_LATER)
+        closeButton.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = closeButton;
 }
 
 - (IBAction)bt_sex_click:(id)sender

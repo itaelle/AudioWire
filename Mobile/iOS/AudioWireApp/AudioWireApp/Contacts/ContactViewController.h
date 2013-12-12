@@ -11,6 +11,10 @@
 @interface ContactViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray *tableData;
+    
+    UIBarButtonItem *savedBackButton;
+    
+    NSMutableArray *toDelete;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;

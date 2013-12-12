@@ -7,6 +7,7 @@
 //
 
 #import "AddContactViewController.h"
+#import "AWFriendManager.h"
 
 @implementation AddContactViewController
 
@@ -85,13 +86,17 @@
     [self.act_creating startAnimating];
     [self.bt_create setAlpha:0];
     
-    // TODO Add Contact
-    
-    // Finish creating
-    [self.act_creating setAlpha:0];
-    [self.act_creating stopAnimating];
-    [self.bt_create setAlpha:1];
-    [self closeAction:nil];
+    [AWFriendManager addFriend:[self.tf_playlist.text trim] cb_rep:^(BOOL success, NSString *error) {
+        if (success)
+        {
+            
+        }
+        // Finish creating
+        [self.act_creating setAlpha:0];
+        [self.act_creating stopAnimating];
+        [self.bt_create setAlpha:1];
+        [self closeAction:nil];
+    }];
 }
 
 - (IBAction)click_textField:(UITextField *)sender

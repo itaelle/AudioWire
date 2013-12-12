@@ -2,6 +2,7 @@
 // Prefix header for all source files of the 'AudioWireApp' target in the 'AudioWireApp' project
 //
 
+#ifdef __OBJC__
 #import <Availability.h>
 
 #ifndef __IPHONE_4_0
@@ -22,6 +23,8 @@
 #define FILE_PLAYLISTS @"audiowire_playlists"
 
 #define URL_API @"https://audiowire.co"
+#define HOST_REMOTE @"192.168.1.68"
+#define PORT_REMOTE @4242
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
@@ -51,3 +54,4 @@
 // DEPRECATED
 #pragma DEPRECATED
 #define FILE_IMPORT @"audiowire_import" // No longer used for importation
+#endif

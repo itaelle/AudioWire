@@ -528,7 +528,13 @@
                  
                  NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
-                 [list writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
+                 if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
+                     [[NSFileManager defaultManager] removeItemAtPath:fileName error:nil];
+                 
+                 NSArray *toWrite = [AWTrackModel toArray:modelsTracks];
+                 BOOL sucessWrite = [toWrite writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
+                 
+                 NSArray *written = [NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:fileName]];
                  
                  cb_rep(modelsTracks, successAPI, nil);
              }

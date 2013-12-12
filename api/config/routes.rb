@@ -68,6 +68,7 @@ scope '/en' do
       match '/login' => 'websiteen#login', :via => :get
       match '/about' => 'websiteen#about', :via => :get
     end
+match '/terms' => 'websiteen#terms', :via => :get
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

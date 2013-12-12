@@ -198,6 +198,7 @@
 		F0F61D4E18551BD30024475C /* AWRemoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0F61D4C18551BD30024475C /* AWRemoteViewController.xib */; };
 		F0F61D5118551E850024475C /* remote.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F61D4F18551E850024475C /* remote.png */; };
 		F0F61D5218551E850024475C /* remote@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0F61D5018551E850024475C /* remote@2x.png */; };
+		F0F622621859F6580024475C /* AWRemoteControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F622611859F6580024475C /* AWRemoteControlManager.m */; };
 		F0F7C6D1181711990045FC6A /* UIView+UIView_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */; };
 		F0F7C6D5181713BF0045FC6A /* NSString+NSString_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D4181713BF0045FC6A /* NSString+NSString_Tool.m */; };
 		F0F7C6D8181714B10045FC6A /* UIDevice+UIDevice_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F7C6D7181714B10045FC6A /* UIDevice+UIDevice_Tool.m */; };
@@ -451,6 +452,10 @@
 		F0F61D4C18551BD30024475C /* AWRemoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AWRemoteViewController.xib; path = Remote/AWRemoteViewController.xib; sourceTree = "<group>"; };
 		F0F61D4F18551E850024475C /* remote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remote.png; sourceTree = "<group>"; };
 		F0F61D5018551E850024475C /* remote@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote@2x.png"; sourceTree = "<group>"; };
+		F0F622601859F6580024475C /* AWRemoteControlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWRemoteControlManager.h; path = Manager/AWRemoteControlManager.h; sourceTree = "<group>"; };
+		F0F622611859F6580024475C /* AWRemoteControlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWRemoteControlManager.m; path = Manager/AWRemoteControlManager.m; sourceTree = "<group>"; };
+		F0F6229A185A16560024475C /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		F0F6229C185A165E0024475C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F0F7C6CF181711990045FC6A /* UIView+UIView_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIView_Tool.h"; sourceTree = "<group>"; };
 		F0F7C6D0181711990045FC6A /* UIView+UIView_Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIView_Tool.m"; sourceTree = "<group>"; };
 		F0F7C6D3181713BF0045FC6A /* NSString+NSString_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_Tool.h"; sourceTree = "<group>"; };
@@ -720,6 +725,8 @@
 		F072507C17AC30C300445F37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0F6229C185A165E0024475C /* CFNetwork.framework */,
+				F0F6229A185A16560024475C /* libicucore.dylib */,
 				F0EBC88A181F28DF000FF73B /* FacebookSDK.framework */,
 				F072512517AC462700445F37 /* QuartzCore.framework */,
 				F0F7C704181724BF0045FC6A /* Security.framework */,
@@ -1144,6 +1151,7 @@
 		F0C8D4E51819C1F300801D00 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				F0F6225F1859F5F00024475C /* RemoteControl */,
 				F09E23CA182BA96C00F767E4 /* Import */,
 				F0AB2B0B181EABA30029BDDC /* Friend */,
 				F0AB2B03181E99510029BDDC /* Playlist */,
@@ -1203,6 +1211,41 @@
 			name = RemoteControl;
 			sourceTree = "<group>";
 		};
+		F0F6225F1859F5F00024475C /* RemoteControl */ = {
+			isa = PBXGroup;
+			children = (
+				F0F622601859F6580024475C /* AWRemoteControlManager.h */,
+				F0F622611859F6580024475C /* AWRemoteControlManager.m */,
+			);
+			name = RemoteControl;
+			sourceTree = "<group>";
+		};
+		F0F622631859F67F0024475C /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				F0F7C6E318171CC90045FC6A /* AFHTTPRequestOperation.h */,
+				F0F7C6E418171CC90045FC6A /* AFHTTPRequestOperation.m */,
+				F0F7C6E518171CC90045FC6A /* AFHTTPRequestOperationManager.h */,
+				F0F7C6E618171CC90045FC6A /* AFHTTPRequestOperationManager.m */,
+				F0F7C6E718171CC90045FC6A /* AFHTTPSessionManager.h */,
+				F0F7C6E818171CC90045FC6A /* AFHTTPSessionManager.m */,
+				F0F7C6E918171CC90045FC6A /* AFNetworking.h */,
+				F0F7C6EA18171CC90045FC6A /* AFNetworkReachabilityManager.h */,
+				F0F7C6EB18171CC90045FC6A /* AFNetworkReachabilityManager.m */,
+				F0F7C6EC18171CC90045FC6A /* AFSecurityPolicy.h */,
+				F0F7C6ED18171CC90045FC6A /* AFSecurityPolicy.m */,
+				F0F7C6EE18171CC90045FC6A /* AFURLConnectionOperation.h */,
+				F0F7C6EF18171CC90045FC6A /* AFURLConnectionOperation.m */,
+				F0F7C6F018171CC90045FC6A /* AFURLRequestSerialization.h */,
+				F0F7C6F118171CC90045FC6A /* AFURLRequestSerialization.m */,
+				F0F7C6F218171CC90045FC6A /* AFURLResponseSerialization.h */,
+				F0F7C6F318171CC90045FC6A /* AFURLResponseSerialization.m */,
+				F0F7C6F418171CC90045FC6A /* AFURLSessionManager.h */,
+				F0F7C6F518171CC90045FC6A /* AFURLSessionManager.m */,
+			);
+			name = AFNetworking;
+			sourceTree = "<group>";
+		};
 		F0F7C6D2181713BF0045FC6A /* NS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,25 +1272,7 @@
 		F0F7C6E218171CC90045FC6A /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				F0F7C6E318171CC90045FC6A /* AFHTTPRequestOperation.h */,
-				F0F7C6E418171CC90045FC6A /* AFHTTPRequestOperation.m */,
-				F0F7C6E518171CC90045FC6A /* AFHTTPRequestOperationManager.h */,
-				F0F7C6E618171CC90045FC6A /* AFHTTPRequestOperationManager.m */,
-				F0F7C6E718171CC90045FC6A /* AFHTTPSessionManager.h */,
-				F0F7C6E818171CC90045FC6A /* AFHTTPSessionManager.m */,
-				F0F7C6E918171CC90045FC6A /* AFNetworking.h */,
-				F0F7C6EA18171CC90045FC6A /* AFNetworkReachabilityManager.h */,
-				F0F7C6EB18171CC90045FC6A /* AFNetworkReachabilityManager.m */,
-				F0F7C6EC18171CC90045FC6A /* AFSecurityPolicy.h */,
-				F0F7C6ED18171CC90045FC6A /* AFSecurityPolicy.m */,
-				F0F7C6EE18171CC90045FC6A /* AFURLConnectionOperation.h */,
-				F0F7C6EF18171CC90045FC6A /* AFURLConnectionOperation.m */,
-				F0F7C6F018171CC90045FC6A /* AFURLRequestSerialization.h */,
-				F0F7C6F118171CC90045FC6A /* AFURLRequestSerialization.m */,
-				F0F7C6F218171CC90045FC6A /* AFURLResponseSerialization.h */,
-				F0F7C6F318171CC90045FC6A /* AFURLResponseSerialization.m */,
-				F0F7C6F418171CC90045FC6A /* AFURLSessionManager.h */,
-				F0F7C6F518171CC90045FC6A /* AFURLSessionManager.m */,
+				F0F622631859F67F0024475C /* AFNetworking */,
 			);
 			name = Network;
 			path = Tools/Network;
@@ -1507,6 +1532,7 @@
 				F0C8D4E81819C20F00801D00 /* AWUserManager.m in Sources */,
 				F0C8D4F21819CBE700801D00 /* NSObject+NSObject_Tool.m in Sources */,
 				F0F7C6F618171CC90045FC6A /* AFHTTPRequestOperation.m in Sources */,
+				F0F622621859F6580024475C /* AWRemoteControlManager.m in Sources */,
 				F0061F481812DEE10057EBEA /* UIAWConnectViewController.m in Sources */,
 				F0061F4E1812DEE10057EBEA /* UIAWHomeLoginViewController.m in Sources */,
 				F0D21312181347B900F844E2 /* CreatePlaylistViewController.m in Sources */,

@@ -7,10 +7,7 @@
 //
 
 #import "AWRemoteViewController.h"
-
-@interface AWRemoteViewController ()
-
-@end
+#import "AWRemoteControlManager.h"
 
 @implementation AWRemoteViewController
 
@@ -33,7 +30,6 @@
     self.isSliderVolumeOpened = false;
     self.skipAuth = YES;
     isPlaying = NO;
-    
     
     CGRect label = self.lb_titleMusic.frame;
     label.origin.x = 0;
@@ -77,10 +73,6 @@
 {
     [super viewWillAppear:animated];
     
-//    [self.img_audiowire setHidden:YES];
-//    [self.img_logo setHidden:YES];
-//    [self.act_loader startAnimating];
-    
     if (!IS_OS_7_OR_LATER)
     {
         CGRect rectTopView = self.topView.frame;
@@ -93,15 +85,44 @@
     }
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[AWRemoteControlManager getInstance] discconnectFromAWHost:^(BOOL ok)
+    {
+        if (ok)
+        {
+            [self setFlashMessage:NSLocalizedString(@"Disconnected !", @"")];
+        }
+    }];
+}
+
 -(void)loadData
 {
-    // Connect to server
+    [self setFlashMessage:NSLocalizedString(@"Connection...", @"")];
     
-    // Once connected
-//    [self.img_audiowire setHidden:NO];
-    [self.img_logo setHidden:NO];
-    [self.act_loader setHidden:YES];
-    [self.act_loader stopAnimating];
+    [self.img_logo setHidden:YES];
+    [self.act_loader startAnimating];
+    [self.act_loader setHidden:NO];
+    
+    [[AWRemoteControlManager getInstance] connectToAWHost:^(BOOL ok) {
+        if (ok)
+        {
+            [self setFlashMessage:NSLocalizedString(@"Connected !", @"")];
+        }
+        else
+        {
+            [self setFlashMessage:NSLocalizedString(@"Connection failed !", @"")];
+        }
+        [self.img_logo setHidden:NO];
+        [self.act_loader stopAnimating];
+        [self.act_loader setHidden:YES];
+        
+    } cb_receive:^(NSString *msg)
+     {
+         [self setFlashMessage:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message received from desktop client : ", @""), msg]];
+     }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -156,36 +177,57 @@
     {
         [self.bt_playPause setSelected:NO];
         isPlaying = NO;
+        
+        [[AWRemoteControlManager getInstance] sendCommand:AWPause];
     }
     else
     {
         [self.bt_playPause setSelected:YES];
         isPlaying = YES;
+        
+        [[AWRemoteControlManager getInstance] sendCommand:AWPlay];
     }
 }
 
 - (IBAction)click_prev:(id)sender
 {
+    [[AWRemoteControlManager getInstance] sendCommand:AWPrev];
 }
 
 - (IBAction)click_next:(id)sender
 {
+    [[AWRemoteControlManager getInstance] sendCommand:AWNext];
 }
 
 - (IBAction)clicK_repeat:(id)sender
 {
+    [[AWRemoteControlManager getInstance] sendCommand:AWRepeat];
 }
 
 - (IBAction)click_shuffle:(id)sender
 {
+    [[AWRemoteControlManager getInstance] sendCommand:AWShuffle];
 }
 
 - (IBAction)modifyVolume:(id)sender
 {
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        float value = temp.value;
+        NSLog(@"VOLUME => %@", [NSNumber numberWithFloat:(value/100)]);
+    }
 }
 
 - (IBAction)modifyMusicOffset:(id)sender
 {
+    if (sender && [sender isKindOfClass:[ANPopoverSlider class]])
+    {
+        ANPopoverSlider *temp = sender;
+        NSNumber *value = [NSNumber numberWithFloat:temp.value];
+        
+        NSLog(@"MUSIC OFFSET => %@", value);
+    }
 }
 
 @end

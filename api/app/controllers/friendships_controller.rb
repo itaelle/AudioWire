@@ -1,3 +1,6 @@
+require 'uri'
+require 'httparty'
+
 class FriendshipsController < ApplicationController
   before_filter :after_token_authentication
   respond_to :json
@@ -54,6 +57,10 @@ class FriendshipsController < ApplicationController
 
       @friendship = user.friendships.build(:friend_id=>friend.id)
       if @friendship.save
+        secret = "E7SBm6qv"
+        createChatUserURL = "http://audiowire.co:9090/plugins/userService/userservice?type=add_roster&secret=#{ secret }&username=#{ user.username }&item_jid=#{ friend.username }@audiowire.co&name=#{ friend.username}&subscription=3"
+        encoded_uri = URI::encode createChatUserURL
+        HTTParty.get(encoded_uri)
         render :status => 201, :json=>{:success=>true, :friend=>@friendship}
       else
         render :status=>:unprocessable_entity, :json=>{:success=>false, :errors=>@friendship.errors}
@@ -78,6 +85,10 @@ class FriendshipsController < ApplicationController
         if !@friendship.nil?
           @friendship.destroy
           nb_deleted = nb_deleted + 1
+          secret = "E7SBm6qv"
+          createChatUserURL = "http://audiowire.co:9090/plugins/userService/userservice?type=delete_roster&secret=#{ secret }&username=#{ user.username }&item_jid=#{ friend.username }@audiowire.co"
+          encoded_uri = URI::encode createChatUserURL
+          HTTParty.get(encoded_uri)
         end
       end
     end

@@ -11,14 +11,11 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :avatar, :username, :first_name, :last_name
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :first_name, :last_name
   has_many :tracks, dependent: :destroy
   has_many :playlists, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, :on => :create
-  validates :username, presence: true
-
-  # attr_accessible :title, :body
+  validates :username, presence: true, uniqueness: true
 end

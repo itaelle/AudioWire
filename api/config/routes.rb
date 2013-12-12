@@ -15,7 +15,6 @@ AudioWire::Application.routes.draw do
     match '/users' => 'users#index', :via => :get
     match '/users/me' => 'users#show_me', :via => :get
     match '/users/:id' => 'users#show', :via => :get
-    match 'users/avatar' => 'users#update_avatar', :via => :put
 
 
     match '/tracks' => 'tracks#create', :via => :post

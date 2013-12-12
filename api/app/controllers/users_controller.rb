@@ -1,3 +1,6 @@
+require 'uri'
+require 'httparty'
+
 class UsersController < ApplicationController
   before_filter :after_token_authentication
   respond_to :json
@@ -13,20 +16,17 @@ class UsersController < ApplicationController
     end
   end
 
-  def   update_avatar
-    @user = User.find_by_authentication_token(params[:token])
-    if params[:avatar].nil?
-      render :status=>404, json: {:success=>false, :error=>'Picture is missing'}
-    end
-    @user.avatar = params[:avatar]
-    @user.avatar.save
-    @user.save
-    render :status=>200, json: {:success=>true, :error =>'Avatar has been uploaded'}
-  end
-
   def update
     @user = User.find_by_authentication_token(params[:token])
+    if params[:user][:username] != @user.username
+      render :status=>400, :json=>{:success=>false, :error=>"Updating username is forbidden"}
+      return
+    end
     if @user.update_attributes(params[:user]) == true
+      secret = "E7SBm6qv"
+      createChatUserURL = "http://audiowire.co:9090/plugins/userService/userservice?type=update&secret=#{ secret }&username=#{@user.username}&password=#{@user.password}&name=#{@user.first_name} #{@user.last_name}&email=#{@user.email}"
+      encoded_uri = URI::encode createChatUserURL
+      HTTParty.get(encoded_uri)
       render :status=>201, :json=>{:success=>true, :message=>"User has been updated"}
     else
       render :status=>400, :json=>{:success=>false, :error=>"An error occured"}

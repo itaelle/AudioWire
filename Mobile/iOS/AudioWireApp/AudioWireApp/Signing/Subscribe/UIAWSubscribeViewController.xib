@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIAWSubscribeViewController">
@@ -119,7 +119,7 @@
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <webView alpha="0.0" contentMode="scaleToFill" scalesPageToFit="YES" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" id="r7K-lI-haG">
-                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <dataDetectorType key="dataDetectorTypes"/>
@@ -446,7 +446,7 @@
         </view>
     </objects>
     <resources>
-        <image name="bg.png" width="351" height="504"/>
+        <image name="bg.png" width="343" height="499"/>
         <image name="bt-go.png" width="294" height="40"/>
         <image name="cocher.png" width="20" height="20"/>
         <image name="input_field_insc.png" width="294" height="40"/>

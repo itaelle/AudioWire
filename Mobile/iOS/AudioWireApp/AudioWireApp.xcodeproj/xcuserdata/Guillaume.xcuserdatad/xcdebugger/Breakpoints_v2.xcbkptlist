@@ -9,22 +9,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Master/AWMasterViewController.m"
-            timestampString = "408232654.887686"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-viewWillAppear:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Player/AWMusicPlayer/AWMusicPlayer.m"
             timestampString = "406123516.988318"
             startingColumnNumber = "9223372036854775807"
@@ -83,28 +67,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Library/Artists/LibraryViewController.m"
-            timestampString = "406929781.298071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "-loadData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWItunesImportManager.m"
-            timestampString = "406934039.135315"
+            timestampString = "408572692.729879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "-integrateMediaInAWLibrary:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -116,27 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Contacts/ContactViewController.m"
-            timestampString = "407711122.02026"
+            timestampString = "408566750.280645"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-loadData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Contacts/ContactViewController.m"
-            timestampString = "407711372.417051"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "-tableView:editingStyleForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -180,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408161033.961067"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "+deleteLocalPlaylist:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -227,28 +179,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Options/OptionsViewController.m"
-            timestampString = "408209329.781396"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
-            landmarkName = "-click_reset:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408209533.200524"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "+deleteLocalPlaylist:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -260,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408236640.376115"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "+addLocalPlaylist:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -435,22 +371,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240541.755661"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "529"
-            endingLineNumber = "529"
-            landmarkName = "-getServerTracksInPlaylist:cb_rep:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Requester/AWPlaylistSynchronizer.m"
             timestampString = "408232654.887686"
             startingColumnNumber = "9223372036854775807"
@@ -468,11 +388,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408241720.620229"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "574"
-            endingLineNumber = "574"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
             landmarkName = "+addServerTracksInPlaylist:tracks:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -484,11 +404,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240608.884196"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "-getLocalTracksInPlaylist:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -500,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240777.212056"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
             landmarkName = "+delLocalTracksInPlaylist:tracks:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -516,11 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240780.013752"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "+addLocalTracksInPlaylist:tracks:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -532,11 +452,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240783.897739"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "+addLocalTracksInPlaylist:tracks:cb_rep:"
             landmarkType = "5">
             <Locations>
@@ -547,11 +467,11 @@
                   symbolName = "+[AWPlaylistManager addLocalTracksInPlaylist:tracks:cb_rep:]"
                   moduleName = "AudioWireApp"
                   urlString = "file:///Users/Guillaume/Development/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Manager/AWPlaylistManager.m"
-                  timestampString = "408564208.529556"
+                  timestampString = "408581862.484031"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "205"
-                  endingLineNumber = "205"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
                   offsetFromSymbolStart = "150">
                </Location>
                <Location
@@ -561,11 +481,11 @@
                   symbolName = "__60+[AWPlaylistManager addLocalTracksInPlaylist:tracks:cb_rep:]_block_invoke"
                   moduleName = "AudioWireApp"
                   urlString = "file:///Users/Guillaume/Development/AudioWire/Mobile/iOS/AudioWireApp/AudioWireApp/Manager/AWPlaylistManager.m"
-                  timestampString = "408564208.529701"
+                  timestampString = "408581862.484176"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
+                  startingLineNumber = "219"
+                  endingLineNumber = "219"
                   offsetFromSymbolStart = "68">
                </Location>
             </Locations>
@@ -578,11 +498,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240786.222036"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "-getLocalTracksInPlaylist:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -594,11 +514,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AudioWireApp/Manager/AWPlaylistManager.m"
-            timestampString = "408240791.180077"
+            timestampString = "408566019.631347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "+deleteLocalPlaylist:cb_rep:"
             landmarkType = "5">
          </BreakpointContent>
@@ -616,6 +536,38 @@
             startingLineNumber = "146"
             endingLineNumber = "146"
             landmarkName = "-stream:handleEvent:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AudioWireApp/Manager/AWItunesImportManager.m"
+            timestampString = "408572756.022767"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "-integrateMediaInAWLibrary:cb_rep:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AudioWireApp/Contacts/Render/CellContact.m"
+            timestampString = "408581801.130101"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-myInit:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

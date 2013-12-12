@@ -43,7 +43,7 @@
     
     if (IS_OS_7_OR_LATER)
         self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    
+
     [self setUpList];
 }
 
@@ -56,6 +56,12 @@
         if (success)
         {
             tableData = [data mutableCopy];
+            
+            if (tableData && [tableData count] == 0)
+                [self prepareNavBarForAdding];
+            else
+                [self prepareNavBarForEditing];
+
             [self.tb_list_artist reloadData];
         }
         else
@@ -88,13 +94,31 @@
     [self cancelAction:self];
 }
 
+- (void)addAction:(id)sender
+{
+    [_tb_list_artist setEditing:TRUE animated:TRUE];
+    [self prepareNavBarForCancel];
+    
+    if (tableData)
+    {
+        AWUserModel *newContact = [AWUserModel fromJSON:@{@"username" : NSLocalizedString(@"New contact", @""),
+                                                          @"first_name" : NSLocalizedString(@"New firstname", @""),
+                                                          @"last_name" : NSLocalizedString(@"New lastname", @""),
+                                                          @"email" : NSLocalizedString(@"New e-mail", @""),
+                                                          }
+                                   ];
+        [tableData insertObject:newContact atIndex:0];
+        [_tb_list_artist reloadData];
+    }
+}
+
 -(void)editAction:(id)sender
 {
     [_tb_list_artist setEditing:TRUE animated:TRUE];
     [self prepareNavBarForCancel];
     
-    savedBackButton = self.navigationItem.leftBarButtonItem;
-    [self prepareNavBarForAdding:YES];
+//    savedBackButton = self.navigationItem.leftBarButtonItem;
+//    [self prepareNavBarForAdding:YES];
     
     if (tableData)
     {
@@ -122,9 +146,17 @@
         [tableData removeObjectAtIndex:0];
         [_tb_list_artist reloadData];
     }
-        // TODO DELETE SERVER toDelete
+
     if (toDelete && [toDelete count] > 0)
     {
+        [AWFriendManager deleteFriend:toDelete cb_rep:^(BOOL success, NSString *error)
+        {
+            if (success)
+            {
+                NSString *msg = [toDelete count] == 1 ? NSLocalizedString(@"Your friend has been removed from your buddy list!", @"") : NSLocalizedString(@"Your friends have been removed from your buddy list!", @"");
+                [self setFlashMessage:msg];
+            }
+        }];
     }
 }
 

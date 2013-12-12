@@ -13,6 +13,7 @@
 #import "AWTracksManager.h"
 #import "AWPlaylistSynchronizer.h"
 #import "AWPlaylistManager.h"
+#import "UIAWSubscribeViewController.h"
 
 @implementation OptionsViewController
 
@@ -30,7 +31,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginButtonRender) name:@"loggedIn" object:nil];
+
     if (!IS_OS_7_OR_LATER && firstTime)
     {
         firstTime = NO;
@@ -44,6 +46,17 @@
     [self loginButtonRender];
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void)loginButtonRender
 {
     if ([[AWUserManager getInstance] isLogin])
@@ -55,7 +68,7 @@
     else
     {
         [_bt_signout setBackgroundImage:[UIImage imageNamed:@"bt-go.png"] forState:UIControlStateNormal];
-        [_bt_signout setTitle:NSLocalizedString(@"Sign up", @"") forState:UIControlStateNormal];
+        [_bt_signout setTitle:NSLocalizedString(@"Sign in", @"") forState:UIControlStateNormal];
         [_bt_signout addTarget:self action:@selector(click_signUp:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
@@ -63,6 +76,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setUpNavLogo];
     firstTime = YES;
     self.skipAuth = YES;
     [self setUpOptionViews];
@@ -84,7 +98,7 @@
 
 
     [_bt_userInfo setTitle:NSLocalizedString(@"Modify user information", @"") forState:UIControlStateNormal];
-    [_bt_reset setTitle:NSLocalizedString(@"Reset library", @"") forState:UIControlStateNormal];
+    [_bt_reset setTitle:NSLocalizedString(@"Reset library & playlists", @"") forState:UIControlStateNormal];
     [_topLabel setText:NSLocalizedString(@"What do you want to do ?", @"")];
     
     [_bt_userInfo.titleLabel setFont:FONTBOLDSIZE(14)];
@@ -94,6 +108,11 @@
     
     _bt_userInfo.titleLabel.numberOfLines = 2;
     [_bt_userInfo.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_bt_userInfo.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    
+    _bt_reset.titleLabel.numberOfLines = 2;
+    [_bt_reset.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_bt_reset.titleLabel setTextAlignment:NSTextAlignmentCenter];
     
     NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\nForum 2013", NSLocalizedString(@"AudioWire", @"")];
     
@@ -122,7 +141,7 @@
     {
         if (success)
         {
-            [[AWMusicPlayer getInstance] pause];
+//            [[AWMusicPlayer getInstance] pause];
             [self loginButtonRender];
             [self.navigationController popViewControllerAnimated:TRUE];
         }
@@ -138,8 +157,22 @@
 {
     if ([[AWUserManager getInstance] isLogin])
     {
-        // TODO userInfo
-        [self setFlashMessage:NSLocalizedString(@"Still in development !", @"")];
+        UIAWSubscribeViewController *s = [[UIAWSubscribeViewController alloc] initWithNibName:@"UIAWSubscribeViewController" bundle:nil];
+        s.requireLogin = self.requireLogin;
+        
+        self.myCustomNavForLogin = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:s];
+        
+        if (IS_OS_7_OR_LATER)
+        {
+            self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            self.myCustomNavForLogin.navigationBar.translucent = YES;
+        }
+        else
+        {
+            self.myCustomNavForLogin.navigationBar.barStyle = UIBarStyleBlack;
+            self.myCustomNavForLogin.navigationBar.translucent = NO;
+        }
+        [self performSelector:@selector(launchNavigation) withObject:nil afterDelay:0.3];
     }
     else
     {

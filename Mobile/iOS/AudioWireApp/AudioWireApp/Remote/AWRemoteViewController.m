@@ -100,29 +100,39 @@
 
 -(void)loadData
 {
-    [self setFlashMessage:NSLocalizedString(@"Connection...", @"")];
-    
-    [self.img_logo setHidden:YES];
-    [self.act_loader startAnimating];
-    [self.act_loader setHidden:NO];
-    
-    [[AWRemoteControlManager getInstance] connectToAWHost:^(BOOL ok) {
-        if (ok)
-        {
-            [self setFlashMessage:NSLocalizedString(@"Connected !", @"")];
-        }
-        else
-        {
-            [self setFlashMessage:NSLocalizedString(@"Connection failed !", @"")];
-        }
-        [self.img_logo setHidden:NO];
-        [self.act_loader stopAnimating];
-        [self.act_loader setHidden:YES];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Server location", @"") message:NSLocalizedString(@"Please specify the ip adress", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    alert.tag = 4242;
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 4242)
+    {
+        [self setFlashMessage:NSLocalizedString(@"Connection...", @"")];
+
+        [self.img_logo setHidden:YES];
+        [self.act_loader startAnimating];
+        [self.act_loader setHidden:NO];
         
-    } cb_receive:^(NSString *msg)
-     {
-         [self setFlashMessage:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message received from desktop client : ", @""), msg]];
-     }];
+        [[AWRemoteControlManager getInstance] connectToAWHost:[alertView textFieldAtIndex:0].text cb_connect:^(BOOL ok)
+        {
+            if (ok)
+                [self setFlashMessage:NSLocalizedString(@"Connected !", @"")];
+            
+            else
+                [self setFlashMessage:NSLocalizedString(@"Connection failed !", @"")];
+
+            [self.img_logo setHidden:NO];
+            [self.act_loader stopAnimating];
+            [self.act_loader setHidden:YES];
+
+        } cb_receive:^(NSString *msg)
+        {
+            [self setFlashMessage:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message received from desktop client : ", @""), msg]];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning

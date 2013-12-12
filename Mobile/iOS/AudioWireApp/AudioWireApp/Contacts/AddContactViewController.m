@@ -89,13 +89,17 @@
     [AWFriendManager addFriend:[self.tf_playlist.text trim] cb_rep:^(BOOL success, NSString *error) {
         if (success)
         {
-            
+            [self closeAction:nil];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+            [alert show];
         }
         // Finish creating
         [self.act_creating setAlpha:0];
         [self.act_creating stopAnimating];
         [self.bt_create setAlpha:1];
-        [self closeAction:nil];
     }];
 }
 

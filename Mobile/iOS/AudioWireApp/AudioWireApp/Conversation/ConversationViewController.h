@@ -10,7 +10,7 @@
 
 @interface ConversationViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
 {
-    NSArray *tableData;
+    NSMutableArray *tableData;
     CGRect savedEditViewFrame;
     CGRect savedListFrame;
     

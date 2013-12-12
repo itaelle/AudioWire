@@ -45,15 +45,15 @@
 +(void)addFriend:(NSString *)userToAddinFrien_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
-    
+
     if (!token)
     {
         cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
         return ;
     }
-    
+
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddFriend], token];
-    
+
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:userToAddinFrien_ forKey:@"friend_email"];
     
@@ -76,7 +76,7 @@
      }];
 }
 
-+(void)deleteFriend:(AWUserModel *)frienToDel_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
++(void)deleteFriend:(NSArray *)friendsToDel_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
 
@@ -88,8 +88,8 @@
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddFriend], token];
     
-//    NSMutableDictionary *userDict = [NSMutableDictionary new];
-//    [userDict setObject:frienToDel_._id forKey:@"friend_id"];
+    NSMutableDictionary *userDict = [NSMutableDictionary new];
+    [userDict setObject:[AWUserModel arrayOfEmail:friendsToDel_] forKey:@"friends_email"];
     
     [AWRequester requestAudiowireAPIDELETE:url cb_rep:^(NSDictionary *rep, BOOL success)
      {

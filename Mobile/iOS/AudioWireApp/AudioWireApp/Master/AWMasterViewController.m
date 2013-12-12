@@ -27,10 +27,10 @@
     [super viewWillAppear:animated];
 
     NSLog(@"********** %@ willAppear **********", self.title);
-    
+
     if (IS_OS_7_OR_LATER)
         [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
-    
+
     if (miniPlayer)
         [miniPlayer updatePlayerStatus];
 }
@@ -38,9 +38,9 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+
     NSLog(@"********** %@ willDisAppear **********", self.title);
-    
+
     if (miniPlayer)
         [miniPlayer endPlayerHandling];
 }

@@ -89,6 +89,24 @@
                 trackModel.numberTrack = [song valueForProperty:MPMediaItemPropertyAlbumTrackNumber];
                 trackModel.time = [song valueForProperty:MPMediaItemPropertyPlaybackDuration];
                 
+                if (trackModel.numberTrack == nil)
+                    trackModel.numberTrack = @0;
+                
+                if (trackModel.title == nil)
+                    trackModel.title = @"";
+
+                if (trackModel.album == nil)
+                    trackModel.album = @"";
+                
+                if (trackModel.artist == nil)
+                    trackModel.artist = @"";
+                
+                if (trackModel.genre == nil)
+                    trackModel.genre = @"";
+                
+                if (trackModel.time == nil)
+                    trackModel.time = @0;
+                
                 [tracksToSend addObject:trackModel];
             }
         }

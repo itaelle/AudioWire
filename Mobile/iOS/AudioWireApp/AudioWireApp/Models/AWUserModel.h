@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSString *lastName;
 
 -(NSDictionary *)toDictionaryLogin;
-+(AWUserModel *) fromJSON:(NSDictionary*)data;
++(AWUserModel *)fromJSON:(NSDictionary *)data;
++(NSArray *)arrayOfEmail:(NSArray *)friendsModels;
 
 @end

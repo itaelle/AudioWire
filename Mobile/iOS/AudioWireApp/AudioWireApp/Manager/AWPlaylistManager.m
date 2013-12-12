@@ -82,6 +82,17 @@
     
     dispatch_async(queueGlobal, ^{
         NSLog(@"ADD in LOCAL playlists");
+        
+        if (playlist_ && playlist_.title)
+        {
+            if ([playlist_.title length] < 3)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cb_rep(NO, playlist_._id, NSLocalizedString(@"Title is too short (minimum of 5 characters) !", @""));
+                });
+                return ;
+            }
+        }
 
         NSMutableArray *playlistsInAudioWire = nil;
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfilePlaylist]])

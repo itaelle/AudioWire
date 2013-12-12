@@ -46,7 +46,7 @@
     if (IS_OS_7_OR_LATER)
         self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
-    tableData = [NSArray arrayWithObjects:
+    tableData = [[NSArray arrayWithObjects:
                  @"Hey, What's up ? I found a new dj ! Man, he's awesome. He creates such great tracks. Just tell me when you are around here, I'll show you his stuff",
                  @"Hi Bro' I am looking forward to listening at this music.",
                  @"Man, you're on AudioWire, I'am sending it to you right here, right now !",
@@ -54,7 +54,7 @@
                  @"Of course you can, you will also have a remote controller within the mobile application to control your library on your dektop computer",
                  @"Awesome ! "
                  @"Look at this ;)",
-                 nil];
+                 nil] mutableCopy];
     
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
@@ -93,12 +93,10 @@
 
 #pragma UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView
-//qs- (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if (textView)
     {
         CGSize sizeContent = textView.contentSize;
-        
         
         savedNbLines_ = textView.contentSize.height/textView.font.lineHeight;
 
@@ -139,7 +137,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGSize sizeFullLabel = [[tableData objectAtIndex:indexPath.row] sizeWithFont:FONTSIZE(15)];
+    NSString *text = [tableData objectAtIndex:indexPath.row];
+    
+    CGSize sizeFullLabel = [text sizeWithFont:FONTSIZE(15)];
     
     int widthLabel = 239;
     int widthContent = sizeFullLabel.width;
@@ -171,11 +171,12 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellConversation" owner:self options:nil] objectAtIndex:0];
         
     }
-    if (indexPath.row % 2 == 0)
+    
+    if (indexPath.row % 2 == 0 && indexPath.row < 7)
         [cell myInit:true];
     else
         [cell myInit:false];
-    
+
     [cell setTextAndAdjustView:[tableData objectAtIndex:indexPath.row]];
     
     return cell;
@@ -248,7 +249,7 @@
     
     if ([msgToSend length] == 0)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Chat", @"") message:NSLocalizedString(@"Please type a text !", @"Please type a text before sending")  delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please type a text !", @"Please type a text before sending")  delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
         
         [alert show];
         return ;
@@ -256,9 +257,20 @@
     
     [self cancelAction:nil];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Chat", @"") message:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message send", @""), msgToSend] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
-    
-    [alert show];
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message send", @""), msgToSend] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+//    
+//    [alert show];
+
+    [tableData addObject:self.textArea.text];
+    NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:([tableData count]-1) inSection:0];
+
+    [self.tb_list_artist beginUpdates];
+    [self.tb_list_artist insertRowsAtIndexPaths:@[rowToReload] withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tb_list_artist endUpdates];
+
+    [_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
+
+    self.textArea.text = @"";
 }
 
 @end

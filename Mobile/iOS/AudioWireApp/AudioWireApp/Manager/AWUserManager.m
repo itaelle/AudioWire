@@ -159,12 +159,14 @@
          {
              BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
              NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+//             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
 
              cb_rep(successUpdate, message);
          }
          else
          {
-             cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
+             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+             cb_rep(false, error);
          }
      }];
 }

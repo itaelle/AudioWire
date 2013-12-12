@@ -30,12 +30,12 @@
     return self;
 }
 
--(void)connectToAWHost:(void(^)(BOOL ok))cb_connect cb_receive:(void(^)(NSString *msg))cb_receive_
+-(void)connectToAWHost:(NSString *)hostIp cb_connect:(void(^)(BOOL ok))cb_connect_ cb_receive:(void(^)(NSString *msg))cb_receive_
 {
     NSLog(@"Connection...");
 	CFReadStreamRef readStream;
 	CFWriteStreamRef writeStream;
-	CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)HOST_REMOTE, [PORT_REMOTE intValue], &readStream, &writeStream);
+	CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (__bridge CFStringRef)hostIp, [PORT_REMOTE intValue], &readStream, &writeStream);
     
     CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket,
                             kCFBooleanTrue);
@@ -53,7 +53,7 @@
 	[outputStream open];
     
     callBackConnection = nil;
-    callBackConnection = cb_connect;
+    callBackConnection = cb_connect_;
     
     callBackReceiveMsg = nil;
     callBackReceiveMsg = cb_receive_;

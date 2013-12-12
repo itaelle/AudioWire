@@ -16,6 +16,7 @@
     if (self)
     {
         self.title = NSLocalizedString(@"Subscribe", @"");
+        updateUser = NO;
     }
     return self;
 }
@@ -31,7 +32,24 @@
     else
     {
         self.sc_content.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+        CGRect rectWeb = self.v_web.frame;
+        
+        rectWeb.origin.y = 64;
+        rectWeb.size.height = [UIDevice getScreenFrame].size.height - 64;
+        [self.v_web setFrame:rectWeb];
     }
+}
+
+-(void)presetUserForUpdate:(AWUserModel *)me
+{
+    updateUser = YES;
+    self.title = NSLocalizedString(@"Update", @"");
+    [self.bt_subscribe setTitle:NSLocalizedString(@"Update", @"") forState:(UIControlStateNormal)];
+
+    self.tf_firstname.text = me.firstName;
+    self.tf_lastname.text = me.lastName;
+    self.tf_login.text = me.username;
+    self.tf_email.text = me.email;
 }
 
 - (void)viewDidLoad
@@ -215,26 +233,52 @@
     user.firstName = [self.tf_firstname.text trim];
     user.lastName = [self.tf_lastname.text trim];
     
-    [[AWUserManager getInstance] subscribe:user cb_rep:^(BOOL success, NSString *error)
+    if (updateUser == NO)
     {
-        [self.HUD hide:YES];
-        self.bt_subscribe.hidden = NO;
-        self.HUD = nil;
-
-        if (success)
-        {
-            self.subscribed = nil;
-            self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire. Now enjoy the features of our brain new music player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-
-            [self.subscribed show];
-        }
-        else
-        {
-            UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-            [a show];
-
-        }
-    }];
+        [[AWUserManager getInstance] subscribe:user cb_rep:^(BOOL success, NSString *error)
+         {
+             [self.HUD hide:YES];
+             self.bt_subscribe.hidden = NO;
+             self.HUD = nil;
+             
+             if (success)
+             {
+                 self.subscribed = nil;
+                 self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've created your account within the AudioWire. Now enjoy the features of our brain new music player !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+                 
+                 [self.subscribed show];
+             }
+             else
+             {
+                 UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+                 [a show];
+                 
+             }
+         }];
+    }
+    else
+    {
+        [[AWUserManager getInstance] updateUser:user cb_rep:^(BOOL success, NSString *error)
+         {
+             [self.HUD hide:YES];
+             self.bt_subscribe.hidden = NO;
+             self.HUD = nil;
+             
+             if (success)
+             {
+                 self.subscribed = nil;
+                 self.subscribed = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Congratulations!", @"") message:NSLocalizedString(@"You've updated your account !", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+                 
+                 [self.subscribed show];
+             }
+             else
+             {
+                 UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+                 [a show];
+                 
+             }
+         }];
+    }
 }
 
 #pragma UIAlertViewDelegate to dismiss this controller
@@ -249,12 +293,15 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)clickCGUbt:(UIButton *)sender {
-    if (sender.tag == 0){
+- (IBAction)clickCGUbt:(UIButton *)sender
+{
+    if (sender.tag == 0)
+    {
         self.bt_cgu.tag = 1;
         [self.bt_cgu setSelected:YES];
     }
-    else{
+    else
+    {
         self.bt_cgu.tag = 0;
         [self.bt_cgu setSelected:NO];
     }
@@ -266,20 +313,14 @@
 
     self.title = [NSLocalizedString(@"CGU", @"") uppercaseString];
 
-    NSString *url = nil;
-
-    NSString *language = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"][0] substringToIndex:2];
-
-    if ([language isEqualToString:@"fr"])
-        url = @"http://www.thefanclub.com/data_externe_iphone/pepsi/cgu_fr.html";
-    else
-        url = @"http://www.thefanclub.com/data_externe_iphone/pepsi/cgu.html";
+    NSString *url = [NSString stringWithFormat:@"%@%@", URL_API, @"/terms"];
 
     [self.v_web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     self.navigationItem.rightBarButtonItem = [self getCloseCGU];
 
     [UIView animateWithDuration:0.5 animations:^{
         [self.v_web setAlpha:1.0];
+        [self.sc_content setAlpha:0];
     }];
 }
 
@@ -291,6 +332,7 @@
     
     [UIView animateWithDuration:0.5 animations:^{
         [self.v_web setAlpha:0.0];
+        [self.sc_content setAlpha:1];
     }];
 }
 
@@ -498,14 +540,17 @@
     self.v_keyword_tools.alpha = 1.f;
 }
 
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification{
-//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-//    self.sc_content.contentInset = contentInsets;
-//    self.sc_content.scrollIndicatorInsets = contentInsets;
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+
+    //    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    //    self.sc_content.contentInset = contentInsets;
+    //    self.sc_content.scrollIndicatorInsets = contentInsets;
+
     self.v_keyword_tools.hidden = YES;
-    
+
     CGRect rectScreen = self.view.frame;
-    
+
     if (IS_OS_7_OR_LATER)
     {
         rectScreen.size.height = rectScreen.size.height /*- 20 - 44*/;

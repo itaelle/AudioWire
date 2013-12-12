@@ -1003,13 +1003,6 @@
 			name = Import;
 			sourceTree = "<group>";
 		};
-		F0B62E9818416DDE00ADEBC3 /* Friends */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Friends;
-			sourceTree = "<group>";
-		};
 		F0BD23191835646B000675F8 /* img */ = {
 			isa = PBXGroup;
 			children = (
@@ -1164,7 +1157,6 @@
 		F0C8D4E91819C27200801D00 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F0B62E9818416DDE00ADEBC3 /* Friends */,
 				F0AB2B02181E93450029BDDC /* Master */,
 				F0AB2B07181E9FF90029BDDC /* Playlists */,
 				F0933252181DC18E00C505D4 /* Track */,

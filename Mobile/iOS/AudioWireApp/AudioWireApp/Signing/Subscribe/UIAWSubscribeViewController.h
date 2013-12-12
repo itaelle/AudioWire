@@ -7,10 +7,14 @@
 //
 
 #import "MBProgressHUD.h"
+#import "AWUserModel.h"
 
-@interface UIAWSubscribeViewController : UIViewController <UIAlertViewDelegate, UIWebViewDelegate>{
+@interface UIAWSubscribeViewController : UIViewController <UIAlertViewDelegate, UIWebViewDelegate>
+{
     UITextField *activeField;
     CGSize kbSize;
+    
+    BOOL updateUser;
 }
 @property (assign) BOOL requireLogin;
 @property (weak, nonatomic) IBOutlet UIScrollView *sc_content;
@@ -62,5 +66,6 @@
 - (IBAction)clickCGUbt:(UIButton *)sender;
 - (IBAction)click_cgu:(id)sender;
 - (void)selectResponder;
+- (void)presetUserForUpdate:(AWUserModel *)me;
 
 @end

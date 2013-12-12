@@ -44,7 +44,7 @@ typedef enum
 
 +(AWRemoteControlManager*)getInstance;
 
--(void)connectToAWHost:(void(^)(BOOL ok))cb_connect cb_receive:(void(^)(NSString *msg))cb_receive_;
+-(void)connectToAWHost:(NSString *)hostIp cb_connect:(void(^)(BOOL ok))cb_connect_ cb_receive:(void(^)(NSString *msg))cb_receive_;
 
 -(void)sendCommand:(AWRemoteCommand)command;
 

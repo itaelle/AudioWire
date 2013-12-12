@@ -13,4 +13,7 @@ def home
 
   	def login
   	end
+
+  	def terms
+  	end
 end

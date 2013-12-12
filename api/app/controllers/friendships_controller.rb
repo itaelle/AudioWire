@@ -30,6 +30,7 @@ class FriendshipsController < ApplicationController
       res[:first_name] = u[:first_name]
       res[:last_name] = u[:last_name]
       res[:username] = u[:username]
+      res[:email] = u[:email]
       list.append(res)
     end
     render :status => 200, :json=>{:success=>true, :friends => list, :nb_friends => list.size}

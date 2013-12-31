@@ -265,8 +265,6 @@
     
     dispatch_async(queueGlobal, ^{
 
-#warning -1 pas appliqué lors d'un delete server
-        // -1 nbTracks
         NSMutableArray *playlistsInAudioWire = nil;
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfilePlaylist]])
         {
@@ -545,9 +543,10 @@
                  NSArray *toWrite = [AWTrackModel toArray:modelsTracks];
                  BOOL sucessWrite = [toWrite writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
                  
-                 NSArray *written = [NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:fileName]];
-                 
-                 cb_rep(modelsTracks, successAPI, nil);
+                 if (sucessWrite)
+                     cb_rep(modelsTracks, successAPI, nil);
+                 else
+                     cb_rep(nil, NO, NSLocalizedString(@"Write failed!", @""));
              }
              //[AWTracksManager matchWithITunesLibrary:modelsTracks cb_rep:cb_rep];
          }
@@ -589,7 +588,7 @@
          if (success && rep)
          {
              BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              
              if (successAPI)
@@ -638,7 +637,7 @@
          if (success && rep)
          {
              BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              
              if (successAPI)
@@ -674,7 +673,7 @@
          if (success && rep)
          {
              BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              NSString *idPlaylistCreated = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[rep objectForKey:@"id"]]];
              playlist_._id = idPlaylistCreated;

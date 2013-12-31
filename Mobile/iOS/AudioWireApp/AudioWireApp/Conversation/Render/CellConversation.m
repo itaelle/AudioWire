@@ -7,6 +7,7 @@
 //
 
 #import "CellConversation.h"
+#import "NSObject+NSObject_Tool.h"
 
 @implementation CellConversation
 
@@ -14,43 +15,37 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
-    {
-        // Initialization code
-    }
+    { }
     return self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
--(void) myInit:(bool)isLeft_
+-(void) myInit:(NSDictionary *)data
 {
-    isLeft = isLeft_;
+    data_ = data;
+    
+    isLeft = ![NSObject getVerifiedBool:[data objectForKey:@"outgoing"]];
     
     if (isLeft)
     {
         _senderLabel.textAlignment = NSTextAlignmentLeft;
-        [_senderLabel setText:NSLocalizedString(@"Jack", @"Jack")];
-        
-//        if (IS_OS_7_OR_LATER)
-            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"] stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
-//        else
-//            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(14, 21, 14, 21)]];
+        [_senderLabel setText:[NSObject getVerifiedString:[data objectForKey:@"sender"]]];
+        [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleSomeone.png"] stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
     }
     else
     {
         _senderLabel.textAlignment = NSTextAlignmentRight;
         [_senderLabel setText:NSLocalizedString(@"Me", @"Me")];
-//        if (IS_OS_7_OR_LATER)
-            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
-//        else
-//            [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(14, 21, 14, 21)]];
+        
+        [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    [self setTextAndAdjustView:[NSObject getVerifiedString:[data objectForKey:@"msg"]]];
 }
 
 -(void) setTextAndAdjustView:(NSString *) content

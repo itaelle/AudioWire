@@ -230,6 +230,7 @@
     
     // TODO Go to Conversation with contact id
     ConversationViewController *conv = [[ConversationViewController alloc] initWithNibName:@"ConversationViewController" bundle:nil];
+    conv.usernameSelectedFriend = ((AWUserModel *)[tableData objectAtIndex:indexPath.row]).username;
     
     [self.navigationController pushViewController:conv animated:true];
 }
@@ -250,18 +251,6 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellContact" owner:self options:nil] objectAtIndex:0];
     }
     [cell myInit:[tableData objectAtIndex:indexPath.row]];
-    
-#warning TODO
-    //    if (tableView.isEditing && indexPath.row == 0)
-//    {
-//        
-//    }
-//    else
-//    {
-//        id object = [tableData objectAtIndex:indexPath.row-1];
-//        if (object && [object isKindOfClass:[AWUserModel class]])
-//            [cell myInit:object];
-//    }
 
     return cell;
 }

@@ -6,9 +6,11 @@
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 #import "AWMasterViewController.h"
+#import "AWXMPPManager.h"
 
-@interface ConversationViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
+@interface ConversationViewController : AWMasterViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, NSFetchedResultsControllerDelegate, AWXMPPManagerDelegate>
 {
     NSMutableArray *tableData;
     CGRect savedEditViewFrame;
@@ -16,7 +18,12 @@
     
     int savedNbLines_;
     CGSize savedSizeContent;
+    
+    NSFetchedResultsController *fetchedResultsController;
 }
+
+@property (strong, nonatomic) NSString *usernameSelectedFriend;
+@property (assign) BOOL closeOption;
 
 @property (weak, nonatomic) IBOutlet UIView *viewForMiniPlayer;
 @property (weak, nonatomic) IBOutlet UIView *viewContainerList;

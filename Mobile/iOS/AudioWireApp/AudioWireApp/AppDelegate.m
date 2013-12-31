@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "AWXMPPManager.h"
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 
@@ -24,11 +25,23 @@
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
 }
 
+-(void)setupJabberConnexion
+{
+    [[AWXMPPManager getInstance] setupStream];
+    
+    if ([[AWXMPPManager getInstance] connect] == NO)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Unable to connect! There is no jabber ids stored", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    [self setupJabberConnexion];
     [self setupAppearanceForSlider];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     HomeViewController *masterViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
     self.navigationController = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:masterViewController];
@@ -68,22 +81,15 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [[AWMusicPlayer getInstance] update];
-    
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [FBAppEvents setFlushBehavior:FBAppEventsFlushBehaviorExplicitOnly];
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
- //   [self tryPlayMusic];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Saves changes in the application's managed object context before the application terminates.
-   // [self saveContext];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -100,6 +106,12 @@
         }];
     }
     return NO;
+}
+
+-(void)dealloc
+{
+    [[AWXMPPManager getInstance] unSetupStream];
+    [[AWXMPPManager getInstance] teardownStream];
 }
 
 @end

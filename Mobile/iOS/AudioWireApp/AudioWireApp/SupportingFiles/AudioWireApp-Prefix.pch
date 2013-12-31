@@ -23,7 +23,7 @@
 #define FILE_PLAYLISTS @"audiowire_playlists"
 
 #define URL_API @"https://audiowire.co"
-#define HOST_REMOTE @"192.168.1.68"
+#define JABBER_DOMAIN @"@audiowire.co"
 #define PORT_REMOTE @4242
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)

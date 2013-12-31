@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <Foundation/Foundation.h>
+#import "AWXMPPManager.h"
 #import "CellConversation.h"
 #import "SubPlayer.h"
 #import "ConversationViewController.h"
@@ -19,7 +20,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
+    {
         self.title = NSLocalizedString(@"Conversation", @"");
+        self.closeOption = NO;
+    }
     return self;
 }
 
@@ -31,36 +35,35 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    if (IS_OS_7_OR_LATER)
+        self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
-    [_tb_list_artist setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
+    if (self.closeOption)
+        [self prepareNavBarForClose];
+    
+#warning DEBUG DEV
+    self.usernameSelectedFriend = @"friend";
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [AWXMPPManager getInstance].delegate = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [super setUpNavLogo];
+    [self setUpNavLogo];
+    [self setUpViews];
+}
 
-    // Loading View
-    [self setUpLoadingView:_tb_list_artist];
-    
-    if (IS_OS_7_OR_LATER)
-        self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    
-    tableData = [[NSArray arrayWithObjects:
-                 @"Hey, What's up ? I found a new dj ! Man, he's awesome. He creates such great tracks. Just tell me when you are around here, I'll show you his stuff",
-                 @"Hi Bro' I am looking forward to listening at this music.",
-                 @"Man, you're on AudioWire, I'am sending it to you right here, right now !",
-                 @"No way ! You can't",
-                 @"Of course you can, you will also have a remote controller within the mobile application to control your library on your dektop computer",
-                 @"Awesome ! "
-                 @"Look at this ;)",
-                 nil] mutableCopy];
-    
+-(void)setUpViews
+{
     _tb_list_artist.delegate = self;
     _tb_list_artist.dataSource = self;
-    //[_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:false];
     
-    //Edition Area
     [_viewForEdition setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.3]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -76,14 +79,134 @@
     [_btSend setBackgroundImage:buttonImageHighlight forState:UIControlStateNormal];
     [_btSend setTitle:NSLocalizedString(@"Send", @"") forState:UIControlStateNormal];
     
-    // Mini Player
     [_viewForMiniPlayer addSubview:miniPlayer];
-
-    // Loading View
-    [super cancelLoadingView:_tb_list_artist];
     
     CGSize sizeContent = _textArea.contentSize;
     savedSizeContent = sizeContent;
+}
+
+-(void)loadData
+{
+    [self setUpLoadingView:_tb_list_artist];
+    _tb_list_artist.delegate = self;
+    _tb_list_artist.dataSource = self;
+    
+    [AWXMPPManager getInstance].delegate = self;
+    
+    NSManagedObjectContext *moc = [[AWXMPPManager getInstance] managedObjectContext_messages];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+                                              inManagedObjectContext:moc];
+    
+    NSString *chatWithUserJID = [NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN];
+    
+    NSString *predicateFrmt = @"bareJidStr like %@ ";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFrmt, chatWithUserJID];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    fetchRequest.predicate = predicate;
+    [fetchRequest setEntity:entity];
+    
+    NSError *error = nil;
+    NSArray *messages_arc = [moc executeFetchRequest:fetchRequest error:&error];
+
+    XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc)
+    {
+        
+        NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
+        NSLog(@"to param is %@",[element attributeStringValueForName:@"to"]);
+        
+        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
+        [m setObject:message.body forKey:@"msg"];
+        
+        if ([[element attributeStringValueForName:@"to"] isEqualToString:chatWithUserJID])
+            [m setObject:@"me" forKey:@"sender"];
+        else
+            [m setObject:self.usernameSelectedFriend forKey:@"sender"];
+
+        [m setObject:[NSNumber numberWithBool:[message.outgoing intValue]] forKey:@"outgoing"];
+
+        if (!tableData)
+            tableData = [[NSMutableArray alloc] init];
+
+        [tableData addObject:m];
+
+        NSLog(@"bareJid param is %@",message.bareJid);
+        NSLog(@"bareJidStr param is %@",message.bareJidStr);
+        NSLog(@"body param is %@",message.body);
+        NSLog(@"timestamp param is %@",message.timestamp);
+        NSLog(@"outgoing param is %d",[message.outgoing intValue]);
+        NSLog(@"***************************************************");
+    }
+    [self cancelLoadingView:self.tb_list_artist];
+    [self.tb_list_artist reloadData];
+    
+    [self.tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([tableData count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:TRUE];
+}
+
+#pragma  AWXMPPManagerDelegate
+-(void)messageRender:(NSDictionary *)infoMsg
+{
+    if (infoMsg)
+    {
+        if ([[infoMsg objectForKey:@"sender"] isSubString:self.usernameSelectedFriend])
+        {
+            
+            NSMutableDictionary *mutableInfoMsg = [NSMutableDictionary dictionaryWithDictionary:infoMsg];
+            [mutableInfoMsg setObject:self.usernameSelectedFriend forKey:@"sender"];
+
+            if (!tableData)
+                tableData = [[NSMutableArray alloc] init];
+            [tableData addObject:mutableInfoMsg];
+
+#warning REPLACE WITH INSERT ANIMATION
+        [self.tb_list_artist reloadData];
+        
+        // Animation scroll to bottom of the list
+        [self.tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([tableData count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:TRUE];
+        }
+    }
+}
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+	if (fetchedResultsController == nil)
+	{
+		NSManagedObjectContext *moc = [[AWXMPPManager getInstance] managedObjectContext_roster];
+        
+		NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
+		                                          inManagedObjectContext:moc];
+		
+		NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
+		NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
+        
+		NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1, sd2, nil];
+        
+		NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+		[fetchRequest setEntity:entity];
+		[fetchRequest setSortDescriptors:sortDescriptors];
+		[fetchRequest setFetchBatchSize:10];
+		
+		fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+		                                                               managedObjectContext:moc
+		                                                                 sectionNameKeyPath:@"sectionNum"
+		                                                                          cacheName:nil];
+		[fetchedResultsController setDelegate:self];
+        
+		NSError *error = nil;
+		if (![fetchedResultsController performFetch:&error])
+		{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[error.userInfo description] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+            [alert show];
+		}
+	}
+	return fetchedResultsController;
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+	[self.tb_list_artist reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,6 +214,24 @@
     [super didReceiveMemoryWarning];
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+// Send message
+////////////////////////////////////////////////
 #pragma UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView
 {
@@ -137,8 +278,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *text = [tableData objectAtIndex:indexPath.row];
+    NSDictionary *dictInfo = [tableData objectAtIndex:indexPath.row];
     
+    if (dictInfo)
+    {
+        NSString *text = [dictInfo objectForKey:@"msg"];
+        if (!text)
+            return 0.f;
+        
     CGSize sizeFullLabel = [text sizeWithFont:FONTSIZE(15)];
     
     int widthLabel = 239;
@@ -158,6 +305,7 @@
     
     heightContent = (numberLines * 18) + 45;
     return heightContent;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -169,16 +317,8 @@
     if (cell == nil)
     {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CellConversation" owner:self options:nil] objectAtIndex:0];
-        
     }
-    
-    if (indexPath.row % 2 == 0 && indexPath.row < 7)
-        [cell myInit:true];
-    else
-        [cell myInit:false];
-
-    [cell setTextAndAdjustView:[tableData objectAtIndex:indexPath.row]];
-    
+    [cell myInit:[tableData objectAtIndex:indexPath.row]];
     return cell;
 }
 
@@ -257,11 +397,19 @@
     
     [self cancelAction:nil];
     
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:[NSString stringWithFormat:@"%@ : %@", NSLocalizedString(@"Message send", @""), msgToSend] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
-//    
-//    [alert show];
+    
+    
+    NSMutableDictionary *mutableInfoMsg = [[NSMutableDictionary alloc] init];
+    [mutableInfoMsg setObject:@"me" forKey:@"sender"];
+    [mutableInfoMsg setObject:msgToSend forKey:@"msg"];
+    [mutableInfoMsg setObject:[NSNumber numberWithBool:YES] forKey:@"outgoing"];
+    
+    if (!tableData)
+        tableData = [[NSMutableArray alloc] init];
+    [tableData addObject:mutableInfoMsg];
 
-    [tableData addObject:self.textArea.text];
+    
+    
     NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:([tableData count]-1) inSection:0];
 
     [self.tb_list_artist beginUpdates];
@@ -271,6 +419,8 @@
     [_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
 
     self.textArea.text = @"";
+    
+    [[AWXMPPManager getInstance] sendMessage:msgToSend toUserJID:[NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN]];
 }
 
 @end

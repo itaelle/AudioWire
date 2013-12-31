@@ -10,6 +10,7 @@
 #import "AWRequester.h"
 #import "AWConfManager.h"
 #import "NSObject+NSObject_Tool.h"
+#import "AWXMPPManager.h"
 
 @implementation AWUserManager
 
@@ -162,8 +163,8 @@
      {
          if (success && rep)
          {
-             BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+//             BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
 
              [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
              
@@ -263,6 +264,18 @@
                  self.user = nil;
                  self.user = [AWUserModel fromJSON:userDict];
                  
+                 NSString *JIDconnectedUser = [NSString stringWithFormat:@"%@%@", self.user.username, JABBER_DOMAIN];
+                 NSString *password = self.user.password;
+
+#warning DEBUG DEV
+                 //// DEBUG
+                 JIDconnectedUser = @"guillaume@audiowire.co";
+                 password = @"toto";
+                 //
+
+                 [[AWXMPPManager getInstance] saveUserSettingsWithJID:JIDconnectedUser andPassword:password];
+                 [[AWXMPPManager getInstance] connect];
+
                  cb_rep(self.user, successGet, error);
              }
              else

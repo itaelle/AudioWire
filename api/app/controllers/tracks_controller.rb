@@ -16,7 +16,7 @@ class TracksController < ApplicationController
 
   def list
     user = User.find_by_authentication_token(params[:token])
-    lst = user.tracks.all()
+    lst = user.tracks.order("title ASC").all()
     render :status=>200, :json=>{:success=>true, :list=>lst}
   end
 

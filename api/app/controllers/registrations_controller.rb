@@ -2,7 +2,7 @@ require 'uri'
 require 'httparty'
 
 class RegistrationsController < Devise::RegistrationsController
-  prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
+  prepend_before_filter :require_no_authentication, :only => [ :new, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
   respond_to :json
 
@@ -12,6 +12,9 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
       build_resource sign_up_params
+      puts ">>>>>>>>"
+      puts sign_up_params
+      puts "<<<<<<<<"
      if resource.save
           if resource.active_for_authentication?
               sign_up(resource_name, resource)

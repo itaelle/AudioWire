@@ -34,7 +34,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    lst = User.all
+    lst = User.order("username ASC").all
     render :status=>200, :json=>{:success=>true, :list=>lst}
   end
 

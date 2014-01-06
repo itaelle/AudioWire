@@ -4,7 +4,7 @@ AudioWire::Application.routes.draw do
 
   # get "home/index"
 
-  devise_for :users, :skip => [:registrations, :sessions, :passwords]
+  devise_for :users, :skip => [:registrations, :sessions]# , :passwords]
   as :user do
     post '/api/users' => 'registrations#create'
   end
@@ -14,8 +14,8 @@ AudioWire::Application.routes.draw do
     match '/users' => 'users#update', :via => :put
     match '/users' => 'users#index', :via => :get
     match '/users/me' => 'users#show_me', :via => :get
-    match '/users/:id' => 'users#show', :via => :get
-
+    match '/users/:id' => 'users#show', :via => :get, :as => :user
+    match '/users/reset-password-link' => 'users#send_reset_password_link', :via => :post
 
     match '/tracks' => 'tracks#create', :via => :post
     match '/tracks' => 'tracks#list', :via => :get
@@ -67,6 +67,8 @@ scope '/en' do
       match '/contact' => 'websiteen#contact', :via => :get
       match '/login' => 'websiteen#login', :via => :get
       match '/about' => 'websiteen#about', :via => :get
+      match '/users/:id/password-reset/:token' => 'websiteen#reset_password', :via => :get
+      match '/users/:id/password-reset/:token' => 'users#reset_password_with_token', :via => :put
     end
 match '/terms' => 'websiteen#terms', :via => :get
   # Sample of regular route:

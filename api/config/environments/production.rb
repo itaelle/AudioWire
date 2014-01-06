@@ -64,4 +64,16 @@ AudioWire::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { :host => 'audiowire.co'}
+  config.action_mailer.smtp_settings = {
+    :address => 'email-smtp.us-east-1.amazonaws.com',   # See the SES SMTP Settings dashboard
+    :port => '25',
+    :domain => 'audiowire.co',                        # Your domain
+    :user_name => 'AKIAITIU5IIBNYY5XTCA',   # New SMTP credentials, NOT AWS CREDENTIALS!
+    :password => 'AihzaGjtotNnsZ4+q8Bka3phF7bB/h/cLEPGpoj6HoWj',    # New SMTP credentials, NOT AWS CREDENTIALS!
+    :authentication => :login,
+    :enable_starttls_auto => true,
+  }
 end

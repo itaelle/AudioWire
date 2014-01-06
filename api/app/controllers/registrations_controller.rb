@@ -12,9 +12,6 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
       build_resource sign_up_params
-      puts ">>>>>>>>"
-      puts sign_up_params
-      puts "<<<<<<<<"
      if resource.save
           if resource.active_for_authentication?
               sign_up(resource_name, resource)

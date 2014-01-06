@@ -3,4 +3,8 @@ class Track < ActiveRecord::Base
 
   validates :title, presence: true
   belongs_to :user
+
+  def as_json(options = {})
+    super(options.merge({ except: [:created_at, :updated_at] }))
+  end
 end

@@ -24,9 +24,10 @@ AudioWire::Application.configure do
   config.action_mailer.smtp_settings = {
       :address              => 'email-smtp.us-east-1.amazonaws.com',
       :user_name            => 'AKIAITIU5IIBNYY5XTCA',
+      :domain => 'audiowire.co',
       :password             => 'AihzaGjtotNnsZ4+q8Bka3phF7bB/h/cLEPGpoj6HoWj',
       :authentication       => :login,
-      :enable_starttls_auto => true,
+      # :enable_starttls_auto => true,
       # :openssl_verify_mode  => 'none'
   }
 

@@ -36,18 +36,8 @@
     }
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+-(void) setupNavbarStyle
 {
-    [self setupJabberConnexion];
-    [self setupAppearanceForSlider];
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    HomeViewController *masterViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    self.navigationController = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:masterViewController];
-    
-    // NavBar Style
-    
     if (IS_OS_7_OR_LATER)
     {
         self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -55,11 +45,23 @@
     }
     else
     {
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationController.navigationBar.translucent = NO;
     }
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+//    [self setupJabberConnexion];
+    [self setupAppearanceForSlider];
     
-    // Link the navigation to the rootViewController and launch
+    HomeViewController *masterViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    self.navigationController = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:masterViewController];
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    [self setupNavbarStyle];
+    
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -85,12 +87,14 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"applicationDidEnterForeground" object:nil];
+
     [FBAppEvents setFlushBehavior:FBAppEventsFlushBehaviorExplicitOnly];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-}
+//- (void)applicationWillTerminate:(UIApplication *)application
+//{
+//}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     if (!url)

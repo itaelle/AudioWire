@@ -45,7 +45,10 @@
     {
         [[AWUserManager getInstance] autologin:^(BOOL success, NSString *error)
          {
-             [self setFlashMessage:NSLocalizedString(@"Connected !", @"") timeout:1];
+             if (success)
+             {
+                 [self setFlashMessage:NSLocalizedString(@"Connected !", @"") timeout:1];
+             }
          }];
     }
     

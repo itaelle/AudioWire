@@ -5,10 +5,10 @@
 //  Created by Derivery Guillaume on 8/2/13.
 //  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
 //
+
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "PlayerViewController.h"
-
 
 @implementation PlayerViewController
 
@@ -80,7 +80,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [_jacketImg setAlpha:0];
     [self flipJacketView];
 }
 
@@ -88,6 +87,8 @@
 {
     [super viewDidLoad];
     self.skipAuth = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(flipJacketView) name:@"applicationDidEnterForeground" object:nil];
     
     [self setUpNavLogo];
     [self setUpPlayer];
@@ -99,17 +100,20 @@
 {
     [super viewWillDisappear:animated];
     [self stopTimer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)dealloc
 {
     [self stopTimer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)flipJacketView
 {
     NSLog(@"FLIP");
-
+    
+    [_jacketImg setAlpha:0];
     [UIView transitionWithView:_jacketImg duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
         [_jacketImg setAlpha:1];
     } completion:^(BOOL finished) {

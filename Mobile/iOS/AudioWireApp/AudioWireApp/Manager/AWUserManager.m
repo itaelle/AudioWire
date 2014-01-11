@@ -40,12 +40,10 @@
 
 -(void)autologin:(void (^)(BOOL success, NSString *error))cb_rep
 {
-//    NSLog(@"AUTOLOGIN method");
     NSString *autologinFilePath = [AWUserManager pathOfileAutologin];
     if ([[NSFileManager defaultManager] fileExistsAtPath:autologinFilePath])
     {
         NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:autologinFilePath];
-//         NSLog(@"AUTOLOGIN => file exists : %@", ids);
         AWUserModel *loginModel = [AWUserModel fromJSON:ids];
         [self login:loginModel cb_rep:cb_rep];
     }
@@ -154,17 +152,11 @@
     }
 
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWUpdateUser], self.connectedUserTokenAccess];
-    
-//    NSMutableDictionary *dict_updateUser = [NSMutableDictionary new];
-//    [dict_updateUser setObject:self.connectedUserTokenAccess forKey:@"token"];
-//    [dict_updateUser setObject:user_.password forKey:@"password"];
-    
+
     [AWRequester requestAudiowireAPIPUT:url param:[user_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {
-//             BOOL successUpdate = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
 
              [[user_ toDictionaryLogin] writeToFile:[AWUserManager pathOfileAutologin] atomically:YES];
              
@@ -176,8 +168,6 @@
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedIn" object:nil];
                   cb_rep(success, error);
               }];
-
-//             cb_rep(successUpdate, message);
          }
          else
          {
@@ -206,6 +196,8 @@
                 [[NSFileManager defaultManager] removeItemAtPath:[AWUserManager pathOfileAutologin] error:nil];
                 self.idUser = nil;
                 self.connectedUserTokenAccess = nil;
+
+                [[AWXMPPManager getInstance] disconnect];
             }
             cb_rep(successLogout, message);
         }
@@ -264,19 +256,22 @@
                  self.user = nil;
                  self.user = [AWUserModel fromJSON:userDict];
                  
-                 NSString *JIDconnectedUser = [NSString stringWithFormat:@"%@%@", self.user.username, JABBER_DOMAIN];
-                 NSString *password = self.user.password;
+                 NSString *autologinFilePath = [AWUserManager pathOfileAutologin];
+                 if ([[NSFileManager defaultManager] fileExistsAtPath:autologinFilePath])
+                 {
+                     NSDictionary *ids = [[NSDictionary alloc] initWithContentsOfFile:autologinFilePath];
+                     AWUserModel *loginModel = [AWUserModel fromJSON:ids];
+                     
+                     NSString *JIDconnectedUser = [NSString stringWithFormat:@"%@%@", self.user.username, JABBER_DOMAIN];
+                     NSString *password = loginModel.password;
 
-#warning DEBUG DEV
-                 //// DEBUG
-                 JIDconnectedUser = @"guillaume@audiowire.co";
-                 password = @"toto";
-                 //
-
-                 [[AWXMPPManager getInstance] saveUserSettingsWithJID:JIDconnectedUser andPassword:password];
-                 [[AWXMPPManager getInstance] connect];
-
-                 cb_rep(self.user, successGet, error);
+                     [[AWXMPPManager getInstance] saveUserSettingsWithJID:JIDconnectedUser andPassword:password];
+                     [[AWXMPPManager getInstance] connect];
+                     
+                     cb_rep(self.user, successGet, error);
+                 }
+                 else
+                     cb_rep(nil, NO, NSLocalizedString(@"You are not connected to the audiowire API, you won't be able to use the chat messenger.", @""));
              }
              else
              {

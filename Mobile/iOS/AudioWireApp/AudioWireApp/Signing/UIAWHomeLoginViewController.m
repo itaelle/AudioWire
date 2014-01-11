@@ -414,7 +414,9 @@
         self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self.HUD setMode:(MBProgressHUDModeIndeterminate)];
         [self.HUD show:YES];
-        NSString *p = [[self.tf_password.text trim] md5];
+        
+        // #MD5
+        NSString *p = [self.tf_password.text trim];
         NSString *e = [self.tf_email.text trim];
         
         AWUserModel *user = [AWUserModel new];

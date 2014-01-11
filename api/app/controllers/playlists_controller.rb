@@ -30,6 +30,7 @@ class PlaylistsController < ApplicationController
         tmp[:nb_tracks] = playlist.relation_playlists.count
         lst.append(tmp)
       end
+      lst = lst.sort_by{|e| e[:title]}
       render :status=>200, json: {:success=>true, :list=>lst}
     end
   end

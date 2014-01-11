@@ -25,13 +25,14 @@ class FriendshipsController < ApplicationController
       res[:friend_id] = friendship[:friend_id]
       res[:user_id] = friendship[:user_id]
       res[:created_at] = friendship[:created_at]
-      res[:updated_at] = friendship[:updated_at]
+      # res[:updated_at] = friendship[:updated_at]
       u = User.find(friendship[:friend_id])
       res[:first_name] = u[:first_name]
       res[:last_name] = u[:last_name]
       res[:username] = u[:username]
       res[:email] = u[:email]
       list.append(res)
+      list = list.sort_by{|e| e[:username]}
     end
     render :status => 200, :json=>{:success=>true, :friends => list, :nb_friends => list.size}
   end
@@ -49,26 +50,26 @@ class FriendshipsController < ApplicationController
       return
     end
     if friend == user
-      # UserMailer.ask_join(user, params[:friend_email]).deliver
       render :status => 404, :json=>{:success=>false, :error=>"You can't be friend with yourself"}
       return
     end
-    @friendship = get_friendship(user.id, friend.id)
-    if @friendship.nil?
 
-      @friendship = user.friendships.build(:friend_id=>friend.id)
-      if @friendship.save
-        secret = "E7SBm6qv"
-        createChatUserURL = "http://audiowire.co:9090/plugins/userService/userservice?type=add_roster&secret=#{ secret }&username=#{ user.username }&item_jid=#{ friend.username }@audiowire.co&name=#{ friend.username}&subscription=3"
-        encoded_uri = URI::encode createChatUserURL
-        HTTParty.get(encoded_uri)
-        render :status => 201, :json=>{:success=>true, :friend=>@friendship}
-      else
-        render :status=>:unprocessable_entity, :json=>{:success=>false, :errors=>@friendship.errors}
-      end
-    else
+    # add friend
+    ret = add_friend(user, friend)
+    if ret == 0
       render :status=> 200, :json=>{:success=>true, :friend=>@friendship}
+      return
+    elsif ret == -1
+      render :status=>:unprocessable_entity, :json=>{:success=>false, :errors=>@friendship.errors}
+      return
     end
+
+    # add reverse
+    if add_friend(friend, user) == -1
+      render :status=>:unprocessable_entity, :json=>{:success=>false, :errors=>@friendship.errors}
+      return
+    end
+    render :status => 201, :json=>{:success=>true, :friend=>@friendship}
   end
 
   def destroy
@@ -105,5 +106,27 @@ class FriendshipsController < ApplicationController
   protected
   def get_friendship(user_id, friend_id)
     Friendship.where("user_id = ? AND friend_id = ?", user_id, friend_id)[0]
+  end
+
+  def create_jabber_friend(user, friend)
+    secret = "E7SBm6qv"
+    createChatUserURL = "http://audiowire.co:9090/plugins/userService/userservice?type=add_roster&secret=#{ secret }&username=#{ user.username }&item_jid=#{ friend.username }@audiowire.co&name=#{ friend.username}&subscription=3"
+    encoded_uri = URI::encode createChatUserURL
+    HTTParty.get(encoded_uri)
+  end
+
+  def add_friend(user, friend)
+    @friendship = get_friendship(user.id, friend.id)
+    if @friendship.nil?
+      @friendship = user.friendships.build(:friend_id=>friend.id)
+      if @friendship.save
+        create_jabber_friend(user, friend)
+        return 1 # created
+      else
+        return -1 # error
+      end
+    else
+      return 0 # already exists
+    end
   end
 end

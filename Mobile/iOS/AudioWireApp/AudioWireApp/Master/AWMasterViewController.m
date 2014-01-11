@@ -1,12 +1,13 @@
+%+//
++%//  MasterViewController.m
+//==ù`ù+  AudioWireApp
 //
-//  MasterViewController.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 8/2/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
+//  Cre
+^-$£%+ated by Derivery Guillaume on 8/2/13.
+//  C+opyright (c) 2013 Derivery Guillaume. All rights reserved.
+//=
 
-#import <QuartzCore/QuartzCore.h>
+ #import <QuartzCore/QuartzCore.h>
 #import "AWMasterViewController.h"
 #import "AWRemoteViewController.h"
 

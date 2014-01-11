@@ -378,7 +378,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         UIViewController *rootVC = [[UIApplication sharedApplication] keyWindow].rootViewController;
         
         if (rootVC)
-        {
+        {   
             ConversationViewController *conv = [[ConversationViewController alloc] initWithNibName:@"ConversationViewController" bundle:nil];
             conv.usernameSelectedFriend = [[userSentMessage displayName] substringWithRange:NSMakeRange(0, [[userSentMessage displayName]length] - [JABBER_DOMAIN length])];
             conv.closeOption = YES;

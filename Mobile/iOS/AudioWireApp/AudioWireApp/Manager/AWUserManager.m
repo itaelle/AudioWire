@@ -266,6 +266,9 @@
                      NSString *password = loginModel.password;
 
                      [[AWXMPPManager getInstance] saveUserSettingsWithJID:JIDconnectedUser andPassword:password];
+
+                     [[AWXMPPManager getInstance] setupStream];
+
                      [[AWXMPPManager getInstance] connect];
                      
                      cb_rep(self.user, successGet, error);

@@ -116,6 +116,22 @@
     });
 }
 
+-(void)deleteItunesTrack:(NSIndexPath *)indexPath cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    if (self.itunesMedia)
+    {
+        if ([self.itunesMedia count] > indexPath.row)
+        {
+            NSMutableArray *tempItunesMedia = [self.itunesMedia mutableCopy];
+            [tempItunesMedia removeObjectAtIndex:indexPath.row];
+            
+            self.itunesMedia = tempItunesMedia;
+        }
+    }
+    else
+        cb_rep(NO, NSLocalizedString(@"Itunes media list is not currently available!", @""));
+}
+
 +(void)deleteLocalPlaylist:(NSArray *)playlistsToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -284,19 +300,28 @@
         //
 
         NSLog(@"DELETE Tracks in LOCAL playlists");
-        
         NSMutableArray *tracksInPlaylistAudiowire = nil;
-        
         NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
         {
             tracksInPlaylistAudiowire = [[NSArray arrayWithContentsOfFile:[AWPlaylistManager pathOfile:fileName]] mutableCopy];
             tracksInPlaylistAudiowire = [[AWTrackModel fromJSONArray:tracksInPlaylistAudiowire] mutableCopy];
-            [tracksInPlaylistAudiowire removeObjectsInArray:tracks_];
-            [tracksInPlaylistAudiowire writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
+            for (AWTrackModel *trackToDelete in tracks_)
+            {
+                int index_found = -1;
+                for (AWTrackModel *existingTrack in tracksInPlaylistAudiowire)
+                {
+                    if ([existingTrack.title isEqualToString:trackToDelete.title])
+                        index_found = [tracksInPlaylistAudiowire indexOfObject:existingTrack];
+                }
+                if (index_found != -1)
+                    [tracksInPlaylistAudiowire removeObjectAtIndex:index_found];
+            }
+            
+            [[AWTrackModel toArray:tracksInPlaylistAudiowire] writeToFile:[AWPlaylistManager pathOfile:fileName] atomically:YES];
         }
-        
+
         if (tracksInPlaylistAudiowire)
         {
             dispatch_async(dispatch_get_main_queue(), ^{

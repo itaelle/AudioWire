@@ -34,7 +34,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self loadData];
 }
 
 - (void)viewDidLoad
@@ -114,8 +113,6 @@
     {
         if (success)
         {
-            // AppendData for showMore action right here
-            
             tableData = [data mutableCopy];
              NSLog(@"Received Tracks");
             [self.tb_list_artist reloadData];
@@ -126,7 +123,7 @@
             alert.tag = 404;
             [alert show];
         }
-        [self cancelLoadingView:_tb_list_artist];
+//        [self cancelLoadingView:_tb_list_artist];
     }];
 
     [AWPlaylistManager getAllPlaylists:^(NSArray *data, BOOL success, NSString *error)
@@ -145,7 +142,7 @@
              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
              [alert show];
          }
-         [self cancelLoadingView:_tb_list_artist];
+//         [self cancelLoadingView:_tb_list_artist];
      }];
 }
 
@@ -370,6 +367,14 @@
 }
 
 #pragma UITableViewDelegate
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (isLoading)
+    {
+        [self cancelLoadingView:self.tb_list_artist];
+    }
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
@@ -410,7 +415,15 @@
 
         [_tb_list_artist deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [_tb_list_artist reloadSectionIndexTitles];
-        
+        [[AWTracksManager getInstance] deleteItunesTrack:indexPath cb_rep:^(BOOL success, NSString *error)
+        {
+            if (!success && error)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:Nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+                [alert show];
+            }
+        }];
+
         if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
         {
             if (!tracksToDelete)
@@ -420,7 +433,7 @@
             if (miniPlayer)
                 [miniPlayer stopTrackInItsPlaying:trackToDelete];
         }
-        
+
         // Gore mais c'est pour mettre à jour les indexPath dans les cellules
         [_tb_list_artist reloadData];
     }
@@ -436,10 +449,9 @@
     if (tableData && [tableData count] > indexPath.row && [[tableData objectAtIndex:indexPath.row]isKindOfClass:[AWTrackModel class]])
     {
         NSLog(@"Track selected %d : %@", indexPath.row , ((AWTrackModel *)[tableData objectAtIndex:indexPath.row]).title);
-        NSArray *fromItunes = [AWTracksManager getInstance].itunesMedia;
 
-        [AWMusicPlayer getInstance].playlist = fromItunes;
-    
+        [AWMusicPlayer getInstance].playlist = [AWTracksManager getInstance].itunesMedia;
+
         if (![[AWMusicPlayer getInstance] startAtIndex:indexPath.row])
             [self setFlashMessage:NSLocalizedString(@"Itunes Media failed !", @"")];
         else

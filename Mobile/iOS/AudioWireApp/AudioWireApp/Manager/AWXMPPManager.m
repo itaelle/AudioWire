@@ -93,6 +93,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:xmppMessageArchivingStorage];
     
     [xmppMessageArchivingModule setClientSideMessageArchivingOnly:NO];
+
     [xmppMessageArchivingModule activate:xmppStream];
     [xmppMessageArchivingModule addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppMessageArchivingStorage mainThreadManagedObjectContext];
@@ -187,7 +188,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [message addAttributeWithName:@"type" stringValue:@"chat"];
         [message addAttributeWithName:@"to" stringValue:userJID];
         [message addChild:body];
-        
+
         [xmppStream sendElement:message];
     }
 }

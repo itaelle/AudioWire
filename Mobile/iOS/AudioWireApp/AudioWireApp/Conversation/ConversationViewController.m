@@ -42,8 +42,8 @@
     if (self.closeOption)
         [self prepareNavBarForClose];
     
-#warning DEBUG DEV
-    self.usernameSelectedFriend = @"friend";
+// #warning DEBUG DEV
+//    self.usernameSelectedFriend = @"friend";
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -142,7 +142,10 @@
     [self cancelLoadingView:self.tb_list_artist];
     [self.tb_list_artist reloadData];
     
-    [self.tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([tableData count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:TRUE];
+    if (!tableData)
+        tableData = [[NSMutableArray alloc] init];
+    if ([tableData count] > 1)
+        [self.tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([tableData count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:TRUE];
 }
 
 #pragma  AWXMPPManagerDelegate
@@ -353,7 +356,8 @@
         }
     }];
     
-    [_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:FALSE];
+    if ([tableData count] > 1)
+        [_tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[tableData count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:FALSE];
     
     [self prepareNavBarForCancel];
 }

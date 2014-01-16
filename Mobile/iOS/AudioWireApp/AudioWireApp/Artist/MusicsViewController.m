@@ -111,7 +111,7 @@
          {
              if (success)
              {
-                 [self setFlashMessage:NSLocalizedString(@"Track deleted from playlist!", @"")];
+                 [self setFlashMessage:NSLocalizedString(@"Tracks deleted from playlist!", @"")];
                  [self loadData];
              }
              else
@@ -119,6 +119,7 @@
                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
                  [alert show];
              }
+             [tracksToDelete removeAllObjects];
              [self cancelLoadingView:_tb_list_artist];
          }];
     }
@@ -158,10 +159,15 @@
         if (trackToDelete && [trackToDelete isKindOfClass:[AWTrackModel class]])
             [tracksToDelete addObject:trackToDelete];
         
+        [[AWPlaylistManager getInstance] deleteItunesTrack:indexPath cb_rep:^(BOOL success, NSString *error)
+        {
+            if (!success && error)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:Nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+                [alert show];
+            }
+        }];
         [_tb_list_artist reloadSectionIndexTitles];
-        
-        // Gore mais c'est pour mettre à jour les indexPath dans les cellules
-//        [_tb_list_artist reloadData];
     }
 }
 

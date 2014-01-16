@@ -38,6 +38,22 @@
     return [directory stringByAppendingPathComponent:FILE_LIBRARY];
 }
 
+-(void)deleteItunesTrack:(NSIndexPath *)indexPath cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    if (self.itunesMedia)
+    {
+        if ([self.itunesMedia count] > indexPath.row)
+        {
+            NSMutableArray *tempItunesMedia = [self.itunesMedia mutableCopy];
+            [tempItunesMedia removeObjectAtIndex:indexPath.row];
+
+            self.itunesMedia = tempItunesMedia;
+        }
+    }
+    else
+        cb_rep(NO, NSLocalizedString(@"Itunes media list is not currently available!", @""));
+}
+
 -(void)deleteLocalTracks:(NSArray *)tracksToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
 {
     dispatch_queue_t queueGlobal = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -48,7 +64,7 @@
         
         for (AWTrackModel *trackToDelete in tracksToDelete_)
         {
-            if ([mutableAwTracks containsObject:tracksToDelete_])
+            if ([mutableAwTracks containsObject:trackToDelete])
             {
                 [mutableAwTracks removeObject:trackToDelete];
             }
@@ -119,21 +135,15 @@
         }
         NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>> Found from Itunes LIBRARY");
         
-        // ADD NEW SONGS
-        //    for (MPMediaItem *song in itemsFromGenericQuery)
-        //    {
-        //        BOOL found = FALSE;
-        //        for (AWTrackModel *trackModel in alreadyInAudioWireAndNewOnesFromItunes)
-        //        {
-        //            if ([trackModel.title isEqualToString:[song valueForProperty:MPMediaItemPropertyTitle]])
-        //            {
-        //                found = YES;
-        //                break;
-        //            }
-        //        }
-        //        if (found == NO)
-        //            [alreadyInAudioWireAndNewOnesFromItunes addObject:song];
-        //    }
+        
+        NSMutableArray *sortedArray = [[alreadyInAudioWireAndNewOnesFromItunes sortedArrayUsingComparator:^NSComparisonResult(id a, id b)
+        {
+            NSString *first = [(AWTrackModel*)a title];
+            NSString *second = [(AWTrackModel*)b title];
+            return [first compare:second];
+        }] mutableCopy];
+        
+        alreadyInAudioWireAndNewOnesFromItunes = sortedArray;
         
         // DELETE TRACKS IN AW THAT HAS BEEN DELETED IN iTUNES.
         NSMutableArray *toDelete = [[NSMutableArray alloc] init];
@@ -156,6 +166,7 @@
         }
         [alreadyInAudioWireAndNewOnesFromItunes removeObjectsInArray:toDelete];
         BOOL successWrite = [[AWTrackModel toArray:alreadyInAudioWireAndNewOnesFromItunes] writeToFile:[AWTracksManager pathOfileLibrary] atomically:YES];
+        //
         
         if (!successWrite)
         {

@@ -58,6 +58,7 @@ AudioWire::Application.routes.draw do
       match '/contact' => 'websitefr#contact', :via => :get
       match '/login' => 'websitefr#login', :via => :get
       match '/about' => 'websitefr#about', :via => :get
+      match '/support' => 'websitefr#support', :via => :get
     end
 
 scope '/en' do
@@ -69,6 +70,7 @@ scope '/en' do
       match '/about' => 'websiteen#about', :via => :get
       match '/users/:id/password-reset/:token' => 'websiteen#reset_password', :via => :get
       match '/users/:id/password-reset/:token' => 'users#reset_password_with_token', :via => :put
+      match '/support' => 'websiteen#support', :via => :get
     end
 match '/terms' => 'websiteen#terms', :via => :get
   # Sample of regular route:

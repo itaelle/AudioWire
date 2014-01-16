@@ -21,4 +21,7 @@ def home
       @user = User.find_by_id(params[:id])
       @token = params[:token]
     end
+
+    def support
+    end
 end

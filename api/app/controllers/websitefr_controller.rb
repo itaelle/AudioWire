@@ -14,4 +14,6 @@ class WebsitefrController < ApplicationController
   	def login
   	end
 
+    def support
+    end
 end

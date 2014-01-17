@@ -286,6 +286,23 @@
      }];
 }
 
+-(void)sendLostPasswordNotification:(NSString *)email cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    NSString *url = [AWConfManager getURL:AWLostPassword];
+                     
+                     [AWRequester requestAudiowireAPIPOST:url param:@{@"email" : email} cb_rep:^(NSDictionary *rep, BOOL success)
+    {
+        BOOL successGet = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+        NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+        NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+        
+        if (successGet)
+            cb_rep(successGet, message);
+        else if (successGet == NO)
+            cb_rep(successGet, error);
+    }];
+}
+
 @end
 
 

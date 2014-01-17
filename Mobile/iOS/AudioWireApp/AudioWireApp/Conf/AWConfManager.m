@@ -44,6 +44,11 @@
         {
             return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/users?token=%@"];
         } break;
+            
+        case AWLostPassword:
+        {
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/users/reset-password-link"];
+        } break;
 
             // FRIENDS
         case AWAddFriend:
@@ -115,63 +120,6 @@
         case AWDelTracksPlaylist:
         {
             return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/playlist/%@/tracks?token=%@"];
-        } break;
-            
-///////////////////////////////////////////////////////////////////////////////////////////////////
-            
-        case AWAddPicture:
-        {
-            
-        } break;
-            
-        case AWGetPicture:
-        {
-            
-        } break;
-            
-        case AWDelPicture:
-        {
-            
-        } break;
-            
-        case AWGetAllConversations:
-        {
-            
-        } break;
-            
-        case AWGetAllMsgSent:
-        {
-            
-        } break;
-            
-        case AWGetAllMsgReceived:
-        {
-            
-        } break;
-            
-        case AWGet2UsersCp:
-        {
-            
-        } break;
-            
-        case AWModifyMessage:
-        {
-            
-        } break;
-
-        case AWSendMsg:
-        {
-            
-        } break;
-
-        case AWDelMessage:
-        {
-            
-        } break;
-
-        case ASDelConv:
-        {
-            
         } break;
             
         default:

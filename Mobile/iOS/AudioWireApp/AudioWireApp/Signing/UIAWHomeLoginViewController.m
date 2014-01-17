@@ -73,8 +73,8 @@
 
     self.lb_password.text = NSLocalizedString(@"Password", @"");
     [self.lb_password setFont:FONTBOLDSIZE(12)];
-    
-    [self.bt_lostPassword setTitle:NSLocalizedString(@"Lost password ?", @"") forState:(UIControlStateNormal)];
+
+    [self.bt_lostPassword setTitle:NSLocalizedString(@"Lost password", @"") forState:(UIControlStateNormal)];
     [self.bt_lostPassword.titleLabel setFont:FONTBOLDSIZE(12)];
 
     [self.bt_login setTitle:[NSLocalizedString(@"Go", @"") uppercaseString] forState:(UIControlStateNormal)];
@@ -450,8 +450,22 @@
 
 - (IBAction)click_lostPassword:(id)sender
 {
-    UIAWLostPasswordViewController *vc = [[UIAWLostPasswordViewController alloc] initWithNibName:@"UIAWLostPasswordViewController" bundle:nil];
-    [self.navigationController pushViewController:vc animated:YES];
+    NSString *email_user = [self.tf_email.text trim];
+    
+    if (!email_user || [email_user length] == 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:NSLocalizedString(@"Please type your email adress in order to reset your password", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+        
+        [alert show];
+        return ;
+    }
+    
+    [[AWUserManager getInstance] sendLostPasswordNotification:email_user cb_rep:^(BOOL success, NSString *message)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+        
+        [alert show];
+    }];
 }
 
 @end

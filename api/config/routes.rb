@@ -2,9 +2,7 @@ AudioWire::Application.routes.draw do
 
   root :to => "websiteen#home"
 
-  # get "home/index"
-
-  devise_for :users, :skip => [:registrations, :sessions]# , :passwords]
+  devise_for :users, :skip => [:registrations, :sessions]
   as :user do
     post '/api/users' => 'registrations#create'
   end

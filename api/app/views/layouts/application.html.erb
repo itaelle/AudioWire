@@ -1,1 +1,23 @@
-<%= yield %>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		 <meta charset="utf-8">
+        <title>Sample 4</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="assets/images/flat-ui/images/favicon.ico">
+		<%= csrf_meta_tag %>
+		<%= render 'layouts/stylesheets' %>
+        <!--[if lt IE 9]><%= javascript_include_tag "html5shiv" %><![endif]-->
+	</head>
+	<body>
+		<% flash.each do |key,value| %>
+				<div class="flash <%= key %>"><%= value %></div>
+			<% end %>
+			<%= render 'layouts/topbar' %>
+			<%= yield %>
+			<%= render 'layouts/footer' %>
+		<%= javascript_include_tag 'application' %>
+		<!--[if lt IE 8]><%= javascript_include_tag "icon-font-ie7" %><![endif]-->
+		<%= debug(params) if Rails.env.development? %>
+	</body>	
+</html>

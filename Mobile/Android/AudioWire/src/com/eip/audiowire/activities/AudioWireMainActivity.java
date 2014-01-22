@@ -51,8 +51,8 @@ import android.widget.Toast;
 public class AudioWireMainActivity extends Activity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
 	private ImageButton btnPlay;
-	private ImageButton btnForward;
-	private ImageButton btnBackward;
+//	private ImageButton btnForward;
+//	private ImageButton btnBackward;
 	private ImageButton btnNext;
 	private ImageButton btnPrevious;
 	private ImageButton btnPlaylist;
@@ -79,12 +79,12 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.player);
+		setContentView(layout.home);
 		
 		// All player buttons
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
-		btnForward = (ImageButton) findViewById(R.id.btnForward);
-		btnBackward = (ImageButton) findViewById(R.id.btnBackward);
+//		btnForward = (ImageButton) findViewById(R.id.btnForward);
+//		btnBackward = (ImageButton) findViewById(R.id.btnBackward);
 		btnNext = (ImageButton) findViewById(R.id.btnNext);
 		btnPrevious = (ImageButton) findViewById(R.id.btnPrevious);
 		btnPlaylist = (ImageButton) findViewById(R.id.btnPlaylist);
@@ -94,7 +94,7 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		songTitleLabel = (TextView) findViewById(R.id.songTitle);
 		songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
 		songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
-		
+
 		// Mediaplayer
 		mp = new MediaPlayer();
 		songManager = new LibraryManager();
@@ -142,44 +142,44 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		 * Forward button click event
 		 * Forwards song specified seconds
 		 * */
-		btnForward.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// get current song position				
-				int currentPosition = mp.getCurrentPosition();
-				// check if seekForward time is lesser than song duration
-				if(currentPosition + seekForwardTime <= mp.getDuration()){
-					// forward song
-					mp.seekTo(currentPosition + seekForwardTime);
-				}else{
-					// forward to end position
-					mp.seekTo(mp.getDuration());
-				}
-			}
-		});
+//		btnForward.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				// get current song position
+//				int currentPosition = mp.getCurrentPosition();
+//				// check if seekForward time is lesser than song duration
+//				if(currentPosition + seekForwardTime <= mp.getDuration()){
+//					// forward song
+//					mp.seekTo(currentPosition + seekForwardTime);
+//				}else{
+//					// forward to end position
+//					mp.seekTo(mp.getDuration());
+//				}
+//			}
+//		});
 		
 		/**
 		 * Backward button click event
 		 * Backward song to specified seconds
 		 * */
-		btnBackward.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// get current song position				
-				int currentPosition = mp.getCurrentPosition();
-				// check if seekBackward time is greater than 0 sec
-				if(currentPosition - seekBackwardTime >= 0){
-					// forward song
-					mp.seekTo(currentPosition - seekBackwardTime);
-				}else{
-					// backward to starting position
-					mp.seekTo(0);
-				}
-				
-			}
-		});
+//		btnBackward.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				// get current song position
+//				int currentPosition = mp.getCurrentPosition();
+//				// check if seekBackward time is greater than 0 sec
+//				if(currentPosition - seekBackwardTime >= 0){
+//					// forward song
+//					mp.seekTo(currentPosition - seekBackwardTime);
+//				}else{
+//					// backward to starting position
+//					mp.seekTo(0);
+//				}
+//
+//			}
+//		});
 		
 		/**
 		 * Next button click event

@@ -38,6 +38,7 @@ import com.eip.audiowire.tools.Utilities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -50,7 +51,13 @@ import android.widget.Toast;
 
 public class AudioWireMainActivity extends Activity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
-	private ImageButton btnPlay;
+//    private ImageButton library;
+    private ImageButton friends;
+    private ImageButton playlist;
+    private ImageButton options;
+
+
+    private ImageButton btnPlay;
 //	private ImageButton btnForward;
 //	private ImageButton btnBackward;
 	private ImageButton btnNext;
@@ -95,7 +102,12 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
 		songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
 
-		// Mediaplayer
+        Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
+        songTitleLabel.setTypeface(font);
+        songCurrentDurationLabel.setTypeface(font);
+        songTotalDurationLabel.setTypeface(font);
+
+        // Mediaplayer
 		mp = new MediaPlayer();
 		songManager = new LibraryManager();
 		utils = new Utilities();
@@ -106,9 +118,11 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		
 		// Getting all songs list
 		songsList = songManager.getPlayList();
-		
-		// By default play first song
-		playSong(0);
+        addListenerOnButton();
+
+
+        // By default play first song
+//		playSong(0);
 				
 		/**
 		 * Play button click event
@@ -426,11 +440,52 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 			}
 		}
 	}
-	
-	@Override
-	 public void onDestroy(){
-	 super.onDestroy();
-	    mp.release();
-	 }
-	
+
+    public void addListenerOnButton() {
+
+//        library = (ImageButton) findViewById(R.id.imageButton);
+        friends = (ImageButton) findViewById(R.id.imageButton2);
+        playlist = (ImageButton) findViewById(R.id.imageButton3);
+        options = (ImageButton) findViewById(R.id.imageButton4);
+
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(AudioWireMainActivity.this, Friends.class);
+                startActivity(intent);
+            }
+
+        });
+
+        playlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(AudioWireMainActivity.this, ManagePlaylist.class);
+                startActivity(intent);
+            }
+
+        });
+
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(AudioWireMainActivity.this, Option.class);
+                startActivity(intent);
+            }
+
+        });
+
+    }
+
+
+
+//	@Override
+//	 public void onDestroy(){
+//	 super.onDestroy();
+//	    mp.release();
+//	 }
+//
 }

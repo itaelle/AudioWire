@@ -38,7 +38,7 @@
         android:layout_marginLeft="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/btnPlaylist"
         android:src="@drawable/library"
         android:layout_below="@+id/imageView1"
         android:layout_marginTop="-10dp" />
@@ -51,7 +51,7 @@
         android:id="@+id/imageButton2"
         android:src="@drawable/friends"
         android:layout_below="@+id/imageView1"
-        android:layout_toRightOf="@+id/imageButton"
+        android:layout_toRightOf="@+id/btnPlaylist"
         android:layout_marginTop="-10dp" />
 
     <ImageButton
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageButton3"
         android:src="@drawable/playlists"
-        android:layout_below="@+id/imageButton"
+        android:layout_below="@+id/btnPlaylist"
         />
 
     <ImageButton
@@ -93,12 +93,12 @@
         "
 
         <!-- Playlist button -->
-        <ImageButton
-            android:id="@+id/btnPlaylist"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:src="@drawable/btn_playlist"
-            android:background="@null"/>
+        <!--<ImageButton-->
+            <!--android:id="@+id/imageButton3"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:src="@drawable/btn_playlist"-->
+            <!--android:background="@null"/>-->
     </LinearLayout>
 
     <!-- Song Thumbnail Image -->
@@ -222,6 +222,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textColor="#f3f3f3"
+
             android:textStyle="bold"/>
     </LinearLayout>
 
@@ -259,7 +260,8 @@
         android:textSize="16dp"
         android:paddingLeft="10dp"
         android:textStyle="bold"
-        android:text="The Good, The Bad And The Ugly"
+        android:text="Money   Pink Floyd   Echoes"
         android:layout_above="@+id/player_footer_bg"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:autoText="true" />
 </RelativeLayout>

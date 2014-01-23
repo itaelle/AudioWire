@@ -8,6 +8,7 @@
 
 #import "CellConversation.h"
 #import "NSObject+NSObject_Tool.h"
+#import "AWUserManager.h"
 
 @implementation CellConversation
 
@@ -28,8 +29,10 @@
 {
     data_ = data;
     
-    isLeft = ![NSObject getVerifiedBool:[data objectForKey:@"outgoing"]];
+//    isLeft = ![NSObject getVerifiedBool:[data objectForKey:@"outgoing"]];
     
+    isLeft = ![[NSObject getVerifiedString:[data objectForKey:@"sender"]]isEqualToString:[AWUserManager getInstance].user.username];
+
     if (isLeft)
     {
         _senderLabel.textAlignment = NSTextAlignmentLeft;
@@ -39,16 +42,18 @@
     else
     {
         _senderLabel.textAlignment = NSTextAlignmentRight;
-        [_senderLabel setText:NSLocalizedString(@"Me", @"Me")];
+    [_senderLabel setText:NSLocalizedString(@"Me", @"Me")];
+        
+        //[_senderLabel setText:[NSObject getVerifiedString:[data objectForKey:@"sender"]]];
         
         [_backgroundImage setImage:[[UIImage imageNamed:@"bubbleMe.png"]stretchableImageWithLeftCapWidth:21 topCapHeight:14]];
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    [self setTextAndAdjustView:[NSObject getVerifiedString:[data objectForKey:@"msg"]]];
+    [self setTextAndAdjustView:[NSObject getVerifiedString:[data objectForKey:@"msg"]]andSender:[NSObject getVerifiedString:[data objectForKey:@"sender"]]];
 }
 
--(void) setTextAndAdjustView:(NSString *) content
+-(void) setTextAndAdjustView:(NSString *)content andSender:(NSString *)sender
 {
     int margin_on_sides = 10;
     int limit_width = self.frame.size.width - 100;
@@ -59,6 +64,9 @@
     {
         [self.contentLabel setText:content];
         CGSize sizeFullLabel = [content sizeWithFont:FONTSIZE(14)];
+        int widthSender = [sender sizeWithFont:FONTSIZE(11)].width;
+        if (sizeFullLabel.width < widthSender)
+            sizeFullLabel.width = widthSender;
 //        CGSize sizeFullLabel = [content sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:14]}];
         int widthLabel = limit_width;
         int widthContent = sizeFullLabel.width;
@@ -86,9 +94,12 @@
         if (numberLines == 1)
         {
             WidthToDisplayContent = sizeFullLabel.width;
+            if (WidthToDisplayContent <= widthSender + additional_margins_image)
+                WidthToDisplayContent = widthSender + additional_margins_image;
+            
             if (WidthToDisplayContent <= 70)
                 WidthToDisplayContent = 70;
-
+            
             viewCellRect.size.height = heightContent + _senderLabel.frame.size.height;
             viewCellRect.size.width = WidthToDisplayContent;
             backgroundImgRect.size.width = WidthToDisplayContent + additional_margins_image;

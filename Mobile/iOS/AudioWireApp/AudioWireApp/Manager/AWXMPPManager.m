@@ -46,7 +46,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)setupStream
 {
-	NSAssert(xmppStream == nil, @"Method setupStream invoked multiple times");
+    if (xmppStream != nil)
+        return ;
+//	NSAssert(xmppStream == nil, @"Method setupStream invoked multiple times");
     
 	xmppStream = [[XMPPStream alloc] init];
 	

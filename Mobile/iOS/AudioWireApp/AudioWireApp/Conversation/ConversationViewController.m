@@ -13,6 +13,7 @@
 #import "CellConversation.h"
 #import "SubPlayer.h"
 #import "ConversationViewController.h"
+#import "AWUserManager.h"
 
 @implementation ConversationViewController
 
@@ -108,8 +109,10 @@
     
     NSError *error = nil;
     NSArray *messages_arc = [moc executeFetchRequest:fetchRequest error:&error];
-
-    XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    NSFetchedResultsController *fetchedResults = [self fetchedResultsController];
+    
+//    XMPPUserCoreDataStorageObject *user = [fetchedResults objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc)
     {
@@ -120,10 +123,15 @@
         NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
         [m setObject:message.body forKey:@"msg"];
         
-        if ([[element attributeStringValueForName:@"to"] isEqualToString:chatWithUserJID])
-            [m setObject:@"me" forKey:@"sender"];
-        else
+        if ([[element attributeStringValueForName:@"sender"] isEqualToString:chatWithUserJID])
             [m setObject:self.usernameSelectedFriend forKey:@"sender"];
+        else
+        {
+            if ([[element attributeStringValueForName:@"to"] isSubString:[AWUserManager getInstance].user.username])
+                [m setObject:self.usernameSelectedFriend forKey:@"sender"];
+            else
+                [m setObject:[AWUserManager getInstance].user.username forKey:@"sender"];
+        }
 
         [m setObject:[NSNumber numberWithBool:[message.outgoing intValue]] forKey:@"outgoing"];
 
@@ -309,6 +317,8 @@
     heightContent = (numberLines * 18) + 45;
     return heightContent;
     }
+    else
+        return 0.f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -404,7 +414,7 @@
     
     
     NSMutableDictionary *mutableInfoMsg = [[NSMutableDictionary alloc] init];
-    [mutableInfoMsg setObject:@"me" forKey:@"sender"];
+    [mutableInfoMsg setObject:[AWUserManager getInstance].user.username forKey:@"sender"];
     [mutableInfoMsg setObject:msgToSend forKey:@"msg"];
     [mutableInfoMsg setObject:[NSNumber numberWithBool:YES] forKey:@"outgoing"];
     

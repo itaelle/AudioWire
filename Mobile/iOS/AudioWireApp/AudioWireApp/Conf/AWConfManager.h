@@ -36,23 +36,8 @@ typedef enum
     AWAddFriend,
     AWDelFriend,
     
-    /**********/
+    AWLostPassword
     
-    AWAddPicture,
-    AWGetPicture, // Pas de requête, just un lien
-    AWDelPicture,
-    
-    AWGetAllConversations, // On a Friends => Conversation avec cet ami nan ?
-    AWGetAllMsgSent,
-    AWGetAllMsgReceived,
-    
-    AWGet2UsersCp, // Sert à rien.
-    AWModifyMessage, // Sert à rien
-
-    AWSendMsg,
-    AWDelMessage,
-    ASDelConv,
-
 } AWConfigURL;
 
 

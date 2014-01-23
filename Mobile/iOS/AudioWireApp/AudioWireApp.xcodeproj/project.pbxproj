@@ -428,7 +428,8 @@
 		F055AACB17B86EC0007ABC61 /* LibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryViewController.h; path = Library/Artists/LibraryViewController.h; sourceTree = "<group>"; };
 		F055AACC17B86EC0007ABC61 /* LibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryViewController.m; path = Library/Artists/LibraryViewController.m; sourceTree = "<group>"; };
 		F055AACD17B86EC0007ABC61 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LibraryViewController.xib; path = Library/Artists/LibraryViewController.xib; sourceTree = "<group>"; };
-		F072507A17AC30C300445F37 /* AudioWireApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = AudioWireApp.app; path = "/Users/Guillaume/Development/AudioWire/Mobile/iOS/AudioWireApp/build/Debug-iphoneos/AudioWireApp.app"; sourceTree = "<absolute>"; };
+		F06625A218846FCD0018304C /* AudioWireApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioWireApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F06625A318846FCD0018304C /* AudioWireAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioWireAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F072507D17AC30C300445F37 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F072507F17AC30C300445F37 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F072508117AC30C300445F37 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -437,7 +438,6 @@
 		F072508B17AC30C300445F37 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F072508E17AC30C300445F37 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F072508F17AC30C300445F37 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F07250AB17AC30C300445F37 /* AudioWireAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = AudioWireAppTests.octest; path = "/Users/Guillaume/Development/AudioWire/Mobile/iOS/AudioWireApp/build/Debug-iphoneos/AudioWireAppTests.octest"; sourceTree = "<absolute>"; };
 		F07250AC17AC30C300445F37 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F072511917AC35E500445F37 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = Home/HomeViewController.h; sourceTree = "<group>"; };
 		F072511A17AC35E500445F37 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = Home/HomeViewController.m; sourceTree = "<group>"; };
@@ -1096,6 +1096,8 @@
 			children = (
 				F072508517AC30C300445F37 /* AudioWireApp */,
 				F072507C17AC30C300445F37 /* Frameworks */,
+				F06625A218846FCD0018304C /* AudioWireApp.app */,
+				F06625A318846FCD0018304C /* AudioWireAppTests.octest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2415,7 +2417,7 @@
 			);
 			name = AudioWireApp;
 			productName = AudioWireApp;
-			productReference = F072507A17AC30C300445F37 /* AudioWireApp.app */;
+			productReference = F06625A218846FCD0018304C /* AudioWireApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F07250AA17AC30C300445F37 /* AudioWireAppTests */ = {
@@ -2434,7 +2436,7 @@
 			);
 			name = AudioWireAppTests;
 			productName = AudioWireAppTests;
-			productReference = F07250AB17AC30C300445F37 /* AudioWireAppTests.octest */;
+			productReference = F06625A318846FCD0018304C /* AudioWireAppTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */

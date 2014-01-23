@@ -23,6 +23,8 @@
 
 +(void)deletePlaylists:(NSArray *)playlistsToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
 
+-(void)deleteItunesTrack:(NSIndexPath *)indexPath cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;
+
 +(void)getTracksInPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep;
 
 +(void)addTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep;

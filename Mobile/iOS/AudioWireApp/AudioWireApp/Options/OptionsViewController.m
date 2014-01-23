@@ -112,7 +112,7 @@
     [_bt_reset.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_bt_reset.titleLabel setTextAlignment:NSTextAlignmentCenter];
     
-    NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2013\nv1.0 beta\nForum 2013", NSLocalizedString(@"AudioWire", @"")];
+    NSString *format = [NSString stringWithFormat:@"%@\nMade for the EIP 2014\nv1.0\n", NSLocalizedString(@"AudioWire", @"")];
     
     [_bottomLabel setText:format];
     [_bottomLabel setFont:FONTSIZE(15)];

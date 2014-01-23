@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/android_picture"
+        android:layout_width="fill_parent"
+        android:src="@drawable/logo_audiowire"
+        android:layout_height="wrap_content"/>
+        <!--android:layout_marginTop="@dimen/normal_padding"-->
+        <!--android:src="@drawable/android"-->
+        <!--android:contentDescription="@string/image_content_description" />-->
+
+    <Button
+        android:id="@+id/create_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Créer un compte" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Email" />
+
+    <EditText
+        android:id="@+id/user_email"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="50dp"
+        android:text="password"/>
+
+    <EditText
+        android:id="@+id/user_password"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Se connecter" />
+
+</LinearLayout>

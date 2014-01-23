@@ -4,21 +4,6 @@ class WebsiteenController < ApplicationController
       @current_page = ""
   	end
 
-  	def about
-      @language = "en"
-      @current_page = "about"
-  	end
-
-  	def contact
-      @language = "en"
-      @current_page = "contact"
-  	end
-
-  	def team
-      @language = "en"
-      @current_page = "team"
-  	end
-
   	def login
       @language = "en"
       @current_page = "account"
@@ -39,5 +24,10 @@ class WebsiteenController < ApplicationController
     def support
       @language = "en"
       @current_page = "support"
+    end
+
+    def download
+      @language = "en"
+      @current_page = "download"
     end
 end

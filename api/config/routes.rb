@@ -61,14 +61,16 @@ AudioWire::Application.routes.draw do
 
 scope '/en' do
       get '' => 'websiteen#home'
-      match '/project' => 'websiteen#project', :via => :get
-      match '/team' => 'websiteen#team', :via => :get
-      match '/contact' => 'websiteen#contact', :via => :get
+      # match '/project' => 'websiteen#project', :via => :get
+      # match '/team' => 'websiteen#team', :via => :get
+      # match '/contact' => 'websiteen#contact', :via => :get
       match '/login' => 'websiteen#login', :via => :get
-      match '/about' => 'websiteen#about', :via => :get
+      # match '/about' => 'websiteen#about', :via => :get
       match '/users/:id/password-reset/:token' => 'websiteen#reset_password', :via => :get
       match '/users/:id/password-reset/:token' => 'users#reset_password_with_token', :via => :put
       match '/support' => 'websiteen#support', :via => :get
+      match '/terms' => 'websiteen#terms', :via => :get
+      match '/download' => 'websiteen#download', :via => :get
     end
 match '/terms' => 'websiteen#terms', :via => :get
   # Sample of regular route:

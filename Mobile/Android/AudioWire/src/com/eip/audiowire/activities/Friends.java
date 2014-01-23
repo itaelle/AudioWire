@@ -15,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Augustin on 21/01/14.
  */
@@ -52,6 +55,22 @@ public class Friends extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Friends.this, AudioWireMainActivity.class);
+
+                final String loginTxt = email.getText().toString();
+                final String passTxt = pw.getText().toString();
+
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(loginTxt);
+
+                if (loginTxt.equals("") || passTxt.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please fill both e-mail and password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else if (!m.matches()) {
+                    Toast.makeText(getApplicationContext(), "Please check your e-mail", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 intent.putExtra(EXTRA_LOGIN, email.getText().toString());
                 intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
                 Toast.makeText(getApplicationContext(), "You are now connected!", Toast.LENGTH_SHORT).show();

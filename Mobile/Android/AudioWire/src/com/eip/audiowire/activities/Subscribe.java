@@ -23,6 +23,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Augustin on 21/01/14.
  */
@@ -76,12 +79,29 @@ public class Subscribe extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Subscribe.this, AudioWireMainActivity.class);
+                final String loginTxt = email.getText().toString();
+                final String nickTxt = pw.getText().toString();
+                final String passTxt = pw.getText().toString();
+
+
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(loginTxt);
+
+                if (loginTxt.equals("") || passTxt.equals("") || nickTxt.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if (!m.matches()) {
+                    Toast.makeText(getApplicationContext(), "Please check your e-mail", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 intent.putExtra(EXTRA_LOGIN, email.getText().toString());
                 intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
                 intent.putExtra(EXTRA_FIRST_NAME, first_name.getText().toString());
                 intent.putExtra(EXTRA_LAST_NAME, last_name.getText().toString());
                 intent.putExtra(EXTRA_NICKNAME, nickname.getText().toString());
-                Toast.makeText(getApplicationContext(), "Congratulation! You've created your account within the AudioWire. Now enjoy the features our brain new music player. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Congratulations! You've created your account within the AudioWire. Now enjoy the features our brain new music player!", Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });

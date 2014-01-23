@@ -1,56 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    >
 
-    <ImageView
-        android:id="@+id/android_picture"
+    <LinearLayout
+        android:id="@+id/header_subscribe"
         android:layout_width="fill_parent"
-        android:src="@drawable/logo_audiowire"
-        android:layout_height="wrap_content"/>
-        <!--android:layout_marginTop="@dimen/normal_padding"-->
-        <!--android:src="@drawable/android"-->
-        <!--android:contentDescription="@string/image_content_description" />-->
+        android:layout_height="60dip"
 
-    <Button
-        android:id="@+id/create_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Créer un compte" />
+        android:background="@drawable/top_login"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Email" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false">
 
-    <EditText
-        android:id="@+id/user_email"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:layout_gravity="center" />
+        <!-- android:layout_centerHorizontal="true" -->
+        <!-- android:layout_centerVertical="true" -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="50dp"
-        android:text="password"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="-80dp"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/user_password"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:inputType="textPassword" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_marginTop="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo_audiowire"
+                />
 
-    <Button
-        android:id="@+id/connect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Se connecter" />
+            <!--<TextView-->
+                <!--android:id="@+id/TITLE"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:layout_marginBottom="50dp"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:textSize="40dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:shadowDy="10"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--/>-->
+
+            <EditText
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:textSize="13dp"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Password"
+                android:textSize="13dp"
+                android:inputType="textPassword" />
+
+            <ImageButton
+                android:layout_marginTop="12dp"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/go"
+                android:src="@drawable/go"
+                />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/padlock"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center|center_horizontal"-->
+                    <!--android:src="@drawable/padlock"-->
+                    <!--/>-->
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:text="OR YOU CAN..."
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:shadowDy="10"
+                android:textColor="@android:color/white"
+                />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscribe"
+                android:src="@drawable/subscribe"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

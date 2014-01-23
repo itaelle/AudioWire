@@ -21,7 +21,7 @@
             android:name="com.eip.audiowire.activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,14 +34,15 @@
             android:name="com.eip.audiowire.activities.Home"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
 
         <!--main-->
         <activity
             android:name="com.eip.audiowire.activities.AudioWireMainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,11 +50,12 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.eip.audiowire.activities.PlayListActivity" />
-        <activity android:name=".activities.Option" />
-        <activity android:name=".activities.Friends" />
-        <activity android:name=".activities.ManagePlaylist" />
+        <activity android:name="com.eip.audiowire.activities.PlayListActivity" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:name=".activities.Option" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:name=".activities.Friends" android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".activities.ManagePlaylist" android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".activities.Subscribe" android:theme="@android:style/Theme.NoTitleBar" />
     </application>
-
+    <navbar-hidden>true</navbar-hidden>
 
 </manifest>

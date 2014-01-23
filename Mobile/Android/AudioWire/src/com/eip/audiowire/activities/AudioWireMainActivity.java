@@ -38,6 +38,7 @@ import com.eip.audiowire.tools.Utilities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -50,9 +51,15 @@ import android.widget.Toast;
 
 public class AudioWireMainActivity extends Activity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
-	private ImageButton btnPlay;
-	private ImageButton btnForward;
-	private ImageButton btnBackward;
+//    private ImageButton library;
+    private ImageButton friends;
+    private ImageButton playlist;
+    private ImageButton options;
+
+
+    private ImageButton btnPlay;
+//	private ImageButton btnForward;
+//	private ImageButton btnBackward;
 	private ImageButton btnNext;
 	private ImageButton btnPrevious;
 	private ImageButton btnPlaylist;
@@ -79,12 +86,12 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.player);
+		setContentView(layout.home);
 		
 		// All player buttons
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
-		btnForward = (ImageButton) findViewById(R.id.btnForward);
-		btnBackward = (ImageButton) findViewById(R.id.btnBackward);
+//		btnForward = (ImageButton) findViewById(R.id.btnForward);
+//		btnBackward = (ImageButton) findViewById(R.id.btnBackward);
 		btnNext = (ImageButton) findViewById(R.id.btnNext);
 		btnPrevious = (ImageButton) findViewById(R.id.btnPrevious);
 		btnPlaylist = (ImageButton) findViewById(R.id.btnPlaylist);
@@ -94,8 +101,13 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		songTitleLabel = (TextView) findViewById(R.id.songTitle);
 		songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
 		songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
-		
-		// Mediaplayer
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
+        songTitleLabel.setTypeface(font);
+        songCurrentDurationLabel.setTypeface(font);
+        songTotalDurationLabel.setTypeface(font);
+
+        // Mediaplayer
 		mp = new MediaPlayer();
 		songManager = new LibraryManager();
 		utils = new Utilities();
@@ -106,9 +118,11 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		
 		// Getting all songs list
 		songsList = songManager.getPlayList();
-		
-		// By default play first song
-		playSong(0);
+        addListenerOnButton();
+
+
+        // By default play first song
+//		playSong(0);
 				
 		/**
 		 * Play button click event
@@ -142,44 +156,44 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		 * Forward button click event
 		 * Forwards song specified seconds
 		 * */
-		btnForward.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// get current song position				
-				int currentPosition = mp.getCurrentPosition();
-				// check if seekForward time is lesser than song duration
-				if(currentPosition + seekForwardTime <= mp.getDuration()){
-					// forward song
-					mp.seekTo(currentPosition + seekForwardTime);
-				}else{
-					// forward to end position
-					mp.seekTo(mp.getDuration());
-				}
-			}
-		});
+//		btnForward.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				// get current song position
+//				int currentPosition = mp.getCurrentPosition();
+//				// check if seekForward time is lesser than song duration
+//				if(currentPosition + seekForwardTime <= mp.getDuration()){
+//					// forward song
+//					mp.seekTo(currentPosition + seekForwardTime);
+//				}else{
+//					// forward to end position
+//					mp.seekTo(mp.getDuration());
+//				}
+//			}
+//		});
 		
 		/**
 		 * Backward button click event
 		 * Backward song to specified seconds
 		 * */
-		btnBackward.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// get current song position				
-				int currentPosition = mp.getCurrentPosition();
-				// check if seekBackward time is greater than 0 sec
-				if(currentPosition - seekBackwardTime >= 0){
-					// forward song
-					mp.seekTo(currentPosition - seekBackwardTime);
-				}else{
-					// backward to starting position
-					mp.seekTo(0);
-				}
-				
-			}
-		});
+//		btnBackward.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				// get current song position
+//				int currentPosition = mp.getCurrentPosition();
+//				// check if seekBackward time is greater than 0 sec
+//				if(currentPosition - seekBackwardTime >= 0){
+//					// forward song
+//					mp.seekTo(currentPosition - seekBackwardTime);
+//				}else{
+//					// backward to starting position
+//					mp.seekTo(0);
+//				}
+//
+//			}
+//		});
 		
 		/**
 		 * Next button click event
@@ -426,11 +440,52 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 			}
 		}
 	}
-	
-	@Override
-	 public void onDestroy(){
-	 super.onDestroy();
-	    mp.release();
-	 }
-	
+
+    public void addListenerOnButton() {
+
+//        library = (ImageButton) findViewById(R.id.imageButton);
+        friends = (ImageButton) findViewById(R.id.imageButton2);
+        playlist = (ImageButton) findViewById(R.id.imageButton3);
+        options = (ImageButton) findViewById(R.id.imageButton4);
+
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(AudioWireMainActivity.this, Friends.class);
+                startActivity(intent);
+            }
+
+        });
+
+        playlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(AudioWireMainActivity.this, ManagePlaylist.class);
+                startActivity(intent);
+            }
+
+        });
+
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(AudioWireMainActivity.this, Option.class);
+                startActivity(intent);
+            }
+
+        });
+
+    }
+
+
+
+//	@Override
+//	 public void onDestroy(){
+//	 super.onDestroy();
+//	    mp.release();
+//	 }
+//
 }

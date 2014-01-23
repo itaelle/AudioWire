@@ -1,5 +1,7 @@
 package com.eip.audiowire.managers;
 
-public class PlaylistManager {
+import android.app.Activity;
+
+public class PlaylistManager  extends Activity {
 
 }

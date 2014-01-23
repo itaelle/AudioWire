@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/top_subscribe"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="174dp"
+                android:layout_height="142dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/logo_audiowire"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/white1"
+                android:layout_width="300dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/white_bar"
+                />
+
+
+            <EditText
+                android:id="@+id/first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="First name"
+                android:textSize="13dp"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Last name"
+                android:textSize="13dp"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Nickename"
+                android:textSize="13dp"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="20dp" />
+
+            <ImageView
+                android:id="@+id/white2"
+                android:layout_width="300dp"
+                android:layout_height="5dp"
+                android:src="@drawable/white_bar"
+                />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Email"
+                android:textSize="13dp"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Password"
+                android:textSize="13dp"
+                android:inputType="textPassword" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+            </LinearLayout>
+
+            <!-- Timer Display -->
+            <LinearLayout
+                android:id="@+id/check"
+                android:layout_above="@id/pw"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <!-- Current Duration Label -->
+
+
+                <CheckBox
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:id="@+id/terms"
+                    android:layout_weight="1"
+                    android:gravity="left"/>
+                <TextView
+                    android:id="@+id/termsString"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:text="Terms &amp; Conditions"
+                    android:layout_marginTop="14dp"
+                    android:textColor="#f3f3f3"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscribe"
+                android:src="@drawable/subscribe"
+                android:layout_marginBottom="20dp"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

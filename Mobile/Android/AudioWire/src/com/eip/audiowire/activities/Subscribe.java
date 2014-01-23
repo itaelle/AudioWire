@@ -25,9 +25,10 @@ import android.widget.Toast;
 
 /**
  * Created by Augustin on 21/01/14.
- */
+*/
 
-public class Subscribe extends Activity {
+public class Subscribe extends Activity
+{
     private TextView termsText;
     private EditText email;
     private EditText pw;
@@ -41,7 +42,6 @@ public class Subscribe extends Activity {
     final String EXTRA_FIRST_NAME = "user_first_name";
     final String EXTRA_LAST_NAME = "user_last_name";
     final String EXTRA_NICKNAME = "user_nickname";
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

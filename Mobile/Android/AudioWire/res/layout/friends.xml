@@ -93,14 +93,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/padlock"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center|center_horizontal"-->
-                    <!--android:src="@drawable/padlock"-->
-                    <!--/>-->
             </LinearLayout>
 
             <TextView
@@ -124,7 +116,17 @@
                 android:src="@drawable/subscribe"
                 />
 
-
+            <TextView
+                android:id="@+id/lost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:text="Lost password"
+                android:textSize="11dp"
+                android:textColor="@android:color/tertiary_text_light"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
 

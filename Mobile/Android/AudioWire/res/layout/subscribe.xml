@@ -32,7 +32,7 @@
             <ImageView
                 android:id="@+id/logo"
                 android:layout_width="174dp"
-                android:layout_height="162dp"
+                android:layout_height="142dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/logo_audiowire"
                 android:textSize="20dp" />
@@ -41,19 +41,11 @@
                 android:id="@+id/white1"
                 android:layout_width="300dp"
                 android:layout_height="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="30dp"
                 android:src="@drawable/white_bar"
                 />
 
-            <CheckBox
-            android:id="@+id/male"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
 
-            <CheckBox
-                android:id="@+id/female"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent" />
             <EditText
                 android:id="@+id/first_name"
                 android:layout_width="match_parent"
@@ -63,7 +55,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/name"
+                android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -82,7 +74,7 @@
                 android:layout_marginBottom="20dp" />
 
             <ImageView
-                android:id="@+id/white1"
+                android:id="@+id/white2"
                 android:layout_width="300dp"
                 android:layout_height="5dp"
                 android:src="@drawable/white_bar"
@@ -114,6 +106,40 @@
 
             </LinearLayout>
 
+            <!-- Timer Display -->
+            <LinearLayout
+                android:id="@+id/check"
+                android:layout_above="@id/pw"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <!-- Current Duration Label -->
+
+
+                <CheckBox
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:id="@+id/terms"
+                    android:layout_weight="1"
+                    android:gravity="left"/>
+                <TextView
+                    android:id="@+id/termsString"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:text="Terms &amp; Conditions"
+                    android:layout_marginTop="14dp"
+                    android:textColor="#f3f3f3"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
 
             <ImageButton
                 android:background="@null"
@@ -121,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/subscribe"
                 android:src="@drawable/subscribe"
+                android:layout_marginBottom="20dp"
                 />
         </LinearLayout>
     </ScrollView>

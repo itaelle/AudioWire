@@ -1,40 +1,74 @@
 package com.eip.audiowire.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import com.eip.audiowire.R;
+
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Augustin on 21/01/14.
  */
 public class Friends extends Activity {
     private TextView or;
+    private TextView lost;
     private EditText email;
     private EditText pw;
-    private Button go;
-    private Button subscribe;
+    private ImageButton go;
+    private ImageButton subscribe;
+
+    final String EXTRA_LOGIN = "user_login";
+    final String EXTRA_PASSWORD = "user_password";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.subscribe);
-//        or = (TextView) findViewById(R.id.or);
-//        email = (EditText) findViewById(R.id.login);
-//        pw = (EditText) findViewById(R.id.pw);
+        setContentView(R.layout.friends);
+        or = (TextView) findViewById(R.id.or);
+        lost = (TextView) findViewById(R.id.lost);
+        email = (EditText) findViewById(R.id.login);
+        pw = (EditText) findViewById(R.id.pw);
 //        go = (Button) findViewById(R.id.go);
-//        subscribe = (Button) findViewById(R.id.subscribe);
 //
-//        Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
-//        or.setTypeface(font);
-//        email.setTypeface(font);
-//        pw.setTypeface(font);
-//        Button connect = (Button) findViewById(R.id.);
-//        addListenerOnButton();
+        Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
+        or.setTypeface(font);
+        lost.setTypeface(font);
+        email.setTypeface(font);
+        pw.setTypeface(font);
 
+        go = (ImageButton) findViewById(R.id.go);
+        go.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Friends.this, AudioWireMainActivity.class);
+                intent.putExtra(EXTRA_LOGIN, email.getText().toString());
+                intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
+                Toast.makeText(getApplicationContext(), "You are now connected!", Toast.LENGTH_SHORT).show();
+
+                startActivity(intent);
+            }
+        });
+
+        subscribe = (ImageButton) findViewById(R.id.subscribe);
+
+        subscribe.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Friends.this, Subscribe.class);
+                startActivity(intent);
+            }
+        });
     }
-
 }

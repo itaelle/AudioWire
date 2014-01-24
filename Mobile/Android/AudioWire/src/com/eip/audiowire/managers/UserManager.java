@@ -92,7 +92,7 @@ public class UserManager
 		}
 		
 		String url = "/api/users";
-		Log.i("AUDIOWIRE", "ABOUT TO SEND REQUEST : " + url);
+		Log.i("AUDIOWIRE", "ABOUT TO SEND REQUEST : " + url + " with : " + toSend.toString());
 		AWRequester.getInstance(activity.getApplicationContext()).postAWApi(url, toSend, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response)
@@ -195,7 +195,42 @@ public class UserManager
 			}
 		});
 	}
-
+	
+	public void lostPassword(String email, final Friends activity)
+	{
+		JSONObject toSend = new JSONObject();
+		try {
+			toSend.put("email", email);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		String url = "/api/users/reset-password-link";	
+		
+		AWRequester.getInstance(activity.getApplicationContext()).postAWApi(url, toSend, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response)
+			{
+				Boolean success;
+				try
+				{
+					success = response.getBoolean("success");
+					activity.didPasswordNotificationSent("You will receive an email with the password reset procedure", true);
+				}
+				catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener()
+		{
+			@Override
+			public void onErrorResponse(VolleyError error) 
+			{
+				activity.didPasswordNotificationSent("An error occured. Please try again", false);
+			}
+		});
+	}
+	
 	public void login(final HashMap<String, String> userModel, final Friends activity)
 	{
 		JSONObject toSend = new JSONObject(userModel);

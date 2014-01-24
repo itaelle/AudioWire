@@ -1,6 +1,8 @@
 package com.eip.audiowire.activities;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -56,16 +58,43 @@ public class Friends extends Activity
         email.setTypeface(font);
         pw.setTypeface(font);
 
+        lost.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v)
+			{
+				// LOST PASSWORD
+            	String emailStr = email.getText().toString();
+            	
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(emailStr);
+                if (!m.matches()) {
+                	Toast.makeText(getApplicationContext(), "Please check your e-mail", Toast.LENGTH_SHORT).show();
+                	return ;
+                }
+            	spinner.setVisibility(View.VISIBLE);
+                UserManager.getInstance().lostPassword(emailStr, Friends.this);
+			}
+		});
+        
         go = (ImageButton) findViewById(R.id.go);
         go.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v)
             {
-            	// LOGIN
-            	spinner.setVisibility(View.VISIBLE);
             	String emailStr = email.getText().toString();
             	String pwdStr = pw.getText().toString();
+
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(emailStr);
+                if (!m.matches()) {
+                	Toast.makeText(getApplicationContext(), "Please check your e-mail", Toast.LENGTH_SHORT).show();
+                	return ;
+                }
+
+            	// LOGIN
+            	spinner.setVisibility(View.VISIBLE);
             	
             	if (emailStr != null && emailStr.length() > 0 && 
             			pwdStr != null && pwdStr.length() > 0)
@@ -90,6 +119,12 @@ public class Friends extends Activity
                 startActivity(intent);
             }
         });
+    }
+    
+    public void didPasswordNotificationSent(String messageToDisplay, Boolean success)
+    {
+    	spinner.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), messageToDisplay, Toast.LENGTH_SHORT).show();
     }
     
     public void didLoggedIn(String messageToDisplay, Boolean success)

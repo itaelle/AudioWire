@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ public class Subscribe extends Activity
     private EditText last_name;
     private ImageButton subscribe;
     private ProgressBar spinner;
+    private WebView myWebViewCGU;
 
     final String EXTRA_LOGIN = "user_login";
     final String EXTRA_PASSWORD = "user_password";
@@ -52,7 +54,8 @@ public class Subscribe extends Activity
     final String EXTRA_NICKNAME = "user_nickname";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -64,9 +67,11 @@ public class Subscribe extends Activity
         last_name = (EditText) findViewById(R.id.last_name);
         nickname = (EditText) findViewById(R.id.nickname);
         spinner = (ProgressBar) findViewById(R.id.progressBar2);
+        myWebViewCGU = (WebView) findViewById(R.id.webview);
         
         spinner.setVisibility(View.GONE);
-
+        myWebViewCGU.setVisibility(View.GONE);
+        
         Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
         termsText.setTypeface(font);
         pw.setTypeface(font);
@@ -80,6 +85,17 @@ public class Subscribe extends Activity
         if (terms.isChecked()) {
             terms.setChecked(false);
         }
+        
+        final TextView termsString =  (TextView) findViewById(R.id.termsString);
+        termsString.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v)
+			{
+				myWebViewCGU.setVisibility(View.VISIBLE);
+				myWebViewCGU.loadUrl("https://audiowire.co/terms");
+			}
+		});
 
         subscribe = (ImageButton) findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
@@ -88,10 +104,10 @@ public class Subscribe extends Activity
             public void onClick(View v)
             {
             	String emailStr = email.getText().toString();
-            	String pwdStr = email.getText().toString();
-            	String usernameStr = email.getText().toString();
-            	String last_nameStr = email.getText().toString();
-            	String first_nameStr = email.getText().toString();
+            	String pwdStr = pw.getText().toString();
+            	String usernameStr = nickname.getText().toString();
+            	String last_nameStr = last_name.getText().toString();
+            	String first_nameStr = first_name.getText().toString();
             	
                 Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
                 Matcher m = p.matcher(emailStr);
@@ -102,6 +118,12 @@ public class Subscribe extends Activity
                 }
                 else if (!m.matches()) {
                     Toast.makeText(getApplicationContext(), "Please check your e-mail", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
+                if (terms.isChecked() == false)
+                {
+                	Toast.makeText(getApplicationContext(), "Please read the terms and conditions", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -141,4 +163,16 @@ public class Subscribe extends Activity
         }
     }
 
+    @Override
+    public void onBackPressed()
+    {
+    	if (myWebViewCGU.getVisibility() == View.VISIBLE)
+    	{
+    		myWebViewCGU.setVisibility(View.GONE);
+    	}
+    	else
+    	{
+    		super.onBackPressed();
+    	}
+    }
 }

@@ -81,9 +81,9 @@ public final class R {
     }
     public static final class id {
         public static final int btnBackward=0x7f07001f;
-        public static final int btnButton1=0x7f07002c;
-        public static final int btnButton2=0x7f07002d;
-        public static final int btnButton3=0x7f07002e;
+        public static final int btnButton1=0x7f07002d;
+        public static final int btnButton2=0x7f07002e;
+        public static final int btnButton3=0x7f07002f;
         public static final int btnForward=0x7f070020;
         public static final int btnNext=0x7f070017;
         public static final int btnPlay=0x7f070015;
@@ -91,11 +91,11 @@ public final class R {
         public static final int btnPrevious=0x7f070013;
         public static final int btnRepeat=0x7f070014;
         public static final int btnShuffle=0x7f070016;
-        public static final int btnSubmit=0x7f070031;
-        public static final int check=0x7f070029;
-        public static final int editText1=0x7f070030;
-        public static final int email=0x7f070028;
-        public static final int first_name=0x7f070024;
+        public static final int btnSubmit=0x7f070032;
+        public static final int check=0x7f07002a;
+        public static final int editText1=0x7f070031;
+        public static final int email=0x7f070029;
+        public static final int first_name=0x7f070025;
         public static final int go=0x7f070005;
         public static final int header=0x7f07000a;
         public static final int header_subscribe=0x7f070000;
@@ -104,12 +104,12 @@ public final class R {
         public static final int imageButton4=0x7f07000f;
         public static final int imageView1=0x7f07000b;
         public static final int item=0x7f07001e;
-        public static final int last_name=0x7f070025;
+        public static final int last_name=0x7f070026;
         public static final int login=0x7f070003;
         public static final int logo=0x7f070002;
         public static final int lost=0x7f070009;
         public static final int lvListe=0x7f07001d;
-        public static final int nickname=0x7f070026;
+        public static final int nickname=0x7f070027;
         public static final int or=0x7f070007;
         public static final int player_footer_bg=0x7f070012;
         public static final int player_header_bg=0x7f070010;
@@ -124,12 +124,13 @@ public final class R {
         public static final int songTotalDurationLabel=0x7f07001b;
         public static final int status=0x7f070006;
         public static final int subscribe=0x7f070008;
-        public static final int terms=0x7f07002a;
-        public static final int termsString=0x7f07002b;
-        public static final int textView1=0x7f07002f;
+        public static final int terms=0x7f07002b;
+        public static final int termsString=0x7f07002c;
+        public static final int textView1=0x7f070030;
         public static final int timerDisplay=0x7f070019;
-        public static final int white1=0x7f070023;
-        public static final int white2=0x7f070027;
+        public static final int webview=0x7f070023;
+        public static final int white1=0x7f070024;
+        public static final int white2=0x7f070028;
     }
     public static final class layout {
         public static final int activity_splash=0x7f030000;

@@ -1,8 +1,9 @@
+<% if @hideall == "false" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Sample 4</title>
+    <title>Audiowire</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/images/flat-ui/images/favicon.ico">
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -16,10 +17,13 @@
     <div class="flash <%= key %>"><%= value %></div>
     <% end %>
     <%= render 'layouts/topbar' %>
+    <% end %>
     <%= yield %>
+    <% if @hideall == "false" %>
     <%= javascript_include_tag 'application' %>
     <!--[if lt IE 8]><%= javascript_include_tag "icon-font-ie7" %><![endif]-->
     </div>
     <%= render 'layouts/footer' %>
   </body>	
 </html>
+<% end %>

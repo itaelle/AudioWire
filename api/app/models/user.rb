@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
-  attr_protected :reset_password_token_valid_until, :username
+  attr_protected :reset_password_token_valid_until
   has_many :tracks, dependent: :destroy
   has_many :playlists, dependent: :destroy
 

@@ -2,9 +2,7 @@ AudioWire::Application.routes.draw do
 
   root :to => "websiteen#home"
 
-  # get "home/index"
-
-  devise_for :users, :skip => [:registrations, :sessions]# , :passwords]
+  devise_for :users, :skip => [:registrations, :sessions]
   as :user do
     post '/api/users' => 'registrations#create'
   end
@@ -51,27 +49,29 @@ AudioWire::Application.routes.draw do
     match '/playlist/:id/tracks/:id_track' => 'playlists#delete_track', :via => :delete
   end
 
-  scope '/fr' do
-      get '' => 'websitefr#home'
-      match '/project' => 'websitefr#project', :via => :get
-      match '/team' => 'websitefr#team', :via => :get
-      match '/contact' => 'websitefr#contact', :via => :get
-      match '/login' => 'websitefr#login', :via => :get
-      match '/about' => 'websitefr#about', :via => :get
-      match '/support' => 'websitefr#support', :via => :get
-    end
+  # scope '/fr' do
+  #     get '' => 'websitefr#home'
+  #     match '/project' => 'websitefr#project', :via => :get
+  #     match '/team' => 'websitefr#team', :via => :get
+  #     match '/contact' => 'websitefr#contact', :via => :get
+  #     match '/login' => 'websitefr#login', :via => :get
+  #     match '/about' => 'websitefr#about', :via => :get
+  #     match '/support' => 'websitefr#support', :via => :get
+  #   end
 
-scope '/en' do
+# scope '/en' do
       get '' => 'websiteen#home'
-      match '/project' => 'websiteen#project', :via => :get
-      match '/team' => 'websiteen#team', :via => :get
-      match '/contact' => 'websiteen#contact', :via => :get
-      match '/login' => 'websiteen#login', :via => :get
-      match '/about' => 'websiteen#about', :via => :get
+      # match '/project' => 'websiteen#project', :via => :get
+      # match '/team' => 'websiteen#team', :via => :get
+      # match '/contact' => 'websiteen#contact', :via => :get
+      # match '/login' => 'websiteen#login', :via => :get
+      # match '/about' => 'websiteen#about', :via => :get
       match '/users/:id/password-reset/:token' => 'websiteen#reset_password', :via => :get
       match '/users/:id/password-reset/:token' => 'users#reset_password_with_token', :via => :put
       match '/support' => 'websiteen#support', :via => :get
-    end
+      match '/terms' => 'websiteen#terms', :via => :get
+      match '/download' => 'websiteen#download', :via => :get
+    # end
 match '/terms' => 'websiteen#terms', :via => :get
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

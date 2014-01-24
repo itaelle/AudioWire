@@ -1,1 +1,25 @@
-<%= yield %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Sample 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/images/flat-ui/images/favicon.ico">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <%= csrf_meta_tag %>
+    <%= render 'layouts/stylesheets' %>
+    <!--[if lt IE 9]><%= javascript_include_tag "html5shiv" %><![endif]-->
+  </head>
+  <body>
+    <div id="wrap">
+    <% flash.each do |key,value| %>
+    <div class="flash <%= key %>"><%= value %></div>
+    <% end %>
+    <%= render 'layouts/topbar' %>
+    <%= yield %>
+    <%= javascript_include_tag 'application' %>
+    <!--[if lt IE 8]><%= javascript_include_tag "icon-font-ie7" %><![endif]-->
+    </div>
+    <%= render 'layouts/footer' %>
+  </body>	
+</html>

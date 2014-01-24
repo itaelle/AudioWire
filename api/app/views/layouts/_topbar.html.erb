@@ -1,0 +1,19 @@
+<!-- header-10 -->
+<header class="header-10">
+    <div class="container">
+        <div class="navbar span12">
+            <div class="navbar-inner">
+                <button type="button" class="btn btn-navbar"> </button>
+                <a class="brand" href="/"><%= image_tag "logo.png" %></a>
+                <div class="nav-collapse collapse pull-right">
+                    <ul class="nav">
+                        <li <% if @current_page == "" %>class="active"<% end %>><a href="/">Home</a></li>
+                        <li <% if @current_page == "download" %>class="active"<% end %>><a href="/download">Download</a></li>
+                        <li <% if @current_page == "support" %>class="active"<% end %>><a href="/support">Support</a></li>
+                        <li <% if @current_page == "terms" %>class="active"<% end %>><a href="/terms">Terms</a></li>
+                    </ul>
+                </div>
+            </div> <!-- navbar-inner -->
+        </div> <!-- navbar -->
+    </div> <!-- container -->
+</header>

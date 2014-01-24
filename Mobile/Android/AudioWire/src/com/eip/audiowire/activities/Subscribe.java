@@ -1,5 +1,9 @@
 package com.eip.audiowire.activities;
 
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -11,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eip.audiowire.R;
@@ -18,13 +23,12 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import com.eip.audiowire.R;
+import com.eip.audiowire.managers.UserManager;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Augustin on 21/01/14.
@@ -39,6 +43,7 @@ public class Subscribe extends Activity
     private EditText first_name;
     private EditText last_name;
     private ImageButton subscribe;
+    private ProgressBar spinner;
 
     final String EXTRA_LOGIN = "user_login";
     final String EXTRA_PASSWORD = "user_password";
@@ -58,6 +63,9 @@ public class Subscribe extends Activity
         first_name = (EditText) findViewById(R.id.first_name);
         last_name = (EditText) findViewById(R.id.last_name);
         nickname = (EditText) findViewById(R.id.nickname);
+        spinner = (ProgressBar) findViewById(R.id.progressBar2);
+        
+        spinner.setVisibility(View.GONE);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
         termsText.setTypeface(font);
@@ -77,18 +85,19 @@ public class Subscribe extends Activity
         subscribe.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Subscribe.this, AudioWireMainActivity.class);
-                final String loginTxt = email.getText().toString();
-                final String nickTxt = pw.getText().toString();
-                final String passTxt = pw.getText().toString();
-
-
+            public void onClick(View v)
+            {
+            	String emailStr = email.getText().toString();
+            	String pwdStr = email.getText().toString();
+            	String usernameStr = email.getText().toString();
+            	String last_nameStr = email.getText().toString();
+            	String first_nameStr = email.getText().toString();
+            	
                 Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-                Matcher m = p.matcher(loginTxt);
+                Matcher m = p.matcher(emailStr);
 
-                if (loginTxt.equals("") || passTxt.equals("") || nickTxt.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                if (emailStr.equals("") || pwdStr.equals("") || usernameStr.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if (!m.matches()) {
@@ -96,16 +105,40 @@ public class Subscribe extends Activity
                     return;
                 }
 
-                intent.putExtra(EXTRA_LOGIN, email.getText().toString());
-                intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
-                intent.putExtra(EXTRA_FIRST_NAME, first_name.getText().toString());
-                intent.putExtra(EXTRA_LAST_NAME, last_name.getText().toString());
-                intent.putExtra(EXTRA_NICKNAME, nickname.getText().toString());
-                Toast.makeText(getApplicationContext(), "Congratulations! You've created your account within the AudioWire. Now enjoy the features our brain new music player!", Toast.LENGTH_LONG).show();
-                startActivity(intent);
+            	spinner.setVisibility(View.VISIBLE);
+            	
+            	HashMap<String, String> userToCreate = new HashMap<String, String>(); 
+            	userToCreate.put("email", emailStr);
+            	userToCreate.put("password", pwdStr);
+            	userToCreate.put("username", usernameStr);
+            	userToCreate.put("first_name", first_nameStr);
+            	userToCreate.put("last_name", last_nameStr);
+            	
+            	UserManager.getInstance().subscribe(userToCreate, Subscribe.this);
             }
         });
+    }
+    
+    public void didSubscribed(String messageToDisplay, Boolean success)
+    {
+    	spinner.setVisibility(View.GONE);
 
+        if (success)
+        {
+            Toast.makeText(getApplicationContext(), "Congratulation! You've created your account within the AudioWire. Now enjoy the features our brain new music player.", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(Subscribe.this, AudioWireMainActivity.class);
+            intent.putExtra(EXTRA_LOGIN, email.getText().toString());
+            intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
+            intent.putExtra(EXTRA_FIRST_NAME, first_name.getText().toString());
+            intent.putExtra(EXTRA_LAST_NAME, last_name.getText().toString());
+            intent.putExtra(EXTRA_NICKNAME, nickname.getText().toString());
+            startActivity(intent);
+        }
+        else
+        {
+        	 Toast.makeText(getApplicationContext(), messageToDisplay, Toast.LENGTH_LONG).show();
+        }
     }
 
 }

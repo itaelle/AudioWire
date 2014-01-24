@@ -15,11 +15,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Augustin on 21/01/14.
@@ -33,12 +31,14 @@ public class Friends extends Activity
     private EditText pw;
     private ImageButton go;
     private ImageButton subscribe;
+    private ProgressBar spinner;
 
     final String EXTRA_LOGIN = "user_login";
     final String EXTRA_PASSWORD = "user_password";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+   {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends);
@@ -46,6 +46,9 @@ public class Friends extends Activity
         lost = (TextView) findViewById(R.id.lost);
         email = (EditText) findViewById(R.id.login);
         pw = (EditText) findViewById(R.id.pw);
+        spinner = (ProgressBar) findViewById(R.id.progressBar1);
+        
+        spinner.setVisibility(View.GONE);
         
         Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
         or.setTypeface(font);
@@ -60,6 +63,7 @@ public class Friends extends Activity
             public void onClick(View v)
             {
             	// LOGIN
+            	spinner.setVisibility(View.VISIBLE);
             	String emailStr = email.getText().toString();
             	String pwdStr = pw.getText().toString();
             	
@@ -73,28 +77,6 @@ public class Friends extends Activity
             		UserManager userManger = UserManager.getInstance();
             		userManger.login(userModel, Friends.this);
             	}
-            	
-                Intent intent = new Intent(Friends.this, AudioWireMainActivity.class);
-
-                final String loginTxt = email.getText().toString();
-                final String passTxt = pw.getText().toString();
-
-                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-                Matcher m = p.matcher(loginTxt);
-
-                if (loginTxt.equals("") || passTxt.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please fill both e-mail and password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                else if (!m.matches()) {
-                    Toast.makeText(getApplicationContext(), "Please check your e-mail", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                intent.putExtra(EXTRA_LOGIN, email.getText().toString());
-                intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
-
-                startActivity(intent);
             }
         });
 
@@ -110,8 +92,17 @@ public class Friends extends Activity
         });
     }
     
-    public void didLoggedIn(String messageToDisplay)
+    public void didLoggedIn(String messageToDisplay, Boolean success)
     {
+    	spinner.setVisibility(View.GONE);
         Toast.makeText(getApplicationContext(), messageToDisplay, Toast.LENGTH_SHORT).show();
+        
+        if (success)
+        {
+            Intent intent = new Intent(Friends.this, AudioWireMainActivity.class);
+            intent.putExtra(EXTRA_LOGIN, email.getText().toString());
+            intent.putExtra(EXTRA_PASSWORD, pw.getText().toString());
+            startActivity(intent);
+        }
     }
 }

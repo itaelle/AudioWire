@@ -31,7 +31,7 @@ public class PlayListActivity extends ListActivity {
 
 		LibraryManager plm = new LibraryManager();
 		// get all songs from sdcard
-		//this.songsList = plm.getPlayList();
+		// this.songsList = plm.getPlayList();
 
 		// looping through playlist
 		for (int i = 0; i < songsList.size(); i++) {

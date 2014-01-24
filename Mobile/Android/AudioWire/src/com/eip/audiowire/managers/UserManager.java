@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.eip.audiowire.activities.AudioWireMainActivity;
 import com.eip.audiowire.activities.Friends;
+import com.eip.audiowire.activities.Subscribe;
 import com.eip.audiowire.tools.AWRequester;
 
 public class UserManager
@@ -80,14 +81,19 @@ public class UserManager
 		});
 	}
 	
-	public void subscribe(final HashMap<String, String> userToCreate, final Context context) throws JSONException
+	public void subscribe(final HashMap<String, String> userToCreate, final Subscribe activity)
 	{
 		JSONObject toSend = new JSONObject();
-		toSend.put("user", new JSONObject(userToCreate));
+		
+		try {
+			toSend.put("user", new JSONObject(userToCreate));
+		} catch (JSONException e2) {
+			e2.printStackTrace();
+		}
+		
 		String url = "/api/users";
-
 		Log.i("AUDIOWIRE", "ABOUT TO SEND REQUEST : " + url);
-		AWRequester.getInstance(context).postAWApi(url, toSend, new Response.Listener<JSONObject>() {
+		AWRequester.getInstance(activity.getApplicationContext()).postAWApi(url, toSend, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response)
 			{
@@ -107,15 +113,18 @@ public class UserManager
 							HashMap<String, String> userToWrite = new HashMap<String, String>();
 							userToWrite.put("email", (String) userToCreate.get("email"));
 							userToWrite.put("password", (String) userToCreate.get("password"));
-							UserManager.getInstance().writeToFile(context, userToWrite);
+							UserManager.getInstance().writeToFile(activity.getApplicationContext(), userToWrite);
 							
-							UserManager.getInstance().getUserConnected(context);
+							UserManager.getInstance().getUserConnected(activity.getApplicationContext());
 							Log.i("AUDIOWIRE", "Token :" + UserManager.getInstance().connectedUserToken);
+							
+							activity.didSubscribed(null, true);
 						}
 					}
 					else
 					{
 						System.out.print("NO SUCESS SUBSCRIBE");
+						activity.didSubscribed("Something went wrong while attempting to retrieve data from the AudioWire - API", false);
 						// Pop up Something went wrong while attempting to retrieve data from the AudioWire - API
 					}
 				}
@@ -157,6 +166,7 @@ public class UserManager
 							{
 								// POP up message
 								Log.i("AUDIOWIRE", "onFailure SUBSCRIBE = " + message);
+								activity.didSubscribed(message, false);
 							}
 						}
 						else if (response.has("error"))
@@ -167,12 +177,14 @@ public class UserManager
 							{
 								// POP up error
 								Log.i("AUDIOWIRE", "onFailure SUBSCRIBE = " + errorReturned);
+								activity.didSubscribed(errorReturned, false);
 							}
 						}
 						else
 						{
 							Log.i("AUDIOWIRE", "onFailure SUBSCRIBE = " + "Something went wrong while attempting to retrieve data from the AudioWire - API");
 							// POP up "Something went wrong while attempting to retrieve data from the AudioWire - API"
+							activity.didSubscribed("Something went wrong while attempting to retrieve data from the AudioWire - API", false);
 						}
 					}
 				}
@@ -208,12 +220,12 @@ public class UserManager
 							Log.i("AUDIOWIRE", "Token :" + UserManager.getInstance().connectedUserToken);
 							UserManager.getInstance().writeToFile(activity.getApplicationContext(), userModel);
 							UserManager.getInstance().getUserConnected(activity.getApplicationContext());
-							activity.didLoggedIn("You are now connected!");
+							activity.didLoggedIn("You are now connected!", true);
 						}
 					}
 					else
 					{
-						activity.didLoggedIn("Something went wrong while attempting to retrieve data from the AudioWire - API");
+						activity.didLoggedIn("Something went wrong while attempting to retrieve data from the AudioWire - API", false);
 						System.out.print("NO SUCESS LOGIN");
 						// Pop up Something went wrong while attempting to retrieve data from the AudioWire - API
 					}
@@ -256,7 +268,7 @@ public class UserManager
 							if (message.length() > 0)
 							{
 								// POP up message
-								activity.didLoggedIn(message);
+								activity.didLoggedIn(message, true);
 								Log.i("AUDIOWIRE", "onFailure LOGIN = " + message);
 							}
 						}
@@ -267,13 +279,13 @@ public class UserManager
 							if (errorReturned != null && errorReturned.length() > 0)
 							{
 								// POP up error
-								activity.didLoggedIn(errorReturned);
+								activity.didLoggedIn(errorReturned, false);
 								Log.i("AUDIOWIRE", "onFailure LOGIN = " + errorReturned);
 							}
 						}
 						else
 						{
-							activity.didLoggedIn("Something went wrong while attempting to retrieve data from the AudioWire - API");
+							activity.didLoggedIn("Something went wrong while attempting to retrieve data from the AudioWire - API", false);
 							Log.i("AUDIOWIRE", "onFailure LOGIN = " + "Something went wrong while attempting to retrieve data from the AudioWire - API");
 							// POP up "Something went wrong while attempting to retrieve data from the AudioWire - API"
 						}

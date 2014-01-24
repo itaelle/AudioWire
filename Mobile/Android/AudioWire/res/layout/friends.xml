@@ -11,12 +11,21 @@
         android:id="@+id/header_subscribe"
         android:layout_width="fill_parent"
         android:layout_height="60dip"
-
+		android:orientation="vertical"
         android:background="@drawable/top_login"
         android:layout_alignParentTop="true"
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
     </LinearLayout>
+
+    	<ProgressBar
+   	android:id="@+id/progressBar1"
+   	style="?android:attr/progressBarStyleSmall"
+   	android:layout_width="wrap_content"
+   	android:layout_height="wrap_content"
+   	android:layout_centerHorizontal="true"
+   	android:layout_marginTop="10dp"
+   	/>  
 
     <ScrollView
         android:layout_width="match_parent"

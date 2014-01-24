@@ -88,7 +88,6 @@ public class AudioWireMainActivity extends Activity implements OnCompletionListe
 		super.onCreate(savedInstanceState);
 		setContentView(layout.home);
 		
-		
 		this.addListenerOnButton();
 		
 //		// All player buttons

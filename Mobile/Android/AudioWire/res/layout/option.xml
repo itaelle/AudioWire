@@ -3,4 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background" >
+        <LinearLayout
+        android:id="@+id/header_subscribe"
+        android:layout_width="fill_parent"
+        android:layout_height="60dip"
+		android:orientation="vertical"
+        android:background="@drawable/top_new"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+    </LinearLayout>
+
+     <ImageView
+         android:id="@+id/options"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/recap"
+         android:layout_below="@+id/header_subscribe"
+         android:layout_marginRight="5dp"
+         android:layout_marginTop="20dp"
+         android:paddingTop="10dp"
+         android:src="@drawable/options2" />
+
+     <ImageButton
+         android:id="@+id/subscribe"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_alignTop="@+id/options"
+         android:layout_marginLeft="25dp"
+         android:layout_marginRight="25dp"
+         android:layout_marginTop="96dp"
+         android:background="@null"
+         android:src="@drawable/subscribe" />
+
+     <ImageButton
+         android:id="@+id/signin"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/options"
+         android:layout_alignParentLeft="true"
+         android:layout_marginLeft="25dp"
+         android:layout_marginRight="14dp"
+         android:layout_marginTop="50dp"
+         android:layout_marginBottom="14dp"
+         android:background="@null"
+         android:src="@drawable/signin" />
+
+     <ImageView
+         android:id="@+id/recap"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_below="@+id/options"
+         android:paddingTop="40dp"
+         android:src="@drawable/recap" />
+    
 </RelativeLayout>

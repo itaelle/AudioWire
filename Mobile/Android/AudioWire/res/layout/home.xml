@@ -34,24 +34,24 @@
         <!--android:id="@+id/textView" />-->
 
     <ImageButton
+        android:id="@+id/imageButton"
         android:background="@null"
         android:layout_marginLeft="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnPlaylist"
         android:src="@drawable/library"
         android:layout_below="@+id/imageView1"
         android:layout_marginTop="-10dp" />
 
     <ImageButton
+		android:id="@+id/imageButton2"
         android:layout_marginLeft="12dp"
         android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
         android:src="@drawable/friends"
         android:layout_below="@+id/imageView1"
-        android:layout_toRightOf="@+id/btnPlaylist"
+        android:layout_toRightOf="@+id/imageButton"
         android:layout_marginTop="-10dp" />
 
     <ImageButton
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageButton3"
         android:src="@drawable/playlists"
-        android:layout_below="@+id/btnPlaylist"
+        android:layout_below="@+id/imageButton"
         />
 
     <ImageButton
@@ -83,28 +83,18 @@
         android:id="@+id/player_header_bg"
         android:layout_width="fill_parent"
         android:layout_height="60dip"
-
+		android:orientation="vertical"
         android:background="@drawable/top"
         android:layout_alignParentTop="true"
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
-
-        <!-- Song Title -->
-        "
-
-        <!-- Playlist button -->
-        <!--<ImageButton-->
-            <!--android:id="@+id/imageButton3"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:src="@drawable/btn_playlist"-->
-            <!--android:background="@null"/>-->
     </LinearLayout>
 
     <!-- Song Thumbnail Image -->
     <LinearLayout
         android:id="@+id/songThumbnail"
-        android:layout_width="fill_parent"
+	android:orientation="vertical"
+	        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -256,12 +246,12 @@
         android:id="@+id/songTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:textColor="#f3f3f3"
-        android:textSize="16dp"
+        android:textSize="15dp"
         android:paddingLeft="10dp"
         android:textStyle="bold"
-        android:text="Money   Pink Floyd   Echoes"
         android:layout_above="@+id/player_footer_bg"
         android:layout_centerHorizontal="true"
         android:autoText="true" />

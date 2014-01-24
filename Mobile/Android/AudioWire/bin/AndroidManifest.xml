@@ -32,16 +32,6 @@
             </intent-filter>
         </activity>
 
-
-        <!--home-->
-        <activity
-            android:name="com.eip.audiowire.activities.Home"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-
-
         <!--main-->
         <activity
             android:name="com.eip.audiowire.activities.AudioWireMainActivity"
@@ -54,10 +44,10 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.eip.audiowire.activities.PlayListActivity" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:name="com.eip.audiowire.activities.LibraryActivity" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:name=".activities.Option" android:theme="@android:style/Theme.NoTitleBar"/>
+        
         <activity android:name=".activities.Friends" android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".activities.ManagePlaylist" android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:name=".activities.Subscribe" android:theme="@android:style/Theme.NoTitleBar" />
     </application>
     <navbar-hidden>true</navbar-hidden>

@@ -214,7 +214,10 @@ public class UserManager
 				try
 				{
 					success = response.getBoolean("success");
-					activity.didPasswordNotificationSent("You will receive an email with the password reset procedure", true);
+					if (success)
+						activity.didPasswordNotificationSent("You will receive an email with the password reset procedure", true);
+					else
+						activity.didPasswordNotificationSent("An error occured. Please try again", false);
 				}
 				catch (JSONException e)
 				{

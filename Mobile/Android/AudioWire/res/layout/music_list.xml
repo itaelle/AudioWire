@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/logo_audiowire"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentRight="true"
+                
+                />
+            
+            <ImageButton
+                android:id="@+id/select"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_toLeftOf="@id/delete"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/go"
+                 />
+            <!-- android:padding="16dp"  -->
+    </RelativeLayout>
+
+                <!-- android:id="@android:id/list" -->
+    <ListView
+        android:id="@+id/listMusic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+	/>
+    
+    <!--
+        android:clickable="false"
+		android:focusable="false"
+    -->
+
+</RelativeLayout>

@@ -62,7 +62,7 @@ public class LibraryManager
 			track.put("dataStream", cursor.getString(3));
 			track.put("displayName", cursor.getString(4));
 			track.put("duration", cursor.getString(5));
-			track.put("artist", cursor.getString(6));
+			track.put("album", cursor.getString(6));
 			
 			songs.add(track);
 			//Log.i("IMPORT", fromCursor);
@@ -77,15 +77,14 @@ public class LibraryManager
 
 		try
 		{
-		    File file = new File(AWfilenameLibrary);
-		    if (!file.exists())
-		    {
-		        if (!file.createNewFile())
-		        {
-		        	return ;
-		        }
-		    }
-
+//		    File file = new File(AWfilenameLibrary);
+//		    if (!file.exists())
+//		    {
+//		        if (!file.createNewFile())
+//		        {
+//		        	return ;
+//		        }
+//		    }
 		  outputStream = context.openFileOutput(AWfilenameLibrary , Context.MODE_APPEND);
 		  ObjectOutputStream out = new ObjectOutputStream(outputStream);
 		  out.writeObject(scannedFiles);
@@ -104,14 +103,14 @@ public class LibraryManager
 
 		try 
 		{
-		    File file = new File(AWfilenameLibrary);
-		    if (!file.exists())
-		    {
-		        if (!file.createNewFile())
-		        {
-		        	return new ArrayList<HashMap<String, String>>();
-		        }
-		    }
+//		    File file = new File(AWfilenameLibrary);
+//		    if (!file.exists())
+//		    {
+//		        if (!file.createNewFile())
+//		        {
+//		        	return new ArrayList<HashMap<String, String>>();
+//		        }
+//		    }
 		    fis = context.openFileInput(AWfilenameLibrary);
 		    ObjectInputStream ois = new ObjectInputStream(fis);
 		    ArrayList<HashMap<String, String>> returnlist = (ArrayList<HashMap<String, String>>) ois.readObject();

@@ -84,8 +84,11 @@ public class LibraryActivity extends Activity
 						public void onClick(DialogInterface dialog,int id) {
 							// if this button is clicked, close
 							// current activity
+							
+							String TO_PLAY = "TO_PLAY";
 							LibraryActivity.this.finish();
-						   Intent intent = new Intent(LibraryActivity.this, Option.class);
+						   Intent intent = new Intent(LibraryActivity.this, PlayListActivity.class);
+			               intent.putExtra(TO_PLAY, "TO_PLAY");
 			                startActivity(intent);
 						}
 					  });

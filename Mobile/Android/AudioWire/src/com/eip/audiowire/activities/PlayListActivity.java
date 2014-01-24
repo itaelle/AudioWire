@@ -1,7 +1,9 @@
 package com.eip.audiowire.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -35,17 +37,46 @@ public class PlayListActivity extends Activity {
         setContentView(R.layout.manage_playlist);
 
         lvListe = (ListView)findViewById(R.id.lvListe);
-
-        String[] listeStrings = {"Playlist1","rock","Soirée"};
-//
-//        lvListe.setAdapter(new ArrayAdapter<String>(this,
-//                R.layout.manage_playlist, R.id.item, new String[] { " First",  " Second", " Third", " Fourth", " Fifth", " Sixth"}));
-
-//        Typeface font = Typeface.createFromAsset(getAssets(), "Futura-Bold.otf");
-//        lvListe.setTypeface(font);
-
-//        TextView item = (TextView) findViewById(R.id.item);
+        String[] listeStrings = {"Detente","Disney","Soirée qui bouge", "Mes Favoris", "90's"};
         lvListe.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listeStrings));
 
+        Intent intent = getIntent();
+        if (intent != null)
+        {
+        	this.setListItemsClick();
+        }
+        	this.setListItemsClickEmpty();
     }
+    
+	private void setListItemsClickEmpty()
+	{
+		this.lvListe.setOnItemClickListener(new AdapterView.OnItemClickListener() 
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+	           	 Intent intent = new Intent(PlayListActivity.this, LibraryActivity.class);
+                 startActivity(intent);	
+			}
+			
+		});
+	}
+    
+	private void setListItemsClick()
+	{
+		this.lvListe.setOnItemClickListener(new AdapterView.OnItemClickListener() 
+		{
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+            	 Intent intent = new Intent(PlayListActivity.this, LibraryActivity.class);
+             	Toast.makeText(getApplicationContext(), "Successfully added music to playlist", Toast.LENGTH_SHORT).show();
+                 startActivity(intent);
+
+			}
+		});
+		}
 }

@@ -303,7 +303,7 @@ public class AudioWireMainActivity extends Activity implements SeekBar.OnSeekBar
             @Override
             public void onClick(View arg0) {
 
-                Intent intent = new Intent(AudioWireMainActivity.this, LibraryActivity.class);
+                Intent intent = new Intent(AudioWireMainActivity.this, PlayListActivity.class);
                 startActivity(intent);
             }
 

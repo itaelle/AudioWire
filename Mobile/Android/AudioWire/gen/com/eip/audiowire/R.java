@@ -125,7 +125,7 @@ public final class R {
         public static final int lvListe=0x7f070021;
         public static final int nameMusic=0x7f070020;
         public static final int nickname=0x7f070034;
-        public static final int options=0x7f070028;
+        public static final int options=0x7f070027;
         public static final int or=0x7f070007;
         public static final int parent=0x7f070023;
         public static final int player_footer_bg=0x7f070012;
@@ -133,7 +133,7 @@ public final class R {
         public static final int progressBar1=0x7f070001;
         public static final int progressBar2=0x7f07002f;
         public static final int pw=0x7f070004;
-        public static final int recap=0x7f070027;
+        public static final int recap=0x7f070028;
         public static final int rowTextView=0x7f07002e;
         public static final int select=0x7f070025;
         public static final int signin=0x7f070029;

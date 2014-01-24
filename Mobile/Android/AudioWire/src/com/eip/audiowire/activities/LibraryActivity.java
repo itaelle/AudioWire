@@ -64,72 +64,29 @@ public class LibraryActivity extends Activity
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3)
 			{		
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LibraryActivity.this);
-
+		    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LibraryActivity.this);
+		    	 
 				// set title
-				alertDialogBuilder.setTitle("Manage music");
+				alertDialogBuilder.setTitle("Add to playlist");
 	 
 				// set dialog message
 				alertDialogBuilder
-					.setMessage("What do you want to do?")
+					.setMessage("Add song to playlist?")
 					.setCancelable(true)
-					.setNegativeButton("Delete music", new DialogInterface.OnClickListener() {
+					.setNegativeButton("No",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,int id) {
-					
-							AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LibraryActivity.this);
-							alertDialogBuilder.setTitle("Delete music");
-
-							alertDialogBuilder.setMessage("Are you sure?");
-							alertDialogBuilder.setCancelable(true);
-							alertDialogBuilder.setNegativeButton("No",  new DialogInterface.OnClickListener()
-							{
-
-								@Override
-								public void onClick(DialogInterface arg0,
-										int arg1) {
-									// TODO Auto-generated method stub
-									arg0.cancel();
-									
-								}
-									
-							}).setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,int id) {
-									// if this button is clicked, close
-									// current activity
-
-									// HERE WE DELETE MUSIC LIBRARY
-									
-									dialog.cancel();
-									
-								}
-							  });
-							
-							
-							// create alert dialog
-							AlertDialog alertDialog = alertDialogBuilder.create();
-					    	alertDialog.setIcon(R.drawable.logo_audiowire_icon);
-
-							// show it
-							alertDialog.show();						}
+							// if this button is clicked, just close
+							// the dialog box and do nothing
+							dialog.cancel();
+						}
 					})
-					.setPositiveButton("Add to playlist",new DialogInterface.OnClickListener() {
+					.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,int id) {
 							// if this button is clicked, close
 							// current activity
-							//LibraryActivity.this.finish();
-							
-		//						LayoutInflater factory = LayoutInflater.from(this);
-		//					final View alertDialogView = factory.inflate(R.layout.popup_bluetooth, null);
-//
-		//						AlertDialog.Builder adb_ = new AlertDialog.Builder(context);
-		//					adb_.setView(alertDialogView);
-		//				adb_.setTitle("Bluetooth devices");
-		//					adb_.setIcon(R.drawable.bluetooth_icon);
-//
-		//						this.dialog = adb_.create();
-		//					this.dialog.show();
-							
-							
+							LibraryActivity.this.finish();
+						   Intent intent = new Intent(LibraryActivity.this, Option.class);
+			                startActivity(intent);
 						}
 					  });
 
@@ -139,7 +96,7 @@ public class LibraryActivity extends Activity
 			    	alertDialog.setIcon(R.drawable.logo_audiowire_icon);
 
 					// show it
-					alertDialog.show();
+					alertDialog.show();	
 				return false;
 			}
 		});

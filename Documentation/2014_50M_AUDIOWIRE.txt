@@ -1,0 +1,7 @@
+AudioWire est une application permettant de lire la plupart des formats audio. 
+Le logiciel permettra de créer de listes de chansons adaptées aux goûts de l'utilisateur,
+grâce à une intelligence artificielle développée.
+Il rendra également possible la lecture de musique sur plusieurs postes en simultané.
+L'utilisateur y trouvera une dimension sociale qui lui permettra d'écouter des morceaux avec ses contacts, de partager ses goûts et de discuter.
+Le projet sera disponible sur Windows, Mac & Linux.
+	

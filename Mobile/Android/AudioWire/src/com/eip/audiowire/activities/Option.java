@@ -57,7 +57,7 @@ public class Option  extends Activity {
             @Override
             public void onClick(View v)
             {
-            	Intent intent = new Intent(Option.this, Friends.class);
+            	Intent intent = new Intent(Option.this, Subscribe.class);
                 startActivity(intent);
 
             }

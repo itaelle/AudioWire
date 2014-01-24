@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true, uniqueness: true, :email_format => {:message => 'format is invalid'}
   validates :password, presence: true, :on => :create
-  validates :username, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\Z/ }
+  validates :username, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9.]+\Z/ }
 
   def as_json(options = {})
     super(options.merge({ except: [:reset_password_token_valid_until, :created_at, :updated_at, :delete_at] }))

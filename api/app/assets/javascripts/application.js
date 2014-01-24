@@ -10,6 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
+//= require jquery-1.8.3.min
+//= require bootstrap.min
+//= require jquery.scrollTo-1.4.3.1-min
+//= require jquery.parallax.min
+//= require startup-kit
+//= require jquery.backgroundvideo.min
+//= require script
 //= require_tree .

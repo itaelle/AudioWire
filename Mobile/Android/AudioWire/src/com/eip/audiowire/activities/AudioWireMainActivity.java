@@ -9,6 +9,9 @@ import com.eip.audiowire.controllers.AudiowireMusicPlayer;
 import com.eip.audiowire.tools.Utilities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -300,7 +303,7 @@ public class AudioWireMainActivity extends Activity implements SeekBar.OnSeekBar
             @Override
             public void onClick(View arg0) {
 
-                Intent intent = new Intent(AudioWireMainActivity.this, LibraryActivity.class);
+                Intent intent = new Intent(AudioWireMainActivity.this, PlayListActivity.class);
                 startActivity(intent);
             }
 
@@ -318,6 +321,37 @@ public class AudioWireMainActivity extends Activity implements SeekBar.OnSeekBar
     @Override
     public void onBackPressed()
     {
-    	// POP UP USER Do you want to quit the application ?
-    }
+
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+ 
+			// set title
+			alertDialogBuilder.setTitle("Quit?");
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("Really quit AudioWire?")
+				.setCancelable(true)
+				.setNegativeButton("No",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, just close
+						// the dialog box and do nothing
+						dialog.cancel();
+					}
+				})
+				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, close
+						// current activity
+						AudioWireMainActivity.this.finish();
+					}
+				  });
+
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+		    	alertDialog.setIcon(R.drawable.logo_audiowire_icon);
+
+				// show it
+				alertDialog.show();
+    }				
 }

@@ -46,7 +46,8 @@
         
         <activity android:name="com.eip.audiowire.activities.LibraryActivity" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:name=".activities.Option" android:theme="@android:style/Theme.NoTitleBar"/>
-        
+                <activity android:name=".activities.PlayListActivity" android:theme="@android:style/Theme.NoTitleBar" />
+       
         <activity android:name=".activities.Friends" android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:name=".activities.Subscribe" android:theme="@android:style/Theme.NoTitleBar" />
     </application>

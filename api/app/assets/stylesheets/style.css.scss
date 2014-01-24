@@ -1129,6 +1129,7 @@ section * {
  * Content 8 stylesheet  
  * */
 .content-8 {
+    margin-bottom:100px;
   position: relative;
   text-align: center;
 }
@@ -1593,4 +1594,38 @@ body > section.content-8.v-center > div {
 .footer-3 .logos img{
   margin-right: 15px;
   margin-left: 15px;
+}
+
+.dltitle {
+    color: #000;
+    font-family: 'Open Sans', sans serif;
+    font-weight: 800;
+    margin-top: 40px;
+    font-size: 50px;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -100px;
+}
+
+.footer {
+  position: relative;
+  //margin-top: -150px; /* negative value of footer height */
+  height: 150px;
+  clear:both;
+  padding-top:20px;
+} 
+
+.tabledl th {
+    color:#000;
+    font-weight: bold;
+    font-family: 'Open Sans', sans serif;
+}
+
+html, body {
+    height: 100%;
 }

@@ -11,6 +11,7 @@
 @interface AWUserModel : AWMasterModel
 
 @property (strong, nonatomic) NSString *_id;
+@property (strong, nonatomic) NSString *friend_id;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *username;

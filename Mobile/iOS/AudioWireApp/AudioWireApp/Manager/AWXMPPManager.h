@@ -45,7 +45,7 @@
 @property (weak, nonatomic) id<AWXMPPManagerDelegate> delegate;
 
 +(AWXMPPManager*)getInstance;
--(void)sendMessage:(NSString *)bodymsg toUserJID:(NSString *)userJID;
+-(void)sendMessage:(NSString *)bodymsg toUserJID:(NSString *)userJID fromMe:(NSString *)me;
 -(void)saveUserSettingsWithJID:(NSString *)JID andPassword:(NSString *)pwd;
 
 - (NSManagedObjectContext *)managedObjectContext_roster;

@@ -58,7 +58,7 @@
 
         case AWDelFriend:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/friends/%@?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/friends/delete?token=%@"];
         } break;
         
         case AWGetFriends:
@@ -119,7 +119,7 @@
         } break;
         case AWDelTracksPlaylist:
         {
-            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/playlist/%@/tracks?token=%@"];
+            return [NSString stringWithFormat:@"%@%@", URL_API, @"/api/playlist/%@/tracks/delete?token=%@"];
         } break;
             
         default:

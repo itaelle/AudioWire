@@ -109,28 +109,37 @@
     
     NSError *error = nil;
     NSArray *messages_arc = [moc executeFetchRequest:fetchRequest error:&error];
-    
-    NSFetchedResultsController *fetchedResults = [self fetchedResultsController];
-    
+
+//    NSFetchedResultsController *fetchedResults = [self fetchedResultsController];
 //    XMPPUserCoreDataStorageObject *user = [fetchedResults objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc)
     {
         
         NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
-        NSLog(@"to param is %@",[element attributeStringValueForName:@"to"]);
+        NSLog(@"param to is %@",[element attributeStringValueForName:@"to"]);
+        NSLog(@"param sender is %@",[element attributeStringValueForName:@"sender"]);
         
         NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
         [m setObject:message.body forKey:@"msg"];
         
         if ([[element attributeStringValueForName:@"sender"] isEqualToString:chatWithUserJID])
+        {
             [m setObject:self.usernameSelectedFriend forKey:@"sender"];
-        else
+            [m setObject:[AWUserManager getInstance].user.username forKey:@"to"];
+        }
+        else // C'est pas ton pote l'envoyeur l'envoyeur
         {
             if ([[element attributeStringValueForName:@"to"] isSubString:[AWUserManager getInstance].user.username])
+            {
                 [m setObject:self.usernameSelectedFriend forKey:@"sender"];
-            else
+                [m setObject:[AWUserManager getInstance].user.username forKey:@"to"];
+            }
+            else if ([[element attributeStringValueForName:@"to"] isSubString:self.usernameSelectedFriend])
+            {
                 [m setObject:[AWUserManager getInstance].user.username forKey:@"sender"];
+                [m setObject:self.usernameSelectedFriend forKey:@"to"];
+            }
         }
 
         [m setObject:[NSNumber numberWithBool:[message.outgoing intValue]] forKey:@"outgoing"];
@@ -434,7 +443,7 @@
 
     self.textArea.text = @"";
     
-    [[AWXMPPManager getInstance] sendMessage:msgToSend toUserJID:[NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN]];
+    [[AWXMPPManager getInstance] sendMessage:msgToSend toUserJID:[NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN]fromMe:[NSString stringWithFormat:@"%@%@", [AWUserManager getInstance].user.username, JABBER_DOMAIN]];
 }
 
 @end

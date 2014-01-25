@@ -321,12 +321,11 @@ public class AudioWireMainActivity extends Activity implements SeekBar.OnSeekBar
     @Override
     public void onBackPressed()
     {
-
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
  
 			// set title
 			alertDialogBuilder.setTitle("Quit?");
- 
+
 			// set dialog message
 			alertDialogBuilder
 				.setMessage("Really quit AudioWire?")

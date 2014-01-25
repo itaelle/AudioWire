@@ -179,7 +179,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	return YES;
 }
 
--(void)sendMessage:(NSString *)bodymsg toUserJID:(NSString *)userJID
+-(void)sendMessage:(NSString *)bodymsg toUserJID:(NSString *)userJID fromMe:(NSString *)me
 {
     if (bodymsg && [bodymsg length] > 0 && userJID)
     {
@@ -189,6 +189,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
         [message addAttributeWithName:@"type" stringValue:@"chat"];
         [message addAttributeWithName:@"to" stringValue:userJID];
+        [message addAttributeWithName:@"sender" stringValue:me];
         [message addChild:body];
 
         [xmppStream sendElement:message];
@@ -352,11 +353,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
             }
             else
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[displayName substringWithRange:NSMakeRange(0, [displayName length] - [JABBER_DOMAIN length])]
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
                                                                     message:body
                                                                    delegate:self
-                                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"")
-                                                          otherButtonTitles:nil];
+                                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"")otherButtonTitles:nil];
+                
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[displayName substringWithRange:NSMakeRange(0, [displayName length] - [JABBER_DOMAIN length])]
+//                                                                    message:body
+//                                                                   delegate:self
+//                                                          cancelButtonTitle:NSLocalizedString(@"See", @"")
+//                                                          otherButtonTitles:NSLocalizedString(@"Later", @"")];
                 alertView.tag = 4242;
                 [alertView show];
             }
@@ -376,14 +382,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 #pragma UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    return ;
+    
     if (buttonIndex == alertView.cancelButtonIndex && alertView.tag == 4242)
     {
         UIViewController *rootVC = [[UIApplication sharedApplication] keyWindow].rootViewController;
         
-        if (rootVC)
+//        if (rootVC)
         {   
             ConversationViewController *conv = [[ConversationViewController alloc] initWithNibName:@"ConversationViewController" bundle:nil];
-            conv.usernameSelectedFriend = [[userSentMessage displayName] substringWithRange:NSMakeRange(0, [[userSentMessage displayName]length] - [JABBER_DOMAIN length])];
+            conv.usernameSelectedFriend = [userSentMessage displayName];
             conv.closeOption = YES;
             
             UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:conv];
@@ -399,7 +407,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
                 nav.navigationBar.translucent = NO;
             }
             
-            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
+//            [[UIApplication sharedApplication] keyWindow] make
+//            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
         }
     }
 }

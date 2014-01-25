@@ -47,12 +47,11 @@ public class PlayListActivity extends Activity {
         }
         	this.setListItemsClickEmpty();
     }
-    
+
 	private void setListItemsClickEmpty()
 	{
 		this.lvListe.setOnItemClickListener(new AdapterView.OnItemClickListener() 
 		{
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -70,8 +69,8 @@ public class PlayListActivity extends Activity {
 		{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
+					long arg3)
+			{
             	 Intent intent = new Intent(PlayListActivity.this, LibraryActivity.class);
              	Toast.makeText(getApplicationContext(), "Successfully added music to playlist", Toast.LENGTH_SHORT).show();
                  startActivity(intent);

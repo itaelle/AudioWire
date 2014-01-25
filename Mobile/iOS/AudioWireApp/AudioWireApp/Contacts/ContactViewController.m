@@ -156,6 +156,11 @@
                 NSString *msg = [toDelete count] == 1 ? NSLocalizedString(@"Your friend has been removed from your buddy list!", @"") : NSLocalizedString(@"Your friends have been removed from your buddy list!", @"");
                 [self setFlashMessage:msg];
             }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information", @"") message:error delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+                [alert show];
+            }
         }];
     }
 }
@@ -204,8 +209,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO Delete Contact data
-    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         if (tableData && [tableData count] > indexPath.row)

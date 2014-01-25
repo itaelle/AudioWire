@@ -100,7 +100,7 @@
 
 -(void)loadData
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Server location", @"") message:NSLocalizedString(@"Please specify the ip adress", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Desktop computer", @"") message:NSLocalizedString(@"Please specify the ip adress", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     alert.tag = 4242;
     [alert show];

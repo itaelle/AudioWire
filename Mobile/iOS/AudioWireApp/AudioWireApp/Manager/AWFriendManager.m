@@ -86,27 +86,45 @@
         return ;
     }
     
-    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddFriend], token];
+    NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWDelFriend], token];
     
     NSMutableDictionary *userDict = [NSMutableDictionary new];
     [userDict setObject:[AWUserModel arrayOfEmail:friendsToDel_] forKey:@"friends_email"];
+
+    [AWRequester requestAudiowireAPIPOST:url param:userDict cb_rep:^(NSDictionary *rep, BOOL success)
+    {
+        if (success && rep)
+        {
+            BOOL success = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+            NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+            NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+            if (success)
+                cb_rep(success, message);
+            else
+                cb_rep(success, error);
+        }
+        else
+        {
+            cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
+        }
+    }];
     
-    [AWRequester requestAudiowireAPIDELETE:url cb_rep:^(NSDictionary *rep, BOOL success)
-     {
-         if (success && rep)
-         {
-             BOOL success = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
-             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
-             if (success)
-                 cb_rep(success, message);
-             else
-                 cb_rep(success, error);
-         }
-         else
-         {
-             cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
-         }
-     }];
+//    [AWRequester requestAudiowireAPIPOST:url cb_rep:^(NSDictionary *rep, BOOL success)
+//     {
+//         if (success && rep)
+//         {
+//             BOOL success = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
+//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
+//             NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
+//             if (success)
+//                 cb_rep(success, message);
+//             else
+//                 cb_rep(success, error);
+//         }
+//         else
+//         {
+//             cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
+//         }
+//     }];
 }
 @end

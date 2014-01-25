@@ -50,6 +50,11 @@
         userModel.firstName = [NSObject getVerifiedString:[data objectForKey:@"first_name"]];
         userModel.email = [NSObject getVerifiedString:[data objectForKey:@"email"]];
         userModel._id = [NSObject getVerifiedString:[data objectForKey:@"id"]];
+        
+        if ([data objectForKey:@"friend_id"] != nil)
+        {
+            userModel.friend_id = [NSObject getVerifiedString:[data objectForKey:@"id"]];
+        }
     }
     return userModel;
 }

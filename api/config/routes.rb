@@ -73,6 +73,8 @@ AudioWire::Application.routes.draw do
       match '/download' => 'websiteen#download', :via => :get
     # end
 match '/terms' => 'websiteen#terms', :via => :get
+match '/terms2' => 'websiteen#termsembedded', :via => :get
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

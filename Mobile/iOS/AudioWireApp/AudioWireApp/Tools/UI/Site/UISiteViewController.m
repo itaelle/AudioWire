@@ -24,15 +24,18 @@
     [self getSite];
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+-(void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
     
     [_timer invalidate];
     _timer = nil;
 }
 
--(void) getSite{
-    if (self.url){
+-(void) getSite
+{
+    if (self.url)
+    {
         self.webView.delegate = self;
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
         if ([_delegate respondsToSelector:@selector(webViewDidBeginLoad)])
@@ -43,8 +46,10 @@
 
 #pragma mark - UIWebViewDelegate
 
-- (BOOL)webView:(UIWebView *)_webview shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (!_timer){
+- (BOOL)webView:(UIWebView *)_webview shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (!_timer)
+    {
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                   target:self
                                                 selector:@selector(checkNavigationStatus)
@@ -55,30 +60,34 @@
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView{
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
     [HUD show:YES];
     if ([_delegate respondsToSelector:@selector(webViewDidStartLoad:)])
         [_delegate performSelector:@selector(webViewDidStartLoad:) withObject:webView];
 }
 
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
     [HUD hide:YES];
     if ([_delegate respondsToSelector:@selector(webViewDidEndLoad:)])
         [_delegate performSelector:@selector(webViewDidEndLoad:) withObject:webView];
 }
 
--(void)checkNavigationStatus{
+-(void)checkNavigationStatus
+{
     if ([_delegate respondsToSelector:@selector(gestionOfButtons)])
         [_delegate performSelector:@selector(gestionOfButtons)];
 }
 
-- (void)goBack{
+- (void)goBack
+{
     
 }
 
-- (void)goForward{
-    
+- (void)goForward
+{
 }
 
 #pragma mark - Memory Management
@@ -86,7 +95,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)dealloc{

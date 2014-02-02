@@ -1,11 +1,3 @@
-//
-//  AWMusicPlayer.h
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/26/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "AWItunesImportManager.h"

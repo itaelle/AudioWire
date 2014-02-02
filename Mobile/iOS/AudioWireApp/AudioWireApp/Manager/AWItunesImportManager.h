@@ -1,11 +1,3 @@
-//
-//  AWItunesImporManager.h
-//  AudioWireApp
-//
-//  Created by Guilaume Derivery on 07/11/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 

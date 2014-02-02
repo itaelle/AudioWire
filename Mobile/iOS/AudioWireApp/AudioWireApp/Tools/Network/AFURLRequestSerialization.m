@@ -266,7 +266,8 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:method];
-
+//[request setTimeoutInterval:<#(NSTimeInterval)#>]
+    
     request = [[self requestBySerializingRequest:request withParameters:parameters error:nil] mutableCopy];
 
 	return request;

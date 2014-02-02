@@ -1,11 +1,3 @@
-//
-//  AWRequester.h
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/22/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 

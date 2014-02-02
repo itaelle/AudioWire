@@ -1,11 +1,3 @@
-//
-//  AWRemoteViewController.m
-//  AudioWireApp
-//
-//  Created by Guilaume Derivery on 08/12/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWRemoteViewController.h"
 #import "AWRemoteControlManager.h"
 

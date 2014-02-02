@@ -1,21 +1,7 @@
-//
-//  AWXMPPManager.m
-//  iPhoneXMPP
-//
-//  Created by Guilaume Derivery on 27/12/13.
-//
-//
-
 #import "AWXMPPManager.h"
 #import "ConversationViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 
-/*
- dealloc => tearDownStream
- 
- Appdelegate
- SetupStream
- 
- */
 
 NSString *const kXMPPmyJID = @"kXMPPmyJID";
 NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
@@ -309,6 +295,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
 {
+    return ;
+    
     if ([message isChatMessageWithBody])
 	{
 		XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
@@ -322,7 +310,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 		{
             if (self.delegate && [self.delegate respondsToSelector:@selector(messageRender:)])
             {
-                return ;
                 [self.delegate performSelector:@selector(messageRender:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:[[message elementForName:@"body"] stringValue], @"msg", @"me", @"sender", [NSNumber numberWithBool:YES], @"outgoing", nil]];
             }
 		}
@@ -333,47 +320,52 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
-	// A simple example of inbound message handling.
+    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
     
 	if ([message isChatMessageWithBody])
 	{
 		XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
 		                                                         xmppStream:xmppStream
 		                                               managedObjectContext:[self managedObjectContext_roster]];
-		if (user)
-            userSentMessage = user;
+
 		NSString *body = [[message elementForName:@"body"] stringValue];
-		NSString *displayName = [user displayName];
+        userSentMessage = user;
+        if (!userSentMessage || ![userSentMessage displayName] || [[userSentMessage displayName]length] == 0)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unknow", @"") message:[NSString stringWithFormat:@"%@", body] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", @"") otherButtonTitles:nil];
+            [alert show];
+            return ;
+        }
+		NSString *displaySenderName = [[user displayName] lowercaseString];
+        NSString *displayRecipientName = [[message toStr]lowercaseString];
+        
+        NSLog(@"FROM : %@",  displaySenderName);
+        NSLog(@"TO : %@",  displayRecipientName);
+        NSLog(@"Body : %@",  body);
         
 		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
 		{
-            if (self.delegate && [self.delegate respondsToSelector:@selector(messageRender:)])
+            if (self.delegate && [self.delegate respondsToSelector:@selector(messageRender:)] &&
+                ([self.delegate messageRender:[NSDictionary dictionaryWithObjectsAndKeys:[[message elementForName:@"body"] stringValue], @"msg", displaySenderName, @"sender",  displayRecipientName, @"to", [NSNumber numberWithBool:NO], @"outgoing", nil]] == TRUE))
             {
-                [self.delegate performSelector:@selector(messageRender:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:[[message elementForName:@"body"] stringValue], @"msg", displayName, @"sender", [NSNumber numberWithBool:NO], @"outgoing", nil]];
+                return ;
             }
             else
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displaySenderName
                                                                     message:body
                                                                    delegate:self
-                                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"")otherButtonTitles:nil];
-                
-//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[displayName substringWithRange:NSMakeRange(0, [displayName length] - [JABBER_DOMAIN length])]
-//                                                                    message:body
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:NSLocalizedString(@"See", @"")
-//                                                          otherButtonTitles:NSLocalizedString(@"Later", @"")];
+                                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")otherButtonTitles:NSLocalizedString(@"Ok", @""), nil];
                 alertView.tag = 4242;
                 [alertView show];
             }
 		}
 		else
 		{
-			// We are not active, so use a local notification instead
 			UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-			localNotification.alertAction = @"Ok";
-			localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
-            
+            localNotification.alertAction = @"ok";
+			localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n%@", displaySenderName,body];
+            localNotification.soundName = UILocalNotificationDefaultSoundName;
 			[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 		}
 	}
@@ -382,16 +374,14 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 #pragma UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    return ;
-    
-    if (buttonIndex == alertView.cancelButtonIndex && alertView.tag == 4242)
+    if (buttonIndex != alertView.cancelButtonIndex && alertView.tag == 4242)
     {
-        UIViewController *rootVC = [[UIApplication sharedApplication] keyWindow].rootViewController;
+        UINavigationController *rootVC = (UINavigationController *) [[UIApplication sharedApplication].windows[0] rootViewController];
         
-//        if (rootVC)
+        if (rootVC && [rootVC isKindOfClass:[UINavigationController class]])
         {   
             ConversationViewController *conv = [[ConversationViewController alloc] initWithNibName:@"ConversationViewController" bundle:nil];
-            conv.usernameSelectedFriend = [userSentMessage displayName];
+            conv.usernameSelectedFriend = [[userSentMessage displayName] lowercaseString];
             conv.closeOption = YES;
             
             UIAudioWireCustomNavigationController *nav = [[UIAudioWireCustomNavigationController alloc] initWithRootViewController:conv];
@@ -407,8 +397,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
                 nav.navigationBar.translucent = NO;
             }
             
-//            [[UIApplication sharedApplication] keyWindow] make
-//            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:nav animated:TRUE completion:^{}];
+            [rootVC presentViewController:nav animated:TRUE completion:^{
+            }];
         }
     }
 }

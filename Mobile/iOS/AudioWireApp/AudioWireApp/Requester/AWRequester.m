@@ -1,16 +1,6 @@
-//
-//  AWRequester.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/22/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWRequester.h"
 
 @implementation AWRequester
-
-// TODO reachability
 
 +(void)customRequestAudiowireAPI:(NSString *)url_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
 {
@@ -20,24 +10,27 @@
     NSLog(@"URL => %@", urlToRequester);
     
     NSMutableURLRequest * pocRequest = [[NSMutableURLRequest alloc] initWithURL:urlToRequester];
-    [pocRequest setTimeoutInterval:60];
     [pocRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [pocRequest setHTTPMethod:@"GET"];
     
     AFHTTPRequestOperation *afNetworkingOperation = [afNetworkingManager HTTPRequestOperationWithRequest:pocRequest success:^(AFHTTPRequestOperation *operation, id responseObject)
                                                      {
                                                          NSLog(@"RESPONSE => %@", responseObject);
-                                                         cb_rep_(responseObject, true);
+                                                         if (cb_rep_)
+                                                             cb_rep_(responseObject, true);
                                                          
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
                                                      {
                                                          NSLog(@"ERROR => %@", error);
                                                          NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
-                                                         
-                                                         if (operation.responseObject)
-                                                             cb_rep_(operation.responseObject, true);
-                                                         else
-                                                             cb_rep_([error userInfo], false);
+
+                                                         if (cb_rep_)
+                                                         {
+                                                             if (operation.responseObject)
+                                                                 cb_rep_(operation.responseObject, true);
+                                                             else
+                                                                 cb_rep_([error userInfo], false);
+                                                         }
                                                      }];
     [afNetworkingManager.operationQueue addOperation:afNetworkingOperation];
 }
@@ -60,10 +53,13 @@
         NSLog(@"ERROR => %@", error);
         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
         
-        if (operation.responseObject)
-            cb_rep_(operation.responseObject, true);
-        else
-            cb_rep_([error userInfo], false);
+         if (cb_rep_)
+         {
+             if (operation.responseObject)
+                 cb_rep_(operation.responseObject, true);
+             else
+                 cb_rep_([error userInfo], false);
+         }
     }];
 }
 
@@ -85,65 +81,18 @@
         NSLog(@"ERROR => %@", error);
         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
 
-        if (operation.responseObject)
-            cb_rep_(operation.responseObject, true);
-        else
-            cb_rep_([error userInfo], false);
+         if (cb_rep_)
+         {
+             if (operation.responseObject)
+                 cb_rep_(operation.responseObject, true);
+             else
+                 cb_rep_([error userInfo], false);
+         }
     }];
 }
 
 +(void)requestAudiowireAPIDELETE:(NSString *)url_ cb_rep:(void(^)(NSDictionary *rep, BOOL success))cb_rep_
 {
-//    AFHTTPRequestOperationManager *afNetworkingManager = [AFHTTPRequestOperationManager manager];
-//    [afNetworkingManager setRequestSerializer:[AFJSONRequestSerializer serializer]];
-//    
-//    NSURL* urlToRequester = [NSURL URLWithString:url_];
-//    NSLog(@"URL => %@\nDELETE WITH POST => %@", urlToRequester, [parameters_ description]);
-//    
-//    [afNetworkingManager POST:url_ parameters:parameters_ success:^(AFHTTPRequestOperation *operation, id responseObject)
-//     {
-//         NSLog(@"RESPONSE => %@", responseObject);
-//         cb_rep_(responseObject, true);
-//     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
-//     {
-//         
-//         NSLog(@"ERROR => %@", error);
-//         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
-//         
-//         if (operation.responseObject)
-//             cb_rep_(operation.responseObject, true);
-//         else
-//             cb_rep_([error userInfo], false);
-//     }];
-//    
-//    return ;
-//    
-//    NSURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"DELETE" URLString:url_ parameters:parameters_];
-//    
-//    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-//    op.responseSerializer = [AFJSONResponseSerializer serializer];
-//    
-//    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        NSLog(@"RESPONSE => %@", responseObject);
-//        cb_rep_(responseObject, true);
-//        
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"ERROR => %@", error);
-//        NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
-//        
-//        if (operation.responseObject)
-//            cb_rep_(operation.responseObject, true);
-//        else
-//            cb_rep_([error userInfo], false);
-//    }];
-//    [[NSOperationQueue mainQueue] addOperation:op];
-//    
-//    
-//    return ;
-    
-    
-
     AFHTTPRequestOperationManager *afNetworkingManager_ = [AFHTTPRequestOperationManager manager];
     [afNetworkingManager_ setRequestSerializer:[AFJSONRequestSerializer serializer]];
 
@@ -153,16 +102,20 @@
     [afNetworkingManager_ DELETE:url_ parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSLog(@"RESPONSE => %@", responseObject);
-         cb_rep_(responseObject, true);
+         if (cb_rep_)
+             cb_rep_(responseObject, true);
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"ERROR => %@", error);
         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
          
-         if (operation.responseObject)
-             cb_rep_(operation.responseObject, true);
-         else
-             cb_rep_([error userInfo], false);
+         if (cb_rep_)
+         {
+             if (operation.responseObject)
+                 cb_rep_(operation.responseObject, true);
+             else
+                 cb_rep_([error userInfo], false);
+         }
      }];
 }
 
@@ -177,16 +130,20 @@
     [afNetworkingManager PUT:url_ parameters:parameters_ success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSLog(@"RESPONSE => %@", responseObject);
-         cb_rep_(responseObject, true);
+         if (cb_rep_)
+             cb_rep_(responseObject, true);
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"ERROR => %@", error);
         NSLog(@"ERROR OBJECT => %@", [operation.responseObject description]);
          
-         if (operation.responseObject)
-             cb_rep_(operation.responseObject, true);
-         else
-             cb_rep_([error userInfo], false);
+         if (cb_rep_)
+         {
+             if (operation.responseObject)
+                 cb_rep_(operation.responseObject, true);
+             else
+                 cb_rep_([error userInfo], false);
+         }
      }];
 }
 

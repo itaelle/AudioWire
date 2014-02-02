@@ -1,11 +1,3 @@
-//
-//  AWPlaylistManager.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/28/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWPlaylistManager.h"
 #import "AWUserManager.h"
 #import "AWConfManager.h"
@@ -25,6 +17,192 @@
         sharedMyManager = [[AWPlaylistManager alloc] init];
     });
     return sharedMyManager;
+}
+
+/****************************************************/
+/******************* MAIN METHOD ********************/
+/****************************************************/
+
++(void)canWorkOnline:(void(^)(BOOL workonline))cb_rep
+{
+    if ([AFNetworkReachabilityManager sharedManager].reachable == YES &&
+        [[AWUserManager getInstance] isLogin])
+    {
+        NSLog(@"REACH => Network found and Connected");
+        cb_rep(YES);
+    }
+    else if ([AFNetworkReachabilityManager sharedManager].reachable == YES &&
+             ![[AWUserManager getInstance] isLogin])
+    {
+        NSLog(@"REACH => Network found and NOT connected");
+        cb_rep(NO);
+    }
+    else
+    {
+        NSLog(@"REACH => No network found");
+        cb_rep(NO);
+    }
+    
+    return ;
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+     {
+         if (status == AFNetworkReachabilityStatusNotReachable)
+             cb_rep(NO);
+         else if ([[AWUserManager getInstance] isLogin] == NO)
+             cb_rep(NO);
+         else
+             cb_rep(YES);
+     }];
+}
+
++(void)getAllPlaylists:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
+{
+    [AWPlaylistManager canWorkOnline:^(BOOL workonline) {
+        if (workonline)
+            [AWPlaylistManager getAllServerPlaylists:cb_rep];
+        
+        else
+            [AWPlaylistManager getAllLocalPlaylists:cb_rep];
+    }];
+}
+
++(void)addPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *idPLaylistCreated, NSString *error))cb_rep
+{
+    if (!playlist_)
+    {
+        cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""), nil);
+        return ;
+    }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *idPLaylistCreated, NSString *error){
+        };
+    
+    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
+     {
+         if (workonline)
+             [AWPlaylistManager addServerPlaylist:playlist_ cb_rep:cb_rep];
+         else
+         {
+             [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:^(BOOL success, NSString *idPlaylistCreated, NSString *error)
+              {
+                  if (success)
+                      [AWPlaylistSynchronizer addPlaylistInSyncFile:playlist_ cb_rep:cb_rep];
+                  else
+                      cb_rep(NO, error, nil);
+              }];
+         }
+     }];
+}
+
++(void)deletePlaylists:(NSArray *)playlistToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    if (!playlistToDelete_)
+    {
+        cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
+        return ;
+    }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+        };
+    
+    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
+     {
+         if (workonline)
+         {
+             [AWPlaylistManager deleteServerPlaylists:playlistToDelete_ cb_rep:cb_rep];
+         }
+         else
+         {
+             [AWPlaylistManager deleteLocalPlaylist:playlistToDelete_ cb_rep:^(BOOL success, NSString *error)
+              {
+                  if (success)
+                      [AWPlaylistSynchronizer deletePlaylistInSyncFile:playlistToDelete_ cb_rep:cb_rep];
+                  else
+                      cb_rep(NO, error);
+              }];
+         }
+     }];
+}
+
++(void)getTracksInPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
+{
+    if (!playlist_)
+    {
+        cb_rep(nil, false, NSLocalizedString(@"Bad playlist sents !", @""));
+        return ;
+    }
+    
+    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
+     {
+         if (workonline)
+         {
+             [[AWPlaylistManager getInstance] getServerTracksInPlaylist:playlist_ cb_rep:cb_rep];
+         }
+         else
+         {
+             [[AWPlaylistManager getInstance] getLocalTracksInPlaylist:playlist_ cb_rep:cb_rep];
+         }
+     }];
+}
+
++(void)addTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    if (!playlist_)
+    {
+        cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
+        return ;
+    }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+            NSLog(@"Returns from addTracksInPlaylist");
+        };
+    
+    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
+     {
+         if (workonline)
+         {
+             [AWPlaylistManager addServerTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
+         }
+         else
+         {
+             [AWPlaylistManager addLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:^(BOOL success, NSString *error) {
+                 if (success)
+                     [AWPlaylistSynchronizer addTracksInPlaylistInSyncFile:playlist_ tracksToAdd:tracks_ cb_rep:cb_rep];
+                 else
+                     cb_rep(NO, error);
+             }];
+         }
+     }];
+}
+
++(void)delTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
+{
+    if (!playlist_)
+    {
+        cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
+        return ;
+    }
+    if (!cb_rep)
+        cb_rep = ^(BOOL success, NSString *error){
+        };
+    
+    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
+     {
+         if (workonline)
+         {
+             [AWPlaylistManager delServerTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
+         }
+         else
+         {
+             [AWPlaylistManager delLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:^(BOOL success, NSString *error)
+              {
+                  if (success)
+                      [AWPlaylistSynchronizer deleteTracksInPlaylistInSyncFile:playlist_ tracksToDelete:tracks_ cb_rep:cb_rep];
+                  else
+                      cb_rep(NO, error);
+              }];
+         }
+     }];
 }
 
 /****************************************************/
@@ -165,14 +343,14 @@
             
             if (sucessWrite)
             {
-                NSLog(@" write succed, local file updated !");
+                NSLog(@"Write succed, local file updated !");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cb_rep(YES, nil);
                 });
             }
             else
             {
-                NSLog(@" write failed, local file still the same !");
+                NSLog(@"Write failed, local file still the same !");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cb_rep(NO, NSLocalizedString(@"The application cannot write into the specificed file!", @""));
                 });
@@ -193,9 +371,7 @@
     
     dispatch_async(queueGlobal, ^{
         
-        NSLog(@"GET Tracks in LOCAL Playlist");
         NSMutableArray *tracksInPlaylistAudiowire = nil;
-
         NSString *fileName = [[NSString stringWithFormat:@"%@.txt", playlist_.title] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
         if ([[NSFileManager defaultManager] fileExistsAtPath:[AWPlaylistManager pathOfile:fileName]])
@@ -340,189 +516,6 @@
 /****************************************************/
 /****************************************************/
 /****************************************************/
-/****************************************************/
-
-+(void)canWorkOnline:(void(^)(BOOL workonline))cb_rep
-{
-    if ([AFNetworkReachabilityManager sharedManager].reachable == YES &&
-             [[AWUserManager getInstance] isLogin])
-    {
-        NSLog(@"REACH => Network found and Connected");
-        cb_rep(YES);
-    }
-    else if ([AFNetworkReachabilityManager sharedManager].reachable == YES &&
-                 ![[AWUserManager getInstance] isLogin])
-    {
-        NSLog(@"REACH => Network found and NOT connected");
-        cb_rep(NO);
-    }
-    else
-    {
-        NSLog(@"REACH => No network found");
-        cb_rep(NO);
-    }
-    
-    return ;
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
-     {
-         if (status == AFNetworkReachabilityStatusNotReachable)
-             cb_rep(NO);
-         else if ([[AWUserManager getInstance] isLogin] == NO)
-             cb_rep(NO);
-         else
-             cb_rep(YES);
-     }];
-}
-
-+(void)getAllPlaylists:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
-{
-    [AWPlaylistManager canWorkOnline:^(BOOL workonline) {
-        if (workonline)
-            [AWPlaylistManager getAllServerPlaylists:cb_rep];
-        
-        else
-            [AWPlaylistManager getAllLocalPlaylists:cb_rep];
-    }];
-}
-
-+(void)addPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(BOOL success, NSString *idPLaylistCreated, NSString *error))cb_rep
-{
-    if (!playlist_)
-    {
-        cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""), nil);
-        return ;
-    }
-    if (!cb_rep)
-        cb_rep = ^(BOOL success, NSString *idPLaylistCreated, NSString *error){
-        };
-    
-    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
-    {
-        if (workonline)
-            [AWPlaylistManager addServerPlaylist:playlist_ cb_rep:cb_rep];
-        else
-        {
-            [AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:^(BOOL success, NSString *idPlaylistCreated, NSString *error)
-            {
-                if (success)
-                    [AWPlaylistSynchronizer addPlaylistInSyncFile:playlist_ cb_rep:cb_rep];
-                else
-                    cb_rep(NO, error, nil);
-            }];
-        }
-    }];
-}
-
-+(void)deletePlaylists:(NSArray *)playlistToDelete_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
-{
-    if (!playlistToDelete_)
-    {
-        cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
-        return ;
-    }
-    if (!cb_rep)
-        cb_rep = ^(BOOL success, NSString *error){
-        };
-    
-    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
-     {
-         if (workonline)
-         {
-             [AWPlaylistManager deleteServerPlaylists:playlistToDelete_ cb_rep:cb_rep];
-         }
-         else
-         {
-             [AWPlaylistManager deleteLocalPlaylist:playlistToDelete_ cb_rep:^(BOOL success, NSString *error)
-             {
-                 if (success)
-                     [AWPlaylistSynchronizer deletePlaylistInSyncFile:playlistToDelete_ cb_rep:cb_rep];
-                 else
-                     cb_rep(NO, error);
-             }];
-         }
-     }];
-}
-
-+(void)getTracksInPlaylist:(AWPlaylistModel *)playlist_ cb_rep:(void (^)(NSArray *data, BOOL success, NSString *error))cb_rep
-{
-    if (!playlist_)
-    {
-        cb_rep(nil, false, NSLocalizedString(@"Bad playlist sents !", @""));
-        return ;
-    }
-
-    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
-     {
-         if (workonline)
-         {
-             [[AWPlaylistManager getInstance] getServerTracksInPlaylist:playlist_ cb_rep:cb_rep];
-         }
-         else
-         {
-             [[AWPlaylistManager getInstance] getLocalTracksInPlaylist:playlist_ cb_rep:cb_rep];
-         }
-     }];
-}
-
-+(void)addTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
-{
-    if (!playlist_)
-    {
-        cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
-        return ;
-    }
-    if (!cb_rep)
-        cb_rep = ^(BOOL success, NSString *error){
-            NSLog(@"Returns from addTracksInPlaylist");
-        };
-    
-    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
-     {
-         if (workonline)
-         {
-             [AWPlaylistManager addServerTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
-         }
-         else
-         {
-             [AWPlaylistManager addLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:^(BOOL success, NSString *error) {
-                 if (success)
-                     [AWPlaylistSynchronizer addTracksInPlaylistInSyncFile:playlist_ tracksToAdd:tracks_ cb_rep:cb_rep];
-                 else
-                     cb_rep(NO, error);
-             }];
-         }
-     }];
-}
-
-+(void)delTracksInPlaylist:(AWPlaylistModel *)playlist_ tracks:(NSArray *)tracks_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
-{
-    if (!playlist_)
-    {
-        cb_rep(false, NSLocalizedString(@"Bad playlist sents !", @""));
-        return ;
-    }
-    if (!cb_rep)
-        cb_rep = ^(BOOL success, NSString *error){
-        };
-    
-    [AWPlaylistManager canWorkOnline:^(BOOL workonline)
-     {
-         if (workonline)
-         {
-             [AWPlaylistManager delServerTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:cb_rep];
-         }
-         else
-         {
-             [AWPlaylistManager delLocalTracksInPlaylist:playlist_ tracks:tracks_ cb_rep:^(BOOL success, NSString *error)
-             {
-                 if (success)
-                     [AWPlaylistSynchronizer deleteTracksInPlaylistInSyncFile:playlist_ tracksToDelete:tracks_ cb_rep:cb_rep];
-                 else
-                     cb_rep(NO, error);
-             }];
-         }
-     }];
-}
 
 /****************************************************/
 /************* ONLY ONLINE FUNCTIONNING *************/
@@ -690,22 +683,17 @@
     
     NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWAddPlaylists], token];
     
-//    NSMutableDictionary *playlistDict = [NSMutableDictionary new];
-//    [playlistDict setObject:[playlist_ toDictionary] forKey:@"playlist"];
-    
     [AWRequester requestAudiowireAPIPOST:url param:[playlist_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
      {
          if (success && rep)
          {
              BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-//             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
              NSString *idPlaylistCreated = [NSString stringWithFormat:@"%d", [NSObject getVerifiedInteger:[rep objectForKey:@"id"]]];
              playlist_._id = idPlaylistCreated;
 
              if (successAPI)
                  cb_rep(successAPI, idPlaylistCreated, nil);
-                 //[AWPlaylistManager addLocalPlaylist:playlist_ cb_rep:cb_rep];
              else
                  cb_rep(successAPI, nil, error);
          }
@@ -797,50 +785,5 @@
      }];
 }
 
-
-//////
-/*
- +(void)updatePlaylist:(AWPlaylistModel *)playlistToUpdate_ cb_rep:(void (^)(BOOL success, NSString *error))cb_rep
- {
- NSString *token = [AWUserManager getInstance].connectedUserTokenAccess;
- 
- if (!token)
- {
- cb_rep(false, NSLocalizedString(@"Something went wrong. You are trying to access data from the API but you are not actually logged in", @""));
- return ;
- }
- 
- if (!playlistToUpdate_)
- {
- cb_rep(false, NSLocalizedString(@"Bad playlist sent !", @""));
- return ;
- }
- 
- NSString *url = [NSString stringWithFormat:[AWConfManager getURL:AWUpdatePlaylists],playlistToUpdate_._id,  token];
- 
- [AWRequester requestAudiowireAPIPUT:url param:[playlistToUpdate_ toDictionary] cb_rep:^(NSDictionary *rep, BOOL success)
- {
- if (success && rep)
- {
- BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
- NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
- NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
- if (successAPI)
- cb_rep(successAPI, message);
- else
- cb_rep(successAPI, error);
- }
- else
- {
- cb_rep(FALSE, NSLocalizedString(@"Something went wrong while attempting to send data to the AudioWire - API", @""));
- }
- }];
- }
- */
-
-/****************************************************/
-/****************************************************/
-/****************************************************/
-/****************************************************/
 
 @end

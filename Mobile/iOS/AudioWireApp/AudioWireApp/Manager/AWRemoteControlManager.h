@@ -1,13 +1,4 @@
-//
-//  AWRemoteControlManager.h
-//  AudioWireApp
-//
-//  Created by Guilaume Derivery on 12/12/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
-//#import "SocketIO.h"
 #import <UIKit/UIKit.h>
 
 #define AWPLAY @"PLAY"

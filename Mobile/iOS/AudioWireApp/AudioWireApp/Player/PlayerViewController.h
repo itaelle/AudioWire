@@ -1,11 +1,3 @@
-//
-//  PlayerViewController.h
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 8/2/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>

@@ -1,11 +1,3 @@
-//
-//  AWTrackModel.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/27/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWTrackModel.h"
 #import "NSObject+NSObject_Tool.h"
 

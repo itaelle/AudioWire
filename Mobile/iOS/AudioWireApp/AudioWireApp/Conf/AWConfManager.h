@@ -1,11 +1,3 @@
-//
-//  AWConfManager.h
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/20/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
 typedef enum

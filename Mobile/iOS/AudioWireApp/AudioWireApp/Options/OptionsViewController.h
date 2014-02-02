@@ -1,11 +1,3 @@
-//
-//  OptionsViewController.h
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 8/5/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWMasterViewController.h"
 
 @interface OptionsViewController : AWMasterViewController

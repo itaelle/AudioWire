@@ -1,17 +1,7 @@
-//
-//  UINsSnHomeLoginViewController.m
-//  NsSn
-//
-//  Created by adelskott on 27/08/13.
-//  Copyright (c) 2013 Adelskott. All rights reserved.
-//
-
 #import <QuartzCore/QuartzCore.h>
 #import "UIAWHomeLoginViewController.h"
 #import "UIAWSubscribeViewController.h"
 #import "UIAWLostPasswordViewController.h"
-//#import "NsSnUserManager.h"
-//#import "NsSnSignManager.h"
 #import "AWUserManager.h"
 
 #define TOPLOGO_TAG 10001

@@ -1,11 +1,3 @@
-//
-//  AWConfManager.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/20/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWConfManager.h"
 
 @implementation AWConfManager

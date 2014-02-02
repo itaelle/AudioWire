@@ -1,11 +1,3 @@
-//
-//  AWMusicPlayer.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 10/26/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import "AWMusicPlayer.h"
 
 @implementation AWMusicPlayer

@@ -1,11 +1,3 @@
-//
-//  UISiteViewController.h
-//  Longines
-//
-//  Created by Guillaume on 22/11/12.
-//  Copyright (c) 2012 Guillaume. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 

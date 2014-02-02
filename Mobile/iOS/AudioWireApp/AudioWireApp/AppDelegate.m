@@ -1,11 +1,3 @@
-//
-//  AppDelegate.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 8/2/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <QuartzCore/QuartzCore.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "AWXMPPManager.h"

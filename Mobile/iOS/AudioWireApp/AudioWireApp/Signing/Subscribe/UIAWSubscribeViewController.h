@@ -1,11 +1,3 @@
-//
-//  UINsSnSubscribeViewController.h
-//  NsSn
-//
-//  Created by adelskott on 27/08/13.
-//  Copyright (c) 2013 Adelskott. All rights reserved.
-//
-
 #import "MBProgressHUD.h"
 #import "AWUserModel.h"
 

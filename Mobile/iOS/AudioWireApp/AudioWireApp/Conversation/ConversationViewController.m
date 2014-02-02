@@ -1,11 +1,3 @@
-//
-//  LibraryViewController.m
-//  AudioWireApp
-//
-//  Created by Derivery Guillaume on 8/3/13.
-//  Copyright (c) 2013 Derivery Guillaume. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <Foundation/Foundation.h>
@@ -42,9 +34,6 @@
     
     if (self.closeOption)
         [self prepareNavBarForClose];
-    
-// #warning DEBUG DEV
-//    self.usernameSelectedFriend = @"friend";
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -99,6 +88,7 @@
                                               inManagedObjectContext:moc];
     
     NSString *chatWithUserJID = [NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN];
+    NSString *chatMeJID = [NSString stringWithFormat:@"%@%@", [AWUserManager getInstance].user.username, JABBER_DOMAIN];
     
     NSString *predicateFrmt = @"bareJidStr like %@ ";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFrmt, chatWithUserJID];
@@ -113,49 +103,44 @@
 //    NSFetchedResultsController *fetchedResults = [self fetchedResultsController];
 //    XMPPUserCoreDataStorageObject *user = [fetchedResults objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
+    if (!tableData)
+        tableData = [[NSMutableArray alloc] init];
+    
     for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc)
     {
-        
         NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
-        NSLog(@"param to is %@",[element attributeStringValueForName:@"to"]);
-        NSLog(@"param sender is %@",[element attributeStringValueForName:@"sender"]);
+        
+        NSString *elementSender = [[element attributeStringValueForName:@"sender"] lowercaseString];
+        NSString *elementTo = [[element attributeStringValueForName:@"to"] lowercaseString];
+        
+        NSLog(@"FROM : %@",  elementSender);
+        NSLog(@"TO : %@",  elementTo);
+        NSLog(@"Body : %@",  message.body);
         
         NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
         [m setObject:message.body forKey:@"msg"];
+        [m setObject:[NSNumber numberWithBool:[message.outgoing intValue]] forKey:@"outgoing"];
         
-        if ([[element attributeStringValueForName:@"sender"] isEqualToString:chatWithUserJID])
+        if ([elementSender isEqualToString:[chatWithUserJID lowercaseString]])
         {
-            [m setObject:self.usernameSelectedFriend forKey:@"sender"];
-            [m setObject:[AWUserManager getInstance].user.username forKey:@"to"];
-        }
-        else // C'est pas ton pote l'envoyeur l'envoyeur
-        {
-            if ([[element attributeStringValueForName:@"to"] isSubString:[AWUserManager getInstance].user.username])
+            if ([elementTo isEqualToString:[chatMeJID lowercaseString]])
             {
                 [m setObject:self.usernameSelectedFriend forKey:@"sender"];
                 [m setObject:[AWUserManager getInstance].user.username forKey:@"to"];
+                [tableData addObject:m];
             }
-            else if ([[element attributeStringValueForName:@"to"] isSubString:self.usernameSelectedFriend])
+        }
+        else if ([elementSender isEqualToString:[chatMeJID lowercaseString]])
+        {
+            if ([elementTo isEqualToString:[chatWithUserJID lowercaseString]])
             {
                 [m setObject:[AWUserManager getInstance].user.username forKey:@"sender"];
                 [m setObject:self.usernameSelectedFriend forKey:@"to"];
+                [tableData addObject:m];
             }
         }
-
-        [m setObject:[NSNumber numberWithBool:[message.outgoing intValue]] forKey:@"outgoing"];
-
-        if (!tableData)
-            tableData = [[NSMutableArray alloc] init];
-
-        [tableData addObject:m];
-
-        NSLog(@"bareJid param is %@",message.bareJid);
-        NSLog(@"bareJidStr param is %@",message.bareJidStr);
-        NSLog(@"body param is %@",message.body);
-        NSLog(@"timestamp param is %@",message.timestamp);
-        NSLog(@"outgoing param is %d",[message.outgoing intValue]);
-        NSLog(@"***************************************************");
     }
+    
     [self cancelLoadingView:self.tb_list_artist];
     [self.tb_list_artist reloadData];
     
@@ -166,11 +151,11 @@
 }
 
 #pragma  AWXMPPManagerDelegate
--(void)messageRender:(NSDictionary *)infoMsg
+-(BOOL)messageRender:(NSDictionary *)infoMsg
 {
     if (infoMsg)
     {
-        if ([[infoMsg objectForKey:@"sender"] isSubString:self.usernameSelectedFriend])
+        if ([[[infoMsg objectForKey:@"sender"] lowercaseString] isSubString:[self.usernameSelectedFriend lowercaseString]])
         {
             
             NSMutableDictionary *mutableInfoMsg = [NSMutableDictionary dictionaryWithDictionary:infoMsg];
@@ -185,8 +170,10 @@
         
         // Animation scroll to bottom of the list
         [self.tb_list_artist scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([tableData count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:TRUE];
+            return true;
         }
     }
+    return false;
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -399,8 +386,10 @@
         } completion:^(BOOL finished) {
             if (finished)
             {
-//                _textArea.text = @"";
+                
                 [self desactivateButtonBar:true right:true];
+                if (self.closeOption)
+                    [self prepareNavBarForClose];
             }
         }];
     }
@@ -424,6 +413,7 @@
     
     NSMutableDictionary *mutableInfoMsg = [[NSMutableDictionary alloc] init];
     [mutableInfoMsg setObject:[AWUserManager getInstance].user.username forKey:@"sender"];
+    [mutableInfoMsg setObject:self.usernameSelectedFriend forKey:@"to"];
     [mutableInfoMsg setObject:msgToSend forKey:@"msg"];
     [mutableInfoMsg setObject:[NSNumber numberWithBool:YES] forKey:@"outgoing"];
     
@@ -443,7 +433,7 @@
 
     self.textArea.text = @"";
     
-    [[AWXMPPManager getInstance] sendMessage:msgToSend toUserJID:[NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN]fromMe:[NSString stringWithFormat:@"%@%@", [AWUserManager getInstance].user.username, JABBER_DOMAIN]];
+    [[AWXMPPManager getInstance] sendMessage:msgToSend toUserJID:[NSString stringWithFormat:@"%@%@", [self.usernameSelectedFriend lowercaseString], JABBER_DOMAIN]fromMe:[NSString stringWithFormat:@"%@%@", [[AWUserManager getInstance].user.username lowercaseString], JABBER_DOMAIN]];
 }
 
 @end

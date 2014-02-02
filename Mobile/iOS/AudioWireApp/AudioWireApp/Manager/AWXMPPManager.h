@@ -1,11 +1,3 @@
-//
-//  AWXMPPManager.h
-//  iPhoneXMPP
-//
-//  Created by Guilaume Derivery on 27/12/13.
-//
-//
-
 #import <Foundation/Foundation.h>
 #import "DDLog.h"
 #import "XMPPFramework.h"
@@ -15,7 +7,7 @@
 @protocol AWXMPPManagerDelegate <NSObject>
 
 @optional
--(void)messageRender:(NSDictionary *)infoMsg;
+-(BOOL)messageRender:(NSDictionary *)infoMsg;
 @end
 
 @interface AWXMPPManager : NSObject

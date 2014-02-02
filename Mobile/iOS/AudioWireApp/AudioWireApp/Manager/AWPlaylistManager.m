@@ -732,7 +732,6 @@
          if (success && rep)
          {
              BOOL successAPI = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
-             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
              NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
 
              if (successAPI)

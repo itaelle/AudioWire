@@ -294,26 +294,24 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
-{
-    return ;
-    
-    if ([message isChatMessageWithBody])
-	{
-		XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
-		                                                         xmppStream:xmppStream
-		                                               managedObjectContext:[self managedObjectContext_roster]];
-		
-		NSString *body = [[message elementForName:@"body"] stringValue];
-		NSString *displayName = [user displayName];
-        
-		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-		{
-            if (self.delegate && [self.delegate respondsToSelector:@selector(messageRender:)])
-            {
-                [self.delegate performSelector:@selector(messageRender:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:[[message elementForName:@"body"] stringValue], @"msg", @"me", @"sender", [NSNumber numberWithBool:YES], @"outgoing", nil]];
-            }
-		}
-    }
+{    
+//    if ([message isChatMessageWithBody])
+//	{
+//		XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
+//		                                                         xmppStream:xmppStream
+//		                                               managedObjectContext:[self managedObjectContext_roster]];
+//		
+//		NSString *body = [[message elementForName:@"body"] stringValue];
+//		NSString *displayName = [user displayName];
+//        
+//		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+//		{
+//            if (self.delegate && [self.delegate respondsToSelector:@selector(messageRender:)])
+//            {
+//                [self.delegate performSelector:@selector(messageRender:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:[[message elementForName:@"body"] stringValue], @"msg", @"me", @"sender", [NSNumber numberWithBool:YES], @"outgoing", nil]];
+//            }
+//		}
+//    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message

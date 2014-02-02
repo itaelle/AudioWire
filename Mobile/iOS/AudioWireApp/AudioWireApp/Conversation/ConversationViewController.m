@@ -89,12 +89,13 @@
     
     NSString *chatWithUserJID = [NSString stringWithFormat:@"%@%@", self.usernameSelectedFriend, JABBER_DOMAIN];
     NSString *chatMeJID = [NSString stringWithFormat:@"%@%@", [AWUserManager getInstance].user.username, JABBER_DOMAIN];
-    
-    NSString *predicateFrmt = @"bareJidStr like %@ ";
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFrmt, chatWithUserJID];
-    
+
+#warning Predicate doesn't work
+//    NSString *predicateFrmt = @"bareJidStr like %@ ";
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFrmt, chatWithUserJID];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 //    fetchRequest.predicate = predicate;
+    
     [fetchRequest setEntity:entity];
     
     NSError *error = nil;

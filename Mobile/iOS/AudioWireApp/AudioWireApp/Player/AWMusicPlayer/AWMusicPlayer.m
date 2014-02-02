@@ -139,8 +139,7 @@
 
 - (void) handle_PlaybackStateChanged: (id) notification
 {
-    #warning Check if playBackStateChanged is necessary
-    MPMusicPlaybackState playbackState = [player playbackState];
+//    MPMusicPlaybackState playbackState = [player playbackState];
 }
 
 - (void) handle_VolumeChanged: (id) notification

@@ -12,8 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *bt_message;
 
 -(void) myInit:(NSDictionary *)data;
--(void) setTextAndAdjustView:(NSString *) content;
-
 - (IBAction)click_message:(id)sender;
 
 @end

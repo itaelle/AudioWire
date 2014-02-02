@@ -185,7 +185,6 @@
         {
             BOOL successLogout = [NSObject getVerifiedBool:[rep objectForKey:@"success"]];
             NSString *message = [NSObject getVerifiedString:[rep objectForKey:@"message"]];
-            NSString *error = [NSObject getVerifiedString:[rep objectForKey:@"error"]];
             if (successLogout)
             {
                 [[NSFileManager defaultManager] removeItemAtPath:[AWUserManager pathOfileAutologin] error:nil];

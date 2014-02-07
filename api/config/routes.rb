@@ -1,6 +1,6 @@
 AudioWire::Application.routes.draw do
 
-  root :to => "websiteen#home"
+  root :to => "websitefr#home"
 
   devise_for :users, :skip => [:registrations, :sessions]
   as :user do

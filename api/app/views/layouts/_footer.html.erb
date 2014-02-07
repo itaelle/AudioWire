@@ -3,13 +3,16 @@
         <div class="row v-center">
             <div class="span2">
                 <div class="span2">
-                    <a class="brand" href="/">Audiowire</a>
+                    <a class="brand" href="/<%= @language %>">Audiowire</a>
                 </div>
             </div>
             <div class="span7">
                 <div class="span7">
                     <div class="additional-links">
-                        Be sure to take a look to our <a href="/terms2">Terms of Use</a>
+                        <% if @language == "fr" %>Assurez vous de jeter un oeil à nos <a href="/fr/terms">Conditions D'utilisation</a>
+                        <% elsif @language == "en" %>Make sure to take a look at our <a href="/en/terms">Terms of Use</a>
+                        <% end %>
+                        
                     </div>
                 </div>
             </div>

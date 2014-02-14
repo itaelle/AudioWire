@@ -201,7 +201,15 @@
             [[AWXMPPManager getInstance] disconnect];
         }
         else
-            cb_rep(false, NSLocalizedString(@"Something went wrong while attempting to retrieve data from the AudioWire - API", @""));
+        {
+            self.user = nil;
+            self.idUser = nil;
+            self.connectedUserTokenAccess = nil;
+            [[AWXMPPManager getInstance] disconnect];
+            [[NSFileManager defaultManager] removeItemAtPath:[AWUserManager pathOfileAutologin] error:nil];
+
+            cb_rep(YES, nil);
+        }
     }];
 }
 

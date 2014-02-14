@@ -29,7 +29,6 @@
     [super viewDidLoad];
     
     [self prepareNavBarForImport];
-    [self prepareNavBarForRemote];
     
     self.skipAuth = YES;
     

@@ -30,7 +30,10 @@
     [super viewWillAppear:animated];
 
     if (IS_OS_7_OR_LATER)
+    {
         self.tb_list_artist.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+        self.tb_list_artist.scrollIndicatorInsets = self.tb_list_artist.contentInset;
+    }
     
     if (self.closeOption)
         [self prepareNavBarForClose];
@@ -341,16 +344,18 @@
     savedEditViewFrame = _viewForEdition.frame;
     CGRect new = savedEditViewFrame;
     new.origin.y = self.view.frame.size.height - kbSize.height - new.size.height;
-    
+
     // set frame viewEdition
     savedListFrame = _viewContainerList.frame;
     CGRect tempFrame = savedListFrame;
-    tempFrame.size.height = self.view.frame.size.height - kbSize.height - new.size.height - self.navigationController.navigationBar.frame.size.height;
-    
+    tempFrame.origin.y = 0;
+    tempFrame.size.height = self.view.frame.size.height - kbSize.height - new.size.height; /*- self.navigationController.navigationBar.frame.size.height;*/
+
     // Set frame tb_list
     [UIView animateWithDuration:0.2 animations:^{
         
         [_viewForEdition setFrame:new];
+
         [_viewContainerList setFrame:tempFrame];
         if (isLoading)
             [self updatePositionLoader:tempFrame];
